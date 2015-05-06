@@ -1,8 +1,7 @@
 package com.javexpress.gwt.library.ui.form.numericbox;
 
 import com.google.gwt.user.client.ui.Widget;
-import com.javexpress.gwt.fw.ui.library.form.IFormFactory;
-import com.javexpress.gwt.library.ui.js.JsUtil;
+import com.javexpress.gwt.library.ui.ClientContext;
 
 public class TCIdBox extends NumericBox {
 
@@ -43,7 +42,7 @@ public class TCIdBox extends NumericBox {
 		if (validated) {
 			if (!JsUtil.isEmpty(getText()))
 				if (!validateTc(getText().trim())) {
-					JsUtil.flagInvalid(this, IFormFactory.nlsCommon.gecersizTCKimlik(), focusedBefore);
+					JsUtil.flagInvalid(this, ClientContext.instance.getCommonNls("gecersizTCKimlik"), focusedBefore);
 					validated = false;
 				}
 		}

@@ -101,13 +101,13 @@ public class ListColumn extends Column {
 		if (summaryType != null)
 			switch (summaryType) {
 				case count:
-					return "<b>{0} " + IFormFactory.nlsCommon.gridOzet_Adet() + "</b>";
+					return "<b>{0} " + ClientContext.instance.getModuleNls("gridOzet_Adet() + "</b>";
 				case avg:
-					return "<b>" + IFormFactory.nlsCommon.gridOzet_Ortalama() + ": {0}</b>";
+					return "<b>" + ClientContext.instance.getModuleNls("gridOzet_Ortalama() + ": {0}</b>";
 				case max:
-					return "<b>" + IFormFactory.nlsCommon.gridOzet_Max() + ": {0}</b>";
+					return "<b>" + ClientContext.instance.getModuleNls("gridOzet_Max() + ": {0}</b>";
 				case min:
-					return "<b>" + IFormFactory.nlsCommon.gridOzet_Min() + ": {0}</b>";
+					return "<b>" + ClientContext.instance.getModuleNls("gridOzet_Min() + ": {0}</b>";
 				case sum:
 					return "<b>{0}</b>";
 			}

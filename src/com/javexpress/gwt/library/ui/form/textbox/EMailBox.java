@@ -26,7 +26,7 @@ public class EMailBox extends TextBox {
 		if (validated) {
 			if (!JsUtil.isEmpty(getText()))
 				if (!validateEmail(getText().trim())) {
-					JsUtil.flagInvalid(this, IFormFactory.nlsCommon.gecersizEposta(), focusedBefore);
+					JsUtil.flagInvalid(this, ClientContext.instance.getModuleNls("gecersizEposta(), focusedBefore);
 					validated = false;
 				}
 		}

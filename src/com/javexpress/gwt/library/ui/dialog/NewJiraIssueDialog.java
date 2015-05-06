@@ -58,25 +58,25 @@ public class NewJiraIssueDialog extends JexpPopupPanel {
 		l.setColWidth(1, 8, Unit.EM);
 		l.setColWidth(2, 10, Unit.EM);
 
-		Label lb = new Label(IFormFactory.nlsCommon.Jira_baslik());
+		Label lb = new Label(ClientContext.instance.getModuleNls("Jira_baslik());
 		lb.setStyleName("jesJiraTitle");
 
 		l.setWidget(0, 0, lb);
 		l.getCellFormatter().setStyleName(0, 0, "ui-state-active");
 		l.setColspan(0, 0, 4);
 
-		l.setLabel(2, 0, IFormFactory.nlsCommon.Jira_turu(), true, true);
+		l.setLabel(2, 0, ClientContext.instance.getModuleNls("Jira_turu(), true, true);
 		l.setWidget(2, 1, turu = new ComboBox(this, "turu"));
 		turu.setItemsEnum(CommonEnums.JiraTalepTuruEnum.asItems());
 		turu.setRequired(true);
 		turu.setValueInt(0);
-		l.setLabel(2, 2, IFormFactory.nlsCommon.Jira_ozet(), true, true);
+		l.setLabel(2, 2, ClientContext.instance.getModuleNls("Jira_ozet(), true, true);
 		l.setWidget(2, 3, ozet = new TextBox(this, "ozet"));
 		ozet.setMaxLength(200);
 		ozet.setRequired(true);
 		ozet.setWidth("95%");
 
-		l.setLabel(4, 0, IFormFactory.nlsCommon.Jira_detayAciklama());
+		l.setLabel(4, 0, ClientContext.instance.getModuleNls("Jira_detayAciklama());
 
 		layout.setTopWidget(l, "8em");
 	}
@@ -91,7 +91,7 @@ public class NewJiraIssueDialog extends JexpPopupPanel {
 	private void createBottomPanel() throws Exception {
 		ButtonBar bb = new ButtonBar();
 
-		Button btGonder = new Button(this, "gonder", IFormFactory.nlsCommon.gonder());
+		Button btGonder = new Button(this, "gonder", ClientContext.instance.getModuleNls("gonder());
 		btGonder.setIcon(JqIcon.check);
 		btGonder.addClickHandler(new ClickHandler() {
 			@Override
@@ -99,7 +99,7 @@ public class NewJiraIssueDialog extends JexpPopupPanel {
 				AsyncRunningTaskForm<Result<String>> task = new AsyncRunningTaskForm<Result<String>>(NewJiraIssueDialog.this, "newjiraas") {
 					@Override
 					public String getHeader() {
-						return IFormFactory.nlsCommon.Jira_baslik();
+						return ClientContext.instance.getModuleNls("Jira_baslik();
 					}
 
 					@Override
@@ -114,7 +114,7 @@ public class NewJiraIssueDialog extends JexpPopupPanel {
 							if (result != null) {
 								if (result.isSucceded()) {
 									JsUtil.openWindow(result.getResult(), null);
-									Window.alert(IFormFactory.nlsCommon.jiraBildirildi() + "\n" + result.getWarning());
+									Window.alert(ClientContext.instance.getModuleNls("jiraBildirildi() + "\n" + result.getWarning());
 									hide();
 								} else
 									Window.alert("Jira:" + result.getError());
@@ -127,7 +127,7 @@ public class NewJiraIssueDialog extends JexpPopupPanel {
 		});
 		bb.add(btGonder);
 
-		Button btKapat = new Button(this, "ok", IFormFactory.nlsCommon.kapat());
+		Button btKapat = new Button(this, "ok", ClientContext.instance.getModuleNls("kapat());
 		btKapat.addClickHandler(new ClickHandler() {
 			@Override
 			public void onClick(ClickEvent event) {

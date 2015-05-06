@@ -55,7 +55,7 @@ public class Notification {
 	}-*/;
 
 	public static void showWarning(String message) {
-		Notification.showNotification(IFormFactory.nlsCommon.uyari(), message, NotificationType.warning);
+		Notification.showNotification(ClientContext.instance.getModuleNls("uyari(), message, NotificationType.warning);
 	}
 
 }

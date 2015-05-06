@@ -132,7 +132,7 @@ public class CodeEditor extends TextArea implements IUserInputWidget<String> {
 		if (validated) {
 			String v = getValue();
 			if (maxLength != null && (v == null || v.length() > maxLength)) {
-				JsUtil.flagInvalid(this, IFormFactory.nlsCommon.alanDegeriUzun(), focusedBefore);
+				JsUtil.flagInvalid(this, ClientContext.instance.getModuleNls("alanDegeriUzun(), focusedBefore);
 				validated = false;
 			}
 		}

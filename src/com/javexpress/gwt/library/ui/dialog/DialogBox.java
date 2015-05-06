@@ -196,7 +196,7 @@ public class DialogBox extends SimplePanelFocusable implements IWindowContainer 
 		closeSpan = DOM.createSpan();
 		closeSpan.setId(getElement().getId() + "_cls");
 		closeSpan.addClassName("ui-icon ui-icon-closethick ui-cursor-hand");
-		closeSpan.setTitle(IFormFactory.nlsCommon.kapat());
+		closeSpan.setTitle(ClientContext.instance.getModuleNls("kapat());
 		closeSpan.getStyle().setFloat(JsUtil.isLTR() ? Float.RIGHT : Float.LEFT);
 		closeSpan.getStyle().setMarginTop(0.1, Unit.EM);
 		closeSpan.getStyle().setMarginRight(2, Unit.PX);

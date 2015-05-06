@@ -47,9 +47,9 @@ public class DateTimeBox extends TextBoxBase implements IUserInputWidget {
 
 	private JsonMap createDefaultOptions() {
 		options = DateBoxJq.createDefaultOptions();
-		options.set("timeText", IFormFactory.nlsCommon.zaman());
-		options.set("hourText", IFormFactory.nlsCommon.saat());
-		options.set("minuteText", IFormFactory.nlsCommon.dakika());
+		options.set("timeText", ClientContext.instance.getModuleNls("zaman());
+		options.set("hourText", ClientContext.instance.getModuleNls("saat());
+		options.set("minuteText", ClientContext.instance.getModuleNls("dakika());
 		return options;
 	}
 

@@ -35,7 +35,7 @@ public class MessageDialog extends JexpSimplePanel {
 			html.append("<div class='modal-dialog'>");
 			html.append("<div class='modal-content'>");
 			html.append("<div class='modal-header btn-info' style='padding:7px'>");
-			html.append("<button type='button' class='close' data-dismiss='modal' aria-label='").append(IFormFactory.nlsCommon.kapat()).append("'><span aria-hidden='true'>&times;</span></button>");
+			html.append("<button type='button' class='close' data-dismiss='modal' aria-label='").append(ClientContext.instance.getModuleNls("kapat()).append("'><span aria-hidden='true'>&times;</span></button>");
 			html.append("<h4 class='modal-title'>").append(title).append("</h4>");
 			html.append("</div>");
 			html.append("<div class='modal-body'>");
@@ -43,7 +43,7 @@ public class MessageDialog extends JexpSimplePanel {
 			html.append("</p>");
 			html.append("</div>");
 			html.append("<div class='modal-footer'>");
-			html.append("<button type='button' id='").append(getElement().getId()).append("_ok' class='btn btn-primary' data-dismiss='modal'><i class='ace-icon ").append(FaIcon.close.getCssClass()).append("'></i><span>").append(IFormFactory.nlsCommon.tamam()).append("</span></button>");
+			html.append("<button type='button' id='").append(getElement().getId()).append("_ok' class='btn btn-primary' data-dismiss='modal'><i class='ace-icon ").append(FaIcon.close.getCssClass()).append("'></i><span>").append(ClientContext.instance.getModuleNls("tamam()).append("</span></button>");
 			html.append("</div></div></div>");
 			getElement().setInnerHTML(html.toString());
 			createByJsBs(this, getElement());

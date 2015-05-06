@@ -36,7 +36,7 @@ public abstract class AsyncRunningTaskForm<T> extends FlatPanel implements Async
 	}
 
 	protected String getHeader() {
-		return IFormFactory.nlsCommon.lutfenBekleyin();
+		return ClientContext.instance.getModuleNls("lutfenBekleyin();
 	}
 
 	public void start() {

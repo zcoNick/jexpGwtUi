@@ -161,7 +161,7 @@ public class WindowView extends AbstractContainerFocusable implements IUIComposi
 			helpSpan.setId(windowDiv.getId() + "_help");
 			helpSpan.addClassName("jexpWindowToolItem ub_" + windowDiv.getId());
 			helpSpan.setInnerHTML("<i class='ace-icon fa fa-question'></i>");
-			helpSpan.setTitle(IFormFactory.nlsCommon.yardim());
+			helpSpan.setTitle(ClientContext.instance.getModuleNls("yardim());
 			tools.appendChild(helpSpan);
 		}
 
@@ -169,7 +169,7 @@ public class WindowView extends AbstractContainerFocusable implements IUIComposi
 		btClose.setId(windowDiv.getId() + "_close");
 		btClose.addClassName("ub_" + windowDiv.getId());
 		btClose.setInnerHTML("<i class='ace-icon fa fa-times'></i>");
-		btClose.setTitle(IFormFactory.nlsCommon.kapat());
+		btClose.setTitle(ClientContext.instance.getModuleNls("kapat());
 		tools.appendChild(btClose);
 
 		headerDiv.appendChild(tools);

@@ -1,7 +1,5 @@
 package com.javexpress.gwt.library.ui.form.textbox;
 
-import java.beans.Beans;
-
 import com.google.gwt.core.client.JavaScriptObject;
 import com.google.gwt.event.dom.client.ChangeEvent;
 import com.google.gwt.event.dom.client.ChangeHandler;
@@ -10,8 +8,8 @@ import com.google.gwt.i18n.client.LocaleInfo;
 import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.ui.SimplePanel;
 import com.google.gwt.user.client.ui.Widget;
-import com.javexpress.gwt.fw.ui.library.form.IFormFactory;
 import com.javexpress.gwt.library.shared.model.WidgetConst;
+import com.javexpress.gwt.library.ui.ClientContext;
 import com.javexpress.gwt.library.ui.bootstrap.FormGroupCell;
 import com.javexpress.gwt.library.ui.data.DataBindingHandler;
 import com.javexpress.gwt.library.ui.form.IUserInputWidget;
@@ -47,8 +45,7 @@ public class CKEditor extends SimplePanel implements IUserInputWidget<String> {
 	@Override
 	protected void onLoad() {
 		super.onLoad();
-		if (!Beans.isDesignTime())
-			jsObject = createByJs(this, getElement().getId(), LocaleInfo.getCurrentLocale().getLocaleName());
+		jsObject = createByJs(this, getElement().getId(), LocaleInfo.getCurrentLocale().getLocaleName());
 	}
 
 	@Override
@@ -59,21 +56,21 @@ public class CKEditor extends SimplePanel implements IUserInputWidget<String> {
 	}
 
 	private native JavaScriptObject createByJs(CKEditor x, String id, String lang) /*-{
-		var config = {
-			language : lang,
-			maximize : false,
-			tabSpaces : 8,
-			uiColor : '#A1CFF3',
-			height : $wnd.$("#" + id).parent().height() - 45,
-			startupFocus : true,
-			enterMode : $wnd.CKEDITOR.ENTER_BR,
-			removePlugins : 'elementspath',
-			resize_enabled : false
-		//scayt_autoStartup:true,
-		//scayt_sLang:'tr_TR'
-		}
-		return $wnd.CKEDITOR.replace(id, config);
-	}-*/;
+																					var config = {
+																					language : lang,
+																					maximize : false,
+																					tabSpaces : 8,
+																					uiColor : '#A1CFF3',
+																					height : $wnd.$("#" + id).parent().height() - 45,
+																					startupFocus : true,
+																					enterMode : $wnd.CKEDITOR.ENTER_BR,
+																					removePlugins : 'elementspath',
+																					resize_enabled : false
+																					//scayt_autoStartup:true,
+																					//scayt_sLang:'tr_TR'
+																					}
+																					return $wnd.CKEDITOR.replace(id, config);
+																					}-*/;
 
 	@Override
 	public String getValue() {
@@ -86,12 +83,12 @@ public class CKEditor extends SimplePanel implements IUserInputWidget<String> {
 	}
 
 	private native String _getValue(JavaScriptObject cke) /*-{
-		return cke.getData();
-	}-*/;
+															return cke.getData();
+															}-*/;
 
 	private native void _setValue(JavaScriptObject cke, String data) /*-{
-		cke.setData(data);
-	}-*/;
+																		cke.setData(data);
+																		}-*/;
 
 	@Override
 	public boolean validate(final boolean focusedBefore) {
@@ -99,7 +96,7 @@ public class CKEditor extends SimplePanel implements IUserInputWidget<String> {
 		if (validated) {
 			String v = getValue();
 			if (maxLength != null && (v == null || v.length() > maxLength)) {
-				JsUtil.flagInvalid(this, IFormFactory.nlsCommon.alanDegeriUzun(), focusedBefore);
+				JsUtil.flagInvalid(this, ClientContext.instance.getCommonNls("alanDegeriUzun"), focusedBefore);
 				validated = false;
 			}
 		}
@@ -121,8 +118,8 @@ public class CKEditor extends SimplePanel implements IUserInputWidget<String> {
 	}
 
 	private native void _setFocus(JavaScriptObject cke) /*-{
-		cke.focus();
-	}-*/;
+														cke.focus();
+														}-*/;
 
 	@Override
 	public void setTabIndex(int index) {
@@ -134,8 +131,8 @@ public class CKEditor extends SimplePanel implements IUserInputWidget<String> {
 	}
 
 	private native void _setReadOnly(JavaScriptObject cke, boolean readOnly) /*-{
-		cke.setReadOnly(readOnly);
-	}-*/;
+																				cke.setReadOnly(readOnly);
+																				}-*/;
 
 	public void setMaxLength(Integer maxLength) {
 		this.maxLength = maxLength;

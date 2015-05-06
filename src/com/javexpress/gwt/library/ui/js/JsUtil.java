@@ -416,7 +416,7 @@ public class JsUtil {
 				} else
 					buf.append("<br/>");
 			}
-			MessageDialog.showAlert(windowId, IFormFactory.nlsCommon.hata(), buf.toString());
+			MessageDialog.showAlert(windowId, ClientContext.instance.getModuleNls("hata(), buf.toString());
 		} else if (e instanceof SessionInvalidException || (e instanceof StatusCodeException && ((StatusCodeException) e).getStatusCode() == 901)) {
 			if (USE_BOOTSTRAP) {
 				if (GwtBootstrapApplication.instance != null)
@@ -430,7 +430,7 @@ public class JsUtil {
 			else
 				ErrorDialog.showError(windowId, ae);
 		} else {
-			MessageDialog.showAlert(windowId, IFormFactory.nlsCommon.taninmayanHata(), e.getMessage());
+			MessageDialog.showAlert(windowId, ClientContext.instance.getModuleNls("taninmayanHata(), e.getMessage());
 		}
 	}
 
@@ -515,7 +515,7 @@ public class JsUtil {
 			case ListText:
 				w = searchMode ? new CheckInlineBox(parent, property + "_") : new ListBox(parent, property + "_");
 				if (w instanceof CheckInlineBox)
-					((CheckInlineBox) w).setEmptyText(IFormFactory.nlsCommon.filtreTumu());
+					((CheckInlineBox) w).setEmptyText(ClientContext.instance.getModuleNls("filtreTumu());
 				if (JsUtil.isNotEmpty(controlData)) {
 					if (!controlData.startsWith("@")) {
 						if (searchMode)
@@ -697,7 +697,7 @@ public class JsUtil {
 		Serializable val = vw.getValue();
 		if (val == null ||
 				((val instanceof String) && JsUtil.isEmpty((String) val))) {
-			flagInvalid(vw, IFormFactory.nlsCommon.alanZorunlu(), focusedBefore);
+			flagInvalid(vw, ClientContext.instance.getModuleNls("alanZorunlu(), focusedBefore);
 			return false;
 		} else {
 			clearInvalid(vw);
@@ -828,7 +828,7 @@ public class JsUtil {
 		}
 		if (!result) {
 			shakeWidget((Widget) hasWidgets);
-			Notification.showNotification(IFormFactory.nlsCommon.bilgiEksik(), IFormFactory.nlsCommon.isaretliAlanlariKontrolEdin(), NotificationType.warning);
+			Notification.showNotification(ClientContext.instance.getModuleNls("bilgiEksik(), ClientContext.instance.getModuleNls("isaretliAlanlariKontrolEdin(), NotificationType.warning);
 		}
 		return result;
 	}
@@ -873,8 +873,8 @@ public class JsUtil {
 													}-*/;
 
 	public static void addCloseButton(final Form that, ButtonBar bb) {
-		Button b = new Button(that, "kapat", IFormFactory.nlsCommon.kapat());
-		b.setTitle(IFormFactory.nlsCommon.kapat() + " (Esc)");
+		Button b = new Button(that, "kapat", ClientContext.instance.getModuleNls("kapat());
+		b.setTitle(ClientContext.instance.getModuleNls("kapat() + " (Esc)");
 		b.setIcon(JqIcon.close);
 		b.addClickHandler(new ClickHandler() {
 			@Override
@@ -886,8 +886,8 @@ public class JsUtil {
 	}
 
 	public static void addCancelButton(final Form that, ButtonBar bb) {
-		Button b = new Button(that, "vazgec", IFormFactory.nlsCommon.vazgec());
-		b.setTitle(IFormFactory.nlsCommon.vazgec() + " (Esc)");
+		Button b = new Button(that, "vazgec", ClientContext.instance.getModuleNls("vazgec());
+		b.setTitle(ClientContext.instance.getModuleNls("vazgec() + " (Esc)");
 		b.setIcon(JqIcon.cancel);
 		b.addClickHandler(new ClickHandler() {
 			@Override

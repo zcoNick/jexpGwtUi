@@ -45,7 +45,7 @@ public class ProgressBar extends SimplePanel {
 	protected void onLoad() {
 		super.onLoad();
 		if (!Beans.isDesignTime()) {
-			createByJs(getElement(), label, IFormFactory.nlsCommon.tamamlandi());
+			createByJs(getElement(), label, ClientContext.instance.getModuleNls("tamamlandi());
 		}
 	}
 

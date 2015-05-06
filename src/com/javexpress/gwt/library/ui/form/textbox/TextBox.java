@@ -102,9 +102,9 @@ public class TextBox extends com.google.gwt.user.client.ui.TextBox implements IU
 		String s = getText();
 		if (JsUtil.isNotEmpty(s)) {
 			if (titleCaseConvert)
-				setText(_toTitleCase(s, IFormFactory.nlsCommon.lang()));
+				setText(_toTitleCase(s, ClientContext.instance.getModuleNls("lang()));
 			else if (upperCaseConvert)
-				setText(_toUpperCase(s, IFormFactory.nlsCommon.lang()));
+				setText(_toUpperCase(s, ClientContext.instance.getModuleNls("lang()));
 		}
 	}
 

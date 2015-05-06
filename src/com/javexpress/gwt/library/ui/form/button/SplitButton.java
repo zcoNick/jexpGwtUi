@@ -8,9 +8,9 @@ import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.ui.Widget;
-import com.javexpress.gwt.fw.ui.library.form.IFormFactory;
 import com.javexpress.gwt.library.shared.model.WidgetConst;
 import com.javexpress.gwt.library.ui.AbstractContainer;
+import com.javexpress.gwt.library.ui.ClientContext;
 import com.javexpress.gwt.library.ui.ICssIcon;
 import com.javexpress.gwt.library.ui.js.JsUtil;
 import com.javexpress.gwt.library.ui.js.JsonMap;
@@ -49,7 +49,7 @@ public abstract class SplitButton extends AbstractContainer {
 			setIcon(icon);
 
 		downButton = DOM.createButton().cast();
-		downButton.setInnerText(IFormFactory.nlsCommon.opsiyonlar());
+		downButton.setInnerText(ClientContext.instance.getCommonNls("opsiyonlar"));
 		getElement().appendChild(downButton);
 
 		popup = new PopupMenu() {
@@ -76,27 +76,27 @@ public abstract class SplitButton extends AbstractContainer {
 	}
 
 	private native void createByJs(SplitButton x, ButtonElement nb, ButtonElement db, JavaScriptObject options) /*-{
-		var bt = $wnd
-				.$(nb)
-				.button(options)
-				.click(
-						function(event) {
-							x.@com.javexpress.gwt.library.ui.form.button.SplitButton::fireOnClick(IIZ)(event.pageX,event.pageY,event.metaKey);
-						});
-		var dw = $wnd
-				.$(db)
-				.button({
-					text : false,
-					icons : {
-						primary : "ui-icon-triangle-1-s"
-					}
-				})
-				.click(
-						function(event) {
-							x.@com.javexpress.gwt.library.ui.form.button.SplitButton::fireOnPopUp(IIZ)(event.pageX,event.pageY,event.metaKey);
-						});
-		bt.parent().buttonset();
-	}-*/;
+																												var bt = $wnd
+																												.$(nb)
+																												.button(options)
+																												.click(
+																												function(event) {
+																												x.@com.javexpress.gwt.library.ui.form.button.SplitButton::fireOnClick(IIZ)(event.pageX,event.pageY,event.metaKey);
+																												});
+																												var dw = $wnd
+																												.$(db)
+																												.button({
+																												text : false,
+																												icons : {
+																												primary : "ui-icon-triangle-1-s"
+																												}
+																												})
+																												.click(
+																												function(event) {
+																												x.@com.javexpress.gwt.library.ui.form.button.SplitButton::fireOnPopUp(IIZ)(event.pageX,event.pageY,event.metaKey);
+																												});
+																												bt.parent().buttonset();
+																												}-*/;
 
 	public void addClickHandler(final ClickHandler handler) {
 		normalButtonClickHandler = handler;
@@ -116,9 +116,9 @@ public abstract class SplitButton extends AbstractContainer {
 	}
 
 	private native void destroyByJs(ButtonElement nb, ButtonElement db) /*-{
-		$wnd.$(nb).button('destroy');
-		$wnd.$(db).button('destroy');
-	}-*/;
+																		$wnd.$(nb).button('destroy');
+																		$wnd.$(db).button('destroy');
+																		}-*/;
 
 	//--EVENTS
 	private void fireOnClick(final int x, int y, boolean meta) {
