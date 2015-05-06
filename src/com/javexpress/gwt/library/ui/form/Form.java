@@ -10,11 +10,11 @@ import com.google.gwt.event.dom.client.KeyDownHandler;
 import com.google.gwt.event.shared.HandlerRegistration;
 import com.google.gwt.user.client.Command;
 import com.google.gwt.user.client.ui.RequiresResize;
-import com.javexpress.application.model.item.BpmAction;
-import com.javexpress.application.model.item.FormDef;
-import com.javexpress.application.model.item.type.Pair;
-import com.javexpress.gwt.fw.client.GwtBootstrapApplication;
+import com.javexpress.common.model.item.FormDef;
+import com.javexpress.common.model.item.exception.NotAuthorizedException;
+import com.javexpress.common.model.item.type.Pair;
 import com.javexpress.gwt.library.shared.model.WidgetConst;
+import com.javexpress.gwt.library.ui.ClientContext;
 import com.javexpress.gwt.library.ui.ICssIcon;
 import com.javexpress.gwt.library.ui.container.panel.SimplePanelFocusable;
 import com.javexpress.gwt.library.ui.dialog.NewJiraIssueDialog;
@@ -130,7 +130,7 @@ public abstract class Form extends SimplePanelFocusable implements IWindow, IUIC
 			final String key = authKey.getLeft() + ":" + authKey.getRight();
 			String cached = formRights.get(key);
 			if (cached == null)
-				GwtBootstrapApplication.sistemClient.getService().formYetkiListesi(authKey.getLeft(), authKey.getRight(), new JexpCallback<List<String>>() {
+				ClientContext.instance.formYetkiListesi(authKey.getLeft(), authKey.getRight(), new JexpCallback<List<String>>() {
 					@Override
 					protected void onResult(final List<String> result) {
 						String r = JsUtil.join(result, ",");
@@ -190,7 +190,7 @@ public abstract class Form extends SimplePanelFocusable implements IWindow, IUIC
 		if ("@".equals(rights))
 			return;
 		if (rights == null || ("," + rights + ",").indexOf("," + key + ",") == -1)
-			throw new Exception(IFormFactory.nlsCommon.yetkiliDegilsiniz());
+			throw new NotAuthorizedException();
 	}
 
 	protected boolean handleCtrlSpecialKey(final int nativeKeyCode) {
@@ -267,11 +267,6 @@ public abstract class Form extends SimplePanelFocusable implements IWindow, IUIC
 		if (onUnloadCommands == null)
 			onUnloadCommands = new ArrayList<Command>();
 		onUnloadCommands.add(command);
-	}
-
-	@Override
-	public BpmAction getBpmAction() {
-		return null;
 	}
 
 	@Override

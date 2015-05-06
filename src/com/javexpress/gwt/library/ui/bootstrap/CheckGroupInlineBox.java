@@ -16,8 +16,8 @@ import com.google.gwt.dom.client.SelectElement;
 import com.google.gwt.event.dom.client.DomEvent;
 import com.google.gwt.user.client.ui.Widget;
 import com.javexpress.gwt.library.shared.model.WidgetConst;
+import com.javexpress.gwt.library.ui.ClientContext;
 import com.javexpress.gwt.library.ui.data.DataBindingHandler;
-import com.javexpress.gwt.library.ui.form.IFormFactory;
 import com.javexpress.gwt.library.ui.form.combobox.ListBoxBase;
 import com.javexpress.gwt.library.ui.js.JsUtil;
 import com.javexpress.gwt.library.ui.js.JsonMap;
@@ -46,10 +46,10 @@ public class CheckGroupInlineBox extends ListBoxBase {
 		options.set("enableClickableOptGroups", true);
 		options.setInt("maxHeight", 200);
 		options.set("nonSelectedText", " ");
-		options.set("allSelectedText", IFormFactory.nlsCommon.tumu());
+		options.set("allSelectedText", ClientContext.instance.getCommonNls("tumu"));
 		options.setInt("numberDisplayed", 3);
 		options.set("includeSelectAllOption", true);
-		options.set("selectAllText", IFormFactory.nlsCommon.tumunuSec());
+		options.set("selectAllText", ClientContext.instance.getCommonNls("tumunuSec"));
 		options.set("enableFiltering", false);
 		options.set("enableCaseInsensitiveFiltering", false);
 		return options;
@@ -90,35 +90,35 @@ public class CheckGroupInlineBox extends ListBoxBase {
 	}
 
 	private native void createByJs(CheckGroupInlineBox x, Element el, JavaScriptObject options) /*-{
-		options.onChange=function(option, checked, select) {
-			x.@com.javexpress.gwt.library.ui.bootstrap.CheckGroupInlineBox::fireOnChanged(Ljava/lang/String;Z)($wnd.$(option).val(),checked);
-        };
-        options.onDropdownShown=function(event) {
-			x.@com.javexpress.gwt.library.ui.bootstrap.CheckGroupInlineBox::fireOnOpened()();
-        };
-		options.onDropdownHidden=function(event) {
-			x.@com.javexpress.gwt.library.ui.bootstrap.CheckGroupInlineBox::fireOnClosed()();
-        };
-        options.buttonText=function(seloptions, select) {
-            if (seloptions.length === 0) {
-                return options.nonSelectedText;
-            } else if (seloptions.length > 3) {
-                return seloptions.length+' selected';
-            } else {
-                 var labels = [];
-                 seloptions.each(function() {
-                     if ($(this).attr('label') !== undefined) {
-                         labels.push($(this).attr('label'));
-                     }
-                     else {
-                         labels.push($(this).html());
-                     }
-                 });
-                 return labels.join(', ') + '';
-             }
-        }
-		$wnd.$(el).multiselect(options);
-	}-*/;
+																								options.onChange=function(option, checked, select) {
+																								x.@com.javexpress.gwt.library.ui.bootstrap.CheckGroupInlineBox::fireOnChanged(Ljava/lang/String;Z)($wnd.$(option).val(),checked);
+																								};
+																								options.onDropdownShown=function(event) {
+																								x.@com.javexpress.gwt.library.ui.bootstrap.CheckGroupInlineBox::fireOnOpened()();
+																								};
+																								options.onDropdownHidden=function(event) {
+																								x.@com.javexpress.gwt.library.ui.bootstrap.CheckGroupInlineBox::fireOnClosed()();
+																								};
+																								options.buttonText=function(seloptions, select) {
+																								if (seloptions.length === 0) {
+																								return options.nonSelectedText;
+																								} else if (seloptions.length > 3) {
+																								return seloptions.length+' selected';
+																								} else {
+																								var labels = [];
+																								seloptions.each(function() {
+																								if ($(this).attr('label') !== undefined) {
+																								labels.push($(this).attr('label'));
+																								}
+																								else {
+																								labels.push($(this).html());
+																								}
+																								});
+																								return labels.join(', ') + '';
+																								}
+																								}
+																								$wnd.$(el).multiselect(options);
+																								}-*/;
 
 	@Override
 	public void addItem(Serializable label, Serializable value, Serializable data) {
@@ -187,12 +187,12 @@ public class CheckGroupInlineBox extends ListBoxBase {
 	}
 
 	private native void rebuild(Element el) /*-{
-		$wnd.$(el).multiselect('rebuild');
-	}-*/;
+											$wnd.$(el).multiselect('rebuild');
+											}-*/;
 
 	private native void syncSelections(Element el) /*-{
-		$wnd.$(el).multiselect('refresh');
-	}-*/;
+													$wnd.$(el).multiselect('refresh');
+													}-*/;
 
 	public List<String> getValues() {
 		List<String> vals = new ArrayList<String>();

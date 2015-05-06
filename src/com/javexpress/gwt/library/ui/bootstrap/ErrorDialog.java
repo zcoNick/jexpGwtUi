@@ -7,10 +7,11 @@ import com.google.gwt.user.client.ui.RootPanel;
 import com.javexpress.common.model.item.Result;
 import com.javexpress.common.model.item.exception.AppException;
 import com.javexpress.gwt.library.shared.model.WidgetConst;
+import com.javexpress.gwt.library.ui.ClientContext;
 import com.javexpress.gwt.library.ui.container.panel.JexpSimplePanel;
 import com.javexpress.gwt.library.ui.dialog.AsyncRunningTaskForm;
 import com.javexpress.gwt.library.ui.dialog.MessageDialog;
-import com.javexpress.gwt.library.ui.form.IFormFactory;
+import com.javexpress.gwt.library.ui.form.IJiraEnabledForm;
 import com.javexpress.gwt.library.ui.js.JsUtil;
 
 public class ErrorDialog extends JexpSimplePanel {
@@ -29,12 +30,12 @@ public class ErrorDialog extends JexpSimplePanel {
 	private void createGUI() {
 		StringBuffer html = new StringBuffer("<div class='well'>");
 		html.append("<h1 class='header red lighter smaller'><span class='red bigger-125'><i class='ace-icon fa fa-random'></i></span> ");
-		html.append(appException.isLocalizable() ? IFormFactory.nlsCommon.hataBaslikKontrollu() : IFormFactory.nlsCommon.hataBaslikKontrolsuz());
+		html.append(appException.isLocalizable() ? ClientContext.instance.getCommonNls("hataBaslikKontrollu") : ClientContext.instance.getCommonNls("hataBaslikKontrolsuz"));
 		html.append("</h1>");
 
 		html.append("<h3 class='lighter smaller'>");
 		if (appException.isLocalizable())
-			html.append(GwtBootstrapApplication.getModuleNls(appException.getModuleId()).getString("error_" + appException.getErrorCode())).append("</h3>");
+			html.append(ClientContext.instance.getModuleNls(appException.getModuleId(), "error_" + appException.getErrorCode())).append("</h3>");
 		else
 			html.append("En kısa zamanda çözmek için <i class='ace-icon fa fa-wrench icon-animated-wrench bigger-125'></i>çalışacağız!</h3>");
 
@@ -56,7 +57,7 @@ public class ErrorDialog extends JexpSimplePanel {
 
 		html.append("<div class='center'>");
 		html.append("<a class='btn btn-primary jexpHandCursor' id='").append(getElement().getId()).append("_c'>");
-		html.append("<i class='ace-icon fa fa-close'></i>").append(IFormFactory.nlsCommon.kapat());
+		html.append("<i class='ace-icon fa fa-close'></i>").append(ClientContext.instance.getCommonNls("kapat"));
 		html.append("</a>");
 		html.append("</div>");
 
@@ -115,15 +116,15 @@ public class ErrorDialog extends JexpSimplePanel {
 		AsyncRunningTaskForm<Result<String>> task = new AsyncRunningTaskForm<Result<String>>(this, "jira") {
 			@Override
 			protected String getHeader() {
-				return IFormFactory.nlsCommon.Jira_baslik();
+				return ClientContext.instance.getCommonNls("Jira_baslik");
 			}
 
 			@Override
 			protected void startTask(AsyncCallback<Result<String>> callback) {
 				String smry = appException.getMessage() != null ? appException.getMessage() : (appException.getErrorCode());
-				GwtBootstrapApplication.sistemClient.getService().jiraBildir(appException.getModuleId(), smry == null ? "Unknown / Empty" : smry,
+				ClientContext.instance.createJiraIssue(appException.getModuleId(), smry == null ? "Unknown / Empty" : smry,
 						appException.getTraceHtml(), JsUtil.getUserAgent() + ",Prmt:" + GWT.getPermutationStrongName(),
-						JiraTalepTuruEnum.Hata, callback);
+						IJiraEnabledForm.TYPE_ERROR, callback);
 			}
 
 			@Override
@@ -132,10 +133,10 @@ public class ErrorDialog extends JexpSimplePanel {
 					if (result != null) {
 						if (result.isSucceded()) {
 							JsUtil.openWindow(result.getResult(), null);
-							MessageDialog.showInfo(this, "Jira", IFormFactory.nlsCommon.jiraBildirildi() + "<br/>" + result.getWarning());
+							MessageDialog.showInfo(this, "Jira", ClientContext.instance.getCommonNls("jiraBildirildi") + "<br/>" + result.getWarning());
 							removeFromParent();
 						} else
-							MessageDialog.showAlert(this, IFormFactory.nlsCommon.hata(), "Jira : " + result.getError());
+							MessageDialog.showAlert(this, ClientContext.instance.getCommonNls("hata"), "Jira : " + result.getError());
 					}
 				} else if (caught != null)
 					JsUtil.handleError(this, caught);

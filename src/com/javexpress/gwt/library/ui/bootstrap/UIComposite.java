@@ -9,10 +9,11 @@ import com.google.gwt.event.shared.HandlerRegistration;
 import com.google.gwt.user.client.Command;
 import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.ui.Focusable;
+import com.javexpress.common.model.item.FormDef;
 import com.javexpress.common.model.item.type.Pair;
 import com.javexpress.gwt.library.ui.AbstractContainerFocusable;
+import com.javexpress.gwt.library.ui.ClientContext;
 import com.javexpress.gwt.library.ui.ICssIcon;
-import com.javexpress.gwt.library.ui.form.IFormFactory;
 import com.javexpress.gwt.library.ui.form.IUIComposite;
 import com.javexpress.gwt.library.ui.form.keyboard.KeyCode;
 import com.javexpress.gwt.library.ui.js.JexpCallback;
@@ -216,7 +217,7 @@ public abstract class UIComposite extends AbstractContainerFocusable implements 
 	protected boolean handleAltSpecialKey(final int nativeKeyCode) {
 		if (JsUtil.isBrowserIE() && KeyCode.IE_HELP.is(nativeKeyCode) ||
 				!JsUtil.isBrowserIE() && KeyCode.NONIE_HELP.is(nativeKeyCode)) {
-			GwtBootstrapApplication.openHelp(that);
+			ClientContext.instance.openHelp(that);
 			return true;
 		}
 		return false;
@@ -230,7 +231,7 @@ public abstract class UIComposite extends AbstractContainerFocusable implements 
 			final String key = authKey.getLeft() + ":" + authKey.getRight();
 			String cached = viewRights.get(key);
 			if (cached == null)
-				GwtBootstrapApplication.sistemClient.getService().formYetkiListesi(authKey.getLeft(), authKey.getRight(), new JexpCallback<List<String>>() {
+				ClientContext.instance.formYetkiListesi(authKey.getLeft(), authKey.getRight(), new JexpCallback<List<String>>() {
 					@Override
 					protected void onResult(final List<String> result) {
 						String r = JsUtil.join(result, ",");
@@ -272,7 +273,7 @@ public abstract class UIComposite extends AbstractContainerFocusable implements 
 		if ("@".equals(rights))
 			return;
 		if (rights == null || ("," + rights + ",").indexOf("," + key + ",") == -1)
-			throw new Exception(IFormFactory.nlsCommon.yetkiliDegilsiniz());
+			throw new Exception(ClientContext.instance.getCommonNls("yetkiliDegilsiniz"));
 	}
 
 	@Override
@@ -317,11 +318,6 @@ public abstract class UIComposite extends AbstractContainerFocusable implements 
 	@Override
 	public void onHide() {
 		showing = false;
-	}
-
-	@Override
-	public BpmAction getBpmAction() {
-		return null;
 	}
 
 	@Override

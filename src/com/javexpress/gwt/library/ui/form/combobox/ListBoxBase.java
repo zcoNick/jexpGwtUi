@@ -13,8 +13,8 @@ import com.google.gwt.i18n.client.ConstantsWithLookup;
 import com.google.gwt.json.client.JSONArray;
 import com.google.gwt.json.client.JSONObject;
 import com.google.gwt.user.client.ui.ListBox;
-import com.javexpress.common.model.item.IModuleConstantsEnum;
-import com.javexpress.common.model.item.ModuleEnumItems;
+import com.javexpress.application.model.item.IModuleConstantsEnum;
+import com.javexpress.application.model.item.ModuleEnumItems;
 import com.javexpress.gwt.library.ui.form.IUserInputWidget;
 import com.javexpress.gwt.library.ui.js.JsUtil;
 

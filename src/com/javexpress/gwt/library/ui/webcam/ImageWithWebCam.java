@@ -8,10 +8,10 @@ import com.google.gwt.event.logical.shared.CloseHandler;
 import com.google.gwt.user.client.ui.PopupPanel;
 import com.google.gwt.user.client.ui.Widget;
 import com.javexpress.gwt.library.shared.model.WidgetConst;
+import com.javexpress.gwt.library.ui.ClientContext;
 import com.javexpress.gwt.library.ui.container.panel.JexpSimplePanel;
 import com.javexpress.gwt.library.ui.data.image.Image;
 import com.javexpress.gwt.library.ui.dialog.JexpPopupPanel;
-import com.javexpress.gwt.library.ui.form.IFormFactory;
 import com.javexpress.gwt.library.ui.js.JsUtil;
 
 public class ImageWithWebCam extends JexpSimplePanel {
@@ -62,9 +62,8 @@ public class ImageWithWebCam extends JexpSimplePanel {
 				if (readOnly)
 					return;
 				if (event.isControlKeyDown()) {
-					if (JsUtil.confirm(IFormFactory.nlsCommon.resimSilmeOnay())) {
+					if (JsUtil.confirm(ClientContext.instance.getCommonNls("resimSilmeOnay")))
 						image.setValue(null);
-					}
 				} else {
 					final JexpPopupPanel popPanel = new JexpPopupPanel(true, true);
 					popPanel.getElement().getStyle().setZIndex(9999);

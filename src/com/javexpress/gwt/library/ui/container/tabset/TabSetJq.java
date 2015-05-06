@@ -12,10 +12,10 @@ import com.google.gwt.user.client.ui.RequiresResize;
 import com.google.gwt.user.client.ui.Widget;
 import com.javexpress.gwt.library.shared.model.WidgetConst;
 import com.javexpress.gwt.library.ui.AbstractContainerFocusable;
+import com.javexpress.gwt.library.ui.ClientContext;
 import com.javexpress.gwt.library.ui.ICssIcon;
 import com.javexpress.gwt.library.ui.JqIcon;
 import com.javexpress.gwt.library.ui.form.Form;
-import com.javexpress.gwt.library.ui.form.IFormFactory;
 import com.javexpress.gwt.library.ui.form.ISizeAwareWidget;
 import com.javexpress.gwt.library.ui.form.IUIComposite;
 import com.javexpress.gwt.library.ui.js.JsUtil;
@@ -73,22 +73,22 @@ public class TabSetJq extends AbstractContainerFocusable implements ISizeAwareWi
 	}
 
 	private native void bindCloseButtons(TabSetJq x, JavaScriptObject obj, Element liElement, Element closeSpan) /*-{
-		$wnd
-				.$(closeSpan)
-				.click(
-						function() {
-							var li = $wnd.$(liElement);
-							var tabId = li.attr("tabid");
-							x.@com.javexpress.gwt.library.ui.container.tabset.TabSetJq::fireOnTabClosed(Ljava/lang/String;)(tabId);
-							var panelId = li.remove().attr("aria-controls");
-							$wnd.$("#" + panelId).remove();
-							obj.tabs("refresh");
-						});
-	}-*/;
+																													$wnd
+																													.$(closeSpan)
+																													.click(
+																													function() {
+																													var li = $wnd.$(liElement);
+																													var tabId = li.attr("tabid");
+																													x.@com.javexpress.gwt.library.ui.container.tabset.TabSetJq::fireOnTabClosed(Ljava/lang/String;)(tabId);
+																													var panelId = li.remove().attr("aria-controls");
+																													$wnd.$("#" + panelId).remove();
+																													obj.tabs("refresh");
+																													});
+																													}-*/;
 
 	private native void unbindCloseButtons(TabSetJq x, Element navBar) /*-{
-		$wnd.$("li > span.ui-icon-close", $wnd.$(navBar)).off();
-	}-*/;
+																		$wnd.$("li > span.ui-icon-close", $wnd.$(navBar)).off();
+																		}-*/;
 
 	@Override
 	protected void onUnload() {
@@ -106,15 +106,15 @@ public class TabSetJq extends AbstractContainerFocusable implements ISizeAwareWi
 	}
 
 	private native void destroyByJs(Element element) /*-{
-		$wnd.$(element).tabs('destroy');
-	}-*/;
+														$wnd.$(element).tabs('destroy');
+														}-*/;
 
 	private native JavaScriptObject createByJs(TabSetJq x, String id, JavaScriptObject options) /*-{
-		options.activate=function(event, ui ) {
-			x.@com.javexpress.gwt.library.ui.container.tabset.TabSetJq::fireOnAfterActivate(Ljava/lang/String;Ljava/lang/String;)(ui.oldTab.attr("tabid"), ui.newTab.attr("tabid"));
-		}
-		return $wnd.$("#" + id).tabs(options).removeClass("ui-widget-content");
-	}-*/;
+																								options.activate=function(event, ui ) {
+																								x.@com.javexpress.gwt.library.ui.container.tabset.TabSetJq::fireOnAfterActivate(Ljava/lang/String;Ljava/lang/String;)(ui.oldTab.attr("tabid"), ui.newTab.attr("tabid"));
+																								}
+																								return $wnd.$("#" + id).tabs(options).removeClass("ui-widget-content");
+																								}-*/;
 
 	public void addTab(final Form form) {
 		addTab(form.getHeader(), form, form.getId());
@@ -164,7 +164,7 @@ public class TabSetJq extends AbstractContainerFocusable implements ISizeAwareWi
 			closeSpan = DOM.createSpan();
 			closeSpan.setClassName("ui-icon " + JqIcon.close.getCssClass());
 			closeSpan.setAttribute("role", "presentation");
-			closeSpan.setInnerText(IFormFactory.nlsCommon.kapat());
+			closeSpan.setInnerText(ClientContext.instance.getCommonNls("kapat"));
 			li.appendChild(closeSpan);
 		}
 
@@ -200,16 +200,16 @@ public class TabSetJq extends AbstractContainerFocusable implements ISizeAwareWi
 	}
 
 	private native void _refresh(JavaScriptObject obj) /*-{
-		obj.tabs("refresh");
-	}-*/;
+														obj.tabs("refresh");
+														}-*/;
 
 	public void select(int index) {
 		_select(jsObject, index);
 	}
 
 	private native void _select(JavaScriptObject obj, int index) /*-{
-		obj.tabs("option", "active", index);
-	}-*/;
+																	obj.tabs("option", "active", index);
+																	}-*/;
 
 	//EVENTS
 	private void fireOnAfterActivate(final String oldId, final String newId) {

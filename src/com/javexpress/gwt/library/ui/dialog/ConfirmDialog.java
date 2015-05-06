@@ -3,10 +3,10 @@ package com.javexpress.gwt.library.ui.dialog;
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.Widget;
+import com.javexpress.gwt.fw.ui.library.form.IFormFactory;
 import com.javexpress.gwt.library.shared.model.WidgetConst;
 import com.javexpress.gwt.library.ui.FaIcon;
 import com.javexpress.gwt.library.ui.container.panel.JexpSimplePanel;
-import com.javexpress.gwt.library.ui.form.IFormFactory;
 import com.javexpress.gwt.library.ui.js.JsUtil;
 
 public class ConfirmDialog extends JexpSimplePanel {

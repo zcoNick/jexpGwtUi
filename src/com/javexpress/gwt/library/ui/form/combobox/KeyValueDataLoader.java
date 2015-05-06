@@ -13,14 +13,13 @@ import com.google.gwt.json.client.JSONParser;
 import com.google.gwt.json.client.JSONValue;
 import com.google.gwt.user.client.Command;
 import com.google.gwt.user.client.rpc.ServiceDefTarget;
-import com.javexpress.common.model.item.IModuleConstantsEnum;
 import com.javexpress.gwt.library.ui.js.JsUtil;
 
 public class KeyValueDataLoader implements Command {
 
 	private final long							moduleId;
 	private final ServiceDefTarget				serviceDefTarget;
-	private final Map<IKeyValueList, String>	comboKey	= new LinkedHashMap<IKeyValueList, String>();
+	protected final Map<IKeyValueList, String>	comboKey	= new LinkedHashMap<IKeyValueList, String>();
 
 	public KeyValueDataLoader(long moduleId, ServiceDefTarget serviceDefTarget) {
 		this.moduleId = moduleId;
@@ -57,10 +56,6 @@ public class KeyValueDataLoader implements Command {
 
 	public void add(IKeyValueList combo, Long moduleId, Enum key) {
 		add(combo, moduleId, key.toString());
-	}
-
-	public void addConstant(IKeyValueList combo, IModuleConstantsEnum key) {
-		comboKey.put(combo, "@code:" + key.getModuleId() + "/" + ((Enum) key).toString());
 	}
 
 	@Override

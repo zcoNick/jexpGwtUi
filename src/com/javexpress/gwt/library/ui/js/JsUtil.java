@@ -49,20 +49,20 @@ import com.javexpress.common.model.item.type.Pair;
 import com.javexpress.gwt.library.shared.model.IJsonServicePoint;
 import com.javexpress.gwt.library.shared.model.JexpGwtUser;
 import com.javexpress.gwt.library.shared.model.WidgetConst;
+import com.javexpress.gwt.library.ui.ClientContext;
 import com.javexpress.gwt.library.ui.JqIcon;
 import com.javexpress.gwt.library.ui.bootstrap.CheckBox;
 import com.javexpress.gwt.library.ui.bootstrap.DateBox;
+import com.javexpress.gwt.library.ui.bootstrap.ErrorDialog;
 import com.javexpress.gwt.library.ui.container.buttonbar.ButtonBar;
 import com.javexpress.gwt.library.ui.dialog.ConfirmDialog;
 import com.javexpress.gwt.library.ui.dialog.ConfirmationListener;
-import com.javexpress.gwt.library.ui.dialog.ErrorDialog;
 import com.javexpress.gwt.library.ui.dialog.JexpPopupPanel;
 import com.javexpress.gwt.library.ui.dialog.MessageDialog;
 import com.javexpress.gwt.library.ui.dialog.Notification;
 import com.javexpress.gwt.library.ui.dialog.Notification.NotificationType;
 import com.javexpress.gwt.library.ui.form.Form;
 import com.javexpress.gwt.library.ui.form.IDataBindable;
-import com.javexpress.gwt.library.ui.form.IFormFactory;
 import com.javexpress.gwt.library.ui.form.IUserInputWidget;
 import com.javexpress.gwt.library.ui.form.button.Button;
 import com.javexpress.gwt.library.ui.form.checkbox.CheckBoxJq;
@@ -382,7 +382,7 @@ public class JsUtil {
 	}
 
 	public static void message(final String id, final String message) {
-		MessageDialog.showAlert(id, IFormFactory.nlsCommon.uyari(), message);
+		MessageDialog.showAlert(id, ClientContext.instance.getCommonNls("uyari"), message);
 	}
 
 	public static void message(final Widget parent, final String message) {

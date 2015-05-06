@@ -8,7 +8,6 @@ import com.google.gwt.i18n.client.ConstantsWithLookup;
 import com.google.gwt.json.client.JSONArray;
 import com.google.gwt.json.client.JSONObject;
 import com.google.gwt.user.client.ui.Widget;
-import com.javexpress.common.model.item.ModuleEnumItems;
 import com.javexpress.gwt.library.ui.data.DataBindingHandler;
 import com.javexpress.gwt.library.ui.form.IDataBindable;
 import com.javexpress.gwt.library.ui.form.combobox.IKeyValueList;
@@ -93,11 +92,6 @@ public class TextField extends Label implements IDataBindable, IKeyValueList {
 	}
 
 	protected void onItemListChanged() {
-	}
-
-	public void setItemsEnum(ModuleEnumItems<? extends Serializable> moduleEnumDescriber) {
-		ConstantsWithLookup nls = GwtBootstrapApplication.getModuleNls(moduleEnumDescriber.getModuleId());
-		setItems(moduleEnumDescriber, nls);
 	}
 
 	public void setItems(final Map<? extends Serializable, ? extends Serializable> map, ConstantsWithLookup nls) {

@@ -6,7 +6,7 @@ import java.util.Map;
 import java.util.Set;
 
 import com.google.gwt.i18n.client.ConstantsWithLookup;
-import com.javexpress.gwt.library.ui.form.IFormFactory;
+import com.javexpress.gwt.fw.ui.library.form.IFormFactory;
 
 public class ListColumn extends Column {
 

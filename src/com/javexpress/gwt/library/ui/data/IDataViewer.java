@@ -33,8 +33,6 @@ public interface IDataViewer extends IJexpWidget, ISizeAwareWidget, IDataChangeL
 
 	void setListing(IJsonServicePoint serviceMethod);
 
-	void setDataExportOptions(boolean useForeignKeysAsVariable);
-
 	void setPaging(boolean dataPaging);
 
 	void setAutoLoad(boolean autoLoad);

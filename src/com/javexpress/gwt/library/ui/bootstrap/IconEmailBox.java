@@ -2,8 +2,8 @@ package com.javexpress.gwt.library.ui.bootstrap;
 
 import com.google.gwt.user.client.ui.Widget;
 import com.javexpress.gwt.library.shared.model.WidgetConst;
+import com.javexpress.gwt.library.ui.ClientContext;
 import com.javexpress.gwt.library.ui.FaIcon;
-import com.javexpress.gwt.library.ui.form.IFormFactory;
 import com.javexpress.gwt.library.ui.js.JsUtil;
 
 public class IconEmailBox extends IconTextBox {
@@ -25,7 +25,7 @@ public class IconEmailBox extends IconTextBox {
 		if (validated) {
 			if (!JsUtil.isEmpty(getText()))
 				if (!validateEmail(getText().trim())) {
-					JsUtil.flagInvalid(this, IFormFactory.nlsCommon.gecersizEposta(), focusedBefore);
+					JsUtil.flagInvalid(this, ClientContext.instance.getCommonNls("gecersizEposta"), focusedBefore);
 					validated = false;
 				}
 		}

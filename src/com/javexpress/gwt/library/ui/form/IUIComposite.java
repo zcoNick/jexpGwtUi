@@ -4,8 +4,7 @@ import com.google.gwt.user.client.Command;
 import com.google.gwt.user.client.ui.Focusable;
 import com.google.gwt.user.client.ui.HasWidgets;
 import com.google.gwt.user.client.ui.IsWidget;
-import com.javexpress.application.model.item.BpmAction;
-import com.javexpress.application.model.item.FormDef;
+import com.javexpress.common.model.item.FormDef;
 import com.javexpress.gwt.library.ui.ICssIcon;
 
 public interface IUIComposite extends IsWidget, HasWidgets, ISizeAwareWidget, Focusable {
@@ -41,8 +40,6 @@ public interface IUIComposite extends IsWidget, HasWidgets, ISizeAwareWidget, Fo
 	void onShow();
 
 	void onHide();
-
-	BpmAction getBpmAction();
 
 	boolean isSupportsAction(byte action);
 

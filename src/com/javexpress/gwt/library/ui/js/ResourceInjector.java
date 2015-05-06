@@ -20,7 +20,6 @@ import com.javexpress.gwt.library.ui.data.jqgrid.JqGrid;
 import com.javexpress.gwt.library.ui.data.jqplot.BarChart;
 import com.javexpress.gwt.library.ui.data.jqplot.PieChart;
 import com.javexpress.gwt.library.ui.data.schedule.Schedule;
-import com.javexpress.gwt.library.ui.data.slickgrid.EditGrid;
 import com.javexpress.gwt.library.ui.form.decimalbox.DecimalBox;
 import com.javexpress.gwt.library.ui.form.maskedit.MaskEditBox;
 import com.javexpress.gwt.library.ui.form.textbox.CKEditor;
@@ -89,7 +88,6 @@ public class ResourceInjector {
 		//-END User Interface
 
 		//User Interface Extra
-		EditGrid.fillResources(wb);
 		BarChart.fillResources(wb);
 		PieChart.fillResources(wb);
 		Schedule.fillResources(wb);
@@ -125,12 +123,12 @@ public class ResourceInjector {
 	}
 
 	public static native void loadCss(String url) /*-{
-		var fileref = document.createElement("link");
-		fileref.setAttribute("rel", "stylesheet");
-		fileref.setAttribute("type", "text/css");
-		fileref.setAttribute("href", url);
-		$doc.getElementsByTagName("head")[0].appendChild(fileref);
-	}-*/;
+													var fileref = document.createElement("link");
+													fileref.setAttribute("rel", "stylesheet");
+													fileref.setAttribute("type", "text/css");
+													fileref.setAttribute("href", url);
+													$doc.getElementsByTagName("head")[0].appendChild(fileref);
+													}-*/;
 
 	private static void injectLibrary(final String name, List<String> styleSheets, List<String> javaScripts, final Command onload) {
 		RootPanel root = RootPanel.get("progress");
@@ -169,10 +167,10 @@ public class ResourceInjector {
 	}
 
 	private static native void _injectFiles(JsArrayString files, Command command) /*-{
-		$wnd.require(files, function() {
-			command.@com.google.gwt.user.client.Command::execute()();
-		});
-	}-*/;
+																					$wnd.require(files, function() {
+																					command.@com.google.gwt.user.client.Command::execute()();
+																					});
+																					}-*/;
 
 	public static void injectScript(final String path, final Callback<Void, Exception> callback) {
 		ScriptInjector.fromUrl(path.startsWith("http") ? path : GWT.getModuleBaseURL() + path).setWindow(ScriptInjector.TOP_WINDOW).setCallback(callback).inject();
@@ -206,11 +204,11 @@ public class ResourceInjector {
 	}
 
 	private static native void _requireConfig(String module, JavaScriptObject pathConfig) /*-{
-		$wnd.requirejs.config({
-			baseUrl : module,
-			paths : pathConfig
-		});
-	}-*/;
+																							$wnd.requirejs.config({
+																							baseUrl : module,
+																							paths : pathConfig
+																							});
+																							}-*/;
 
 	public static void injectAceUI(final Command onload) {
 		WidgetBundles ace = new WidgetBundles("Ace UI 1.3.3");
@@ -233,7 +231,6 @@ public class ResourceInjector {
 		DecimalBox.fillResources(jexp);
 
 		jexp = JqGrid.fillResources(jexp);
-		jexp = EditGrid.fillResources(jexp);
 		injectLibrary(jexp, onload);
 	}
 

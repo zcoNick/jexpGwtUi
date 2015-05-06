@@ -3,9 +3,9 @@ package com.javexpress.gwt.library.ui.form.button;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.ui.Widget;
+import com.javexpress.gwt.fw.ui.library.form.IFormFactory;
 import com.javexpress.gwt.library.ui.dialog.ConfirmDialog;
 import com.javexpress.gwt.library.ui.dialog.ConfirmationListener;
-import com.javexpress.gwt.library.ui.form.IFormFactory;
 
 public abstract class ConfirmButton extends Button {
 

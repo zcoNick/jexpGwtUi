@@ -4,11 +4,10 @@ import com.google.gwt.dom.client.Element;
 import com.google.gwt.user.client.Command;
 import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.ui.Widget;
-import com.javexpress.gwt.fw.client.GwtBootstrapApplication;
 import com.javexpress.gwt.library.ui.AbstractContainer;
+import com.javexpress.gwt.library.ui.ClientContext;
 import com.javexpress.gwt.library.ui.FaIcon;
 import com.javexpress.gwt.library.ui.ICssIcon;
-import com.javexpress.gwt.library.ui.form.IFormFactory;
 import com.javexpress.gwt.library.ui.form.IUIComposite;
 import com.javexpress.gwt.library.ui.form.IUICompositeView;
 import com.javexpress.gwt.library.ui.js.JsUtil;
@@ -61,14 +60,14 @@ public class MainContentView extends AbstractContainer implements IUICompositeVi
 	protected void onLoad() {
 		super.onLoad();
 		final IUIComposite cmp = (IUIComposite) getWidget(0);
-		addToolItem(FaIcon.questionCircle, IFormFactory.nlsCommon.yardim(), true, new Command() {
+		addToolItem(FaIcon.questionCircle, ClientContext.instance.getCommonNls("yardim"), true, new Command() {
 			@Override
 			public void execute() {
-				GwtBootstrapApplication.openHelp((IUIComposite) getWidget(0));
+				ClientContext.instance.openHelp((IUIComposite) getWidget(0));
 			}
 		});
 		if (cmp.isSupportsAction(IUIComposite.ACT_INSERTRECORD)) {
-			addToolItem(FaIcon.plusCircle, IFormFactory.nlsCommon.yeni(), false, new Command() {
+			addToolItem(FaIcon.plusCircle, ClientContext.instance.getCommonNls("yeni"), false, new Command() {
 				@Override
 				public void execute() {
 					try {
@@ -90,10 +89,10 @@ public class MainContentView extends AbstractContainer implements IUICompositeVi
 	}
 
 	private native void bindOnClick(Element el, Command command) /*-{
-		$wnd.$(el).click(function() {
-			command.@com.google.gwt.user.client.Command::execute()();
-		});
-	}-*/;
+																	$wnd.$(el).click(function() {
+																	command.@com.google.gwt.user.client.Command::execute()();
+																	});
+																	}-*/;
 
 	@Override
 	protected void onUnload() {
@@ -105,8 +104,8 @@ public class MainContentView extends AbstractContainer implements IUICompositeVi
 	}
 
 	private native void _destroyByJs(Element el, String ubSel) /*-{
-		$wnd.$(ubSel, $wnd.$(el)).off();
-	}-*/;
+																$wnd.$(ubSel, $wnd.$(el)).off();
+																}-*/;
 
 	public void onHide() {
 		IUIComposite form = (IUIComposite) getWidget(0);

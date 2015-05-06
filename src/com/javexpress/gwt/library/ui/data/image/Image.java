@@ -16,10 +16,10 @@ import com.google.gwt.event.shared.HandlerRegistration;
 import com.google.gwt.user.client.rpc.ServiceDefTarget;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.Widget;
-import com.javexpress.application.model.item.type.Pair;
+import com.javexpress.common.model.item.type.Pair;
 import com.javexpress.gwt.library.shared.model.WidgetConst;
+import com.javexpress.gwt.library.ui.ClientContext;
 import com.javexpress.gwt.library.ui.container.panel.JexpSimplePanel;
-import com.javexpress.gwt.library.ui.form.IFormFactory;
 import com.javexpress.gwt.library.ui.js.JsUtil;
 
 public class Image extends JexpSimplePanel {
@@ -69,7 +69,7 @@ public class Image extends JexpSimplePanel {
 		if (service != null)
 			url = service.getServiceEntryPoint() + "." + method.toString();
 		if (isAttached())
-			setWidget(new Label(IFormFactory.nlsCommon.yukleniyor()));
+			setWidget(new Label(ClientContext.instance.getCommonNls("yukleniyor")));
 		String u = url + "?key=" + key.toString() + (disableCaching ? "&tm=" + new Date().getTime() : "");
 		setImage(u);
 	}

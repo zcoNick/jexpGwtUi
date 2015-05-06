@@ -4,10 +4,10 @@ import com.google.gwt.dom.client.Element;
 import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.ui.Widget;
 import com.javexpress.gwt.library.ui.AbstractContainer;
+import com.javexpress.gwt.library.ui.ClientContext;
 import com.javexpress.gwt.library.ui.FaIcon;
 import com.javexpress.gwt.library.ui.ICssIcon;
 import com.javexpress.gwt.library.ui.bootstrap.Bootstrap.WContext;
-import com.javexpress.gwt.library.ui.form.IFormFactory;
 
 public class ApplicationUserInfoDropdown extends AbstractContainer {
 
@@ -47,7 +47,7 @@ public class ApplicationUserInfoDropdown extends AbstractContainer {
 	}
 
 	public void setUser(String value) {
-		user.setInnerHTML("<small>" + IFormFactory.nlsCommon.hosgeldiniz() + ",<br/>" + value + "</small>");
+		user.setInnerHTML("<small>" + ClientContext.instance.getCommonNls("hosgeldiniz") + ",<br/>" + value + "</small>");
 	}
 
 	@Override
