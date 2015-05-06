@@ -1,0 +1,29 @@
+@IMPORT url("absolution.css");
+.jexpDialog { border: 2px solid #ababab; }/*ui-state-active*/
+.ui-dialog .ui-dialog-title { line-height: 1.5em; }
+.ui-dialog .ui-dialog-titlebar { font-size: 1.1em; border-bottom:1px solid #ababab; }
+.ui-dialog-titlebar .ui-icon { margin-left: 2px;margin-right: 2px;margin-top: 4px; }
+div.uploader, .ui-autocomplete-input, .wijmo-wijtextbox.ui-widget, select.jexpComboBox, input.text, input.email, input.password, textarea.uniform, textarea, input[type="text"], input[type="password"], input[type="file"]{
+	padding:1px;
+}
+.ui-dashboard-column .ui-dashboard-widget { border: 1px solid #ABABAB; }
+.ui-dashboard-column .ui-dashboard-widget .widget-head { border-left: 0; border-right: 0; border-top: 0; }
+.ui-menubar .ui-menu-item:not(.ui-menubar-item-seperator) { border-top: 0; border-bottom: 0; }
+.ui-menubar .ui-menu-item a { line-height:1;padding: 0.3em 0.3em; }
+.ui-menubar .ui-menubar-item-seperator .ui-menu-item { border-top: 1; border-bottom: 1; }
+.ui-autocomplete-input,input.text,select.jexpComboBox,input.email,input.password,textarea.uniform,textarea,input[type='text'],input[type='password'],input[type='file'] {
+  text-shadow: 0px 1px 0px #fff;
+  outline: none;
+  border: 1px solid #ABABAB;
+  border-radius: 3px;
+  -webkit-border-radius: 3px;
+  -moz-border-radius: 3px;
+  padding-left:1px;
+}
+.ui-autocomplete-input:hover,.ui-autocomplete-input:focus,.jexpComboBox:hover,.jexpComboBox:focus,input.text:hover,input.text:focus,input.email:hover,input.email:focus,
+input.password:hover,input.password:focus,textarea.uniform:hover,textarea.uniform:focus,textarea:hover,textarea:focus,input[type='text']:hover,input[type='text']:focus,
+input[type='password']:hover,input[type='password']:focus,input[type='file']:hover,input[type='file']:focus {
+  -webkit-box-shadow: 0 0 3px #ABABAB;
+  -moz-box-shadow: 0 0 3px #ABABAB;
+  box-shadow: 0 0 3px #ABABAB;
+}

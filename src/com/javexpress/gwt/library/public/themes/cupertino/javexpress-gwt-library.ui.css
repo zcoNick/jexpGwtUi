@@ -1,0 +1,30 @@
+@IMPORT url("jquery-ui.min.css");
+.jexpDialog { border: 2px solid #2694e8 }/*ui-state-active*/
+.ui-dashboard-column .ui-dashboard-widget .widget-head { border-left: 0; border-right: 0; border-top: 0; }
+div.uploader:hover, div.uploader:focus,
+.ui-autocomplete-input:hover,
+.ui-autocomplete-input:focus,
+.wijmo-wijtextbox.ui-widget:hover,
+.wijmo-wijtextbox.ui-widget:focus,
+.jexpComboBox:hover,
+.jexpComboBox:focus,
+input.text:hover,
+input.text:focus,
+input.email:hover,
+input.email:focus,
+input.password:hover,
+input.password:focus,
+textarea.uniform:hover,
+textarea.uniform:focus,
+textarea:hover,
+textarea:focus,
+input[type='text']:hover,
+input[type='text']:focus,
+input[type='password']:hover,
+input[type='password']:focus,
+input[type='file']:hover,
+input[type='file']:focus {
+  -webkit-box-shadow: 0 0 3px #2694e8;
+  -moz-box-shadow: 0 0 3px #2694e8;
+  box-shadow: 0 0 3px #2694e8;
+}

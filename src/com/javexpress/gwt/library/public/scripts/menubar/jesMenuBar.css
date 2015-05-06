@@ -1,0 +1,16 @@
+.ui-menubar { list-style: none; margin: 0; padding-left: 0; font-size:1.1em }
+.ui-menubar-item { float: left; cursor:pointer; padding-left: 3px; padding-right: 3px }
+.ui-menubar-item-seperator { border-bottom-style: solid;border-bottom-width:1px; padding-top:2px; padding-bottom:2px;border-color:inherit }
+.ui-menubar-itemRtl { float: left; cursor:pointer }
+.ui-menubar .ui-button { float: left; font-weight: normal; border-top-width: 0 !important; border-bottom-width: 0 !important; margin: 0; outline: none; }
+.ui-menubar .ui-menubar-link { border-right: 1px dashed transparent; border-left: 1px dashed transparent; }
+.ui-menubar .ui-menu { min-width: 145px; position: absolute; z-index: 9999; }
+#demo-frame { float:left; width:540px; height:380px; border:1px solid #ddd; overflow: auto; position: relative; }
+#demo-frame h3, #demo-frame h4 { padding: 0; font-weight: bold; font-size: 1em; }
+.ui-menubar .ui-menubar-item .ui-button-text {padding:1px 0.1em;font-size:1em;}	
+.ui-menubar .ui-menubar-item .ui-button-text-only {padding:1px 0.2em;font-size:1em;}
+.ui-menu .ui-menu-item {font-size:0.9em;font-weight:normal;}
+.ui-menu .ui-state-disabled{}
+.ui-menu .ui-menu-icon {float:right;position: static}
+.ui-menu-item .ui-menu, .ui-menu-item .ui-menu .ui-menu-item, .ui-menu-item  .ui-menu .ui-state-disabled {}
+.ui-menu .ui-menu-item a { color: inherit; white-space: nowrap; }

@@ -1,0 +1,18 @@
+<module>
+	
+	<inherits name="com.google.gwt.user.User"/>
+	<inherits name="com.google.gwt.i18n.I18N"/>
+	<inherits name="com.google.gwt.json.JSON" />
+	<inherits name="com.google.gwt.resources.Resources" />
+
+	<inherits name="com.javexpress.application.model.JexpApplication"/>
+	
+	<!--generate-with class="com.javexpress.gwt.library.rebind.JexpRemoteServiceProxyGenerator">
+		<when-type-assignable class="com.javexpress.gwt.library.shared.service.IJexpRemoteService" />
+	</generate-with--> 
+
+	<!-- Specify the paths for translatable code -->
+	<source path="ui" />
+	<source path="shared" />
+	
+</module>

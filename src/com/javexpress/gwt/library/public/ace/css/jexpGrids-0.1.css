@@ -1,0 +1,169 @@
+.jexpSlickGridContainer{}
+.slick-header-column.ui-state-default{ color: #777777 }
+.slick-viewport .grid-canvas > .odd {
+	background-color: #FDFDFD;
+	opacity: 0.8; 
+}
+.jexpSlickGridContainer div{
+	-webkit-box-sizing: content-box;
+	-moz-box-sizing: content-box;
+	box-sizing: content-box;
+}
+.jexpSlickGridContainer .jexpSlickGridView .slick-header {
+	background: linear-gradient(to bottom, #F8F8F8 0px, #ECECEC 100%) repeat-x scroll 0 0 #F2F2F2;
+	border-bottom: 1px solid #D3D3D3;
+    padding: 0 !important;
+	color: #777777;
+	font-size: 0.9em;
+    font-weight: 600;	
+}
+.jexpSlickGridContainer .jexpSlickGridView {
+    -moz-border-bottom-colors: none;
+    -moz-border-left-colors: none;
+    -moz-border-right-colors: none;
+    -moz-border-top-colors: none;
+    border-color: #D3D3D3;
+    border-image: none;
+    border-style: solid;
+    border-width: 1px 1px;
+    text-shadow: none;
+}
+.jexpSlickGridContainer .jexpGridToolbar {
+	background-color: #EFF3F8 !important;
+    border: 1px solid #E1E1E1 !important;
+    height: 30px;
+    line-height: 28px;
+    padding-left: 4px;
+    vertical-align: middle;
+}
+.slickgrid, .slickgrid *, .slick-header-column {
+    box-sizing: content-box;
+    -moz-box-sizing: content-box;
+    -webkit-box-sizing: content-box;
+}
+.slick-header > .slick-header-columns > .slick-header-column:last-child { 
+  border-right-color: transparent;
+}
+.jexpGridToolbar .toolitem {
+	width:24px;
+	font-size:1.5em;
+	text-align: center;
+	opacity:0.7;
+}
+.jexpGridToolbar .toolitem.disabled { cursor:not-allowed;opacity:0.1; }
+.jexpGridToolbar .toolitem.ui-state-hover { background-color:transparent;border:0;opacity:1; }
+.jexpGridToolbar .toolseparator { width:6px; }
+.jexpGridToolbar .toolseparator > .ui-separator {
+    margin-left: 2px;
+	margin-right: 2px;
+    border-left: 1px solid #CCCCCC;
+    border-right: medium none;
+}
+.jexpGridToolbar .ui-icon {
+	font-size: 17px;
+	cursor: pointer;
+	opacity:0.9;
+}
+.jexpGridToolbar .ui-state-hover .ui-icon{
+	font-size: 19px;
+	opacity:1;
+}
+.jexpSlickGridContainer .slick-row:hover { 
+	background-color: #EFF4F7;
+    background-image: none;
+    opacity: 1;
+}
+.jexpSlickGridContainer .jexpDataGridLoadingPanel { width:2em;height: 100% }
+.jexpSlickGridContainer .jexpDataGridLoadingIndicator { background:url('../../images/ajax-loader.gif') no-repeat right center}
+.jexpSlickGridContainer .slick-row .slick-cell { cursor:pointer }
+.jexpSlickGridContainer .slick-row .selected { background-color: #E4EFC9;opacity: 1; }
+.slick-row.ui-widget-content, .slick-row.ui-state-active { background: white; }
+.jexpSlickGridContainer .jexpDataGridRecordInfo {
+	display:inline-block;
+	float: right;
+	padding-right: 6px;
+	opacity: 0.5;
+}
+.jexpEditGrid .jexpEditGridEditorCell { border:0 none !important;width:100%;height:100%;padding:0;margin:0;font-size:1em }
+.jexpEditGrid .jexpEditGridEditorCell > .input-group-addon { padding:1px;border:0;background-color:transparent; }
+.jexpEditGrid .jexpEditGridEditorCell > .jexpEditGridAutoCompleteCell { border:none;padding:1px;width:98%;}
+padding:1px;border:0;background-color:transparent
+.jexpEditGrid .slick-cell .editable { border:none;padding:0;margin:0;font-size:1em }
+.jexpEditGrid .slick-cell .editor-text{ border:none;width:100%;height:100%;padding:0;margin:0;font-size:1em }
+.jexpJqGrid {
+	border-top:1px solid #E1E1E1;
+	border-left:1px solid #E1E1E1;
+	border-bottom:1px solid #E1E1E1;
+}
+.ui-jqgrid-sortable {
+    font-size: inherit;
+    padding-left: 2px;
+}
+.ui-jqgrid .ui-jqgrid-htable th span.ui-jqgrid-resize {
+    height: 26px !important;
+}
+.ui-jqgrid .ui-jqgrid-htable th div {
+    font-size: 12px;
+    height: 24px;
+    padding-bottom: 0;
+    padding-top: 5px;
+}
+.ui-jqgrid tr.ui-row-ltr td, .ui-jqgrid tr.ui-row-rtl td {
+	padding-top:0;
+	padding-bottom:0;
+	font-size:12px;
+}
+.ui-jqgrid .ui-jqgrid-pager {
+	height:inherit;
+	border-top: 0 none !important;
+}
+.ui-jqgrid .ui-pager-control {
+	background-color: #EFF3F8 !important;
+    border:none;
+    border-right: 1px solid #E1E1E1 !important;
+    height: 30px;
+    padding-left: 6px;
+    vertical-align: middle;
+}
+.ui-jqgrid .ui-jqgrid-labels {
+	border-left:0 none !important;
+}
+.ui-jqgrid .ui-jqgrid-hdiv {
+    border-left: 0 none;
+    border-right: 0 none;
+    border-top: 0 none;
+}
+.ui-jqgrid-hdiv .ui-jqgrid-htable {
+	border-top:0;
+}
+.ui-jqgrid .tree-minus,.ui-jqgrid .tree-plus,.ui-jqgrid .tree-leaf {
+    padding: 3px 4px;
+}
+.ui-jqgrid tr.ui-row-ltr td { border-right-color:#E1E1E1;border-bottom-color:#E1E1E1; }
+.ui-jqgrid .ui-jqgrid-btable { border-left:none; }
+.jexpPopFilterPanel { font-size:11px; }
+.jexpFilterPanel{}
+.jexpFilterPanel .widget-toolbar{ line-height: 24px;cursor:pointer; } 
+.jexpFilterPanel .widget-toolbar .jexpWidgetToolItem{ padding-right: 4px;color:#AAAAAA; } 
+.jexpFilterPanel .widget-toolbar .jexpWidgetToolItem:hover{ color:inherit; } 
+.jexpFilterPanel .widget-header{ min-height: 24px; } 
+.jexpFilterPanel .widget-header > .widget-title{ line-height: 24px; } 
+.jexpFilterPanelItem { margin-left: 0;margin-right: 0;padding: 0; }
+.jexpFilterPanelItem .jexpFilterLabel{
+    overflow: hidden;
+    text-align: right;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+	font-size: 0.85em;
+    padding-left: 0;
+    padding-right: 1px;
+    padding-top: 3px;
+}
+.jexpFilterPanelItem .jexpTextBox,.jexpFilterPanelItem .jexpComboBox,.jexpFilterPanelItem .jexpNumericBox,.jexpFilterPanelItem .jexpDateBox {
+	font-size:0.9em;
+	padding: 0 1px 1px;
+	height:22px;
+	color:#000000;
+}
+.jexpFilterPanelItem .jexpControlContainer { padding: 0 1px 1px; }
+.jexpFilterPanelItem .jexpControlContainer .input-group.jexpDateBox { width:6em; }

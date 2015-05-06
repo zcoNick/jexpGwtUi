@@ -1,0 +1,122 @@
+.form-control-container.form-control { border: 0 none; height: 26px; line-height: 1; padding-bottom: 1px; padding-left: 0; padding-top: 1px;background-color: transparent; }
+.jexpFormArea > .form-group > label[class*="col-"]{margin-bottom:2px}
+.jexpFormArea > .form-group > .jexpControlContainer{margin-bottom:2px}
+.jexpLabel.form-control { border: 0 none; height: 26px; line-height: 1; padding-bottom: 1px; padding-left: 0; padding-top:5px; background-color: transparent; }
+.jexpCheckBox { font-size:12px; }
+.jexpCheckBox.form-control { background-color: transparent; }
+.sidebar { font-size:1em }
+.sidebar .nav-search { position:relative; }
+.sidebar .nav > li > a { padding-top:5px }
+.sidebar .nav-list > li a > .arrow { top:8px; }
+.sidebar .nav-list > li.active:after{ top:0px; }
+.sidebar .nav-list > li li.active > a:after { top:1px; }
+.sidebar.menu-min .nav-list > li > a { height:30px;line-height:12px; }
+.sidebar .nav-list > li .submenu > li > a { padding: 9px 0 9px 17px; }
+.sidebar.menu-min, .sidebar.menu-min.compact, .sidebar.menu-min.navbar-collapse { width:34px; }
+.sidebar.menu-min .nav-list > li.active > a:after { top:8px; }
+.sidebar.menu-min .nav-list > li > a > .menu-icon { width:40px; }
+.sidebar .nav-list > li > .submenu:before { left:8px; } 
+.sidebar .nav-list > li > .submenu > li:before { left:10px;top:16px;width:4px; }
+.sidebar .nav-list > li > .submenu li > .submenu > li > a { margin-left: 0;padding-left: 18px; }
+.sidebar .nav-list > li .submenu > li a > .menu-icon { left: 7px;top: 10px;width: 8px; }
+.sidebar .nav-list > li:before { height: 30px;top: 0; }
+.sidebar .nav-list > li > a { height: 30px;padding-left: 3px;line-height: 20px;}
+.sidebar .nav-list > li > a > .menu-icon { font-size: 1.3em;margin-right: 0;min-width: 24px;vertical-align: middle; }
+.sidebar .nav-list > li .submenu { line-height: 1; }
+.breadcrumbs { line-height:27px;min-height: 27px; }
+.breadcrumb { font-size: 1em;margin: 0 0 0 5px; }
+.breadcrumbs-fixed + .page-content { padding-top: 32px; }
+.page-content { padding-left:8px;padding-right:8px;padding-bottom:4px; }
+.page-header { margin: 0 0 4px;padding-bottom:6px;padding-top:3px; }
+.page-header h1 { font-size: 1.5em;margin: 0 2px; }
+.jexp-view{ font-size:1em }
+.jexp-view .jexpMainViewToolItem { font-size:1em;color:#2679B5;opacity:0.25;cursor:pointer; }
+.jexp-view .pull-right.jexpMainViewToolItem { opacity:0.6; }
+.jexp-view .jexpMainViewToolItem:hover { opacity:1; }
+.modal > .widget-box { margin-top: 20px; }
+.jexp-ui-window { font-size: 1em }
+.jexp-ui-window.widget-box { border:none }
+.jexp-ui-window > .widget-header { background-color:#cceeff;
+  background:-webkit-gradient(linear,left top,left bottom,color-stop(0%,#ffffff),color-stop(100%,#cceeff));
+  background:-webkit-linear-gradient(#ffffff,#cceeff);
+  background:-moz-linear-gradient(#ffffff,#cceeff);
+  background:-ms-linear-gradient(#ffffff,#cceeff);
+  background:-o-linear-gradient(#ffffff,#cceeff);
+  filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#ffffff', endColorstr='#cceeff');
+  -ms-filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#ffffff', endColorstr='#cceeff');
+  background:linear-gradient(#ffffff,#cceeff);
+  color:#333399;
+}
+.jexp-ui-window > .widget-body { background-color:#ffffff;
+background:-moz-radial-gradient(50% 75%,circle,#ffffff,#EFF3F8);
+background:-webkit-radial-gradient(50% 75%,circle,#ffffff,#EFF3F8);
+background:-o-radial-gradient(50% 75%,circle,#ffffff,#EFF3F8);
+background:-ms-radial-gradient(50% 75%,circle,#ffffff,#EFF3F8);
+background:radial-gradient(50% 75%,circle,#ffffff,#EFF3F8);
+}
+.widget-box > .widget-header, .jexp-ui-window > .widget-header { padding-left: 8px; min-height: 28px }
+.jexp-ui-window > .widget-header > .widget-title { line-height:28px;text-shadow: 1px 2px 2px rgba(150, 150, 150, 1); }
+.jexp-ui-window > .widget-header > .widget-toolbar { line-height: 28px }
+.jexp-ui-window > .widget-body > .widget-main { padding: 4px 3px 3px; }
+.jexp-ui-window .modal-footer {
+    padding-bottom: 2px;
+    padding-top: 2px;
+    padding-right: 6px;
+}
+.jexp-ui-window > .widget-header > .widget-toolbar a { cursor: pointer }
+.jexp-ui-window > .widget-header > .widget-toolbar a.jexpWindowToolItem { padding-right:4px }
+.jexp-ui-buttonset { text-align:center;margin-top: 4px; }
+.jexp-ui-buttonset-left { display:inline-block;float:left }
+.jexp-ui-buttonset-center { display:inline-block }
+.jexp-ui-buttonset-right { display:inline-block;float:right }
+.form-horizontal .control-label { padding-top: 3px; color:#777777;overflow: hidden;text-overflow: ellipsis;white-space: nowrap; }
+.form-group {
+	margin-bottom: 0px;
+}
+.form-group label {
+	font-size:1em;
+	height:22px;
+}
+.jexpTextBox,.jexpComboBox,.jexpNumericBox,.jexpDateBox,.jexpDateBox input[type="text"],
+.form-group select,.form-group textarea,.form-group input[type="text"], .form-group input[type="password"], .form-group input[type="datetime"], .form-group input[type="datetime-local"], .form-group input[type="date"], .form-group input[type="month"], .form-group input[type="time"], .form-group input[type="week"], .form-group input[type="number"], .form-group input[type="email"], .form-group input[type="url"], .form-group input[type="search"], .form-group input[type="tel"], .form-group input[type="color"]{
+	font-size:1em;
+	padding:1px;	
+	height:22px;
+	color:#000000;
+}
+.jexpDateBox input[type="text"] { width:7em }
+.form-group .input-group-addon, .jexpDateBox .input-group-addon{ font-size: 12px;padding: 2px 4px; }
+.input-group.jexpDateBox{ padding:0;width:8em }
+.jexp-ui-form { background-color:transparent }
+.jexp-ui-formcontrol-no-border { border:none;padding:0;margin-bottom:4px;height:24px; }
+.jexp-ui-field-required:after{ content: "*" }
+.jexp-ui-window-modal.modal.in {opacity:1}
+.jexp-ui-window-modal > .modal-backdrop.in {background-color: transparent}
+.jexpCheckComboBox { font-size:0.9em;padding:0; }
+.jexpCheckComboPanel { font-size:0.9em;z-index:9999;background-color: inherit;}
+.jexpCheckComboPanel .jexpCheckComboTools { border-bottom: 1px solid inherit; cursor: pointer }
+.jexpCheckComboPanel .jexpCheckComboAll { font-size:0.9em;font-style: italic; padding-left: 2em; }
+.jexpCheckComboPanel .jexpCheckComboReset { font-size:0.9em;font-style: italic; padding-right: 1em; }
+.jexpCheckComboPanel > label { font-size: 0.9em; }
+.jexpCheckComboPanel > input[type="checkbox"] { margin: 3px 4px 5px 5px; }
+.jexp-ui-progress { margin-bottom: 0}
+.ui-autocomplete { z-index: 9999; max-height: 225px; overflow: auto }
+.ui-autocomplete > .ui-menu-item { font-size: 0.9em; white-space: nowrap; padding: 2px 2px 2px }
+.ui-autocomplete > .evenitem { opacity: 0.9;background-color: #eefcfe }
+.ui-autocomplete > .ui-menu-item > a { color:inherit; }
+.ui-autocomplete > .evenitem.ui-state-focus { background-color: #4F99C6;color:#FFFFFF;font-weight: 400;margin: auto;text-decoration: none }
+.jexpCheckGroupBox { font-size:0.9em; }
+.jexpCheckGroupBox.form-control { height:inherit;padding: 2px 4px; }
+.jexpCheckGroupBoxCheck > label { height:15px; }
+.jexpCheckGroupBoxCheck > input { margin: 4px 2px 0; }
+.jexpPickList{ }
+.jexpPickList .list-group-item { padding: 2px 17px 4px 6px; }
+.jexpPickListButtons { min-height:100px; display: flex; justify-content:center; flex-flow: column wrap; }
+.jexpTabSet { margin-top:4px }
+.jexpTabSet > .nav-tabs > li > a { padding: 2px 7px 4px; }
+.jexpTabSet > .tab-content { padding: 4px 0 2px; }
+.jexpTabSet > .tab-content > .tab-pane { height:100%; }
+.jexpTabSet > .tab-content > .tab-pane.hidden { display:none; }
+.jexpFormArea.form-horizontal .form-group { margin-left:0px;margin-right:0px; }
+.jexpGroupBox.widget-box.transparent > .widget-header { min-height:22px;margin-bottom:2px; } 
+.jexpGroupBox.widget-box.transparent > .widget-header > .widget-title { line-height:22px; } 

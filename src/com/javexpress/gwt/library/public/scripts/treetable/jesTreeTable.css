@@ -1,0 +1,19 @@
+.treeTable {
+	width: 100%;
+	height:100%;
+	overflow: hidden;
+}
+.treeTableContainer {
+	width: 100%;
+	height:100%;
+	overflow: auto;
+}
+.treeTableData {
+	width: 100%;
+}
+.treeTableData tr {
+	font-size:1em;
+}
+.treeTableData tr th {
+	padding:2px;
+}

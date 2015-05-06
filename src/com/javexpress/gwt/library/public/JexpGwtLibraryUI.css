@@ -1,0 +1,90 @@
+.jesToolBar { padding:2px; display: inline-block; }
+.jesCustomerBanner{ font-family:Helvetica;font-size:1.85em;font-weight:bold;padding-left:8px;color:gray; }
+.jesUserInfo { font-family:Helvetica;font-size:1.2em;color:gray;vertical-align: middle;text-align: right;padding-right:10px; }
+.jesUserInfoRtl { font-family:Helvetica;font-size:1.2em;color:gray;vertical-align: middle;text-align: left;padding-left:10px; }
+.jexpRightAlign { text-align:right }
+.jexpCenter { text-align:center;}
+.jesJustify { text-align:justify;}
+.jesRequired { }
+.jesExpandablePanel {}
+.jesExpandablePanel .jesExpandablePanelButton {}
+.jexpCaptionPanel { border:1px solid inherit; margin: 1px; padding: 1px; }
+.jexpCaptionPanel legend { font-size:0.92em;font-style:italic;margin-left: 0.7em; }
+.jesSplitButton { display: inline-block; }
+.jexpTextButton { font-weight: normal; font-size:0.9em; padding:8px }
+.jesKeyboardBig { font-size:1.5em }
+.jesKeyboardWide { font-size:2em }
+.jexpCheckComboBox { font-size:0.9em }
+.jexpCheckComboPanel { font-size:0.9em;z-index: 9999 }
+.jexpCheckComboPanel .jexpCheckComboTools { border-bottom: 1px solid inherit; cursor: pointer }
+.jexpCheckComboPanel .jexpCheckComboAll { font-size:0.9em;font-style: italic; padding-left: 2em; }
+.jexpCheckComboPanel .jexpCheckComboReset { font-size:0.9em;font-style: italic; padding-right: 1em; }
+/* SLICKGRID */
+.jexpSlickGridContainer { padding:0;margin:0;font-size:0.9em }
+.jexpSlickGridContainer .odd { opacity: 0.7 }
+.jexpSlickGridContainer .jexpGridToolbar { border-left:none;border-right:none;border-bottom: none;padding-left: 2px;padding-top: 2px; }
+.jexpSlickGridContainer .jexpGridToolbar div { border:1px solid transparent;padding:0 2px; }
+.jexpSlickGridContainer .jexpGridToolbar span.ui-icon { display: inline-block;vertical-align: middle }
+.slick-header.ui-state-default { border-top:none }
+.slick-header-column.ui-state-default { font-size: 0.9em;height: 1.1em;line-height: 1.1em;text-align: center; }
+.slick-header-column .slick-column-name input { margin-top: -1px;margin-left: -2px }
+.grid-canvas .slick-row input { margin-top:1px }
+.slick-columnpicker{ z-index: 9999; }
+.slick-row.ui-widget-content, .slick-row.ui-state-active { background: white; }
+.slick-viewport .grid-canvas > .active { background-color:#4671D5;color:#FFFFFF;;opacity:1 }
+.jexpDataGrid .jexpDataGridLoadingIndicator { background:url('images/ajax-loader.gif') no-repeat right center; width:2em;height: 100%}
+.jexpDataGrid .slick-sort-indicator { margin-left:0;margin-top:-10px}
+.jexpDataGrid .jexpDataGridRecordInfo { font-size:0.8em;font-weight: normal;margin-right: 3px;margin-top: 3px; }
+.jexpDataGrid .slick-row { cursor:pointer }
+.jexpDataGrid .active { background-color:#4671D5;color:#FFFFFF;opacity:1 }
+.jexpDataGrid .slick-row:hover { background-color:#FFAA00;color:#3515B0;opacity:1 }
+.jexpDataGrid .slick-group-toggle.collapsed { background: url(scripts/slickgrid/images/expand.gif) no-repeat center center; }
+.jexpDataGrid .slick-group-toggle.expanded { background: url(scripts/slickgrid/images/collapse.gif) no-repeat center center; }
+.jexpEditGrid .jexpEditGridEditorCell { border:none;width:100%;height:100% }
+.jexpEditGrid .slick-cell.editable { border:none }
+.jexpEditGrid .slick-cell .editor-text{ border:none;width:100%;height:100% }
+.ui-datepicker SELECT.ui-datepicker-month { width:40%; }
+.ui-datepicker SELECT.ui-datepicker-year { width:40%; }
+.ui-progressbar .ui-progress-label { position: absolute; left: 48%; font-weight: bold; text-shadow: 1px 1px 0 #fff;}
+.ui-tabs { padding: 0 }
+.ui-tabs li .ui-icon { float: left; margin: 0.1em 0 0 0; cursor: pointer;height: 1.2em }
+.ui-tabs .ui-tabs-panel { }
+.ui-tabs .ui-tabs-nav { font-size: 0.95em;padding:1px 0.25em 0;border-top:0;border-left:0;border-right:0 }
+.ui-tabs .ui-tabs-nav li a { padding-left: 0.5em;padding-right: 0.5em; }
+.ui-jqgrid .ui-jqgrid-htable { font-size:0.9em }
+.ui-jqgrid .ui-jqgrid-view { font-size:0.9em }
+.ui-jqgrid .jqGridSmallFonts { font-size:0.9em }
+.ui-jqgrid tr.jqgrow td .cbox { margin-top: 4px; }
+.ui-jqgrid .jesWarnRow { background-color: #800080;color: white;font-weight: bold }
+.ui-jqgrid .jesInactiveRow { background-color: #D3D3D3;color: #000080;font-style: italic }
+.ui-jqgrid .jesInvalidRow { background-color: #D3D3D3;color: #000080;font-style: italic;text-decoration: line-through }
+.ui-jqgrid .jesHeaderMenuIcon { float:right }
+.ui-menubar .ui-menubar-item a .ui-icon { margin-left:-3px;float:left; }
+.jesCatalogView { border:0 }
+.jesCatalogView .leftBlock { padding-left: 3px;height: 100%; }
+.jesCatalogView .catalogContainer { border-right: 0; }
+.jesCatalogView .catalog { cursor: pointer; }
+.jesCatalogView .catalog .ui-state-active { font-weight: bold; font-size:1.2em }
+.jesLayoutPanel { overflow:auto; }
+.jesCellPanel { line-height:0; }
+.jesSchedule { margin: 0 auto; }
+.jesSchedule .jexpPendingTask { }
+.jesSchedule .jexpCompletedTask { text-decoration: line-through; }
+.jesMaxZindex { z-index:9999 }
+.jesMultiAutoCompleteBox {}
+.jesMultiAutoCompleteBox .jesMultiAutoCompleteListItem {margin-left:2px;margin-top:2px;margin-bottom:3px;background-color:#FFFFFF;border:1px solid lightgray;}
+.jesAbsoluteFill { position:absolute;display:inline-block;top:0px;left:0px;right:0px;bottom:0px;padding:0 }
+.jexpListBox { }
+.jesAltRows { background: none }
+.jesAltRows:nth-child(odd) * { }
+.jesAltRows:nth-child(even) * { background-color: #D3D3D3; }
+.ui-widget .jexpFilterPanel { position:absolute;display:inline-block;top:0px;left:0px;padding:0;font-size:0.9em; }
+.ui-widget .jexpCheckGroupBox { font-size:0.9em }
+.ui-autocomplete-loading { background:url('images/ajax-loader.gif') no-repeat right center; background-size:0.8em;}
+.ui-autocomplete .ui-menu { z-index:9999; }
+.ui-autocomplete .ui-menu li.evenitem{ color: gray }
+ul.ui-autocomplete li.evenitem { opacity: 0.65 }
+.ui-accordion .ui-accordion-content{ padding: 0.1em 0.1em; }
+.cke-top:{padding:2px;}
+/* CodeMirror */
+.CodeMirror { font-size:1.1em; }

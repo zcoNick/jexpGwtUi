@@ -1,0 +1,51 @@
+.wf-palette {
+}
+.wf-palette h5 {
+	line-height: 2em;
+	margin: 0;
+}
+.wf-palette-container {
+	width:auto;height:auto;
+}
+.wf-palette-item {
+	display: inline-block;
+	background: infobackground;
+	border: 1px solid inherit;
+	line-height: 2em;
+	padding: 4px;
+	margin: 3px 3px 0 0;
+}
+.wf-palette-item .wf-node-actions{
+	display: none;
+}
+.wf-palette-item h6 {
+	line-height: 2em;
+	margin: 0;
+	font-size: 0.8em;
+}
+.wf-canvas {
+    height: 99.5%;
+    width: auto;
+}
+.wf-node {
+	padding: 6px;
+	background: orange;
+}
+.wf-node h6 {
+	margin: 0;
+	font-size: 1.2em;
+	font-style: italic;
+}
+.wf-node .wf-node-actions{
+	border-top:1px dashed;
+	padding-top: 2px;
+	line-height: 2em;
+}
+.wf-node .wf-node-action{
+	font-size: 0.9em;
+}
+.wf-selected {
+	border: 2px solid navy;
+	background: red;
+	color: white;
+}
