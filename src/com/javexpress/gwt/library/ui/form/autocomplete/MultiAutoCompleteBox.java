@@ -181,7 +181,6 @@ public class MultiAutoCompleteBox<V extends Serializable> extends AbstractContai
 			remove(btOpen);
 		tdOpen = null;
 		btOpen = null;
-		if (!Beans.isDesignTime())
 			destroyByJs(input);
 		super.onUnload();
 	}

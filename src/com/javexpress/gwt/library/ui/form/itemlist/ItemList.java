@@ -7,8 +7,8 @@ import com.google.gwt.dom.client.Element;
 import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.ui.Widget;
+import com.javexpress.gwt.fw.ui.data.control.Label;
 import com.javexpress.gwt.library.ui.AbstractContainer;
-import com.javexpress.gwt.library.ui.form.label.Label;
 import com.javexpress.gwt.library.ui.js.JsUtil;
 
 public class ItemList extends AbstractContainer {

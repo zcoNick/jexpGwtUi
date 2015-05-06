@@ -16,11 +16,11 @@ import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.FlexTable;
 import com.google.gwt.user.client.ui.ListBox;
 import com.google.gwt.user.client.ui.Widget;
+import com.javexpress.gwt.fw.ui.data.control.Label;
 import com.javexpress.gwt.library.shared.model.WidgetConst;
 import com.javexpress.gwt.library.ui.ICssIcon;
 import com.javexpress.gwt.library.ui.JqIcon;
 import com.javexpress.gwt.library.ui.data.tree.Tree;
-import com.javexpress.gwt.library.ui.form.label.Label;
 import com.javexpress.gwt.library.ui.js.JsUtil;
 
 public class PickTree<V extends Serializable> extends FlexTable {

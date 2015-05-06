@@ -1,4 +1,4 @@
-package com.javexpress.gwt.library.ui.form.datebox;
+package com.javexpress.gwt.library.ui.jquery;
 
 import java.text.ParseException;
 import java.util.Date;
@@ -23,7 +23,7 @@ import com.javexpress.gwt.library.ui.form.maskedit.TimeBox;
 import com.javexpress.gwt.library.ui.js.JsUtil;
 import com.javexpress.gwt.library.ui.js.JsonMap;
 
-public class DateBoxJq extends TextBoxBase implements IUserInputWidget {
+public class DateBox extends TextBoxBase implements IUserInputWidget {
 
 	public static enum DateType {
 		BirthDate, InLastYear, InLast10Years, InNextYear, InNext10Years
@@ -44,20 +44,20 @@ public class DateBoxJq extends TextBoxBase implements IUserInputWidget {
 		this.required = required;
 	}
 
-	public DateBoxJq(Widget parent, String id, DateType type) {
+	public DateBox(Widget parent, String id, DateType type) {
 		this(parent, id, null, type);
 	}
 
-	public DateBoxJq(final Widget parent, final String id) {
+	public DateBox(final Widget parent, final String id) {
 		this(parent, id, null, null);
 	}
 
-	public DateBoxJq(final Widget parent, final String id,
+	public DateBox(final Widget parent, final String id,
 			final JsonMap pOptions) {
 		this(parent, id, pOptions, null);
 	}
 
-	public DateBoxJq(final Widget parent, final String id, final JsonMap pOptions, DateType type) {
+	public DateBox(final Widget parent, final String id, final JsonMap pOptions, DateType type) {
 		super(DOM.createInputText());
 		JsUtil.ensureId(parent, this, WidgetConst.DATEBOX_PREFIX, id);
 		options = pOptions == null ? createDefaultOptions() : pOptions;
@@ -138,7 +138,7 @@ public class DateBoxJq extends TextBoxBase implements IUserInputWidget {
 		return fmt;
 	}
 
-	private native void createByJs(DateBoxJq x, Element element, JavaScriptObject options, String fmt) /*-{
+	private native void createByJs(DateBox x, Element element, JavaScriptObject options, String fmt) /*-{
 		options.onSelect = function(dateText, inst) {
 			x.@com.javexpress.gwt.library.ui.form.datebox.DateBoxJq::fireOnDateSelect(ZLjava/lang/String;)(true,dateText);
 			return false;

@@ -15,8 +15,6 @@ import com.google.gwt.json.client.JSONObject;
 import com.google.gwt.user.client.ui.CheckBox;
 import com.google.gwt.user.client.ui.FlexTable;
 import com.google.gwt.user.client.ui.Widget;
-import com.javexpress.application.model.item.IModuleConstantsEnum;
-import com.javexpress.application.model.item.ModuleEnumItems;
 import com.javexpress.gwt.library.shared.model.WidgetConst;
 import com.javexpress.gwt.library.ui.bootstrap.FormGroupCell;
 import com.javexpress.gwt.library.ui.data.DataBindingHandler;
@@ -90,17 +88,6 @@ public class CheckGroupBox extends FlexTable implements IUserInputWidget<String>
 		if (row == 1) {
 			getColumnFormatter().getElement(col).getStyle().setWidth(Math.ceil(100 / mod), Unit.PCT);
 		}
-	}
-
-	public CheckGroupBox setItemsConstant(final KeyValueDataLoader comboDataLoader, IModuleConstantsEnum key) {
-		clear(!required);
-		comboDataLoader.addConstant(this, key);
-		return this;
-	}
-
-	public CheckGroupBox setItemsEnum(ModuleEnumItems<? extends Serializable> moduleEnumDescriber) {
-		ConstantsWithLookup nls = GwtBootstrapApplication.getModules().get(moduleEnumDescriber.getModuleId()).getNls();
-		return setItems(moduleEnumDescriber, nls);
 	}
 
 	public CheckGroupBox setItems(final Map<? extends Serializable, ? extends Serializable> map, ConstantsWithLookup nls) {

@@ -1,4 +1,4 @@
-package com.javexpress.gwt.library.ui.form.datebox;
+package com.javexpress.gwt.library.ui.jquery;
 
 import java.beans.Beans;
 import java.text.ParseException;
@@ -9,9 +9,9 @@ import com.google.gwt.dom.client.Element;
 import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.ui.TextBoxBase;
 import com.google.gwt.user.client.ui.Widget;
-import com.javexpress.gwt.fw.ui.library.form.IFormFactory;
 import com.javexpress.gwt.library.shared.model.JexpGwtUser;
 import com.javexpress.gwt.library.shared.model.WidgetConst;
+import com.javexpress.gwt.library.ui.ClientContext;
 import com.javexpress.gwt.library.ui.bootstrap.FormGroupCell;
 import com.javexpress.gwt.library.ui.data.DataBindingHandler;
 import com.javexpress.gwt.library.ui.form.IUserInputWidget;
@@ -46,10 +46,10 @@ public class DateTimeBox extends TextBoxBase implements IUserInputWidget {
 	}
 
 	private JsonMap createDefaultOptions() {
-		options = DateBoxJq.createDefaultOptions();
-		options.set("timeText", ClientContext.instance.getModuleNls("zaman());
-		options.set("hourText", ClientContext.instance.getModuleNls("saat());
-		options.set("minuteText", ClientContext.instance.getModuleNls("dakika());
+		options = DateBox.createDefaultOptions();
+		options.set("timeText", ClientContext.instance.getCommonNls("zaman"));
+		options.set("hourText", ClientContext.instance.getCommonNls("saat"));
+		options.set("minuteText", ClientContext.instance.getCommonNls("dakika"));
 		return options;
 	}
 
@@ -70,58 +70,58 @@ public class DateTimeBox extends TextBoxBase implements IUserInputWidget {
 	}
 
 	private native void createByJs(DateTimeBox x, Element element, boolean isRTL, JavaScriptObject options) /*-{
-		var myControl = {
-			create : function(tp_inst, obj, unit, val, min, max, step) {
-				$wnd.$(
-						'<input class="ui-timepicker-input" value="' + val
-								+ '" style="width:50%">').appendTo(obj)
-						.spinner(
-								{
-									min : min,
-									max : max,
-									step : step,
-									change : function(e, ui) { // key events
-										// don't call if api was used and not key press
-										if (e.originalEvent !== undefined)
-											tp_inst._onTimeChange();
-										tp_inst._onSelectHandler();
-									},
-									spin : function(e, ui) { // spin events
-										tp_inst.control.value(tp_inst, obj,
-												unit, ui.value);
-										tp_inst._onTimeChange();
-										tp_inst._onSelectHandler();
-									}
-								});
-				return obj;
-			},
-			options : function(tp_inst, obj, unit, opts, val) {
-				if (typeof (opts) == 'string' && val !== undefined)
-					return obj.find('.ui-timepicker-input').spinner(opts, val);
-				return obj.find('.ui-timepicker-input').spinner(opts);
-			},
-			value : function(tp_inst, obj, unit, val) {
-				if (val !== undefined)
-					return obj.find('.ui-timepicker-input').spinner('value',
-							val);
-				return obj.find('.ui-timepicker-input').spinner('value');
-			}
-		};
-		options.onSelect = function(dateText, inst) {
-			x.@com.javexpress.gwt.library.ui.form.datebox.DateTimeBox::fireOnDateSelect(Ljava/lang/String;)(dateText);
-			return false;
-		};
-		options.controlType = myControl;
-		$wnd.$(element).datetimepicker(options);
-	}-*/;
+																											var myControl = {
+																											create : function(tp_inst, obj, unit, val, min, max, step) {
+																											$wnd.$(
+																											'<input class="ui-timepicker-input" value="' + val
+																											+ '" style="width:50%">').appendTo(obj)
+																											.spinner(
+																											{
+																											min : min,
+																											max : max,
+																											step : step,
+																											change : function(e, ui) { // key events
+																											// don't call if api was used and not key press
+																											if (e.originalEvent !== undefined)
+																											tp_inst._onTimeChange();
+																											tp_inst._onSelectHandler();
+																											},
+																											spin : function(e, ui) { // spin events
+																											tp_inst.control.value(tp_inst, obj,
+																											unit, ui.value);
+																											tp_inst._onTimeChange();
+																											tp_inst._onSelectHandler();
+																											}
+																											});
+																											return obj;
+																											},
+																											options : function(tp_inst, obj, unit, opts, val) {
+																											if (typeof (opts) == 'string' && val !== undefined)
+																											return obj.find('.ui-timepicker-input').spinner(opts, val);
+																											return obj.find('.ui-timepicker-input').spinner(opts);
+																											},
+																											value : function(tp_inst, obj, unit, val) {
+																											if (val !== undefined)
+																											return obj.find('.ui-timepicker-input').spinner('value',
+																											val);
+																											return obj.find('.ui-timepicker-input').spinner('value');
+																											}
+																											};
+																											options.onSelect = function(dateText, inst) {
+																											x.@com.javexpress.gwt.library.ui.form.datebox.DateTimeBox::fireOnDateSelect(Ljava/lang/String;)(dateText);
+																											return false;
+																											};
+																											options.controlType = myControl;
+																											$wnd.$(element).datetimepicker(options);
+																											}-*/;
 
 	public void setGotoCurrent(final String value) {
 		setOption(getElement(), "gotoCurrent", String.valueOf(value));
 	}
 
 	private native void setOption(Element element, String option, String value) /*-{
-		$wnd.$(element).datepicker("option", option, value);
-	}-*/;
+																				$wnd.$(element).datepicker("option", option, value);
+																				}-*/;
 
 	@Override
 	protected void onUnload() {
@@ -133,8 +133,8 @@ public class DateTimeBox extends TextBoxBase implements IUserInputWidget {
 	}
 
 	private native void destroyByJs(Element element) /*-{
-		$wnd.$(element).datetimepicker('destroy');
-	}-*/;
+														$wnd.$(element).datetimepicker('destroy');
+														}-*/;
 
 	@Override
 	public boolean validate(final boolean focusedBefore) {

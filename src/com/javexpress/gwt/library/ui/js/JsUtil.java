@@ -69,12 +69,12 @@ import com.javexpress.gwt.library.ui.form.checkbox.CheckBoxJq;
 import com.javexpress.gwt.library.ui.form.checkbox.CheckInlineBox;
 import com.javexpress.gwt.library.ui.form.combobox.ComboBox;
 import com.javexpress.gwt.library.ui.form.combobox.ListBox;
-import com.javexpress.gwt.library.ui.form.datebox.DateBoxJq;
 import com.javexpress.gwt.library.ui.form.decimalbox.DecimalBox;
 import com.javexpress.gwt.library.ui.form.numericbox.NumericBox;
 import com.javexpress.gwt.library.ui.form.textbox.TextBox;
 import com.javexpress.gwt.library.ui.form.upload.FileUpload;
 import com.javexpress.gwt.library.ui.form.upload.FileUpload.FileUploadHandler;
+import com.javexpress.gwt.library.ui.jquery.DateBoxJq;
 
 public class JsUtil {
 

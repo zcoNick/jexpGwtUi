@@ -12,7 +12,6 @@ import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.shared.HandlerRegistration;
 import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.ui.Widget;
-import com.javexpress.application.model.item.ModuleEnumItems;
 import com.javexpress.gwt.library.shared.model.WidgetConst;
 import com.javexpress.gwt.library.ui.ICssIcon;
 import com.javexpress.gwt.library.ui.JexpWidget;
@@ -20,10 +19,9 @@ import com.javexpress.gwt.library.ui.js.JsUtil;
 
 public class Label extends JexpWidget {
 
-	private ICssIcon								icon;
-	private Serializable							data;
-	private boolean									required;
-	private ModuleEnumItems<? extends Serializable>	items;
+	private ICssIcon		icon;
+	private Serializable	data;
+	private boolean			required;
 
 	public Label() {
 		this(null, null);
@@ -115,14 +113,13 @@ public class Label extends JexpWidget {
 	}
 
 	private native void _highlight(String id, int durationInMilliseconds) /*-{
-		$wnd.$("#" + id).effect("highlight", {}, durationInMilliseconds);
-	}-*/;
+																			$wnd.$("#" + id).effect("highlight", {}, durationInMilliseconds);
+																			}-*/;
 
 	@Override
 	protected void onUnload() {
 		icon = null;
 		data = null;
-		items = null;
 		super.onUnload();
 	}
 
