@@ -2,6 +2,7 @@ package com.javexpress.gwt.library.ui.form.numericbox;
 
 import com.google.gwt.user.client.ui.Widget;
 import com.javexpress.gwt.library.ui.ClientContext;
+import com.javexpress.gwt.library.ui.js.JsUtil;
 
 public class TCIdBox extends NumericBox {
 
