@@ -4,22 +4,14 @@ import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Map;
 
-import com.google.gwt.event.dom.client.ClickEvent;
-import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.ui.Focusable;
 import com.javexpress.common.model.item.ControllerAction;
-import com.javexpress.common.model.item.Result;
 import com.javexpress.common.model.item.type.Pair;
 import com.javexpress.gwt.library.ui.ICssIcon;
-import com.javexpress.gwt.library.ui.JqIcon;
 import com.javexpress.gwt.library.ui.SilkIcon;
-import com.javexpress.gwt.library.ui.container.buttonbar.ButtonBar;
-import com.javexpress.gwt.library.ui.container.layout.DivPanelInfo;
 import com.javexpress.gwt.library.ui.data.IDataChangeListener;
 import com.javexpress.gwt.library.ui.form.Form;
 import com.javexpress.gwt.library.ui.form.button.Button;
-import com.javexpress.gwt.library.ui.js.JexpCallback;
-import com.javexpress.gwt.library.ui.js.JsUtil;
 
 public abstract class Wizard extends Form {
 
@@ -29,8 +21,8 @@ public abstract class Wizard extends Form {
 	private Button						btNext;
 	private Button						btFinish;
 
-	public Wizard(final String id, final String editingId, final ControllerAction mode, final Serializable extraData, final Pair<Long, String> overrideAuthKeyWith, final IDataChangeListener dataListener, final CM module) throws Exception {
-		super(id, mode, overrideAuthKeyWith, dataListener, module);
+	public Wizard(final String id, final String editingId, final ControllerAction mode, final Serializable extraData, final Pair<Long, String> overrideAuthKeyWith, final IDataChangeListener dataListener) throws Exception {
+		super(id);//, mode, overrideAuthKeyWith, dataListener, module);
 	}
 
 	@Override
@@ -38,17 +30,17 @@ public abstract class Wizard extends Form {
 		return SilkIcon.wand;
 	}
 
-	@Override
+	/*@Override
 	protected DivPanelInfo createCenterWidget() {
 		current = getFirstPage();
 		return DivPanelInfo.create(current);
-	}
+	}*/
 
 	protected abstract WizardPage getFirstPage();
 
-	protected abstract Result canFinish(T dto);
+	//protected abstract Result canFinish(T dto);
 
-	@Override
+	/*@Override
 	protected DivPanelInfo createBottomWidget() {
 		ButtonBar bb = new ButtonBar();
 		btBack = new Button(that, "geri", "Geri");
@@ -96,7 +88,7 @@ public abstract class Wizard extends Form {
 		});
 		bb.add(btClose);
 		return DivPanelInfo.createEM(bb, 2);
-	}
+	}*/
 
 	private void goBack() {
 		WizardPage newPage = null;
@@ -121,23 +113,23 @@ public abstract class Wizard extends Form {
 	}
 
 	protected void finish() throws Exception {
-		current.onPageDeactivated();
-		updateDto(editing);
-		requestPersist(editing, editingMode, new JexpCallback<PK>(btFinish) {
-			@Override
-			protected void onResult(final PK result) {
-				if (dataListener != null)
-					dataListener.refresh(result);
-				closeWindow();
-			}
-		});
+		current.onPageDeactivated();/*
+									updateDto(editing);
+									requestPersist(editing, editingMode, new JexpCallback<PK>(btFinish) {
+									@Override
+									protected void onResult(final PK result) {
+									if (dataListener != null)
+									dataListener.refresh(result);
+									closeWindow();
+									}
+									});*/
 	}
 
-	@Override
+	/*@Override
 	protected void loadEditing(final String editingId) {
 		super.loadEditing(editingId);
 		synchronizeButtons();
-	}
+	}*/
 
 	private void synchronizeButtons() {
 		btBack.setVisible(current.hasBack());
@@ -147,17 +139,17 @@ public abstract class Wizard extends Form {
 
 	private void setActivePage(final WizardPage newPage) {
 		current.onPageDeactivated();
-		setCenterWidget(DivPanelInfo.create(newPage, false));
+		//setCenterWidget(DivPanelInfo.create(newPage, false));
 		current = newPage;
 		current.onPageActivated();
 		onPageChanged();
 	}
 
-	@Override
+	/*@Override
 	protected void updateGUI(final T dto) {
 		if (current != null)
 			current.onPageActivated();
-	}
+	}*/
 
 	protected void onPageChanged() {
 		Focusable f = current.getFocusWidget();
@@ -165,9 +157,9 @@ public abstract class Wizard extends Form {
 			f.setFocus(true);
 	}
 
-	public T getEditing() {
+	/*public T getEditing() {
 		return editing;
-	}
+	}*/
 
 	public void setVariable(final String key, final Serializable value) {
 		if (variables == null)

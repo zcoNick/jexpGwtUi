@@ -20,7 +20,6 @@ import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.shared.UmbrellaException;
 import com.google.gwt.http.client.URL;
-import com.google.gwt.i18n.client.ConstantsWithLookup;
 import com.google.gwt.i18n.client.LocaleInfo;
 import com.google.gwt.json.client.JSONArray;
 import com.google.gwt.json.client.JSONNumber;
@@ -53,7 +52,6 @@ import com.javexpress.gwt.library.ui.ClientContext;
 import com.javexpress.gwt.library.ui.JqIcon;
 import com.javexpress.gwt.library.ui.bootstrap.CheckBox;
 import com.javexpress.gwt.library.ui.bootstrap.DateBox;
-import com.javexpress.gwt.library.ui.bootstrap.ErrorDialog;
 import com.javexpress.gwt.library.ui.container.buttonbar.ButtonBar;
 import com.javexpress.gwt.library.ui.dialog.ConfirmDialog;
 import com.javexpress.gwt.library.ui.dialog.ConfirmationListener;
@@ -74,7 +72,6 @@ import com.javexpress.gwt.library.ui.form.numericbox.NumericBox;
 import com.javexpress.gwt.library.ui.form.textbox.TextBox;
 import com.javexpress.gwt.library.ui.form.upload.FileUpload;
 import com.javexpress.gwt.library.ui.form.upload.FileUpload.FileUploadHandler;
-import com.javexpress.gwt.library.ui.jquery.DateBoxJq;
 
 public class JsUtil {
 
@@ -367,8 +364,7 @@ public class JsUtil {
 	private static String resolveMessage(String msg) {
 		if (isNotEmpty(msg) && msg.startsWith("@")) {
 			String[] ml = msg.substring(1).split("@");
-			ConstantsWithLookup nls = GwtBootstrapApplication.getModuleNls(Long.valueOf(ml[0]));
-			return nls.getString(ml[1]);
+			return ClientContext.instance.getModuleNls(Long.valueOf(ml[0]), ml[1]);
 		}
 		return msg;
 	}
@@ -382,7 +378,7 @@ public class JsUtil {
 	}
 
 	public static void message(final String id, final String message) {
-		MessageDialog.showAlert(id, ClientContext.nlsCommon.uyari"), message);
+		MessageDialog.showAlert(id, ClientContext.nlsCommon.uyari(), message);
 	}
 
 	public static void message(final Widget parent, final String message) {
@@ -418,17 +414,11 @@ public class JsUtil {
 			}
 			MessageDialog.showAlert(windowId, ClientContext.nlsCommon.hata(), buf.toString());
 		} else if (e instanceof SessionInvalidException || (e instanceof StatusCodeException && ((StatusCodeException) e).getStatusCode() == 901)) {
-			if (USE_BOOTSTRAP) {
-				if (GwtBootstrapApplication.instance != null)
-					GwtBootstrapApplication.instance.goLockScreen();
-			} else
-				GwtApplication.instance.doLogout();
+			if (ClientContext.instance != null)
+				ClientContext.instance.goLockScreen();
 		} else if (e instanceof AppException) {
 			AppException ae = (AppException) e;
-			if (USE_BOOTSTRAP)
-				com.javexpress.gwt.library.ui.bootstrap.ErrorDialog.showError(windowId, ae);
-			else
-				ErrorDialog.showError(windowId, ae);
+			ClientContext.instance.showError(windowId, ae);
 		} else {
 			MessageDialog.showAlert(windowId, ClientContext.nlsCommon.taninmayanHata(), e.getMessage());
 		}
@@ -552,9 +542,9 @@ public class JsUtil {
 
 	public static Serializable getWidgetValue(final Widget w, boolean forceNumeric) throws ParseException {
 		Serializable val = null;
-		if (w instanceof DateBoxJq)
-			val = ((DateBoxJq) w).getDate();
-		if (w instanceof DateBox)
+		if (w instanceof com.javexpress.gwt.library.ui.jquery.DateBox)
+			val = ((com.javexpress.gwt.library.ui.jquery.DateBox) w).getDate();
+		else if (w instanceof DateBox)
 			val = ((DateBox) w).getDate();
 		else if (w instanceof NumericBox)
 			val = ((NumericBox) w).getValueLong();
@@ -577,8 +567,10 @@ public class JsUtil {
 	}
 
 	public static void setWidgetValue(final Widget w, Serializable value) {
-		if (w instanceof DateBoxJq)
-			((DateBoxJq) w).setValue((Date) value);
+		if (w instanceof com.javexpress.gwt.library.ui.jquery.DateBox)
+			((com.javexpress.gwt.library.ui.jquery.DateBox) w).setValue((Date) value);
+		else if (w instanceof DateBox)
+			((DateBox) w).setValue((Date) value);
 		else if (w instanceof NumericBox)
 			((NumericBox) w).setValue(value != null ? value.toString() : null);
 		else if (w instanceof DecimalBox)
@@ -613,8 +605,10 @@ public class JsUtil {
 	}
 
 	public static void setWidgetEnabled(final Widget w, boolean enabled) {
-		if (w instanceof DateBoxJq)
-			((DateBoxJq) w).setEnabled(enabled);
+		if (w instanceof com.javexpress.gwt.library.ui.jquery.DateBox)
+			((com.javexpress.gwt.library.ui.jquery.DateBox) w).setEnabled(enabled);
+		else if (w instanceof DateBox)
+			((DateBox) w).setEnabled(enabled);
 		else if (w instanceof NumericBox)
 			((NumericBox) w).setEnabled(enabled);
 		else if (w instanceof DecimalBox)
@@ -642,8 +636,10 @@ public class JsUtil {
 
 	public static Serializable clearWidgetValue(final Widget w) throws ParseException {
 		Serializable val = null;
-		if (w instanceof DateBoxJq)
-			((DateBoxJq) w).setValueDate(null);
+		if (w instanceof com.javexpress.gwt.library.ui.jquery.DateBox)
+			((com.javexpress.gwt.library.ui.jquery.DateBox) w).setValueDate(null);
+		else if (w instanceof DateBox)
+			((DateBox) w).setValueDate(null);
 		else if (w instanceof NumericBox)
 			((NumericBox) w).setValueLong(null);
 		else if (w instanceof DecimalBox)
@@ -661,8 +657,8 @@ public class JsUtil {
 		String val = w.getElement().getAttribute("defaultValue");
 		if (isEmpty(val))
 			val = null;
-		if (w instanceof DateBoxJq)
-			((DateBoxJq) w).setValue(val);
+		if (w instanceof com.javexpress.gwt.library.ui.jquery.DateBox)
+			((com.javexpress.gwt.library.ui.jquery.DateBox) w).setValue(val);
 		else if (w instanceof DateBox)
 			((DateBox) w).setValue(val);
 		else if (w instanceof NumericBox)
@@ -1047,7 +1043,7 @@ public class JsUtil {
 	}
 
 	public static String getServiceUrl(IJsonServicePoint servicePoint) {
-		return GwtBootstrapApplication.getModuleServiceTarget(servicePoint.getModuleId()).getServiceEntryPoint() + "." + ((Enum) servicePoint).toString();
+		return ClientContext.instance.getModuleServiceTarget(servicePoint.getModuleId()).getServiceEntryPoint() + "." + ((Enum) servicePoint).toString();
 	}
 
 	public static boolean	USE_BOOTSTRAP	= false;
