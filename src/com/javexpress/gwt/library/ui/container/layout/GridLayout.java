@@ -10,7 +10,7 @@ import com.google.gwt.user.client.ui.Grid;
 import com.google.gwt.user.client.ui.HasHorizontalAlignment;
 import com.google.gwt.user.client.ui.HasVerticalAlignment;
 import com.google.gwt.user.client.ui.Widget;
-import com.javexpress.gwt.fw.ui.data.control.Label;
+import com.javexpress.gwt.library.ui.form.label.Label;
 import com.javexpress.gwt.library.ui.js.JsUtil;
 
 public class GridLayout extends Grid {
@@ -39,7 +39,7 @@ public class GridLayout extends Grid {
 		label.append(label.isRequired() ? " *:" : " :");
 		super.setWidget(row, column, label);
 		if (label.isRequired())
-			getCellFormatter().addStyleName(row, column, "jesRequired");
+			getCellFormatter().addStyleName(row, column, "jexpRequired");
 	}
 
 	public void setLabel(int row, int column, String label) {

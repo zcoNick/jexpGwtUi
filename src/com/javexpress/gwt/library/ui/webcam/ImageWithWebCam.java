@@ -62,7 +62,7 @@ public class ImageWithWebCam extends JexpSimplePanel {
 				if (readOnly)
 					return;
 				if (event.isControlKeyDown()) {
-					if (JsUtil.confirm(ClientContext.instance.getCommonNls("resimSilmeOnay")))
+					if (JsUtil.confirm(ClientContext.nlsCommon.resimSilmeOnay()))
 						image.setValue(null);
 				} else {
 					final JexpPopupPanel popPanel = new JexpPopupPanel(true, true);

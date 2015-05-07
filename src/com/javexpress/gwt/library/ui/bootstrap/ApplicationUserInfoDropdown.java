@@ -47,7 +47,7 @@ public class ApplicationUserInfoDropdown extends AbstractContainer {
 	}
 
 	public void setUser(String value) {
-		user.setInnerHTML("<small>" + ClientContext.instance.getCommonNls("hosgeldiniz") + ",<br/>" + value + "</small>");
+		user.setInnerHTML("<small>" + ClientContext.nlsCommon.hosgeldiniz() + ",<br/>" + value + "</small>");
 	}
 
 	@Override

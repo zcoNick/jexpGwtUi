@@ -12,10 +12,9 @@ import com.google.gwt.user.client.ui.ProvidesResize;
 import com.google.gwt.user.client.ui.RequiresResize;
 import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.Widget;
-import com.javexpress.gwt.fw.client.GwtBootstrapApplication;
-import com.javexpress.gwt.fw.ui.library.form.IFormFactory;
 import com.javexpress.gwt.library.shared.model.WidgetConst;
 import com.javexpress.gwt.library.ui.AbstractContainerFocusable;
+import com.javexpress.gwt.library.ui.ClientContext;
 import com.javexpress.gwt.library.ui.ICssIcon;
 import com.javexpress.gwt.library.ui.bootstrap.UIComposite;
 import com.javexpress.gwt.library.ui.form.IUIComposite;
@@ -161,7 +160,7 @@ public class WindowView extends AbstractContainerFocusable implements IUIComposi
 			helpSpan.setId(windowDiv.getId() + "_help");
 			helpSpan.addClassName("jexpWindowToolItem ub_" + windowDiv.getId());
 			helpSpan.setInnerHTML("<i class='ace-icon fa fa-question'></i>");
-			helpSpan.setTitle(ClientContext.instance.getModuleNls("yardim());
+			helpSpan.setTitle(ClientContext.nlsCommon.yardim());
 			tools.appendChild(helpSpan);
 		}
 
@@ -169,17 +168,17 @@ public class WindowView extends AbstractContainerFocusable implements IUIComposi
 		btClose.setId(windowDiv.getId() + "_close");
 		btClose.addClassName("ub_" + windowDiv.getId());
 		btClose.setInnerHTML("<i class='ace-icon fa fa-times'></i>");
-		btClose.setTitle(ClientContext.instance.getModuleNls("kapat());
+		btClose.setTitle(ClientContext.nlsCommon.kapat());
 		tools.appendChild(btClose);
 
 		headerDiv.appendChild(tools);
 	}
 
 	private native void bindOnClick(Element el, Command command) /*-{
-		$wnd.$(el).click(function() {
-			command.@com.google.gwt.user.client.Command::execute()();
-		});
-	}-*/;
+																	$wnd.$(el).click(function() {
+																	command.@com.google.gwt.user.client.Command::execute()();
+																	});
+																	}-*/;
 
 	public void show() {
 		RootPanel.get().add(this);
@@ -216,7 +215,7 @@ public class WindowView extends AbstractContainerFocusable implements IUIComposi
 	public void openHelp() {
 		Widget w = getWidget(0);
 		if (w instanceof IUIComposite) {
-			GwtBootstrapApplication.openHelp((IUIComposite) w);
+			ClientContext.instance.openHelp((IUIComposite) w);
 		}
 	}
 
@@ -239,8 +238,8 @@ public class WindowView extends AbstractContainerFocusable implements IUIComposi
 	}
 
 	private native void _destroyByJs(Element el, String ubSel) /*-{
-		$wnd.$(ubSel, $wnd.$(el)).off();
-	}-*/;
+																$wnd.$(ubSel, $wnd.$(el)).off();
+																}-*/;
 
 	@Override
 	public void onResize() {

@@ -29,8 +29,8 @@ import com.google.gwt.user.client.ui.TextArea;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
 import com.javexpress.common.model.item.type.Pair;
-import com.javexpress.gwt.fw.ui.library.form.IFormFactory;
 import com.javexpress.gwt.library.shared.model.WidgetConst;
+import com.javexpress.gwt.library.ui.ClientContext;
 import com.javexpress.gwt.library.ui.bootstrap.Bootstrap;
 import com.javexpress.gwt.library.ui.data.DataBindingHandler;
 import com.javexpress.gwt.library.ui.dialog.JexpPopupPanel;
@@ -102,7 +102,7 @@ public class CheckInlineBox extends TextArea implements IUserInputWidget<String>
 				HorizontalPanel tools = new HorizontalPanel();
 				tools.addStyleName("jexpCheckComboTools");
 				tools.setWidth("100%");
-				Label lbTumu = new Label(ClientContext.instance.getModuleNls("tumunuSec());
+				Label lbTumu = new Label(ClientContext.nlsCommon.tumunuSec());
 				lbTumu.addStyleName("jexpCheckComboAll");
 				lbTumu.addClickHandler(new ClickHandler() {
 					@Override
@@ -111,7 +111,7 @@ public class CheckInlineBox extends TextArea implements IUserInputWidget<String>
 					}
 				});
 				tools.add(lbTumu);
-				Label lbTemizle = new Label(ClientContext.instance.getModuleNls("temizle());
+				Label lbTemizle = new Label(ClientContext.nlsCommon.temizle());
 				lbTemizle.addStyleName("jexpCheckComboReset");
 				lbTemizle.addClickHandler(new ClickHandler() {
 					@Override

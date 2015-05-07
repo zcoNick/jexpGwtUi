@@ -16,8 +16,8 @@ import com.google.gwt.user.client.ui.Focusable;
 import com.google.gwt.user.client.ui.RequiresResize;
 import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.Widget;
-import com.javexpress.gwt.fw.ui.library.form.IFormFactory;
 import com.javexpress.gwt.library.shared.model.WidgetConst;
+import com.javexpress.gwt.library.ui.ClientContext;
 import com.javexpress.gwt.library.ui.ICssIcon;
 import com.javexpress.gwt.library.ui.JqIcon;
 import com.javexpress.gwt.library.ui.container.panel.SimplePanelFocusable;
@@ -196,7 +196,7 @@ public class DialogBox extends SimplePanelFocusable implements IWindowContainer 
 		closeSpan = DOM.createSpan();
 		closeSpan.setId(getElement().getId() + "_cls");
 		closeSpan.addClassName("ui-icon ui-icon-closethick ui-cursor-hand");
-		closeSpan.setTitle(ClientContext.instance.getModuleNls("kapat());
+		closeSpan.setTitle(ClientContext.nlsCommon.kapat());
 		closeSpan.getStyle().setFloat(JsUtil.isLTR() ? Float.RIGHT : Float.LEFT);
 		closeSpan.getStyle().setMarginTop(0.1, Unit.EM);
 		closeSpan.getStyle().setMarginRight(2, Unit.PX);
@@ -257,54 +257,54 @@ public class DialogBox extends SimplePanelFocusable implements IWindowContainer 
 	}
 
 	private native void postCreate(DialogBox x, Element element, Element kid, Element mid, Element hid, boolean draggable, Element resizable) /*-{
-		var closeButton = $wnd.$(kid);
-		closeButton.mouseenter(function() {
-			closeButton.addClass("ui-shadow");
-		}).mouseleave(function() {
-			closeButton.removeClass("ui-shadow");
-		}).click(function() {
-			x.@com.javexpress.gwt.library.ui.dialog.DialogBox::close()();
-		});
-		if (mid){
-			var maxMinButton = $wnd.$(mid);
-			maxMinButton.mouseenter(function() {
-				maxMinButton.addClass("ui-shadow");
-			}).mouseleave(function() {
-				maxMinButton.removeClass("ui-shadow");
-			}).click(function() {
-				x.@com.javexpress.gwt.library.ui.dialog.DialogBox::fireMaxMin(Ljava/lang/String;)(maxMinButton.attr("s"));
-			});
-		}
-		var helpButton = $wnd.$(hid);
-		helpButton.mouseenter(function() {
-			helpButton.addClass("ui-shadow");
-		}).mouseleave(function() {
-			helpButton.removeClass("ui-shadow");
-		}).click(function() {
-			x.@com.javexpress.gwt.library.ui.dialog.DialogBox::openHelp()();
-		});
-		if (resizable) {
-			$wnd
-					.$(resizable)
-					.resizable(
-							{
-								autoHide : true,
-								delay : 500,
-								handles : "se",
-								ghost : true,
-								stop : function(event, ui) {
-									x.@com.javexpress.gwt.library.ui.dialog.DialogBox::fireResized(II)(ui.size.width,ui.size.height);
-								}
-							});
-		}
-		if (draggable) {
-			$wnd.$(element).draggable({
-				handle : ".ui-dialog-titlebar",
-				opacity : .15,
-				cursor : "move",
-			});
-		}
-	}-*/;
+																																				var closeButton = $wnd.$(kid);
+																																				closeButton.mouseenter(function() {
+																																				closeButton.addClass("ui-shadow");
+																																				}).mouseleave(function() {
+																																				closeButton.removeClass("ui-shadow");
+																																				}).click(function() {
+																																				x.@com.javexpress.gwt.library.ui.dialog.DialogBox::close()();
+																																				});
+																																				if (mid){
+																																				var maxMinButton = $wnd.$(mid);
+																																				maxMinButton.mouseenter(function() {
+																																				maxMinButton.addClass("ui-shadow");
+																																				}).mouseleave(function() {
+																																				maxMinButton.removeClass("ui-shadow");
+																																				}).click(function() {
+																																				x.@com.javexpress.gwt.library.ui.dialog.DialogBox::fireMaxMin(Ljava/lang/String;)(maxMinButton.attr("s"));
+																																				});
+																																				}
+																																				var helpButton = $wnd.$(hid);
+																																				helpButton.mouseenter(function() {
+																																				helpButton.addClass("ui-shadow");
+																																				}).mouseleave(function() {
+																																				helpButton.removeClass("ui-shadow");
+																																				}).click(function() {
+																																				x.@com.javexpress.gwt.library.ui.dialog.DialogBox::openHelp()();
+																																				});
+																																				if (resizable) {
+																																				$wnd
+																																				.$(resizable)
+																																				.resizable(
+																																				{
+																																				autoHide : true,
+																																				delay : 500,
+																																				handles : "se",
+																																				ghost : true,
+																																				stop : function(event, ui) {
+																																				x.@com.javexpress.gwt.library.ui.dialog.DialogBox::fireResized(II)(ui.size.width,ui.size.height);
+																																				}
+																																				});
+																																				}
+																																				if (draggable) {
+																																				$wnd.$(element).draggable({
+																																				handle : ".ui-dialog-titlebar",
+																																				opacity : .15,
+																																				cursor : "move",
+																																				});
+																																				}
+																																				}-*/;
 
 	@Override
 	protected void onLoad() {
@@ -337,8 +337,8 @@ public class DialogBox extends SimplePanelFocusable implements IWindowContainer 
 	}
 
 	private native void destroyByJs(Element element) /*-{
-		$wnd.$(element).empty().off();
-	}-*/;
+														$wnd.$(element).empty().off();
+														}-*/;
 
 	@Override
 	public void close() {
@@ -357,8 +357,8 @@ public class DialogBox extends SimplePanelFocusable implements IWindowContainer 
 	}
 
 	private static native void removeOverlay(String id) /*-{
-		$wnd.$("#m_" + id).remove();
-	}-*/;
+														$wnd.$("#m_" + id).remove();
+														}-*/;
 
 	@Override
 	public void setHeader(final String header) {

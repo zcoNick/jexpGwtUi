@@ -95,7 +95,7 @@ public class DataGrid<T extends Serializable> extends BaseSlickGrid<ListColumn> 
 		setHeight("25px");
 
 		recInfo = DOM.createDiv();
-		recInfo.setInnerHTML(ClientContext.instance.getCommonNls("kayitBulunamadi"));
+		recInfo.setInnerHTML(ClientContext.nlsCommon.kayitBulunamadi());
 		recInfo.addClassName("jexpDataGridRecordInfo");
 		getToolContainer().appendChild(recInfo);
 
@@ -104,7 +104,7 @@ public class DataGrid<T extends Serializable> extends BaseSlickGrid<ListColumn> 
 		loadingPanel.getStyle().setFloat(Float.RIGHT);
 		getToolContainer().appendChild(loadingPanel);
 
-		GridToolItem tiRefresh = new GridToolItem("refresh", null, FaIcon.refresh, ClientContext.instance.getCommonNls("yenile"));
+		GridToolItem tiRefresh = new GridToolItem("refresh", null, FaIcon.refresh, ClientContext.nlsCommon.yenile());
 		tiRefresh.setIconClass("green");
 		tiRefresh.setEndsWithSeparator(true);
 		tiRefresh.setHandler(new IToolItemHandler() {
@@ -201,7 +201,7 @@ public class DataGrid<T extends Serializable> extends BaseSlickGrid<ListColumn> 
 	@Override
 	protected JavaScriptObject createJsObject(JSONArray colModel) {
 		JavaScriptObject jso = createByJs(this, getContainer().getId(), getOptions().getJavaScriptObject(), colModel.getJavaScriptObject(), getKeyColumnName(),
-				"jexpDataGridLoadingPanel jexpDataGridLoadingIndicator", getData(), autoLoad, JsUtil.calcDialogZIndex(), loadingPanel, recInfo, ClientContext.instance.getCommonNls("kayitBulunamadi"), ClientContext.instance.getCommonNls("grupla"), styler, dataPaging, maxHeight, currentGroupDef);
+				"jexpDataGridLoadingPanel jexpDataGridLoadingIndicator", getData(), autoLoad, JsUtil.calcDialogZIndex(), loadingPanel, recInfo, ClientContext.nlsCommon.kayitBulunamadi(), ClientContext.nlsCommon.grupla(), styler, dataPaging, maxHeight, currentGroupDef);
 		autoLoad = false;
 		return jso;
 	}

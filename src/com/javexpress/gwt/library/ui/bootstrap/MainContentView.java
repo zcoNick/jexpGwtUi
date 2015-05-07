@@ -60,14 +60,14 @@ public class MainContentView extends AbstractContainer implements IUICompositeVi
 	protected void onLoad() {
 		super.onLoad();
 		final IUIComposite cmp = (IUIComposite) getWidget(0);
-		addToolItem(FaIcon.questionCircle, ClientContext.instance.getCommonNls("yardim"), true, new Command() {
+		addToolItem(FaIcon.questionCircle, ClientContext.nlsCommon.yardim(), true, new Command() {
 			@Override
 			public void execute() {
 				ClientContext.instance.openHelp((IUIComposite) getWidget(0));
 			}
 		});
 		if (cmp.isSupportsAction(IUIComposite.ACT_INSERTRECORD)) {
-			addToolItem(FaIcon.plusCircle, ClientContext.instance.getCommonNls("yeni"), false, new Command() {
+			addToolItem(FaIcon.plusCircle, ClientContext.nlsCommon.yeni(), false, new Command() {
 				@Override
 				public void execute() {
 					try {

@@ -382,7 +382,7 @@ public class JsUtil {
 	}
 
 	public static void message(final String id, final String message) {
-		MessageDialog.showAlert(id, ClientContext.instance.getCommonNls("uyari"), message);
+		MessageDialog.showAlert(id, ClientContext.nlsCommon.uyari"), message);
 	}
 
 	public static void message(final Widget parent, final String message) {
@@ -416,7 +416,7 @@ public class JsUtil {
 				} else
 					buf.append("<br/>");
 			}
-			MessageDialog.showAlert(windowId, ClientContext.instance.getModuleNls("hata(), buf.toString());
+			MessageDialog.showAlert(windowId, ClientContext.nlsCommon.hata(), buf.toString());
 		} else if (e instanceof SessionInvalidException || (e instanceof StatusCodeException && ((StatusCodeException) e).getStatusCode() == 901)) {
 			if (USE_BOOTSTRAP) {
 				if (GwtBootstrapApplication.instance != null)
@@ -430,7 +430,7 @@ public class JsUtil {
 			else
 				ErrorDialog.showError(windowId, ae);
 		} else {
-			MessageDialog.showAlert(windowId, ClientContext.instance.getModuleNls("taninmayanHata(), e.getMessage());
+			MessageDialog.showAlert(windowId, ClientContext.nlsCommon.taninmayanHata(), e.getMessage());
 		}
 	}
 
@@ -515,7 +515,7 @@ public class JsUtil {
 			case ListText:
 				w = searchMode ? new CheckInlineBox(parent, property + "_") : new ListBox(parent, property + "_");
 				if (w instanceof CheckInlineBox)
-					((CheckInlineBox) w).setEmptyText(ClientContext.instance.getModuleNls("filtreTumu());
+					((CheckInlineBox) w).setEmptyText(ClientContext.nlsCommon.filtreTumu());
 				if (JsUtil.isNotEmpty(controlData)) {
 					if (!controlData.startsWith("@")) {
 						if (searchMode)
@@ -697,7 +697,7 @@ public class JsUtil {
 		Serializable val = vw.getValue();
 		if (val == null ||
 				((val instanceof String) && JsUtil.isEmpty((String) val))) {
-			flagInvalid(vw, ClientContext.instance.getModuleNls("alanZorunlu(), focusedBefore);
+			flagInvalid(vw, ClientContext.nlsCommon.alanZorunlu(), focusedBefore);
 			return false;
 		} else {
 			clearInvalid(vw);
@@ -828,7 +828,7 @@ public class JsUtil {
 		}
 		if (!result) {
 			shakeWidget((Widget) hasWidgets);
-			Notification.showNotification(ClientContext.instance.getModuleNls("bilgiEksik(), ClientContext.instance.getModuleNls("isaretliAlanlariKontrolEdin(), NotificationType.warning);
+			Notification.showNotification(ClientContext.nlsCommon.bilgiEksik(), ClientContext.nlsCommon.isaretliAlanlariKontrolEdin(), NotificationType.warning);
 		}
 		return result;
 	}
@@ -873,8 +873,8 @@ public class JsUtil {
 													}-*/;
 
 	public static void addCloseButton(final Form that, ButtonBar bb) {
-		Button b = new Button(that, "kapat", ClientContext.instance.getModuleNls("kapat());
-		b.setTitle(ClientContext.instance.getModuleNls("kapat() + " (Esc)");
+		Button b = new Button(that, "kapat", ClientContext.nlsCommon.kapat());
+		b.setTitle(ClientContext.nlsCommon.kapat() + " (Esc)");
 		b.setIcon(JqIcon.close);
 		b.addClickHandler(new ClickHandler() {
 			@Override
@@ -886,8 +886,8 @@ public class JsUtil {
 	}
 
 	public static void addCancelButton(final Form that, ButtonBar bb) {
-		Button b = new Button(that, "vazgec", ClientContext.instance.getModuleNls("vazgec());
-		b.setTitle(ClientContext.instance.getModuleNls("vazgec() + " (Esc)");
+		Button b = new Button(that, "vazgec", ClientContext.nlsCommon.vazgec());
+		b.setTitle(ClientContext.nlsCommon.vazgec() + " (Esc)");
 		b.setIcon(JqIcon.cancel);
 		b.addClickHandler(new ClickHandler() {
 			@Override

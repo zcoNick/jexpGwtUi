@@ -47,12 +47,6 @@ public abstract class ListBoxBase extends ListBox implements IUserInputWidget<St
 		return setItems(comboDataLoader, key, null);
 	}
 
-	public <T extends ListBoxBase> T setItemsConstant(final KeyValueDataLoader comboDataLoader, IModuleConstantsEnum key) {
-		clear(!required);
-		comboDataLoader.addConstant(this, key);
-		return (T) this;
-	}
-
 	private <T extends ListBoxBase> T setItems(KeyValueDataLoader comboDataLoader, Enum key, String params) {
 		clear(!required);
 		comboDataLoader.add(this, key, params);
@@ -69,10 +63,17 @@ public abstract class ListBoxBase extends ListBox implements IUserInputWidget<St
 		return (T) this;
 	}
 
+	/*
+	public <T extends ListBoxBase> T setItemsConstant(final KeyValueDataLoader comboDataLoader, IModuleConstantsEnum key) {
+		clear(!required);
+		comboDataLoader.addConstant(this, key);
+		return (T) this;
+	}
 	public <T extends ListBoxBase> T setItemsEnum(ModuleEnumItems<? extends Serializable> moduleEnumDescriber) {
 		ConstantsWithLookup nls = GwtBootstrapApplication.getModuleNls(moduleEnumDescriber.getModuleId());
 		return setItems(moduleEnumDescriber, nls);
 	}
+	*/
 
 	public <T extends ListBoxBase> T setItems(final Map<? extends Serializable, ? extends Serializable> map, ConstantsWithLookup nls) {
 		clear(!required);

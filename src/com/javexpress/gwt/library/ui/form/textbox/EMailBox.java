@@ -1,8 +1,8 @@
 package com.javexpress.gwt.library.ui.form.textbox;
 
 import com.google.gwt.user.client.ui.Widget;
-import com.javexpress.gwt.fw.ui.library.form.IFormFactory;
 import com.javexpress.gwt.library.shared.model.WidgetConst;
+import com.javexpress.gwt.library.ui.ClientContext;
 import com.javexpress.gwt.library.ui.js.JsUtil;
 
 public class EMailBox extends TextBox {
@@ -26,7 +26,7 @@ public class EMailBox extends TextBox {
 		if (validated) {
 			if (!JsUtil.isEmpty(getText()))
 				if (!validateEmail(getText().trim())) {
-					JsUtil.flagInvalid(this, ClientContext.instance.getModuleNls("gecersizEposta(), focusedBefore);
+					JsUtil.flagInvalid(this, ClientContext.nlsCommon.gecersizEposta(), focusedBefore);
 					validated = false;
 				}
 		}

@@ -10,8 +10,6 @@ import com.google.gwt.user.client.ui.FlexTable;
 import com.google.gwt.user.client.ui.Focusable;
 import com.google.gwt.user.client.ui.RadioButton;
 import com.google.gwt.user.client.ui.Widget;
-import com.javexpress.application.model.item.ModuleEnumItems;
-import com.javexpress.gwt.fw.client.GwtBootstrapApplication;
 import com.javexpress.gwt.library.shared.model.WidgetConst;
 import com.javexpress.gwt.library.ui.js.JsUtil;
 
@@ -149,11 +147,6 @@ public class RadioGroupBox extends FlexTable implements Focusable {
 	@Override
 	public void setTabIndex(int index) {
 		getElement().setTabIndex(index);
-	}
-
-	public RadioGroupBox setItemsEnum(ModuleEnumItems<? extends Serializable> moduleEnumDescriber) {
-		ConstantsWithLookup nls = GwtBootstrapApplication.getModuleNls(moduleEnumDescriber.getModuleId());
-		return setItems(moduleEnumDescriber, nls);
 	}
 
 }

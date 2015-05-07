@@ -43,7 +43,7 @@ public class TCIdBox extends NumericBox {
 		if (validated) {
 			if (!JsUtil.isEmpty(getText()))
 				if (!validateTc(getText().trim())) {
-					JsUtil.flagInvalid(this, ClientContext.instance.getCommonNls("gecersizTCKimlik"), focusedBefore);
+					JsUtil.flagInvalid(this, ClientContext.nlsCommon.gecersizTCKimlik(), focusedBefore);
 					validated = false;
 				}
 		}

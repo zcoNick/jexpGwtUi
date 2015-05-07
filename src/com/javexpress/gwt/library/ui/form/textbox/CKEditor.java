@@ -96,7 +96,7 @@ public class CKEditor extends SimplePanel implements IUserInputWidget<String> {
 		if (validated) {
 			String v = getValue();
 			if (maxLength != null && (v == null || v.length() > maxLength)) {
-				JsUtil.flagInvalid(this, ClientContext.instance.getCommonNls("alanDegeriUzun"), focusedBefore);
+				JsUtil.flagInvalid(this, ClientContext.nlsCommon.alanDegeriUzun(), focusedBefore);
 				validated = false;
 			}
 		}

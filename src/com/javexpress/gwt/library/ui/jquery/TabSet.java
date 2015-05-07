@@ -1,4 +1,4 @@
-package com.javexpress.gwt.library.ui.container.tabset;
+package com.javexpress.gwt.library.ui.jquery;
 
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
@@ -15,13 +15,15 @@ import com.javexpress.gwt.library.ui.AbstractContainerFocusable;
 import com.javexpress.gwt.library.ui.ClientContext;
 import com.javexpress.gwt.library.ui.ICssIcon;
 import com.javexpress.gwt.library.ui.JqIcon;
+import com.javexpress.gwt.library.ui.container.tabset.ITabSetListener;
+import com.javexpress.gwt.library.ui.container.tabset.TabItem;
 import com.javexpress.gwt.library.ui.form.Form;
 import com.javexpress.gwt.library.ui.form.ISizeAwareWidget;
 import com.javexpress.gwt.library.ui.form.IUIComposite;
 import com.javexpress.gwt.library.ui.js.JsUtil;
 import com.javexpress.gwt.library.ui.js.JsonMap;
 
-public class TabSetJq extends AbstractContainerFocusable implements ISizeAwareWidget {
+public class TabSet extends AbstractContainerFocusable implements ISizeAwareWidget {
 
 	private JavaScriptObject	jsObject;
 	private JsonMap				options				= new JsonMap();
@@ -50,12 +52,12 @@ public class TabSetJq extends AbstractContainerFocusable implements ISizeAwareWi
 	}
 
 	@Deprecated
-	public TabSetJq() {
+	public TabSet() {
 		this(null, null);
 	}
 
 	/** Designer compatible constructor */
-	public TabSetJq(final Widget parent, final String id) {
+	public TabSet(final Widget parent, final String id) {
 		super(DOM.createDiv());
 		JsUtil.ensureId(parent, this, WidgetConst.TABSET_PREFIX, id);
 		getElement().addClassName("jexpBorderBox");
@@ -72,7 +74,7 @@ public class TabSetJq extends AbstractContainerFocusable implements ISizeAwareWi
 			performOnShow(widgets.keySet().iterator().next());
 	}
 
-	private native void bindCloseButtons(TabSetJq x, JavaScriptObject obj, Element liElement, Element closeSpan) /*-{
+	private native void bindCloseButtons(TabSet x, JavaScriptObject obj, Element liElement, Element closeSpan) /*-{
 																													$wnd
 																													.$(closeSpan)
 																													.click(
@@ -86,7 +88,7 @@ public class TabSetJq extends AbstractContainerFocusable implements ISizeAwareWi
 																													});
 																													}-*/;
 
-	private native void unbindCloseButtons(TabSetJq x, Element navBar) /*-{
+	private native void unbindCloseButtons(TabSet x, Element navBar) /*-{
 																		$wnd.$("li > span.ui-icon-close", $wnd.$(navBar)).off();
 																		}-*/;
 
@@ -109,7 +111,7 @@ public class TabSetJq extends AbstractContainerFocusable implements ISizeAwareWi
 														$wnd.$(element).tabs('destroy');
 														}-*/;
 
-	private native JavaScriptObject createByJs(TabSetJq x, String id, JavaScriptObject options) /*-{
+	private native JavaScriptObject createByJs(TabSet x, String id, JavaScriptObject options) /*-{
 																								options.activate=function(event, ui ) {
 																								x.@com.javexpress.gwt.library.ui.container.tabset.TabSetJq::fireOnAfterActivate(Ljava/lang/String;Ljava/lang/String;)(ui.oldTab.attr("tabid"), ui.newTab.attr("tabid"));
 																								}
@@ -164,7 +166,7 @@ public class TabSetJq extends AbstractContainerFocusable implements ISizeAwareWi
 			closeSpan = DOM.createSpan();
 			closeSpan.setClassName("ui-icon " + JqIcon.close.getCssClass());
 			closeSpan.setAttribute("role", "presentation");
-			closeSpan.setInnerText(ClientContext.instance.getCommonNls("kapat"));
+			closeSpan.setInnerText(ClientContext.nlsCommon.kapat());
 			li.appendChild(closeSpan);
 		}
 

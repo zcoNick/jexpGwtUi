@@ -49,7 +49,7 @@ public abstract class SplitButton extends AbstractContainer {
 			setIcon(icon);
 
 		downButton = DOM.createButton().cast();
-		downButton.setInnerText(ClientContext.instance.getCommonNls("opsiyonlar"));
+		downButton.setInnerText(ClientContext.nlsCommon.opsiyonlar());
 		getElement().appendChild(downButton);
 
 		popup = new PopupMenu() {

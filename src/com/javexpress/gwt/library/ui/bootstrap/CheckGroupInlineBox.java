@@ -46,10 +46,10 @@ public class CheckGroupInlineBox extends ListBoxBase {
 		options.set("enableClickableOptGroups", true);
 		options.setInt("maxHeight", 200);
 		options.set("nonSelectedText", " ");
-		options.set("allSelectedText", ClientContext.instance.getCommonNls("tumu"));
+		options.set("allSelectedText", ClientContext.nlsCommon.tumu());
 		options.setInt("numberDisplayed", 3);
 		options.set("includeSelectAllOption", true);
-		options.set("selectAllText", ClientContext.instance.getCommonNls("tumunuSec"));
+		options.set("selectAllText", ClientContext.nlsCommon.tumunuSec());
 		options.set("enableFiltering", false);
 		options.set("enableCaseInsensitiveFiltering", false);
 		return options;

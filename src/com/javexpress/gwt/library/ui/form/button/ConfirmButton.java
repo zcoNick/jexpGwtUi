@@ -14,7 +14,7 @@ public abstract class ConfirmButton extends Button {
 		addClickHandler(new ClickHandler() {
 			@Override
 			public void onClick(ClickEvent event) {
-				new ConfirmDialog(ConfirmButton.this, "cnfrm", ClientContext.instance.getCommonNls("onay"), confirmMessage, new ConfirmationListener() {
+				new ConfirmDialog(ConfirmButton.this, "cnfrm", ClientContext.nlsCommon.onay(), confirmMessage, new ConfirmationListener() {
 					@Override
 					public void onOk() throws Exception {
 						onConfirm();

@@ -184,7 +184,7 @@ public class TabSet extends AbstractContainerFocusable implements ISizeAwareWidg
 		if (closable) {
 			closeSpan = DOM.createSpan();
 			closeSpan.setClassName("ace-icon " + FaIcon.close.getCssClass());
-			closeSpan.setInnerText(ClientContext.instance.getCommonNls("kapat"));
+			closeSpan.setInnerText(ClientContext.nlsCommon.kapat());
 			li.appendChild(closeSpan);
 		}
 		navBar.appendChild(li);

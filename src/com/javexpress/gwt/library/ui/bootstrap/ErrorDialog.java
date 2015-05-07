@@ -30,7 +30,7 @@ public class ErrorDialog extends JexpSimplePanel {
 	private void createGUI() {
 		StringBuffer html = new StringBuffer("<div class='well'>");
 		html.append("<h1 class='header red lighter smaller'><span class='red bigger-125'><i class='ace-icon fa fa-random'></i></span> ");
-		html.append(appException.isLocalizable() ? ClientContext.instance.getCommonNls("hataBaslikKontrollu") : ClientContext.instance.getCommonNls("hataBaslikKontrolsuz"));
+		html.append(appException.isLocalizable() ? ClientContext.nlsCommon.hataBaslikKontrollu() : ClientContext.nlsCommon.hataBaslikKontrolsuz());
 		html.append("</h1>");
 
 		html.append("<h3 class='lighter smaller'>");
@@ -57,7 +57,7 @@ public class ErrorDialog extends JexpSimplePanel {
 
 		html.append("<div class='center'>");
 		html.append("<a class='btn btn-primary jexpHandCursor' id='").append(getElement().getId()).append("_c'>");
-		html.append("<i class='ace-icon fa fa-close'></i>").append(ClientContext.instance.getCommonNls("kapat"));
+		html.append("<i class='ace-icon fa fa-close'></i>").append(ClientContext.nlsCommon.kapat());
 		html.append("</a>");
 		html.append("</div>");
 
@@ -116,7 +116,7 @@ public class ErrorDialog extends JexpSimplePanel {
 		AsyncRunningTaskForm<Result<String>> task = new AsyncRunningTaskForm<Result<String>>(this, "jira") {
 			@Override
 			protected String getHeader() {
-				return ClientContext.instance.getCommonNls("Jira_baslik");
+				return ClientContext.nlsCommon.Jira_baslik();
 			}
 
 			@Override
@@ -133,10 +133,10 @@ public class ErrorDialog extends JexpSimplePanel {
 					if (result != null) {
 						if (result.isSucceded()) {
 							JsUtil.openWindow(result.getResult(), null);
-							MessageDialog.showInfo(this, "Jira", ClientContext.instance.getCommonNls("jiraBildirildi") + "<br/>" + result.getWarning());
+							MessageDialog.showInfo(this, "Jira", ClientContext.nlsCommon.jiraBildirildi() + "<br/>" + result.getWarning());
 							removeFromParent();
 						} else
-							MessageDialog.showAlert(this, ClientContext.instance.getCommonNls("hata"), "Jira : " + result.getError());
+							MessageDialog.showAlert(this, ClientContext.nlsCommon.hata(), "Jira : " + result.getError());
 					}
 				} else if (caught != null)
 					JsUtil.handleError(this, caught);

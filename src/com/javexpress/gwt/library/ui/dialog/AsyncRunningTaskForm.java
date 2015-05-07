@@ -5,7 +5,7 @@ import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.Widget;
-import com.javexpress.gwt.fw.ui.library.form.IFormFactory;
+import com.javexpress.gwt.library.ui.ClientContext;
 import com.javexpress.gwt.library.ui.bootstrap.FlatPanel;
 import com.javexpress.gwt.library.ui.bootstrap.ProgressBar;
 import com.javexpress.gwt.library.ui.form.ICallbackAware;
@@ -36,7 +36,7 @@ public abstract class AsyncRunningTaskForm<T> extends FlatPanel implements Async
 	}
 
 	protected String getHeader() {
-		return ClientContext.instance.getModuleNls("lutfenBekleyin();
+		return ClientContext.nlsCommon.lutfenBekleyin();
 	}
 
 	public void start() {

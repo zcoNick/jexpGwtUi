@@ -1,7 +1,7 @@
 package com.javexpress.gwt.library.ui.dialog;
 
 import com.google.gwt.core.client.GWT;
-import com.javexpress.gwt.fw.ui.library.form.IFormFactory;
+import com.javexpress.gwt.library.ui.ClientContext;
 import com.javexpress.gwt.library.ui.js.JsUtil;
 
 public class Notification {
@@ -55,7 +55,7 @@ public class Notification {
 	}-*/;
 
 	public static void showWarning(String message) {
-		Notification.showNotification(ClientContext.instance.getModuleNls("uyari(), message, NotificationType.warning);
+		Notification.showNotification(ClientContext.nlsCommon.uyari(), message, NotificationType.warning);
 	}
 
 }

@@ -273,7 +273,7 @@ public abstract class UIComposite extends AbstractContainerFocusable implements 
 		if ("@".equals(rights))
 			return;
 		if (rights == null || ("," + rights + ",").indexOf("," + key + ",") == -1)
-			throw new Exception(ClientContext.instance.getCommonNls("yetkiliDegilsiniz"));
+			throw new Exception(ClientContext.nlsCommon.yetkiliDegilsiniz());
 	}
 
 	@Override

@@ -25,7 +25,7 @@ public class IconEmailBox extends IconTextBox {
 		if (validated) {
 			if (!JsUtil.isEmpty(getText()))
 				if (!validateEmail(getText().trim())) {
-					JsUtil.flagInvalid(this, ClientContext.instance.getCommonNls("gecersizEposta"), focusedBefore);
+					JsUtil.flagInvalid(this, ClientContext.nlsCommon.gecersizEposta(), focusedBefore);
 					validated = false;
 				}
 		}

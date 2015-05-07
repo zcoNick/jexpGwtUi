@@ -6,7 +6,7 @@ import java.util.Map;
 import java.util.Set;
 
 import com.google.gwt.i18n.client.ConstantsWithLookup;
-import com.javexpress.gwt.fw.ui.library.form.IFormFactory;
+import com.javexpress.gwt.library.ui.ClientContext;
 
 public class ListColumn extends Column {
 
@@ -101,13 +101,13 @@ public class ListColumn extends Column {
 		if (summaryType != null)
 			switch (summaryType) {
 				case count:
-					return "<b>{0} " + ClientContext.instance.getModuleNls("gridOzet_Adet() + "</b>";
+					return "<b>{0} " + ClientContext.nlsCommon.gridOzet_Adet() + "</b>";
 				case avg:
-					return "<b>" + ClientContext.instance.getModuleNls("gridOzet_Ortalama() + ": {0}</b>";
+					return "<b>" + ClientContext.nlsCommon.gridOzet_Ortalama() + ": {0}</b>";
 				case max:
-					return "<b>" + ClientContext.instance.getModuleNls("gridOzet_Max() + ": {0}</b>";
+					return "<b>" + ClientContext.nlsCommon.gridOzet_Max() + ": {0}</b>";
 				case min:
-					return "<b>" + ClientContext.instance.getModuleNls("gridOzet_Min() + ": {0}</b>";
+					return "<b>" + ClientContext.nlsCommon.gridOzet_Min() + ": {0}</b>";
 				case sum:
 					return "<b>{0}</b>";
 			}
@@ -124,7 +124,7 @@ public class ListColumn extends Column {
 	public ListColumn setMap(final Map<? extends Serializable, ? extends Serializable> asMap) {
 		return setMap(asMap, null);
 	}
-	
+
 	public ListColumn setMap(final Map<? extends Serializable, ? extends Serializable> asMap, ConstantsWithLookup nls) {
 		return setMap(false, asMap, nls);
 	}

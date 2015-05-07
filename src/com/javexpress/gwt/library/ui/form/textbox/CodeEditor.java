@@ -6,8 +6,8 @@ import com.google.gwt.core.client.JavaScriptObject;
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.user.client.ui.TextArea;
 import com.google.gwt.user.client.ui.Widget;
-import com.javexpress.gwt.fw.ui.library.form.IFormFactory;
 import com.javexpress.gwt.library.shared.model.WidgetConst;
+import com.javexpress.gwt.library.ui.ClientContext;
 import com.javexpress.gwt.library.ui.bootstrap.FormGroupCell;
 import com.javexpress.gwt.library.ui.data.DataBindingHandler;
 import com.javexpress.gwt.library.ui.form.IUserInputWidget;
@@ -132,7 +132,7 @@ public class CodeEditor extends TextArea implements IUserInputWidget<String> {
 		if (validated) {
 			String v = getValue();
 			if (maxLength != null && (v == null || v.length() > maxLength)) {
-				JsUtil.flagInvalid(this, ClientContext.instance.getModuleNls("alanDegeriUzun(), focusedBefore);
+				JsUtil.flagInvalid(this, ClientContext.nlsCommon.alanDegeriUzun(), focusedBefore);
 				validated = false;
 			}
 		}

@@ -1,14 +1,12 @@
 package com.javexpress.gwt.library.ui.form.itemlist;
 
-import java.beans.Beans;
-
 import com.google.gwt.core.client.JavaScriptObject;
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.ui.Widget;
-import com.javexpress.gwt.fw.ui.data.control.Label;
 import com.javexpress.gwt.library.ui.AbstractContainer;
+import com.javexpress.gwt.library.ui.form.label.Label;
 import com.javexpress.gwt.library.ui.js.JsUtil;
 
 public class ItemList extends AbstractContainer {
@@ -79,8 +77,7 @@ public class ItemList extends AbstractContainer {
 	@Override
 	protected void onLoad() {
 		super.onLoad();
-		if (!Beans.isDesignTime())
-			widget = createByJs(this, getElement(), dndGroupId);
+		widget = createByJs(this, getElement(), dndGroupId);
 	}
 
 	private native JavaScriptObject createByJs(ItemList x, Element elm, String dndGroupId) /*-{

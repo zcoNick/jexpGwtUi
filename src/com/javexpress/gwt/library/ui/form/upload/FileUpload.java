@@ -24,11 +24,11 @@ import com.google.gwt.user.client.ui.FormPanel;
 import com.google.gwt.user.client.ui.FormPanel.SubmitCompleteHandler;
 import com.google.gwt.user.client.ui.Hidden;
 import com.google.gwt.user.client.ui.Widget;
-import com.javexpress.gwt.fw.ui.data.control.Label;
 import com.javexpress.gwt.library.shared.model.WidgetConst;
 import com.javexpress.gwt.library.ui.JqIcon;
 import com.javexpress.gwt.library.ui.dialog.ConfirmationListener;
 import com.javexpress.gwt.library.ui.form.button.Button;
+import com.javexpress.gwt.library.ui.form.label.Label;
 import com.javexpress.gwt.library.ui.js.JsUtil;
 
 public class FileUpload extends FormPanel implements ChangeHandler, SubmitCompleteHandler {

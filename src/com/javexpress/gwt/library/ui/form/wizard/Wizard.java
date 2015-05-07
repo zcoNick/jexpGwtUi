@@ -7,22 +7,21 @@ import java.util.Map;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.ui.Focusable;
-import com.javexpress.application.model.item.ControllerAction;
-import com.javexpress.application.model.item.Result;
-import com.javexpress.application.model.item.type.Pair;
-import com.javexpress.gwt.fw.client.ClientModule;
-import com.javexpress.gwt.fw.client.library.form.EditForm;
+import com.javexpress.common.model.item.ControllerAction;
+import com.javexpress.common.model.item.Result;
+import com.javexpress.common.model.item.type.Pair;
 import com.javexpress.gwt.library.ui.ICssIcon;
 import com.javexpress.gwt.library.ui.JqIcon;
 import com.javexpress.gwt.library.ui.SilkIcon;
 import com.javexpress.gwt.library.ui.container.buttonbar.ButtonBar;
 import com.javexpress.gwt.library.ui.container.layout.DivPanelInfo;
 import com.javexpress.gwt.library.ui.data.IDataChangeListener;
+import com.javexpress.gwt.library.ui.form.Form;
 import com.javexpress.gwt.library.ui.form.button.Button;
 import com.javexpress.gwt.library.ui.js.JexpCallback;
 import com.javexpress.gwt.library.ui.js.JsUtil;
 
-public abstract class Wizard<CM extends ClientModule<?, ?, ?>, PK extends Serializable, T extends Serializable> extends EditForm<CM, PK, T> {
+public abstract class Wizard extends Form {
 
 	private WizardPage					current;
 	private Map<String, Serializable>	variables;

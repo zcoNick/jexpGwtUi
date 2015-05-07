@@ -69,7 +69,7 @@ public class Image extends JexpSimplePanel {
 		if (service != null)
 			url = service.getServiceEntryPoint() + "." + method.toString();
 		if (isAttached())
-			setWidget(new Label(ClientContext.instance.getCommonNls("yukleniyor")));
+			setWidget(new Label(ClientContext.nlsCommon.yukleniyor()));
 		String u = url + "?key=" + key.toString() + (disableCaching ? "&tm=" + new Date().getTime() : "");
 		setImage(u);
 	}

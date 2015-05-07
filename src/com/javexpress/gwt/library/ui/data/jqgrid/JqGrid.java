@@ -56,7 +56,7 @@ public class JqGrid<T extends Serializable> extends JexpWidget implements IDataV
 
 	protected JsonMap				options;
 	private boolean					keyNavigation	= true;
-	private final Element			table;
+	protected final Element			table;
 	private Element					pager;
 	private JavaScriptObject		widget;
 	private IGridListener			listener;
@@ -339,17 +339,17 @@ public class JqGrid<T extends Serializable> extends JexpWidget implements IDataV
 		nav.set("search", false);
 		if (JsUtil.USE_BOOTSTRAP) {
 			nav.set("refreshicon", "fa fa-refresh");
-			nav.set("refreshtitle", ClientContext.instance.getCommonNls("yenile"));
+			nav.set("refreshtitle", ClientContext.nlsCommon.yenile());
 		}
 		widget = createByJs(this, table, table.getId(), listener, options.getJavaScriptObject(), nav.getJavaScriptObject(), colModel.getJavaScriptObject(), hasFrozenColumns, keyNavigation, listener != null && listener.hasRowStyler(), useSmallFonts, arrGroupableColumns, keyColumnName, maxHeight);
 		if (!options.get("shrinkToFit").isBoolean().booleanValue()) {
-			GridToolItem tiHideShow = new GridToolItem("hideShow", null, JqIcon.arrow_2_ne_sw, ClientContext.instance.getCommonNls("hideShowColumn"));
+			GridToolItem tiHideShow = new GridToolItem("hideShow", null, JqIcon.arrow_2_ne_sw, ClientContext.nlsCommon.hideShowColumn());
 			tiHideShow.setEndsWithSeparator(true);
 			tiHideShow.setHandler(new IToolItemHandler() {
 				@Override
 				public void execute(Event event) {
 					JsonMap opt = new JsonMap();
-					opt.set("title", ClientContext.instance.getCommonNls("alanlariSecin"));
+					opt.set("title", ClientContext.nlsCommon.alanlariSecin());
 					_openColumnChooser(widget, opt.getJavaScriptObject());
 				}
 			});
@@ -717,7 +717,7 @@ public class JqGrid<T extends Serializable> extends JexpWidget implements IDataV
 
 					@Override
 					public void prepareMenu() {
-						MenuItem mig = new MenuItem("group", ClientContext.instance.getCommonNls("grupla"), handler);//if isgroupable
+						MenuItem mig = new MenuItem("group", ClientContext.nlsCommon.grupla(), handler);//if isgroupable
 						add(mig);
 					}
 				};
