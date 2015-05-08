@@ -117,7 +117,7 @@ public class JqGrid<T extends Serializable> extends JexpWidget implements IDataV
 		this(parent, id, fitToParent, null, keyColumnName, true);
 	}
 
-	protected JqGrid(final Widget parent, final String id, boolean fitToParent, final IJsonServicePoint servicePoint, String keyColumnName, final boolean autoLoad) {
+	public JqGrid(final Widget parent, final String id, boolean fitToParent, final IJsonServicePoint servicePoint, String keyColumnName, final boolean autoLoad) {
 		super();
 		this.keyColumnName = keyColumnName;
 		setElement(DOM.createDiv());
