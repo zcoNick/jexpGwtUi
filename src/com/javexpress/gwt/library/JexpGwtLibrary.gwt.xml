@@ -5,7 +5,7 @@
 	<inherits name="com.google.gwt.json.JSON" />
 	<inherits name="com.google.gwt.resources.Resources" />
 
-	<inherits name="com.javexpress.application.model.JexpApplication"/>
+	<inherits name="com.javexpress.common.model.JexpCommon"/>
 	
 	<!--generate-with class="com.javexpress.gwt.library.rebind.JexpRemoteServiceProxyGenerator">
 		<when-type-assignable class="com.javexpress.gwt.library.shared.service.IJexpRemoteService" />
