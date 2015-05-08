@@ -43,6 +43,10 @@ public class WidgetBundles {
 		this.name = name;
 	}
 
+	public void setParent(WidgetBundles parent) {
+		this.parent = parent;
+	}
+
 	public WidgetBundles(String name, WidgetBundles parent) {
 		this(name);
 		this.parent = parent;

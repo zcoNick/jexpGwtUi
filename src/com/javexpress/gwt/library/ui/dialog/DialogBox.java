@@ -26,8 +26,8 @@ import com.javexpress.gwt.library.ui.form.IJiraEnabledForm;
 import com.javexpress.gwt.library.ui.form.IUIComposite;
 import com.javexpress.gwt.library.ui.form.IWindow;
 import com.javexpress.gwt.library.ui.form.IWindowContainer;
+import com.javexpress.gwt.library.ui.jquery.ResourceInjector;
 import com.javexpress.gwt.library.ui.js.JsUtil;
-import com.javexpress.gwt.library.ui.js.ResourceInjector;
 
 public class DialogBox extends SimplePanelFocusable implements IWindowContainer {
 
