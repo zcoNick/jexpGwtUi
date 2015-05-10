@@ -81,7 +81,7 @@ public class TabSet extends AbstractContainerFocusable implements ISizeAwareWidg
 																													function() {
 																													var li = $wnd.$(liElement);
 																													var tabId = li.attr("tabid");
-																													x.@com.javexpress.gwt.library.ui.container.tabset.TabSetJq::fireOnTabClosed(Ljava/lang/String;)(tabId);
+																													x.@com.javexpress.gwt.library.ui.jquery.TabSet::fireOnTabClosed(Ljava/lang/String;)(tabId);
 																													var panelId = li.remove().attr("aria-controls");
 																													$wnd.$("#" + panelId).remove();
 																													obj.tabs("refresh");
@@ -113,7 +113,7 @@ public class TabSet extends AbstractContainerFocusable implements ISizeAwareWidg
 
 	private native JavaScriptObject createByJs(TabSet x, String id, JavaScriptObject options) /*-{
 																								options.activate=function(event, ui ) {
-																								x.@com.javexpress.gwt.library.ui.container.tabset.TabSetJq::fireOnAfterActivate(Ljava/lang/String;Ljava/lang/String;)(ui.oldTab.attr("tabid"), ui.newTab.attr("tabid"));
+																								x.@com.javexpress.gwt.library.ui.jquery.TabSet::fireOnAfterActivate(Ljava/lang/String;Ljava/lang/String;)(ui.oldTab.attr("tabid"), ui.newTab.attr("tabid"));
 																								}
 																								return $wnd.$("#" + id).tabs(options).removeClass("ui-widget-content");
 																								}-*/;

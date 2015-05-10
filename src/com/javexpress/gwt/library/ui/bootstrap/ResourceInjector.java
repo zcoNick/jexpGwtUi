@@ -5,6 +5,7 @@ import com.google.gwt.user.client.Command;
 import com.javexpress.gwt.library.ui.BaseResourceInjector;
 import com.javexpress.gwt.library.ui.container.dashboard.Dashboard;
 import com.javexpress.gwt.library.ui.data.jqgrid.JqGrid;
+import com.javexpress.gwt.library.ui.data.slickgrid.DataGrid;
 import com.javexpress.gwt.library.ui.form.decimalbox.DecimalBox;
 import com.javexpress.gwt.library.ui.form.maskedit.MaskEditBox;
 import com.javexpress.gwt.library.ui.js.JsUtil;
@@ -61,6 +62,7 @@ public class ResourceInjector extends BaseResourceInjector {
 		DecimalBox.fillResources(jexp);
 
 		jexp = JqGrid.fillResources(jexp);
+		jexp = DataGrid.fillResources(jexp);
 		if (injectAtEnd != null) {
 			WidgetBundles root = injectAtEnd;
 			int max = 999;

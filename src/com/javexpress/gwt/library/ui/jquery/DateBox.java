@@ -140,7 +140,7 @@ public class DateBox extends TextBoxBase implements IUserInputWidget {
 
 	private native void createByJs(DateBox x, Element element, JavaScriptObject options, String fmt) /*-{
 		options.onSelect = function(dateText, inst) {
-			x.@com.javexpress.gwt.library.ui.form.datebox.DateBoxJq::fireOnDateSelect(ZLjava/lang/String;)(true,dateText);
+			x.@com.javexpress.gwt.library.ui.jquery.DateBox::fireOnDateSelect(ZLjava/lang/String;)(true,dateText);
 			return false;
 		};
 		var el = $wnd.$(element).datepicker(options);
@@ -154,7 +154,7 @@ public class DateBox extends TextBoxBase implements IUserInputWidget {
 								separator : '.',
 								placeholder : " ",
 								oncomplete : function() {
-									x.@com.javexpress.gwt.library.ui.form.datebox.DateBoxJq::fireOnDateSelect(ZLjava/lang/String;)(false,dateText);
+									x.@com.javexpress.gwt.library.ui.jquery.DateBox::fireOnDateSelect(ZLjava/lang/String;)(false,dateText);
 								}
 							});
 		}
