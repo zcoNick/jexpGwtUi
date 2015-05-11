@@ -4,6 +4,7 @@ import com.google.gwt.user.client.Command;
 import com.google.gwt.user.client.ui.Focusable;
 import com.google.gwt.user.client.ui.HasWidgets;
 import com.google.gwt.user.client.ui.IsWidget;
+import com.javexpress.common.model.item.BpmAction;
 import com.javexpress.common.model.item.FormDef;
 import com.javexpress.gwt.library.ui.ICssIcon;
 
@@ -44,5 +45,7 @@ public interface IUIComposite extends IsWidget, HasWidgets, ISizeAwareWidget, Fo
 	boolean isSupportsAction(byte action);
 
 	void performAction(byte action) throws Exception;
+
+	BpmAction getBpmAction();
 
 }

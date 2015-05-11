@@ -10,6 +10,7 @@ import com.google.gwt.event.dom.client.KeyDownHandler;
 import com.google.gwt.event.shared.HandlerRegistration;
 import com.google.gwt.user.client.Command;
 import com.google.gwt.user.client.ui.RequiresResize;
+import com.javexpress.common.model.item.BpmAction;
 import com.javexpress.common.model.item.FormDef;
 import com.javexpress.common.model.item.exception.NotAuthorizedException;
 import com.javexpress.common.model.item.type.Pair;
@@ -281,6 +282,11 @@ public abstract class Form extends SimplePanelFocusable implements IWindow, IUIC
 
 	@Override
 	public void performAction(byte action) throws Exception {
+	}
+
+	@Override
+	public BpmAction getBpmAction() {
+		return null;
 	}
 
 }

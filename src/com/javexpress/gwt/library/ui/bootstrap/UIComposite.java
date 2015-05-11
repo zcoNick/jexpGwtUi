@@ -9,6 +9,7 @@ import com.google.gwt.event.shared.HandlerRegistration;
 import com.google.gwt.user.client.Command;
 import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.ui.Focusable;
+import com.javexpress.common.model.item.BpmAction;
 import com.javexpress.common.model.item.FormDef;
 import com.javexpress.common.model.item.type.Pair;
 import com.javexpress.gwt.library.ui.AbstractContainerFocusable;
@@ -327,6 +328,11 @@ public abstract class UIComposite extends AbstractContainerFocusable implements 
 
 	@Override
 	public void performAction(byte action) throws Exception {
+	}
+
+	@Override
+	public BpmAction getBpmAction() {
+		return null;
 	}
 
 }
