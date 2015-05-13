@@ -108,7 +108,7 @@ public class DateTimeBox extends TextBoxBase implements IUserInputWidget {
 																											}
 																											};
 																											options.onSelect = function(dateText, inst) {
-																											x.@com.javexpress.gwt.library.ui.form.datebox.DateTimeBox::fireOnDateSelect(Ljava/lang/String;)(dateText);
+																											x.@com.javexpress.gwt.library.ui.jquery.DateTimeBox::fireOnDateSelect(Ljava/lang/String;)(dateText);
 																											return false;
 																											};
 																											options.controlType = myControl;
