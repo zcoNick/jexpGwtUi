@@ -25,8 +25,8 @@ import com.javexpress.gwt.library.ui.js.JsonMap;
 public class CheckGroupInlineBox extends ListBoxBase {
 
 	public static void fillResources(final List<String> styleSheets, final List<String> javaScripts) {
-		styleSheets.add("ace/css/bootstrap-multiselect.css");
-		javaScripts.add("ace/js/bootstrap-multiselect.js");
+		styleSheets.add("scripts/multiselect/bootstrap-multiselect.css");
+		javaScripts.add("scripts/multiselect/bootstrap-multiselect.js");
 	}
 
 	private List<String>		lazyValues;

@@ -23,17 +23,16 @@ import com.javexpress.gwt.library.ui.js.WidgetBundles;
 public class DateBox extends JexpSimplePanel implements IWrappedInput<Date> {
 
 	public static void fillResources(final WidgetBundles wb) {
-		wb.addStyleSheet("ace/css/datepicker.css");
-		wb.addStyleSheet("ace/css/bootstrap-timepicker.css");
-		wb.addStyleSheet("ace/css/daterangepicker.css");
-		wb.addStyleSheet("ace/css/bootstrap-datetimepicker.css");
+		wb.addStyleSheet("scripts/datetimepicker/datepicker.css");
+		wb.addStyleSheet("scripts/datetimepicker/bootstrap-timepicker.css");
+		wb.addStyleSheet("scripts/datetimepicker/daterangepicker.css");
+		wb.addStyleSheet("scripts/datetimepicker/bootstrap-datetimepicker.css");
 
-		wb.addJavaScript("ace/js/bootstrap-datepicker.min.js");
-		wb.addJavaScript("ace/js/bootstrap-timepicker.min.js");
-		//wb.addJavaScript("ace/js/moment.min.js");
-		wb.addJavaScript("ace/js/daterangepicker.min.js");
-		wb.addJavaScript("ace/js/bootstrap-datetimepicker.min.js");
-		wb.addJavaScript("ace/js/bootstrap-datepicker.tr.js");
+		wb.addJavaScript("scripts/datetimepicker/bootstrap-datepicker.min.js");
+		wb.addJavaScript("scripts/datetimepicker/bootstrap-timepicker.min.js");
+		wb.addJavaScript("scripts/datetimepicker/daterangepicker.min.js");
+		wb.addJavaScript("scripts/datetimepicker/bootstrap-datetimepicker.min.js");
+		wb.addJavaScript("scripts/datetimepicker/bootstrap-datepicker.tr.js");
 	}
 
 	private JsonMap				options;
@@ -99,27 +98,27 @@ public class DateBox extends JexpSimplePanel implements IWrappedInput<Date> {
 	}
 
 	private native void createByJs(DateBox x, Element element, Element bt, JavaScriptObject options) /*-{
-		var el = $wnd.$(element).datepicker(options).on("clearDate", function(e){
-			x.@com.javexpress.gwt.library.ui.bootstrap.DateBox::setValue(Ljava/lang/String;)(null);
-		}).on("changeDate", function(e){
-			x.@com.javexpress.gwt.library.ui.bootstrap.DateBox::fireOnDateSelect(ZLjava/lang/String;)(false,e.format());
-		});
-		el.inputmask("datetime",{
-			mask : options.inputformat,
-			separator : '.',
-			placeholder : " ",
-			oncomplete : function() {
-				x.@com.javexpress.gwt.library.ui.bootstrap.DateBox::fireOnDateSelect(ZLjava/lang/String;)(false,dateText);
-			}
-		});
-		el.on("blur",function(e){
-			x.@com.javexpress.gwt.library.ui.bootstrap.DateBox::fireOnDateSelect(ZLjava/lang/String;)(false,el.val());
-		});
-		$wnd.$(".jexpHandCursor", bt).click(function(e){
-			if (!el.is(":disabled"))
-				el.datepicker("show");
-		});
-	}-*/;
+																										var el = $wnd.$(element).datepicker(options).on("clearDate", function(e){
+																										x.@com.javexpress.gwt.library.ui.bootstrap.DateBox::setValue(Ljava/lang/String;)(null);
+																										}).on("changeDate", function(e){
+																										x.@com.javexpress.gwt.library.ui.bootstrap.DateBox::fireOnDateSelect(ZLjava/lang/String;)(false,e.format());
+																										});
+																										el.inputmask("datetime",{
+																										mask : options.inputformat,
+																										separator : '.',
+																										placeholder : " ",
+																										oncomplete : function() {
+																										x.@com.javexpress.gwt.library.ui.bootstrap.DateBox::fireOnDateSelect(ZLjava/lang/String;)(false,dateText);
+																										}
+																										});
+																										el.on("blur",function(e){
+																										x.@com.javexpress.gwt.library.ui.bootstrap.DateBox::fireOnDateSelect(ZLjava/lang/String;)(false,el.val());
+																										});
+																										$wnd.$(".jexpHandCursor", bt).click(function(e){
+																										if (!el.is(":disabled"))
+																										el.datepicker("show");
+																										});
+																										}-*/;
 
 	@Override
 	protected void onUnload() {
@@ -132,8 +131,8 @@ public class DateBox extends JexpSimplePanel implements IWrappedInput<Date> {
 
 	//https://github.com/RobinHerbots/jquery.inputmask/issues/648
 	private native void destroyByJs(Element element, Element input) /*-{
-		$wnd.$(element).datepicker('destroy').empty().off();
-	}-*/;
+																	$wnd.$(element).datepicker('destroy').empty().off();
+																	}-*/;
 
 	public void setValue(final Date cand) {
 		setValueDate(cand);

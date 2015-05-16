@@ -44,12 +44,13 @@ public class JqGrid<T extends Serializable> extends JexpWidget implements IDataV
 
 	public static WidgetBundles fillResources(WidgetBundles parent) {
 		WidgetBundles wb = new WidgetBundles("jqGrid 4.6.0", parent);
-		wb.addStyleSheet("ace/css/ui.jqgrid.css");
+		wb.addStyleSheet("scripts/jqgrid/" + (JsUtil.USE_BOOTSTRAP ? "bootstrap" : "jquery") + ".ui.jqgrid.css");
 		wb.addJavaScript("scripts/jqgrid/grid.locale-" + LocaleInfo.getCurrentLocale().getLocaleName() + ".js");
 		wb.addJavaScript("scripts/jqgrid/jquery.jqGrid-4.6.0.min.js");
 
 		WidgetBundles jexp = new WidgetBundles("JavExpress jqGrid Extensions", wb);
-		jexp.addStyleSheet("ace/css/jexpGrids-0.1.css");
+		if (JsUtil.USE_BOOTSTRAP)
+			jexp.addStyleSheet("scripts/bootstrap/jexpGrids-0.1.css");
 		jexp.addJavaScript("scripts/jqgrid/jexpJqGrid-0.1.js");
 		return jexp;
 	}

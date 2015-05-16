@@ -13,7 +13,7 @@ import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.RootPanel;
 import com.javexpress.gwt.library.ui.js.WidgetBundles;
 
-public abstract class BaseResourceInjector {
+public abstract class BaseResourceInjector implements IResourceInjector {
 
 	protected static void injectLibrary(final WidgetBundles wb, final Command onload) {
 		if (wb.getParent() != null)

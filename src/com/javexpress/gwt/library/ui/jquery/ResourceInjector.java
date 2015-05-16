@@ -18,6 +18,7 @@ import com.javexpress.gwt.library.ui.form.maskedit.MaskEditBox;
 import com.javexpress.gwt.library.ui.form.textbox.CKEditor;
 import com.javexpress.gwt.library.ui.form.textbox.CodeEditor;
 import com.javexpress.gwt.library.ui.js.JsUtil;
+import com.javexpress.gwt.library.ui.js.JsonMap;
 import com.javexpress.gwt.library.ui.js.WidgetBundles;
 import com.javexpress.gwt.library.ui.menu.MenuBar;
 import com.javexpress.gwt.library.ui.webcam.WebCam;
@@ -50,7 +51,8 @@ public class ResourceInjector extends BaseResourceInjector {
 
 	public static JqTheme	theme;
 
-	public static void injectCore(final Command onload) {
+	@Override
+	public void injectCore(JsonMap requireConfig, Command onload) {
 		//injectStyleSheet("http://fonts.googleapis.com/css?family=Noto+Sans");
 		List<String> styleSheets = new ArrayList<String>();
 		String ptheme = Window.Location.getParameter("theme");
@@ -68,7 +70,8 @@ public class ResourceInjector extends BaseResourceInjector {
 		injectLibrary("JexpUI Core", styleSheets, javaScripts, onload);
 	}
 
-	public static void injectUI(final Command onload, final String applicationCss) {
+	@Override
+	public void injectUI(String applicationCss, Command onload) throws Exception {
 		WidgetBundles wb = new WidgetBundles("JexpUI Extra");
 
 		wb.addStyleSheet("themes/common/jquery-silk-icons.css");
@@ -102,6 +105,11 @@ public class ResourceInjector extends BaseResourceInjector {
 		//-END APPLICATION
 
 		injectLibrary(wb, onload);
+	}
+
+	@Override
+	public String getSkinName() {
+		return null;
 	}
 
 }

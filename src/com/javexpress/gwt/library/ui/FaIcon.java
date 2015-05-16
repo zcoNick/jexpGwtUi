@@ -19,7 +19,7 @@ public enum FaIcon implements ICssIcon {
 			"file-word-o"), magic("magic"), arrowDown("arrow-down"), circleThin(
 			"circle-thin"), longArrowRight("long-arrow-right"),
 	levelUp("level-up"), levelDown("level-down"), star("star"), circleDotO(
-			"circle-dot-o");
+			"circle-dot-o"),server("server");
 
 	private String	icon;
 

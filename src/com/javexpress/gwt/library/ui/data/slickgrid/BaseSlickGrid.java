@@ -45,9 +45,8 @@ public abstract class BaseSlickGrid<CT extends Column> extends ContainerWithBar 
 		wb.addJavaScript("scripts/slickgrid/slick.checkboxselectcolumn.js");
 		//wb.addJavaScript("scripts/slickgrid/slick.pager.js");
 
-		WidgetBundles jexp = new WidgetBundles("JavExpress EditGrid Extensions", wb);
+		WidgetBundles jexp = new WidgetBundles("JavExpress DataGrid Extensions", wb);
 		jexp.addJavaScript("scripts/slickgrid/jexp.remotemodel.js");
-		jexp.addJavaScript("scripts/slickgrid/jexp.editors.js");
 		jexp.addJavaScript("scripts/slickgrid/jexp.formatters.js");
 		return jexp;
 	}
@@ -188,20 +187,20 @@ public abstract class BaseSlickGrid<CT extends Column> extends ContainerWithBar 
 	}
 
 	private native void _bindToolElement(GridToolItem gi, Element el) /*-{
-		$wnd
-				.$(el)
-				.click(
-						function(e) {
-							if ($wnd.$(this).attr("disabled") == "disabled")
-								return;
-							gi.@com.javexpress.gwt.library.ui.data.GridToolItem::executeHandler(Lcom/google/gwt/user/client/Event;)(e);
-						});
-	}-*/;
+																		$wnd
+																		.$(el)
+																		.click(
+																		function(e) {
+																		if ($wnd.$(this).attr("disabled") == "disabled")
+																		return;
+																		gi.@com.javexpress.gwt.library.ui.data.GridToolItem::executeHandler(Lcom/google/gwt/user/client/Event;)(e);
+																		});
+																		}-*/;
 
 	private native void _unbindToolElement(GridToolItem gi, Element el) /*-{
-		gi.@com.javexpress.gwt.library.ui.data.GridToolItem::unload()();
-		$wnd.$(el).off();
-	}-*/;
+																		gi.@com.javexpress.gwt.library.ui.data.GridToolItem::unload()();
+																		$wnd.$(el).off();
+																		}-*/;
 
 	protected void toggleToolItem(GridToolItem ti, boolean enable) {
 		Element el = ti.getElement();
@@ -243,12 +242,12 @@ public abstract class BaseSlickGrid<CT extends Column> extends ContainerWithBar 
 	}
 
 	private native void _redraw(JavaScriptObject grid) /*-{
-		grid.invalidate();
-	}-*/;
+														grid.invalidate();
+														}-*/;
 
 	private native void _autosizeColumns(JavaScriptObject grid) /*-{
-		grid.autosizeColumns();
-	}-*/;
+																grid.autosizeColumns();
+																}-*/;
 
 	public void performAutoSizeColumns() {
 		_autosizeColumns(jsObject);
@@ -260,20 +259,20 @@ public abstract class BaseSlickGrid<CT extends Column> extends ContainerWithBar 
 	}
 
 	private native void _updateSize(JavaScriptObject slick, Element element) /*-{
-		slick.resizeCanvas();
-	}-*/;
+																				slick.resizeCanvas();
+																				}-*/;
 
 	protected native void _updateOptionBool(JavaScriptObject slick, String poption, boolean pvalue) /*-{
-		var opt = {};
-		opt[poption] = pvalue;
-		$wnd.console.debug(opt);
-		slick.setOptions(opt);
-		slick.invalidate();
-	}-*/;
+																									var opt = {};
+																									opt[poption] = pvalue;
+																									$wnd.console.debug(opt);
+																									slick.setOptions(opt);
+																									slick.invalidate();
+																									}-*/;
 
 	protected native JavaScriptObject _getSelectedRows(JavaScriptObject grid) /*-{
-		return grid.getSelectedRows();
-	}-*/;
+																				return grid.getSelectedRows();
+																				}-*/;
 
 	public JsArrayInteger getSelectedRowIndexes() {
 		if (!isAttached())
@@ -286,13 +285,13 @@ public abstract class BaseSlickGrid<CT extends Column> extends ContainerWithBar 
 	}
 
 	private native void _destroyByJs(JavaScriptObject slick, Element elGrid, Element topPanel) /*-{
-		$wnd.$(".slick-viewport", $wnd.$(elGrid)).off();
-		$wnd.$(elGrid).unbind("linkclicked");
-		slick.destroy();
-		delete slick;
-		if (topPanel)
-			$wnd.$(topPanel).empty().off();
-	}-*/;
+																								$wnd.$(".slick-viewport", $wnd.$(elGrid)).off();
+																								$wnd.$(elGrid).unbind("linkclicked");
+																								slick.destroy();
+																								delete slick;
+																								if (topPanel)
+																								$wnd.$(topPanel).empty().off();
+																								}-*/;
 
 	protected JsArray getData() {
 		return data;
