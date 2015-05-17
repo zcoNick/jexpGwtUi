@@ -289,6 +289,9 @@ public interface CommonResources extends ConstantsWithLookup {
 	/** Düzenle */
 	String duzenle();
 
+	/** E-İmzalı */
+	String eimzali();
+
 	/** Ek Bilgi */
 	String ekBilgi();
 
