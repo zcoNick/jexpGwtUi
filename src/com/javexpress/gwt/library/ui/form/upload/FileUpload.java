@@ -19,11 +19,13 @@ import com.google.gwt.event.dom.client.ChangeHandler;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.DOM;
+import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.rpc.ServiceDefTarget;
 import com.google.gwt.user.client.ui.FormPanel;
 import com.google.gwt.user.client.ui.FormPanel.SubmitCompleteHandler;
 import com.google.gwt.user.client.ui.Hidden;
 import com.google.gwt.user.client.ui.Widget;
+import com.javexpress.gwt.library.shared.model.IJsonServicePoint;
 import com.javexpress.gwt.library.shared.model.WidgetConst;
 import com.javexpress.gwt.library.ui.JqIcon;
 import com.javexpress.gwt.library.ui.dialog.ConfirmationListener;
@@ -33,20 +35,33 @@ import com.javexpress.gwt.library.ui.js.JsUtil;
 
 public class FileUpload extends FormPanel implements ChangeHandler, SubmitCompleteHandler {
 
-	public static interface FileUploadHandler {
-		public void onComplete(boolean success, String result, String errorMessage);
-	}
-
 	private final TableElement								table;
 	private InputElement									teName;
 	private Button											btGonder;
 	private com.google.gwt.user.client.ui.FileUpload		fileUploader;
 	private List<com.google.gwt.user.client.ui.FileUpload>	widgets;
-	private Map<String, Serializable>						postParams;
-	private List<FileUploadHandler>							completeHandlers;
 	private int												last	= 0;
 	private String[]										fileExtensions;
 	private boolean											submitOnchange;
+	private IFileUploadListener								listener;
+	private AsyncCallback									callback;
+	private boolean											required;
+
+	public boolean isRequired() {
+		return required;
+	}
+
+	public void setRequired(boolean required) {
+		this.required = required;
+	}
+
+	public IFileUploadListener getListener() {
+		return listener;
+	}
+
+	public void setListener(IFileUploadListener listener) {
+		this.listener = listener;
+	}
 
 	public boolean isMulti() {
 		return widgets != null;
@@ -73,8 +88,8 @@ public class FileUpload extends FormPanel implements ChangeHandler, SubmitComple
 		this.fileExtensions = exts;
 	}
 
-	public FileUpload(final Widget parent, final String id, final ServiceDefTarget defTarget, final Enum method) {
-		this(parent, id, false, null, defTarget, method);
+	public FileUpload(final Widget parent, final String id) {
+		this(parent, id, false, null, null, null);
 	}
 
 	public FileUpload(final Widget parent, final String id, final boolean askName, final String title, final ServiceDefTarget defTarget, final Enum method) {
@@ -85,7 +100,8 @@ public class FileUpload extends FormPanel implements ChangeHandler, SubmitComple
 		super();
 		JsUtil.ensureId(parent, this, WidgetConst.FILEUPLOAD_PREFIX, id);
 
-		setAction(defTarget.getServiceEntryPoint() + "." + method.toString());
+		if (defTarget != null && method != null)
+			setAction(defTarget.getServiceEntryPoint() + "." + method.toString());
 		setEncoding(FormPanel.ENCODING_MULTIPART);
 		setMethod(FormPanel.METHOD_POST);
 		addSubmitCompleteHandler(this);
@@ -145,20 +161,14 @@ public class FileUpload extends FormPanel implements ChangeHandler, SubmitComple
 		getElement().appendChild(outer);
 	}
 
+	public void setAction(IJsonServicePoint methodEnum) {
+		setAction(JsUtil.getServiceUrl(methodEnum));
+	}
+
 	private void createFileUploader() {
 		fileUploader = new com.google.gwt.user.client.ui.FileUpload();
 		fileUploader.setName("uploadedFile" + (isMulti() ? "[]" : ""));
 		fileUploader.addChangeHandler(this);
-	}
-
-	public void setParams(final Map<String, Serializable> params) {
-		this.postParams = params;
-	}
-
-	public void addCompleteHandler(final FileUploadHandler command) {
-		if (this.completeHandlers == null)
-			this.completeHandlers = new ArrayList<FileUploadHandler>();
-		this.completeHandlers.add(command);
 	}
 
 	@Override
@@ -181,8 +191,7 @@ public class FileUpload extends FormPanel implements ChangeHandler, SubmitComple
 			for (Widget w : widgets)
 				orphan(w);
 		widgets = null;
-		postParams = null;
-		completeHandlers = null;
+		listener = null;
 		fileExtensions = null;
 		super.onUnload();
 	}
@@ -253,24 +262,27 @@ public class FileUpload extends FormPanel implements ChangeHandler, SubmitComple
 			submit();
 	}
 
-	@Override
-	public void submit() {
+	public void submit(AsyncCallback callback) {
 		if (isMulti())
 			fileUploader.removeFromParent();
-		if (postParams != null)
-			for (String key : postParams.keySet()) {
-				Serializable val = postParams.get(key);
-				if (val != null) {
-					Hidden h = new Hidden(key);
-					h.setValue(val.toString());
-					getElement().appendChild(h.getElement());
+		if (listener != null) {
+			Map<String, Serializable> postParams = listener.beforeSubmit();
+			if (postParams != null && !postParams.isEmpty())
+				for (String key : postParams.keySet()) {
+					Serializable val = postParams.get(key);
+					if (val != null) {
+						Hidden h = new Hidden(key);
+						h.setValue(val.toString());
+						getElement().appendChild(h.getElement());
+					}
 				}
-			}
+		}
 		if (teName != null) {
 			Hidden h = new Hidden("name");
 			h.setValue(teName.getValue());
 			getElement().appendChild(h.getElement());
 		}
+		this.callback = callback;
 		super.submit();
 	}
 
@@ -286,10 +298,14 @@ public class FileUpload extends FormPanel implements ChangeHandler, SubmitComple
 
 	@Override
 	public void onSubmitComplete(final SubmitCompleteEvent event) {
-		boolean hasError = !event.getResults().startsWith("OK!");
-		if (completeHandlers != null)
-			for (FileUploadHandler cmd : completeHandlers)
-				cmd.onComplete(!hasError, !hasError ? event.getResults().substring(3) : null, hasError ? event.getResults() : null);
+		try {
+			if (listener != null) {
+				boolean hasError = !event.getResults().startsWith("OK!");
+				listener.onComplete(this.callback, !hasError, !hasError ? event.getResults().substring(3) : null, hasError ? event.getResults() : null);
+			}
+		} finally {
+			this.callback = null;
+		}
 	}
 
 	public boolean isAskName() {

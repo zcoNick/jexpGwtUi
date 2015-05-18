@@ -579,6 +579,9 @@ public interface CommonResources extends ConstantsWithLookup {
 	/** Saat */
 	String saat();
 
+	/** Şablon */
+	String sablon();
+
 	/** Şablon Adı */
 	String sablonAdi();
 
