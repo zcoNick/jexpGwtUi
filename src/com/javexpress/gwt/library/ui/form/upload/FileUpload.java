@@ -88,12 +88,8 @@ public class FileUpload extends FormPanel implements ChangeHandler, SubmitComple
 		this.submitOnchange = submitOnchange;
 	}
 
-	public void setFileExtensions(final String exts) {
-		this.fileExtensions = new String[] { exts };
-	}
-
-	public void setFileExtensions(final String[] exts) {
-		this.fileExtensions = exts;
+	public void setFileExtensions(final String extsComma) {
+		this.fileExtensions = extsComma.split(",");
 	}
 
 	public FileUpload(final Widget parent, final String id) {
