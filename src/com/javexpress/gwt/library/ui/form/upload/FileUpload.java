@@ -18,6 +18,7 @@ import com.google.gwt.event.dom.client.ChangeEvent;
 import com.google.gwt.event.dom.client.ChangeHandler;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.user.client.Command;
 import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.rpc.ServiceDefTarget;
@@ -46,6 +47,13 @@ public class FileUpload extends FormPanel implements ChangeHandler, SubmitComple
 	private IFileUploadListener								listener;
 	private AsyncCallback									callback;
 	private boolean											required;
+	private List<Command>									completeCommands;
+
+	public void addCompleteCommand(Command command) {
+		if (completeCommands == null)
+			completeCommands = new ArrayList<Command>();
+		completeCommands.add(command);
+	}
 
 	public boolean isRequired() {
 		return required;
@@ -193,6 +201,7 @@ public class FileUpload extends FormPanel implements ChangeHandler, SubmitComple
 		widgets = null;
 		listener = null;
 		fileExtensions = null;
+		completeCommands = null;
 		super.onUnload();
 	}
 
@@ -305,6 +314,9 @@ public class FileUpload extends FormPanel implements ChangeHandler, SubmitComple
 			}
 		} finally {
 			this.callback = null;
+			if (completeCommands != null)
+				for (Command cmd : completeCommands)
+					cmd.execute();
 		}
 	}
 

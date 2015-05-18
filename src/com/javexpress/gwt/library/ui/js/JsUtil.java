@@ -71,7 +71,6 @@ import com.javexpress.gwt.library.ui.form.decimalbox.DecimalBox;
 import com.javexpress.gwt.library.ui.form.numericbox.NumericBox;
 import com.javexpress.gwt.library.ui.form.textbox.TextBox;
 import com.javexpress.gwt.library.ui.form.upload.FileUpload;
-import com.javexpress.gwt.library.ui.form.upload.FileUpload.FileUploadHandler;
 
 public class JsUtil {
 
@@ -445,13 +444,10 @@ public class JsUtil {
 		final JexpPopupPanel db = new JexpPopupPanel(true, true);
 		db.setWidth("30em");
 		db.setHeight(fu.isMulti() ? (fu.isAskName() ? "10em" : "8em") : (fu.isAskName() ? "4em" : "2.5m"));
-		fu.addCompleteHandler(new FileUploadHandler() {
+		fu.addCompleteCommand(new Command() {
 			@Override
-			public void onComplete(final boolean success, final String result, final String errorMessage) {
-				if (success)
-					db.hide(true);
-				else
-					JsUtil.message(fu, errorMessage);
+			public void execute() {
+				db.hide(true);
 			}
 		});
 		db.setWidget(fu);
