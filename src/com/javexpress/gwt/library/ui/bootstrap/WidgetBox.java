@@ -124,7 +124,7 @@ public class WidgetBox extends AbstractContainerFocusable implements ISizeAwareW
 		if (collapsed) {
 			elCollapse.setInnerHTML("<i class='ace-icon fa fa-chevron-up'></i>");
 			bodyDiv.getStyle().setDisplay(Display.NONE);
-		} else {
+		} else if (elCollapse!=null){
 			elCollapse.setInnerHTML("<i class='ace-icon fa fa-chevron-down'></i>");
 		}
 		super.onLoad();
