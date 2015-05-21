@@ -235,14 +235,14 @@ public class TabSet extends AbstractContainerFocusable implements ISizeAwareWidg
 	}
 
 	private native void attachShowEvents(TabSet x, Element alink, Element clspan) /*-{
-																					$wnd.$(alink).tab('show').on('shown.bs.tab', function(e) {
-																					x.@com.javexpress.gwt.library.ui.bootstrap.TabSet::fireOnTabChanged(Ljava/lang/String;Ljava/lang/String;)($wnd.$(e.relatedTarget).attr("tabid"), $wnd.$(e.target).attr("tabid"));
-																					});
-																					}-*/;
+		$wnd.$(alink).tab('show').on('shown.bs.tab', function(e) {
+			x.@com.javexpress.gwt.library.ui.bootstrap.TabSet::fireOnTabChanged(Ljava/lang/String;Ljava/lang/String;)($wnd.$(e.relatedTarget).attr("tabid"), $wnd.$(e.target).attr("tabid"));
+		});
+	}-*/;
 
 	private native void _select(JavaScriptObject obj, int index) /*-{
-																	$wnd.$("li:eq(" + index + ")", obj).tab('show');
-																	}-*/;
+		$wnd.$("li:eq(" + index + ")", obj).tab('show');
+	}-*/;
 
 	public void hideItem(String id) {
 		toggleItem(id, false);

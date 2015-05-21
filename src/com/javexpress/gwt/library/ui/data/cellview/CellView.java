@@ -39,6 +39,7 @@ public class CellView<T> extends AbstractContainer implements IHasPopupMenu {
 
 	public CellView(final Widget parent, final String id, final Integer mod, final boolean fitToParent) {
 		super(DOM.createDiv());
+		getElement().addClassName("jexpCellView");
 		this.mod = mod.byteValue();
 		JsUtil.ensureId(parent, this, WidgetConst.CELLVIEW_PREFIX, id);
 		if (fitToParent) {
@@ -47,7 +48,6 @@ public class CellView<T> extends AbstractContainer implements IHasPopupMenu {
 		}
 		grid = DOM.createTable().cast();
 		grid.getStyle().setWidth(100, Unit.PCT);
-		//grid.getStyle().setHeight(100, Unit.PCT);
 		getElement().appendChild(grid);
 	}
 

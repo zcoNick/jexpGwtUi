@@ -32,7 +32,7 @@ public class Schedule extends JexpWidget implements IDataChangeListener {
 		super();
 		setElement(DOM.createDiv());
 		JsUtil.ensureId(parent, this, WidgetConst.SCHEDULE_PREFIX, id);
-		getElement().addClassName("jexpBorderBox jesSchedule");
+		getElement().addClassName((JsUtil.USE_BOOTSTRAP ? "" : "jexpBorderBox ") + "jexpSchedule");
 		this.dataUrl = JsUtil.getServiceUrl(servicePoint);
 		this.options = createDefaultOptions();
 	}

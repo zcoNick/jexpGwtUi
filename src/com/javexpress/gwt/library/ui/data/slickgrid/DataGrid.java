@@ -53,11 +53,11 @@ public class DataGrid<T extends Serializable> extends BaseSlickGrid<ListColumn> 
 	private DataGridStyler				styler;
 	private JsArray<JavaScriptObject>	currentGroupDef;
 
-	public JavaScriptObject getLoader() {
+	private JavaScriptObject getLoader() {
 		return loader;
 	}
 
-	public void setLoader(JavaScriptObject loader) {
+	private void setLoader(JavaScriptObject loader) {
 		this.loader = loader;
 	}
 
