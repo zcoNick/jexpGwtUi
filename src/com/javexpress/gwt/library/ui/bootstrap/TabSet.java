@@ -97,6 +97,12 @@ public class TabSet extends AbstractContainerFocusable implements ISizeAwareWidg
 	@Override
 	protected void onLoad() {
 		super.onLoad();
+		if (tabsPosition == TabsPosition.left)
+			getElement().addClassName("tabs-left");
+		else if (tabsPosition == TabsPosition.bottom)
+			getElement().addClassName("tabs-below");
+		else if (tabsPosition == TabsPosition.right)
+			getElement().addClassName("tabs-right");
 		jsObject = createByJs(this, getElement());
 		if (widgets != null) {
 			performOnShow(widgets.keySet().iterator().next());
@@ -104,15 +110,15 @@ public class TabSet extends AbstractContainerFocusable implements ISizeAwareWidg
 	}
 
 	private native JavaScriptObject createByJs(TabSet x, Element el) /*-{
-																		var jso = $wnd.$("a[data-toggle='tab']",el);
-																		jso.on('show.bs.tab', function(e) {
-																		x.@com.javexpress.gwt.library.ui.bootstrap.TabSet::fireOnTabChanging(Ljava/lang/String;Ljava/lang/String;)($wnd.$(e.relatedTarget).attr("tabid"), $wnd.$(e.target).attr("tabid"));
-																		});
-																		jso.on('shown.bs.tab', function(e) {
-																		x.@com.javexpress.gwt.library.ui.bootstrap.TabSet::fireOnTabChanged(Ljava/lang/String;Ljava/lang/String;)($wnd.$(e.relatedTarget).attr("tabid"), $wnd.$(e.target).attr("tabid"));
-																		});
-																		return jso;
-																		}-*/;
+		var jso = $wnd.$("a[data-toggle='tab']",el);
+		jso.on('show.bs.tab', function(e) {
+			x.@com.javexpress.gwt.library.ui.bootstrap.TabSet::fireOnTabChanging(Ljava/lang/String;Ljava/lang/String;)($wnd.$(e.relatedTarget).attr("tabid"), $wnd.$(e.target).attr("tabid"));
+		});
+		jso.on('shown.bs.tab', function(e) {
+			x.@com.javexpress.gwt.library.ui.bootstrap.TabSet::fireOnTabChanged(Ljava/lang/String;Ljava/lang/String;)($wnd.$(e.relatedTarget).attr("tabid"), $wnd.$(e.target).attr("tabid"));
+		});
+		return jso;
+	}-*/;
 
 	@Override
 	protected void onUnload() {
@@ -130,8 +136,8 @@ public class TabSet extends AbstractContainerFocusable implements ISizeAwareWidg
 	}
 
 	private native void destroyByJs(Element element) /*-{
-														$wnd.$(element).off().empty();
-														}-*/;
+		$wnd.$(element).off().empty();
+	}-*/;
 
 	public void addTab(final IUIComposite form, boolean closable) throws Exception {
 		addTab(form.getHeader(), (Widget) form, form.getId(), closable);
