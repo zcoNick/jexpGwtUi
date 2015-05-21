@@ -823,4 +823,8 @@ public class DataGrid<T extends Serializable> extends BaseSlickGrid<ListColumn> 
 		super.onUnload();
 	}
 
+	@Override
+	public void setDataExportOptions(boolean useForeignKeysAsVariable) {
+	}
+
 }

@@ -867,4 +867,8 @@ public class JqGrid<T extends Serializable> extends JexpWidget implements IDataV
 	public void performAutoSizeColumns() {
 	}
 
+	@Override
+	public void setDataExportOptions(boolean useForeignKeysAsVariable) {
+	}
+
 }

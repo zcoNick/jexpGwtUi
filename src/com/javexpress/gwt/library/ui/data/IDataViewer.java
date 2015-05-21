@@ -61,4 +61,6 @@ public interface IDataViewer extends IJexpWidget, ISizeAwareWidget, IDataChangeL
 
 	void performAutoSizeColumns();
 
+	void setDataExportOptions(boolean useForeignKeysAsVariable);
+
 }
