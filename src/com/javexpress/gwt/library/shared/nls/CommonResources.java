@@ -600,6 +600,9 @@ public interface CommonResources extends ConstantsWithLookup {
 	/** Seçenekler */
 	String secenekler();
 
+	/** Seçiniz... */
+	String seciniz();
+
 	/** Seviye */
 	String seviye();
 

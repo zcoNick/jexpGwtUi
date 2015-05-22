@@ -73,11 +73,11 @@ public class NumericBox extends TextBox implements IUserInputWidget {
 	}
 
 	private native JavaScriptObject createByJs(NumericBox x, Element element, JavaScriptObject options) /*-{
-		var el = $wnd.$(element);
-		if (options.spinnerOptions)
-			el.spinner(options.spinnerOptions);
-		return el;
-	}-*/;
+																										var el = $wnd.$(element);
+																										if (options.spinnerOptions)
+																										el.spinner(options.spinnerOptions);
+																										return el;
+																										}-*/;
 
 	@Override
 	protected void onUnload() {
@@ -89,9 +89,9 @@ public class NumericBox extends TextBox implements IUserInputWidget {
 	}
 
 	private native void destroyByJs(Element element, JavaScriptObject options) /*-{
-		if (options.spinnerOptions)
-			$wnd.$(element).spinner("destroy");
-	}-*/;
+																				if (options.spinnerOptions)
+																				$wnd.$(element).spinner("destroy");
+																				}-*/;
 
 	public Long getValueLong() {
 		return JsUtil.asLong(getText());
@@ -117,6 +117,7 @@ public class NumericBox extends TextBox implements IUserInputWidget {
 		setText(val == null ? null : val.toString());
 	}
 
+	@Override
 	public void setMaxLength(final int length) {
 		getElement().setAttribute("maxlength", String.valueOf(length));
 		setWidth(JsUtil.calcSizeForMaxLength(length));
@@ -175,4 +176,7 @@ public class NumericBox extends TextBox implements IUserInputWidget {
 		return dataBinding;
 	}
 
+	public void setPlaceholder(String value) {
+		getElement().setAttribute("placeholder", value);
+	}
 }

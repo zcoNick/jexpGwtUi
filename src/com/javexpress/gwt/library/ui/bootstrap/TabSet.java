@@ -110,15 +110,15 @@ public class TabSet extends AbstractContainerFocusable implements ISizeAwareWidg
 	}
 
 	private native JavaScriptObject createByJs(TabSet x, Element el) /*-{
-		var jso = $wnd.$("a[data-toggle='tab']",el);
-		jso.on('show.bs.tab', function(e) {
-			x.@com.javexpress.gwt.library.ui.bootstrap.TabSet::fireOnTabChanging(Ljava/lang/String;Ljava/lang/String;)($wnd.$(e.relatedTarget).attr("tabid"), $wnd.$(e.target).attr("tabid"));
-		});
-		jso.on('shown.bs.tab', function(e) {
-			x.@com.javexpress.gwt.library.ui.bootstrap.TabSet::fireOnTabChanged(Ljava/lang/String;Ljava/lang/String;)($wnd.$(e.relatedTarget).attr("tabid"), $wnd.$(e.target).attr("tabid"));
-		});
-		return jso;
-	}-*/;
+																		var jso = $wnd.$("a[data-toggle='tab']",el);
+																		jso.on('show.bs.tab', function(e) {
+																		x.@com.javexpress.gwt.library.ui.bootstrap.TabSet::fireOnTabChanging(Ljava/lang/String;Ljava/lang/String;)($wnd.$(e.relatedTarget).attr("tabid"), $wnd.$(e.target).attr("tabid"));
+																		});
+																		jso.on('shown.bs.tab', function(e) {
+																		x.@com.javexpress.gwt.library.ui.bootstrap.TabSet::fireOnTabChanged(Ljava/lang/String;Ljava/lang/String;)($wnd.$(e.relatedTarget).attr("tabid"), $wnd.$(e.target).attr("tabid"));
+																		});
+																		return jso;
+																		}-*/;
 
 	@Override
 	protected void onUnload() {
@@ -136,8 +136,8 @@ public class TabSet extends AbstractContainerFocusable implements ISizeAwareWidg
 	}
 
 	private native void destroyByJs(Element element) /*-{
-		$wnd.$(element).off().empty();
-	}-*/;
+														$wnd.$(element).off().empty();
+														}-*/;
 
 	public void addTab(final IUIComposite form, boolean closable) throws Exception {
 		addTab(form.getHeader(), (Widget) form, form.getId(), closable);
@@ -231,18 +231,25 @@ public class TabSet extends AbstractContainerFocusable implements ISizeAwareWidg
 	}
 
 	public void select(int index) {
-		_select(jsObject, index);
+		String wid = (((Element) navBar.getChild(index).getChild(0)).getAttribute("tabid"));
+		if (listener != null)
+			listener.onTabChanging(activeWidgetId, wid);
+		_select(navBar, index);
+		listener.onTabChanged(activeWidgetId, wid);
+		activeWidgetId = wid;
 	}
 
 	private native void attachShowEvents(TabSet x, Element alink, Element clspan) /*-{
-		$wnd.$(alink).tab('show').on('shown.bs.tab', function(e) {
-			x.@com.javexpress.gwt.library.ui.bootstrap.TabSet::fireOnTabChanged(Ljava/lang/String;Ljava/lang/String;)($wnd.$(e.relatedTarget).attr("tabid"), $wnd.$(e.target).attr("tabid"));
-		});
-	}-*/;
+																					$wnd.$(alink).tab('show').on('show.bs.tab', function(e) {
+																					x.@com.javexpress.gwt.library.ui.bootstrap.TabSet::fireOnTabChanging(Ljava/lang/String;Ljava/lang/String;)($wnd.$(e.relatedTarget).attr("tabid"), $wnd.$(e.target).attr("tabid"));
+																					}).on('shown.bs.tab', function(e) {
+																					x.@com.javexpress.gwt.library.ui.bootstrap.TabSet::fireOnTabChanged(Ljava/lang/String;Ljava/lang/String;)($wnd.$(e.relatedTarget).attr("tabid"), $wnd.$(e.target).attr("tabid"));
+																					});
+																					}-*/;
 
-	private native void _select(JavaScriptObject obj, int index) /*-{
-		$wnd.$("li:eq(" + index + ")", obj).tab('show');
-	}-*/;
+	private native void _select(Element navbar, int index) /*-{
+															$wnd.$("li:eq(" + index + ")", navbar).tab('show');
+															}-*/;
 
 	public void hideItem(String id) {
 		toggleItem(id, false);
@@ -310,5 +317,9 @@ public class TabSet extends AbstractContainerFocusable implements ISizeAwareWidg
 				}
 			}
 		}
+	}
+
+	public void setMaxHeight(int maxHeight) {
+		getElement().getStyle().setProperty("maxHeight", maxHeight + "px");
 	}
 }

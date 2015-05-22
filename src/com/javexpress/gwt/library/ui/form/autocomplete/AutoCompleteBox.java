@@ -82,58 +82,58 @@ public class AutoCompleteBox<V extends Serializable> extends JexpSimplePanel imp
 	}
 
 	private native void createByJs(AutoCompleteBox x, Element input, Element indicator, JavaScriptObject options, String newItemTitle, boolean hasListener) /*-{
-		var el = $wnd.$(input);
-		el.attr("v", "");
-		if (hasListener) {
-			options.source = function(request, response) {
-				x.@com.javexpress.gwt.library.ui.form.autocomplete.AutoCompleteBox::fireOnSearch(Lcom/google/gwt/core/client/JavaScriptObject;)(request);
-				$wnd.$.post(options.url, request, function(data) {
-					response(data);
-				}, "json");
-			}
-		} else
-			options.source = options.url;
-		options.id = el.attr("id") + "_menu";
-		options.select = function(event, ui) {
-			var r = x.@com.javexpress.gwt.library.ui.form.autocomplete.AutoCompleteBox::fireOnSelect(Ljava/lang/String;Ljava/lang/String;Lcom/google/gwt/core/client/JavaScriptObject;)(ui.item.id,ui.item.label,ui.item.data);
-			if (r) {
-				el.attr("v", ui.item.id);
-				el.val(ui.item.label);
-				$wnd.$.data(el, "acdata", ui.item.data);
-			}
-			return r;
-		};
-		options.search = function(event, ui) {
-			el.attr("v", "");
-			$wnd.$(".fa", $wnd.$(indicator)).removeClass("fa-search").addClass(
-					"fa-spin").addClass("fa-spinner");
-		};
-		options.response = function(event, ui) {
-			$wnd.$(".fa", $wnd.$(indicator)).removeClass("fa-spin")
-					.removeClass("fa-spinner").addClass("fa-search");
-		};
-		el = el
-				.jexpautocomplete(options)
-				.on(
-						"blur",
-						function() {
-							if (el.attr("v") != "" && el.val() == "") {
-								el.attr("v", "");
-								$wnd.$.data(el, "acdata", null);
-								x.@com.javexpress.gwt.library.ui.form.autocomplete.AutoCompleteBox::fireOnSelect(Ljava/lang/String;Ljava/lang/String;Lcom/google/gwt/core/client/JavaScriptObject;)(null,null,null);
-							}
-						});
-		if (newItemTitle) {
-			var btn = $wnd
-					.$("<span class='ui-icon ui-icon-plus ui-cursor-hand' style='display:inline-block' tabindex='500' title='"
-							+ newItemTitle + "'></span>");
-			parent.append(btn);
-			btn
-					.click(function() {
-						x.@com.javexpress.gwt.library.ui.form.autocomplete.AutoCompleteBox::fireOnNewItemRequest()();
-					});
-		}
-	}-*/;
+																																							var el = $wnd.$(input);
+																																							el.attr("v", "");
+																																							if (hasListener) {
+																																							options.source = function(request, response) {
+																																							x.@com.javexpress.gwt.library.ui.form.autocomplete.AutoCompleteBox::fireOnSearch(Lcom/google/gwt/core/client/JavaScriptObject;)(request);
+																																							$wnd.$.post(options.url, request, function(data) {
+																																							response(data);
+																																							}, "json");
+																																							}
+																																							} else
+																																							options.source = options.url;
+																																							options.id = el.attr("id") + "_menu";
+																																							options.select = function(event, ui) {
+																																							var r = x.@com.javexpress.gwt.library.ui.form.autocomplete.AutoCompleteBox::fireOnSelect(Ljava/lang/String;Ljava/lang/String;Lcom/google/gwt/core/client/JavaScriptObject;)(ui.item.id,ui.item.label,ui.item.data);
+																																							if (r) {
+																																							el.attr("v", ui.item.id);
+																																							el.val(ui.item.label);
+																																							$wnd.$.data(el, "acdata", ui.item.data);
+																																							}
+																																							return r;
+																																							};
+																																							options.search = function(event, ui) {
+																																							el.attr("v", "");
+																																							$wnd.$(".fa", $wnd.$(indicator)).removeClass("fa-search").addClass(
+																																							"fa-spin").addClass("fa-spinner");
+																																							};
+																																							options.response = function(event, ui) {
+																																							$wnd.$(".fa", $wnd.$(indicator)).removeClass("fa-spin")
+																																							.removeClass("fa-spinner").addClass("fa-search");
+																																							};
+																																							el = el
+																																							.jexpautocomplete(options)
+																																							.on(
+																																							"blur",
+																																							function() {
+																																							if (el.attr("v") != "" && el.val() == "") {
+																																							el.attr("v", "");
+																																							$wnd.$.data(el, "acdata", null);
+																																							x.@com.javexpress.gwt.library.ui.form.autocomplete.AutoCompleteBox::fireOnSelect(Ljava/lang/String;Ljava/lang/String;Lcom/google/gwt/core/client/JavaScriptObject;)(null,null,null);
+																																							}
+																																							});
+																																							if (newItemTitle) {
+																																							var btn = $wnd
+																																							.$("<span class='ui-icon ui-icon-plus ui-cursor-hand' style='display:inline-block' tabindex='500' title='"
+																																							+ newItemTitle + "'></span>");
+																																							parent.append(btn);
+																																							btn
+																																							.click(function() {
+																																							x.@com.javexpress.gwt.library.ui.form.autocomplete.AutoCompleteBox::fireOnNewItemRequest()();
+																																							});
+																																							}
+																																							}-*/;
 
 	@Override
 	protected void onUnload() {
@@ -147,10 +147,10 @@ public class AutoCompleteBox<V extends Serializable> extends JexpSimplePanel imp
 	}
 
 	private native void destroyByJs(Element elm) /*-{
-		var el = $wnd.$(elm);
-		if (el)
-			el.jexpautocomplete('destroy');
-	}-*/;
+													var el = $wnd.$(elm);
+													if (el)
+													el.jexpautocomplete('destroy');
+													}-*/;
 
 	public void setValue(final V value, final String label) {
 		input.setValue(label);
@@ -197,22 +197,22 @@ public class AutoCompleteBox<V extends Serializable> extends JexpSimplePanel imp
 	}
 
 	private native void _setValueById(AutoCompleteBox x, Element input, JavaScriptObject options, String value) /*-{
-		var lb = $wnd.$(input).val("...");
-		$wnd.$
-				.post(
-						options.url,
-						{
-							"term" : "@" + value
-						},
-						function(data) {
-							var r = x.@com.javexpress.gwt.library.ui.form.autocomplete.AutoCompleteBox::fireOnSelect(Ljava/lang/String;Ljava/lang/String;Lcom/google/gwt/core/client/JavaScriptObject;)(data.id,data.label,data.data);
-							if (r) {
-								lb.val(data.label);
-								$wnd.$.data(lb, "acdata", data.data);
-								lb.attr("v", data.id);
-							}
-						}, "json");
-	}-*/;
+																												var lb = $wnd.$(input).val("...");
+																												$wnd.$
+																												.post(
+																												options.url,
+																												{
+																												"term" : "@" + value
+																												},
+																												function(data) {
+																												var r = x.@com.javexpress.gwt.library.ui.form.autocomplete.AutoCompleteBox::fireOnSelect(Ljava/lang/String;Ljava/lang/String;Lcom/google/gwt/core/client/JavaScriptObject;)(data.id,data.label,data.data);
+																												if (r) {
+																												lb.val(data.label);
+																												$wnd.$.data(lb, "acdata", data.data);
+																												lb.attr("v", data.id);
+																												}
+																												}, "json");
+																												}-*/;
 
 	public JsonMap getData() {
 		JavaScriptObject o = JsUtil.getElementData(getElement(), "acdata");
@@ -318,6 +318,10 @@ public class AutoCompleteBox<V extends Serializable> extends JexpSimplePanel imp
 
 	public void setMaxLength(int maxLength) {
 		input.setMaxLength(maxLength);
+	}
+
+	public void setPlaceholder(String value) {
+		input.setAttribute("placeholder", value);
 	}
 
 }

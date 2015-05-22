@@ -109,12 +109,12 @@ public class TextBox extends com.google.gwt.user.client.ui.TextBox implements IU
 	}
 
 	private static native String _toTitleCase(String str, String locale) /*-{
-		return $wnd.toLocaleTitleCase(str, locale);
-	}-*/;
+																			return $wnd.toLocaleTitleCase(str, locale);
+																			}-*/;
 
 	private static native String _toUpperCase(String str, String locale) /*-{
-		$wnd.toLocaleUpperCase(str, locale);
-	}-*/;
+																			$wnd.toLocaleUpperCase(str, locale);
+																			}-*/;
 
 	@Override
 	public void setValidationError(String validationError) {
@@ -143,6 +143,10 @@ public class TextBox extends com.google.gwt.user.client.ui.TextBox implements IU
 	protected void onUnload() {
 		dataBinding = null;
 		super.onUnload();
+	}
+
+	public void setPlaceholder(String value) {
+		getElement().setAttribute("placeholder", value);
 	}
 
 }

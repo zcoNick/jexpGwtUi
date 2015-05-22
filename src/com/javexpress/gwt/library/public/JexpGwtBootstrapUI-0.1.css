@@ -4,6 +4,7 @@
 .jexpLabel.form-control { border: 0 none; height: 26px; line-height: 1; padding-bottom: 1px; padding-left: 0; padding-top:5px; background-color: transparent; }
 .jexpCheckBox { font-size:12px; }
 .jexpCheckBox.form-control { background-color: transparent; }
+.gwt-CheckBox.jexpSmallGwtCheck > label { font-size:inherit; }
 .sidebar { font-size:1em }
 .sidebar .nav-search { position:relative; }
 .sidebar .nav > li > a { padding-top:5px }
