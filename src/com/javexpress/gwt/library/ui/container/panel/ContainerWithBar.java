@@ -37,8 +37,13 @@ public abstract class ContainerWithBar extends AbstractContainer implements ISiz
 			addStyleName("ui-widget-content ui-corner-all jexpBorderBox");
 
 		if (fitToParent) {
-			setWidth("auto");
-			setHeight("100%");
+			if (JsUtil.USE_BOOTSTRAP) {
+				getElement().addClassName("col-xs-12");
+				setHeight("100%");
+			} else {
+				setWidth("auto");
+				setHeight("100%");
+			}
 		}
 	}
 
@@ -131,12 +136,12 @@ public abstract class ContainerWithBar extends AbstractContainer implements ISiz
 	}
 
 	private native void _bindHover(Element div) /*-{
-		$wnd.$(div).hover(function() {
-			$wnd.$(this).addClass("ui-state-hover");
-		}, function() {
-			$wnd.$(this).removeClass("ui-state-hover");
-		});
-	}-*/;
+												$wnd.$(div).hover(function() {
+												$wnd.$(this).addClass("ui-state-hover");
+												}, function() {
+												$wnd.$(this).removeClass("ui-state-hover");
+												});
+												}-*/;
 
 	@Override
 	protected void onUnload() {
@@ -147,8 +152,8 @@ public abstract class ContainerWithBar extends AbstractContainer implements ISiz
 	}
 
 	private native void _destroyByJs(Element container, Element tbar) /*-{
-		$wnd.$(container).empty().off();
-		$wnd.$(tbar).empty().off();
-	}-*/;
+																		$wnd.$(container).empty().off();
+																		$wnd.$(tbar).empty().off();
+																		}-*/;
 
 }
