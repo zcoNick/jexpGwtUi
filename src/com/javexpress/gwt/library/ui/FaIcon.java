@@ -18,8 +18,12 @@ public enum FaIcon implements ICssIcon {
 	xml("file-code-o"), xls("file-excel-o"), pdf("file-pdf-o"), doc(
 			"file-word-o"), magic("magic"), arrowDown("arrow-down"), circleThin(
 			"circle-thin"), longArrowRight("long-arrow-right"),
-	levelUp("level-up"), levelDown("level-down"), star("star"), circleDotO(
-			"circle-dot-o"), server("server"), fileTextOpen("file-text-o");
+	levelUp("level-up"), levelDown("level-down"), star("star"), circleDot(
+			"circle-dot-o"), server("server"), fileTextOpen("file-text-o"), listAlt(
+			"list-alt"), pencilSquareO("pencil-square-o"), list("list"), attach(
+			"paperclip"), table("table"), clock("clock-o"), database(
+			"database"), download("download"), barChart("bar-chart"), comment(
+			"comment-o"), comments("comments-o"), briefcase("briefcase");
 
 	private String	icon;
 
