@@ -49,7 +49,6 @@ public class FileUpload extends FormPanel implements ChangeHandler, SubmitComple
 	private AsyncCallback									callback;
 	private boolean											required;
 	private List<Command>									completeCommands;
-	private ControllerAction								controllerAction;
 
 	public void addCompleteCommand(Command command) {
 		if (completeCommands == null)
@@ -200,7 +199,6 @@ public class FileUpload extends FormPanel implements ChangeHandler, SubmitComple
 		listener = null;
 		fileExtensions = null;
 		completeCommands = null;
-		controllerAction = null;
 		callback = null;
 		super.onUnload();
 	}
@@ -292,7 +290,6 @@ public class FileUpload extends FormPanel implements ChangeHandler, SubmitComple
 			getElement().appendChild(h.getElement());
 		}
 		this.callback = callback;
-		this.controllerAction = controllerAction;
 		super.submit();
 	}
 
@@ -311,11 +308,10 @@ public class FileUpload extends FormPanel implements ChangeHandler, SubmitComple
 		try {
 			if (listener != null) {
 				boolean hasError = !event.getResults().startsWith("OK!");
-				listener.onComplete(this.callback, this.controllerAction, !hasError, !hasError ? event.getResults().substring(3) : null, hasError ? event.getResults() : null);
+				listener.onComplete(this.callback, !hasError, !hasError ? event.getResults().substring(3) : null, hasError ? event.getResults() : null);
 			}
 		} finally {
 			this.callback = null;
-			this.controllerAction = null;
 			if (completeCommands != null)
 				for (Command cmd : completeCommands)
 					cmd.execute();
