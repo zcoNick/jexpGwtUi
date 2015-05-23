@@ -26,6 +26,7 @@ import com.google.gwt.user.client.ui.FormPanel;
 import com.google.gwt.user.client.ui.FormPanel.SubmitCompleteHandler;
 import com.google.gwt.user.client.ui.Hidden;
 import com.google.gwt.user.client.ui.Widget;
+import com.javexpress.common.model.item.ControllerAction;
 import com.javexpress.gwt.library.shared.model.IJsonServicePoint;
 import com.javexpress.gwt.library.shared.model.WidgetConst;
 import com.javexpress.gwt.library.ui.JqIcon;
@@ -48,6 +49,7 @@ public class FileUpload extends FormPanel implements ChangeHandler, SubmitComple
 	private AsyncCallback									callback;
 	private boolean											required;
 	private List<Command>									completeCommands;
+	private ControllerAction								controllerAction;
 
 	public void addCompleteCommand(Command command) {
 		if (completeCommands == null)
@@ -198,6 +200,8 @@ public class FileUpload extends FormPanel implements ChangeHandler, SubmitComple
 		listener = null;
 		fileExtensions = null;
 		completeCommands = null;
+		controllerAction = null;
+		callback = null;
 		super.onUnload();
 	}
 
@@ -267,7 +271,7 @@ public class FileUpload extends FormPanel implements ChangeHandler, SubmitComple
 			submit();
 	}
 
-	public void submit(AsyncCallback callback) {
+	public void submit(AsyncCallback callback, ControllerAction controllerAction) {
 		if (isMulti())
 			fileUploader.removeFromParent();
 		if (listener != null) {
@@ -288,6 +292,7 @@ public class FileUpload extends FormPanel implements ChangeHandler, SubmitComple
 			getElement().appendChild(h.getElement());
 		}
 		this.callback = callback;
+		this.controllerAction = controllerAction;
 		super.submit();
 	}
 
@@ -306,10 +311,11 @@ public class FileUpload extends FormPanel implements ChangeHandler, SubmitComple
 		try {
 			if (listener != null) {
 				boolean hasError = !event.getResults().startsWith("OK!");
-				listener.onComplete(this.callback, !hasError, !hasError ? event.getResults().substring(3) : null, hasError ? event.getResults() : null);
+				listener.onComplete(this.callback, this.controllerAction, !hasError, !hasError ? event.getResults().substring(3) : null, hasError ? event.getResults() : null);
 			}
 		} finally {
 			this.callback = null;
+			this.controllerAction = null;
 			if (completeCommands != null)
 				for (Command cmd : completeCommands)
 					cmd.execute();
