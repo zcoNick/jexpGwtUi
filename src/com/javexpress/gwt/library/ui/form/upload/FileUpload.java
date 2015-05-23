@@ -26,7 +26,6 @@ import com.google.gwt.user.client.ui.FormPanel;
 import com.google.gwt.user.client.ui.FormPanel.SubmitCompleteHandler;
 import com.google.gwt.user.client.ui.Hidden;
 import com.google.gwt.user.client.ui.Widget;
-import com.javexpress.common.model.item.ControllerAction;
 import com.javexpress.gwt.library.shared.model.IJsonServicePoint;
 import com.javexpress.gwt.library.shared.model.WidgetConst;
 import com.javexpress.gwt.library.ui.JqIcon;
@@ -269,7 +268,7 @@ public class FileUpload extends FormPanel implements ChangeHandler, SubmitComple
 			submit();
 	}
 
-	public void submit(AsyncCallback callback, ControllerAction controllerAction) {
+	public void submit(AsyncCallback callback) {
 		if (isMulti())
 			fileUploader.removeFromParent();
 		if (listener != null) {
