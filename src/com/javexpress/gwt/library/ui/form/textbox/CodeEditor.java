@@ -8,7 +8,7 @@ import com.google.gwt.user.client.ui.TextArea;
 import com.google.gwt.user.client.ui.Widget;
 import com.javexpress.gwt.library.shared.model.WidgetConst;
 import com.javexpress.gwt.library.ui.ClientContext;
-import com.javexpress.gwt.library.ui.bootstrap.FormGroupCell;
+import com.javexpress.gwt.library.ui.bootstrap.LabelControlCell;
 import com.javexpress.gwt.library.ui.data.DataBindingHandler;
 import com.javexpress.gwt.library.ui.form.IUserInputWidget;
 import com.javexpress.gwt.library.ui.js.JsUtil;
@@ -89,10 +89,10 @@ public class CodeEditor extends TextArea implements IUserInputWidget<String> {
 	}
 
 	private native JavaScriptObject createByJs(CodeEditor x, Element el, JavaScriptObject options, String width, String height) /*-{
-		var cm = $wnd.CodeMirror.fromTextArea(el, options);
-		cm.setSize(width, height);
-		return cm;
-	}-*/;
+																																var cm = $wnd.CodeMirror.fromTextArea(el, options);
+																																cm.setSize(width, height);
+																																return cm;
+																																}-*/;
 
 	@Override
 	protected void onUnload() {
@@ -103,8 +103,8 @@ public class CodeEditor extends TextArea implements IUserInputWidget<String> {
 	}
 
 	private native void destroyByJs(Element element) /*-{
-		$wnd.$(element).empty().off();
-	}-*/;
+														$wnd.$(element).empty().off();
+														}-*/;
 
 	@Override
 	public String getValue() {
@@ -118,13 +118,13 @@ public class CodeEditor extends TextArea implements IUserInputWidget<String> {
 	}
 
 	private native String _getValue(JavaScriptObject cm) /*-{
-		return cm ? cm.getValue() : null;
-	}-*/;
+															return cm ? cm.getValue() : null;
+															}-*/;
 
 	private native void _setValue(JavaScriptObject cm, String data) /*-{
-		if (cm)
-			cm.setValue(data ? data : "");
-	}-*/;
+																	if (cm)
+																	cm.setValue(data ? data : "");
+																	}-*/;
 
 	@Override
 	public boolean validate(final boolean focusedBefore) {
@@ -154,8 +154,8 @@ public class CodeEditor extends TextArea implements IUserInputWidget<String> {
 	}
 
 	private native void _setFocus(JavaScriptObject cm) /*-{
-		cm.focus();
-	}-*/;
+														cm.focus();
+														}-*/;
 
 	@Override
 	public void setTabIndex(int index) {
@@ -168,8 +168,8 @@ public class CodeEditor extends TextArea implements IUserInputWidget<String> {
 	}
 
 	private native void _setReadOnly(JavaScriptObject cm, boolean readOnly) /*-{
-		cm.setReadOnly(readOnly);
-	}-*/;
+																			cm.setReadOnly(readOnly);
+																			}-*/;
 
 	public void setMaxLength(Integer maxLength) {
 		this.maxLength = maxLength;
@@ -178,7 +178,7 @@ public class CodeEditor extends TextArea implements IUserInputWidget<String> {
 	@Override
 	public void setValidationError(String validationError) {
 		if (JsUtil.USE_BOOTSTRAP) {
-			Widget nw = getParent() instanceof FormGroupCell ? getParent() : this;
+			Widget nw = getParent() instanceof LabelControlCell ? getParent() : this;
 			if (validationError == null)
 				nw.removeStyleName("has-error");
 			else

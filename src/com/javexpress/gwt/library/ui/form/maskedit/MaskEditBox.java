@@ -6,7 +6,7 @@ import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.ui.TextBoxBase;
 import com.google.gwt.user.client.ui.Widget;
 import com.javexpress.gwt.library.shared.model.WidgetConst;
-import com.javexpress.gwt.library.ui.bootstrap.FormGroupCell;
+import com.javexpress.gwt.library.ui.bootstrap.LabelControlCell;
 import com.javexpress.gwt.library.ui.data.DataBindingHandler;
 import com.javexpress.gwt.library.ui.form.IUserInputWidget;
 import com.javexpress.gwt.library.ui.js.JsUtil;
@@ -103,8 +103,8 @@ public class MaskEditBox extends TextBoxBase implements IUserInputWidget<String>
 	}
 
 	private native void createByJs(MaskEditBox x, Element element, String mask, JavaScriptObject options) /*-{
-		$wnd.$(element).inputmask(mask, options);
-	}-*/;
+																											$wnd.$(element).inputmask(mask, options);
+																											}-*/;
 
 	@Override
 	protected void onUnload() {
@@ -115,8 +115,8 @@ public class MaskEditBox extends TextBoxBase implements IUserInputWidget<String>
 	}
 
 	private native void destroyByJs(Element element) /*-{
-		$wnd.$(element).inputmask('remove');
-	}-*/;
+														$wnd.$(element).inputmask('remove');
+														}-*/;
 
 	@Override
 	public boolean validate(final boolean focusedBefore) {
@@ -124,8 +124,8 @@ public class MaskEditBox extends TextBoxBase implements IUserInputWidget<String>
 	}
 
 	private native boolean _isCompleted(Element element) /*-{
-		return $wnd.$(element).inputmask("isComplete");
-	}-*/;
+															return $wnd.$(element).inputmask("isComplete");
+															}-*/;
 
 	@Override
 	public String getValue() {
@@ -136,7 +136,7 @@ public class MaskEditBox extends TextBoxBase implements IUserInputWidget<String>
 	@Override
 	public void setValidationError(String validationError) {
 		if (JsUtil.USE_BOOTSTRAP) {
-			Widget nw = getParent() instanceof FormGroupCell ? getParent() : this;
+			Widget nw = getParent() instanceof LabelControlCell ? getParent() : this;
 			if (validationError == null)
 				nw.removeStyleName("has-error");
 			else

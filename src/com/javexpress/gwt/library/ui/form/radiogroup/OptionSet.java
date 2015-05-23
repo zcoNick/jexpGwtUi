@@ -11,7 +11,7 @@ import com.google.gwt.event.shared.HandlerRegistration;
 import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.ui.Widget;
 import com.javexpress.gwt.library.shared.model.WidgetConst;
-import com.javexpress.gwt.library.ui.bootstrap.FormGroupCell;
+import com.javexpress.gwt.library.ui.bootstrap.LabelControlCell;
 import com.javexpress.gwt.library.ui.container.panel.JexpSimplePanel;
 import com.javexpress.gwt.library.ui.data.DataBindingHandler;
 import com.javexpress.gwt.library.ui.form.IUserInputWidget;
@@ -60,8 +60,8 @@ public class OptionSet extends JexpSimplePanel implements IUserInputWidget<Strin
 	}
 
 	private native void createByJs(OptionSet x, Element element) /*-{
-		$wnd.$(element).buttonset();
-	}-*/;
+																	$wnd.$(element).buttonset();
+																	}-*/;
 
 	@Override
 	protected void onUnload() {
@@ -71,8 +71,8 @@ public class OptionSet extends JexpSimplePanel implements IUserInputWidget<Strin
 	}
 
 	private native void destroyByJs(Element element) /*-{
-		$wnd.$(element).buttonset('destroy');
-	}-*/;
+														$wnd.$(element).buttonset('destroy');
+														}-*/;
 
 	@Override
 	public int getTabIndex() {
@@ -128,8 +128,8 @@ public class OptionSet extends JexpSimplePanel implements IUserInputWidget<Strin
 	}
 
 	private native void _refresh(Element element) /*-{
-		$wnd.$(element).buttonset('refresh');
-	}-*/;
+													$wnd.$(element).buttonset('refresh');
+													}-*/;
 
 	@Override
 	public void setEnabled(boolean locked) {
@@ -138,7 +138,7 @@ public class OptionSet extends JexpSimplePanel implements IUserInputWidget<Strin
 	@Override
 	public void setValidationError(String validationError) {
 		if (JsUtil.USE_BOOTSTRAP) {
-			Widget nw = getParent() instanceof FormGroupCell ? getParent() : this;
+			Widget nw = getParent() instanceof LabelControlCell ? getParent() : this;
 			if (validationError == null)
 				nw.removeStyleName("has-error");
 			else

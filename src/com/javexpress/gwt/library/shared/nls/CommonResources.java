@@ -522,6 +522,9 @@ public interface CommonResources extends ConstantsWithLookup {
 	/** Miktar */
 	String miktar();
 
+	/** Modül */
+	String module();
+
 	/** Notlar */
 	String notlar();
 

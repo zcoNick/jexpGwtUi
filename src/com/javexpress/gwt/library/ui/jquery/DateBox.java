@@ -16,7 +16,7 @@ import com.google.gwt.user.client.ui.TextBoxBase;
 import com.google.gwt.user.client.ui.Widget;
 import com.javexpress.gwt.library.shared.model.JexpGwtUser;
 import com.javexpress.gwt.library.shared.model.WidgetConst;
-import com.javexpress.gwt.library.ui.bootstrap.FormGroupCell;
+import com.javexpress.gwt.library.ui.bootstrap.LabelControlCell;
 import com.javexpress.gwt.library.ui.data.DataBindingHandler;
 import com.javexpress.gwt.library.ui.form.IUserInputWidget;
 import com.javexpress.gwt.library.ui.form.maskedit.TimeBox;
@@ -139,34 +139,34 @@ public class DateBox extends TextBoxBase implements IUserInputWidget {
 	}
 
 	private native void createByJs(DateBox x, Element element, JavaScriptObject options, String fmt) /*-{
-		options.onSelect = function(dateText, inst) {
-			x.@com.javexpress.gwt.library.ui.jquery.DateBox::fireOnDateSelect(ZLjava/lang/String;)(true,dateText);
-			return false;
-		};
-		var el = $wnd.$(element).datepicker(options);
-		if (fmt) {
-			var changed = false;
-			el
-					.inputmask(
-							"datetime",
-							{
-								mask : fmt,
-								separator : '.',
-								placeholder : " ",
-								oncomplete : function() {
-									x.@com.javexpress.gwt.library.ui.jquery.DateBox::fireOnDateSelect(ZLjava/lang/String;)(false,dateText);
-								}
-							});
-		}
-	}-*/;
+																										options.onSelect = function(dateText, inst) {
+																										x.@com.javexpress.gwt.library.ui.jquery.DateBox::fireOnDateSelect(ZLjava/lang/String;)(true,dateText);
+																										return false;
+																										};
+																										var el = $wnd.$(element).datepicker(options);
+																										if (fmt) {
+																										var changed = false;
+																										el
+																										.inputmask(
+																										"datetime",
+																										{
+																										mask : fmt,
+																										separator : '.',
+																										placeholder : " ",
+																										oncomplete : function() {
+																										x.@com.javexpress.gwt.library.ui.jquery.DateBox::fireOnDateSelect(ZLjava/lang/String;)(false,dateText);
+																										}
+																										});
+																										}
+																										}-*/;
 
 	public void setGotoCurrent(final String value) {
 		setOption(getElement(), "gotoCurrent", String.valueOf(value));
 	}
 
 	private native void setOption(Element element, String option, String value) /*-{
-		$wnd.$(element).datepicker("option", option, value);
-	}-*/;
+																				$wnd.$(element).datepicker("option", option, value);
+																				}-*/;
 
 	@Override
 	protected void onUnload() {
@@ -179,8 +179,8 @@ public class DateBox extends TextBoxBase implements IUserInputWidget {
 
 	//https://github.com/RobinHerbots/jquery.inputmask/issues/648
 	private native void destroyByJs(Element element) /*-{
-		$wnd.$(element).datepicker('destroy');
-	}-*/;
+														$wnd.$(element).datepicker('destroy');
+														}-*/;
 
 	public void setValue(final Date cand) {
 		setValueDate(cand);
@@ -260,7 +260,7 @@ public class DateBox extends TextBoxBase implements IUserInputWidget {
 	@Override
 	public void setValidationError(String validationError) {
 		if (JsUtil.USE_BOOTSTRAP) {
-			Widget nw = getParent() instanceof FormGroupCell ? getParent() : this;
+			Widget nw = getParent() instanceof LabelControlCell ? getParent() : this;
 			if (validationError == null)
 				nw.removeStyleName("has-error");
 			else

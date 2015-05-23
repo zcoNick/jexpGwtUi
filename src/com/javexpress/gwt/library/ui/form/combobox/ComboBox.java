@@ -10,7 +10,7 @@ import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Widget;
 import com.javexpress.common.model.item.IComboItem;
 import com.javexpress.gwt.library.shared.model.WidgetConst;
-import com.javexpress.gwt.library.ui.bootstrap.FormGroupCell;
+import com.javexpress.gwt.library.ui.bootstrap.LabelControlCell;
 import com.javexpress.gwt.library.ui.data.DataBindingHandler;
 import com.javexpress.gwt.library.ui.js.JsUtil;
 
@@ -152,7 +152,7 @@ public class ComboBox extends ListBoxBase implements AsyncCallback<List<? extend
 	@Override
 	public void setValidationError(String validationError) {
 		if (JsUtil.USE_BOOTSTRAP) {
-			Widget nw = getParent() instanceof FormGroupCell ? getParent() : this;
+			Widget nw = getParent() instanceof LabelControlCell ? getParent() : this;
 			if (validationError == null)
 				nw.removeStyleName("has-error");
 			else

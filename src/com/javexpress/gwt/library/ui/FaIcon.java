@@ -23,7 +23,8 @@ public enum FaIcon implements ICssIcon {
 			"list-alt"), pencilSquareO("pencil-square-o"), list("list"), attach(
 			"paperclip"), table("table"), clock("clock-o"), database(
 			"database"), download("download"), barChart("bar-chart"), comment(
-			"comment-o"), comments("comments-o"), briefcase("briefcase");
+			"comment-o"), comments("comments-o"), briefcase("briefcase"), pause(
+			"pause");
 
 	private String	icon;
 
