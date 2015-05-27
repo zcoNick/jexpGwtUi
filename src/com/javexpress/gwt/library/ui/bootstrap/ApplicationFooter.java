@@ -5,9 +5,9 @@ import com.javexpress.gwt.library.ui.AbstractContainer;
 
 public class ApplicationFooter extends AbstractContainer {
 
-	public ApplicationFooter() {
+	public ApplicationFooter(String className) {
 		super(DOM.createDiv());
-		getElement().setClassName("footer");
+		getElement().setClassName(className);
 	}
 
 }

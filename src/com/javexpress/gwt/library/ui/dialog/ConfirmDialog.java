@@ -1,6 +1,13 @@
 package com.javexpress.gwt.library.ui.dialog;
 
+import java.util.ArrayList;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
+
 import com.google.gwt.dom.client.Element;
+import com.google.gwt.dom.client.InputElement;
+import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.Widget;
 import com.javexpress.gwt.library.shared.model.WidgetConst;
@@ -14,6 +21,11 @@ public class ConfirmDialog extends JexpSimplePanel {
 	private String					message;
 	private ConfirmationListener	listener;
 	private String					title;
+	private Map<String, String>		options;
+
+	public ConfirmDialog(final Widget parent, final String id, final String title, final String message) {
+		this(parent, id, title, message, null);
+	}
 
 	public ConfirmDialog(final Widget parent, final String id, final String title, final String message, final ConfirmationListener listener) {
 		super();
@@ -21,7 +33,16 @@ public class ConfirmDialog extends JexpSimplePanel {
 		this.title = title;
 		this.message = message;
 		this.listener = listener;
-		RootPanel.get().add(this);
+	}
+
+	public void addOption(String id, String title) {
+		if (options == null)
+			options = new LinkedHashMap<String, String>();
+		options.put(id, title);
+	}
+
+	public void setListener(ConfirmationListener listener) {
+		this.listener = listener;
 	}
 
 	@Override
@@ -40,6 +61,14 @@ public class ConfirmDialog extends JexpSimplePanel {
 			html.append("<div class='modal-body'>");
 			html.append("<p>").append(message);
 			html.append("</p>");
+			if (options != null) {
+				for (String oid : options.keySet()) {
+					String title = options.get(oid);
+					String did = getElement().getId() + "_" + oid;
+					html.append("<p><input type='checkbox' id='").append(did).append("'><label style='font-size:0.9em' for='").append(did).append("'>").append(title).append("</label>");
+					html.append("</p>");
+				}
+			}
 			html.append("</div>");
 			html.append("<div class='modal-footer'>");
 			html.append("<button type='button' id='").append(getElement().getId()).append("_ok' class='btn btn-danger' data-dismiss='modal'><i class='ace-icon ").append(FaIcon.check.getCssClass()).append("'></i><span>").append(ClientContext.nlsCommon.tamam()).append("</span></button>");
@@ -48,7 +77,7 @@ public class ConfirmDialog extends JexpSimplePanel {
 			getElement().setInnerHTML(html.toString());
 			createByJsBs(this, getElement(), getElement().getId());
 		} else
-			createByJs(this, getElement().getId(), message);
+			createByJs(this, getElement().getId(), message, ClientContext.nlsCommon.tamam(), ClientContext.nlsCommon.vazgec());
 	}
 
 	private native void createByJsBs(ConfirmDialog x, Element elm, String id) /*-{
@@ -78,7 +107,7 @@ public class ConfirmDialog extends JexpSimplePanel {
 		$wnd.$(elm).empty().off();
 	}-*/;
 
-	private native void createByJs(ConfirmDialog x, String id, String message) /*-{
+	private native void createByJs(ConfirmDialog x, String id, String message, String sok, String scancel) /*-{
 		var pr = "<p><span class='ui-icon ui-icon-alert' style='float:left'></span>"
 				+ message + "</p>";
 		var div = $wnd.$("#" + id).append(pr);
@@ -96,17 +125,17 @@ public class ConfirmDialog extends JexpSimplePanel {
 						div.dialog('destroy').remove();
 					},
 					buttons : {
-						'Tamam' : {
+						sok : {
 							id : id + "_ok",
-							text : "Tamam",
+							text : sok,
 							click : function() {
 								x.@com.javexpress.gwt.library.ui.dialog.ConfirmDialog::fireOnOk()();
 								div.dialog("close");
 							}
 						},
-						'Vazgeç' : {
+						scancel : {
 							id : id + "_cnl",
-							text : "Vazgeç",
+							text : scancel,
 							click : function() {
 								x.@com.javexpress.gwt.library.ui.dialog.ConfirmDialog::fireOnCancel()();
 								div.dialog("close");
@@ -116,11 +145,25 @@ public class ConfirmDialog extends JexpSimplePanel {
 				});
 	}-*/;
 
+	public List<String> getSelections() {
+		if (options == null || options.isEmpty())
+			return null;
+		List<String> sels = new ArrayList<String>();
+		for (String oid : options.keySet()) {
+			String did = getElement().getId() + "_" + oid;
+			InputElement ch = DOM.getElementById(did).cast();
+			if (ch.isChecked())
+				sels.add(oid);
+		}
+		return sels.isEmpty() ? null : sels;
+	}
+
 	@Override
 	protected void onUnload() {
 		message = null;
 		listener = null;
 		title = null;
+		options = null;
 		destroyByJs(this, getElement());
 		super.onUnload();
 	}
@@ -136,6 +179,10 @@ public class ConfirmDialog extends JexpSimplePanel {
 		if (listener != null)
 			listener.onCancel();
 		removeFromParent();
+	}
+
+	public void show() {
+		RootPanel.get().add(this);
 	}
 
 }

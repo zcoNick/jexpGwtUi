@@ -131,8 +131,8 @@ public class DateBox extends JexpSimplePanel implements IWrappedInput<Date> {
 
 	//https://github.com/RobinHerbots/jquery.inputmask/issues/648
 	private native void destroyByJs(Element element, Element input) /*-{
-																	$wnd.$(element).datepicker('destroy').empty().off();
-																	}-*/;
+		$wnd.$(element).datepicker('destroy').empty().off();
+	}-*/;
 
 	public void setValue(final Date cand) {
 		setValueDate(cand);

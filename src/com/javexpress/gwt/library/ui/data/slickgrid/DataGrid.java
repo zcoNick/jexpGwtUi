@@ -123,8 +123,8 @@ public class DataGrid<T extends Serializable> extends BaseSlickGrid<ListColumn> 
 	}
 
 	protected native void showFilters(Element tiSpan) /*-{
-														$wnd.$(tiSpan).popover("show");
-														}-*/;
+		$wnd.$(tiSpan).popover("show");
+	}-*/;
 
 	@Override
 	protected JsonMap createDefaultOptions() {
@@ -174,6 +174,7 @@ public class DataGrid<T extends Serializable> extends BaseSlickGrid<ListColumn> 
 			int linkIndex = getColumns().indexOf(lc);
 			model.setInt("linkIndex", linkIndex);
 			lc.setLinkIndexInGrid(linkIndex);
+			model.set("hasListener", lc.getListener() != null);
 		} else if (column.getFormatter() == Formatter.date) {
 			model.set("formatter", "date");
 			model.set("dateFormat", JexpGwtUser.getDateFormat());
@@ -207,256 +208,256 @@ public class DataGrid<T extends Serializable> extends BaseSlickGrid<ListColumn> 
 	}
 
 	private native JavaScriptObject createByJs(DataGrid x, String elGridId, JavaScriptObject options, JavaScriptObject columns, String keyColumnName, String loadingCssClassName, JavaScriptObject data, boolean autoLoad, int zIndex, Element loadingPanel, Element recInfo, String noRecFoundMessage, String groupMessage, DataGridStyler styler, boolean dataPaging, int maxHeight, JsArray<JavaScriptObject> currentGroupDef) /*-{
-																																																																																																									var sortModel = null;
-																																																																																																									var hasGroupable = false;
-																																																																																																									for (var i = 0; i < columns.length; i++) {
-																																																																																																									var model = columns[i];
-																																																																																																									if (model.sortedAsc)
-																																																																																																									sortModel = model;
-																																																																																																									if (model.jexpGroupable) {
-																																																																																																									options.rowsPerPage = 0;
-																																																																																																									hasGroupable = true;
-																																																																																																									model.header = {
-																																																																																																									menu : {
-																																																																																																									items : [ {
-																																																																																																									iconCssClass : "jexpGroupIcon",
-																																																																																																									title : groupMessage,
-																																																																																																									command : "group"
-																																																																																																									} ]
-																																																																																																									}
-																																																																																																									};
-																																																																																																									}
-																																																																																																									if (model.formatter == "bool") {
-																																																																																																									model.formatter = $wnd.JexpBoolFormatter;
-																																																																																																									} else if (model.formatter == "map") {
-																																																																																																									model.formatter = $wnd.JexpMapFormatter;
-																																																																																																									} else if (model.formatter == "date") {
-																																																																																																									model.formatter = $wnd.JexpDateFormatter;
-																																																																																																									} else if (model.formatter == "timestamp") {
-																																																																																																									model.formatter = $wnd.JexpTimeStampFormatter;
-																																																																																																									} else if (model.formatter == "decimal") {
-																																																																																																									model.formatter = $wnd.JexpDecimalFormatter;
-																																																																																																									} else if (model.formatter == "link") {
-																																																																																																									model.formatter = $wnd.JexpLinkFormatter;
-																																																																																																									} else if (model.formatter == "percentbar") {
-																																																																																																									model.formatter = $wnd.JexpPercentCompleteBarFormatter;
-																																																																																																									}
-																																																																																																									}
-																																																																																																									var checkboxSelector = null;
-																																																																																																									if (options.multiSelect) {
-																																																																																																									checkboxSelector = new $wnd.Slick.CheckboxSelectColumn({
-																																																																																																									cssClass : "slick-cell-checkboxsel"
-																																																																																																									});
-																																																																																																									columns.unshift(checkboxSelector.getColumnDefinition());
-																																																																																																									}
+		var sortModel = null;
+		var hasGroupable = false;
+		for (var i = 0; i < columns.length; i++) {
+			var model = columns[i];
+			if (model.sortedAsc)
+				sortModel = model;
+			if (model.jexpGroupable) {
+				options.rowsPerPage = 0;
+				hasGroupable = true;
+				model.header = {
+					menu : {
+						items : [ {
+							iconCssClass : "jexpGroupIcon",
+							title : groupMessage,
+							command : "group"
+						} ]
+					}
+				};
+			}
+			if (model.formatter == "bool") {
+				model.formatter = $wnd.JexpBoolFormatter;
+			} else if (model.formatter == "map") {
+				model.formatter = $wnd.JexpMapFormatter;
+			} else if (model.formatter == "date") {
+				model.formatter = $wnd.JexpDateFormatter;
+			} else if (model.formatter == "timestamp") {
+				model.formatter = $wnd.JexpTimeStampFormatter;
+			} else if (model.formatter == "decimal") {
+				model.formatter = $wnd.JexpDecimalFormatter;
+			} else if (model.formatter == "link") {
+				model.formatter = $wnd.JexpLinkFormatter;
+			} else if (model.formatter == "percentbar") {
+				model.formatter = $wnd.JexpPercentCompleteBarFormatter;
+			}
+		}
+		var checkboxSelector = null;
+		if (options.multiSelect) {
+			checkboxSelector = new $wnd.Slick.CheckboxSelectColumn({
+				cssClass : "slick-cell-checkboxsel"
+			});
+			columns.unshift(checkboxSelector.getColumnDefinition());
+		}
 
-																																																																																																									options.onBeforeDataRequest = function(postData) {
-																																																																																																									x.@com.javexpress.gwt.library.ui.data.slickgrid.DataGrid::fireOnBeforeDataRequest(Lcom/google/gwt/core/client/JavaScriptObject;)(postData);
-																																																																																																									}
+		options.onBeforeDataRequest = function(postData) {
+			x.@com.javexpress.gwt.library.ui.data.slickgrid.DataGrid::fireOnBeforeDataRequest(Lcom/google/gwt/core/client/JavaScriptObject;)(postData);
+		}
 
-																																																																																																									var loader = new $wnd.Slick.Data.RemoteModel(options, data);
-																																																																																																									x.@com.javexpress.gwt.library.ui.data.slickgrid.DataGrid::setLoader(Lcom/google/gwt/core/client/JavaScriptObject;)(loader);
+		var loader = new $wnd.Slick.Data.RemoteModel(options, data);
+		x.@com.javexpress.gwt.library.ui.data.slickgrid.DataGrid::setLoader(Lcom/google/gwt/core/client/JavaScriptObject;)(loader);
 
-																																																																																																									var dataView = null;
-																																																																																																									var groupItemMetadataProvider = null;
-																																																																																																									if (!dataPaging || hasGroupable) {
-																																																																																																									if (hasGroupable) {
-																																																																																																									groupItemMetadataProvider = new $wnd.Slick.Data.GroupItemMetadataProvider();
-																																																																																																									dataView = new $wnd.Slick.Data.DataView({
-																																																																																																									groupItemMetadataProvider : groupItemMetadataProvider
-																																																																																																									});
-																																																																																																									} else
-																																																																																																									dataView = new $wnd.Slick.Data.DataView();
-																																																																																																									x.@com.javexpress.gwt.library.ui.data.slickgrid.DataGrid::setDataView(Lcom/google/gwt/core/client/JavaScriptObject;)(dataView);
-																																																																																																									}
+		var dataView = null;
+		var groupItemMetadataProvider = null;
+		if (!dataPaging || hasGroupable) {
+			if (hasGroupable) {
+				groupItemMetadataProvider = new $wnd.Slick.Data.GroupItemMetadataProvider();
+				dataView = new $wnd.Slick.Data.DataView({
+					groupItemMetadataProvider : groupItemMetadataProvider
+				});
+			} else
+				dataView = new $wnd.Slick.Data.DataView();
+			x.@com.javexpress.gwt.library.ui.data.slickgrid.DataGrid::setDataView(Lcom/google/gwt/core/client/JavaScriptObject;)(dataView);
+		}
 
-																																																																																																									var grid = new $wnd.Slick.Grid("#" + elGridId,
-																																																																																																									dataView != null ? dataView : loader.data, columns, options);
-																																																																																																									grid.setSelectionModel(new $wnd.Slick.RowSelectionModel(
-																																																																																																									options.multiSelect ? {
-																																																																																																									selectActiveRow : false
-																																																																																																									} : {}));
-																																																																																																									if (groupItemMetadataProvider)
-																																																																																																									grid.registerPlugin(groupItemMetadataProvider);
-																																																																																																									if (checkboxSelector)
-																																																																																																									grid.registerPlugin(checkboxSelector);
-																																																																																																									if (hasGroupable) {
-																																																																																																									var headerMenuPlugin = new $wnd.Slick.Plugins.HeaderMenu({});
-																																																																																																									//headerMenuPlugin.onBeforeMenuShow.subscribe(function(e, args) {});
-																																																																																																									headerMenuPlugin.onCommand
-																																																																																																									.subscribe(function(e, args) {
-																																																																																																									x.@com.javexpress.gwt.library.ui.data.slickgrid.DataGrid::fireOnHeaderMenuItemClicked(Ljava/lang/String;Lcom/google/gwt/core/client/JavaScriptObject;)(args.command,args.column);
-																																																																																																									});
-																																																																																																									grid.registerPlugin(headerMenuPlugin);
-																																																																																																									}
+		var grid = new $wnd.Slick.Grid("#" + elGridId,
+				dataView != null ? dataView : loader.data, columns, options);
+		grid.setSelectionModel(new $wnd.Slick.RowSelectionModel(
+				options.multiSelect ? {
+					selectActiveRow : false
+				} : {}));
+		if (groupItemMetadataProvider)
+			grid.registerPlugin(groupItemMetadataProvider);
+		if (checkboxSelector)
+			grid.registerPlugin(checkboxSelector);
+		if (hasGroupable) {
+			var headerMenuPlugin = new $wnd.Slick.Plugins.HeaderMenu({});
+			//headerMenuPlugin.onBeforeMenuShow.subscribe(function(e, args) {});
+			headerMenuPlugin.onCommand
+					.subscribe(function(e, args) {
+						x.@com.javexpress.gwt.library.ui.data.slickgrid.DataGrid::fireOnHeaderMenuItemClicked(Ljava/lang/String;Lcom/google/gwt/core/client/JavaScriptObject;)(args.command,args.column);
+					});
+			grid.registerPlugin(headerMenuPlugin);
+		}
 
-																																																																																																									var columnpicker = new $wnd.Slick.Controls.ColumnPicker(columns, grid,
-																																																																																																									options);
+		var columnpicker = new $wnd.Slick.Controls.ColumnPicker(columns, grid,
+				options);
 
-																																																																																																									loader.onDataLoading.subscribe(function() {
-																																																																																																									$wnd.$(loadingPanel).addClass(loadingCssClassName);
-																																																																																																									});
+		loader.onDataLoading.subscribe(function() {
+			$wnd.$(loadingPanel).addClass(loadingCssClassName);
+		});
 
-																																																																																																									loader.lastLength = -1;
-																																																																																																									loader.onDataLoaded
-																																																																																																									.subscribe(function(e, args) {
-																																																																																																									recInfo.innerHTML = "";
-																																																																																																									if (data.length > 0) {
-																																																																																																									for (var i = args.from; i <= args.to; i++)
-																																																																																																									grid.invalidateRow(i);
+		loader.lastLength = -1;
+		loader.onDataLoaded
+				.subscribe(function(e, args) {
+					recInfo.innerHTML = "";
+					if (data.length > 0) {
+						for (var i = args.from; i <= args.to; i++)
+							grid.invalidateRow(i);
 
-																																																																																																									recInfo.innerHTML = (args.from + 1) + " - "
-																																																																																																									+ Math.min(args.to + 1, data.length) + " / "
-																																																																																																									+ data.length + (dataView ? " (L)" : "");
+						recInfo.innerHTML = (args.from + 1) + " - "
+								+ Math.min(args.to + 1, data.length) + " / "
+								+ data.length + (dataView ? " (L)" : "");
 
-																																																																																																									if (maxHeight > 0) {
-																																																																																																									x.@com.javexpress.gwt.library.ui.data.slickgrid.DataGrid::fireUpdateParentSize(I)(data.length);
-																																																																																																									}
-																																																																																																									} else {
-																																																																																																									recInfo.innerHTML = noRecFoundMessage;
+						if (maxHeight > 0) {
+							x.@com.javexpress.gwt.library.ui.data.slickgrid.DataGrid::fireUpdateParentSize(I)(data.length);
+						}
+					} else {
+						recInfo.innerHTML = noRecFoundMessage;
 
-																																																																																																									if (maxHeight > 0) {
-																																																																																																									x.@com.javexpress.gwt.library.ui.data.slickgrid.DataGrid::fireUpdateParentSize(I)(1);
-																																																																																																									}
-																																																																																																									}
+						if (maxHeight > 0) {
+							x.@com.javexpress.gwt.library.ui.data.slickgrid.DataGrid::fireUpdateParentSize(I)(1);
+						}
+					}
 
-																																																																																																									$wnd.$(loadingPanel).removeClass(loadingCssClassName);
+					$wnd.$(loadingPanel).removeClass(loadingCssClassName);
 
-																																																																																																									if (dataView) {
-																																																																																																									dataView.beginUpdate();
-																																																																																																									dataView.setItems(loader.data, keyColumnName);
-																																																																																																									if (currentGroupDef)
-																																																																																																									dataView.setGrouping(currentGroupDef);
-																																																																																																									$wnd.console.debug(currentGroupDef);
-																																																																																																									dataView.endUpdate();
-																																																																																																									} else {
-																																																																																																									if (loader.lastLength != data.length) {
-																																																																																																									grid.updateRowCount();
-																																																																																																									loader.lastLength = data.length;
-																																																																																																									}
-																																																																																																									grid.render();
-																																																																																																									}
-																																																																																																									x.@com.javexpress.gwt.library.ui.data.slickgrid.DataGrid::fireOnDataLoaded(Lcom/google/gwt/core/client/JavaScriptObject;)(data);
-																																																																																																									});
+					if (dataView) {
+						dataView.beginUpdate();
+						dataView.setItems(loader.data, keyColumnName);
+						if (currentGroupDef)
+							dataView.setGrouping(currentGroupDef);
+						$wnd.console.debug(currentGroupDef);
+						dataView.endUpdate();
+					} else {
+						if (loader.lastLength != data.length) {
+							grid.updateRowCount();
+							loader.lastLength = data.length;
+						}
+						grid.render();
+					}
+					x.@com.javexpress.gwt.library.ui.data.slickgrid.DataGrid::fireOnDataLoaded(Lcom/google/gwt/core/client/JavaScriptObject;)(data);
+				});
 
-																																																																																																									if (dataView) {
-																																																																																																									//grouping felan var
-																																																																																																									dataView.onRowCountChanged.subscribe(function(e, args) {
-																																																																																																									grid.updateRowCount();
-																																																																																																									grid.render();
-																																																																																																									});
-																																																																																																									dataView.onRowsChanged.subscribe(function(e, args) {
-																																																																																																									grid.invalidateRows(args.rows);
-																																																																																																									grid.render();
-																																																																																																									});
-																																																																																																									} else {
-																																																																																																									grid.onViewportChanged.subscribe(function(e, args) {
-																																																																																																									var vp = grid.getViewport();
-																																																																																																									loader.ensureData(vp.top, vp.bottom);
-																																																																																																									});
-																																																																																																									}
+		if (dataView) {
+			//grouping felan var
+			dataView.onRowCountChanged.subscribe(function(e, args) {
+				grid.updateRowCount();
+				grid.render();
+			});
+			dataView.onRowsChanged.subscribe(function(e, args) {
+				grid.invalidateRows(args.rows);
+				grid.render();
+			});
+		} else {
+			grid.onViewportChanged.subscribe(function(e, args) {
+				var vp = grid.getViewport();
+				loader.ensureData(vp.top, vp.bottom);
+			});
+		}
 
-																																																																																																									grid.onSort.subscribe(function(e, args) {
-																																																																																																									loader.clear();
-																																																																																																									if (dataView) {
-																																																																																																									dataView.setItems([]);
-																																																																																																									}
-																																																																																																									loader.setSort(args.sortCols);
-																																																																																																									grid.invalidateAllRows();
-																																																																																																									grid.onViewportChanged.notify();
-																																																																																																									});
-																																																																																																									if (sortModel) {
-																																																																																																									var sortCols = [];
-																																																																																																									sortCols[0] = {
-																																																																																																									sortAsc : sortModel.sortedAsc,
-																																																																																																									sortCol : sortModel
-																																																																																																									};
-																																																																																																									loader.setSort(sortCols);
-																																																																																																									grid.setSortColumn(sortModel.field, sortModel.sortedAsc);
-																																																																																																									}
+		grid.onSort.subscribe(function(e, args) {
+			loader.clear();
+			if (dataView) {
+				dataView.setItems([]);
+			}
+			loader.setSort(args.sortCols);
+			grid.invalidateAllRows();
+			grid.onViewportChanged.notify();
+		});
+		if (sortModel) {
+			var sortCols = [];
+			sortCols[0] = {
+				sortAsc : sortModel.sortedAsc,
+				sortCol : sortModel
+			};
+			loader.setSort(sortCols);
+			grid.setSortColumn(sortModel.field, sortModel.sortedAsc);
+		}
 
-																																																																																																									grid.canCellBeActive = function(row, cell) {
-																																																																																																									var rowData = data[row];
-																																																																																																									if (!rowData)
-																																																																																																									return;
-																																																																																																									var rowId = rowData[keyColumnName];
-																																																																																																									return x.@com.javexpress.gwt.library.ui.data.slickgrid.DataGrid::fireOnBeforeRowSelect(Ljava/lang/String;Lcom/google/gwt/core/client/JavaScriptObject;)(rowId+"",rowData);
-																																																																																																									}
+		grid.canCellBeActive = function(row, cell) {
+			var rowData = data[row];
+			if (!rowData)
+				return;
+			var rowId = rowData[keyColumnName];
+			return x.@com.javexpress.gwt.library.ui.data.slickgrid.DataGrid::fireOnBeforeRowSelect(Ljava/lang/String;Lcom/google/gwt/core/client/JavaScriptObject;)(rowId+"",rowData);
+		}
 
-																																																																																																									grid.onSelectedRowsChanged
-																																																																																																									.subscribe(function(e, args) {
-																																																																																																									if (!loader.disableSelectEventFire && !options.multiSelect) {
-																																																																																																									var rowData = data[args.rows[0]];
-																																																																																																									var rowId = rowData ? rowData[keyColumnName] : null;
-																																																																																																									x.@com.javexpress.gwt.library.ui.data.slickgrid.DataGrid::fireOnRowSelect(Ljava/lang/String;ZLcom/google/gwt/core/client/JavaScriptObject;)(rowId?rowId+"":null,true,rowData);
-																																																																																																									return;
-																																																																																																									}
-																																																																																																									var sels = args.rows.slice();
-																																																																																																									if (!loader.disableSelectEventFire) {
-																																																																																																									for (var i = 0; i < sels.length; i++) {
-																																																																																																									var exists = false;
-																																																																																																									if (loader.lastSelectedRows) {
-																																																																																																									for (var l = 0; l < loader.lastSelectedRows.length; l++) {
-																																																																																																									if (sels[i] == loader.lastSelectedRows[l]) {
-																																																																																																									exists = true;//zaten var
-																																																																																																									break;
-																																																																																																									}
-																																																																																																									}
-																																																																																																									}
-																																																																																																									if (!exists) {
-																																																																																																									var rowData = data[sels[i]];
-																																																																																																									var rowId = rowData ? rowData[keyColumnName]
-																																																																																																									: null;
-																																																																																																									x.@com.javexpress.gwt.library.ui.data.slickgrid.DataGrid::fireOnRowSelect(Ljava/lang/String;ZLcom/google/gwt/core/client/JavaScriptObject;)(rowId?rowId+"":null,true,rowData);
-																																																																																																									}
-																																																																																																									}
-																																																																																																									if (loader.lastSelectedRows) {
-																																																																																																									for (var l = 0; l < loader.lastSelectedRows.length; l++) {
-																																																																																																									var found = false;
-																																																																																																									for (var i = 0; i < sels.length; i++) {
-																																																																																																									if (loader.lastSelectedRows[l] == sels[i]) {
-																																																																																																									found = true;
-																																																																																																									break;
-																																																																																																									}
-																																																																																																									}
-																																																																																																									if (!found) {
-																																																																																																									var rowData = data[loader.lastSelectedRows[l]];
-																																																																																																									var rowId = rowData ? rowData[keyColumnName]
-																																																																																																									: null;
-																																																																																																									x.@com.javexpress.gwt.library.ui.data.slickgrid.DataGrid::fireOnRowSelect(Ljava/lang/String;ZLcom/google/gwt/core/client/JavaScriptObject;)(rowId?rowId+"":null,false,rowData);
-																																																																																																									}
-																																																																																																									}
-																																																																																																									}
-																																																																																																									}
-																																																																																																									loader.lastSelectedRows = sels;
-																																																																																																									});
+		grid.onSelectedRowsChanged
+				.subscribe(function(e, args) {
+					if (!loader.disableSelectEventFire && !options.multiSelect) {
+						var rowData = data[args.rows[0]];
+						var rowId = rowData ? rowData[keyColumnName] : null;
+						x.@com.javexpress.gwt.library.ui.data.slickgrid.DataGrid::fireOnRowSelect(Ljava/lang/String;ZLcom/google/gwt/core/client/JavaScriptObject;)(rowId?rowId+"":null,true,rowData);
+						return;
+					}
+					var sels = args.rows.slice();
+					if (!loader.disableSelectEventFire) {
+						for (var i = 0; i < sels.length; i++) {
+							var exists = false;
+							if (loader.lastSelectedRows) {
+								for (var l = 0; l < loader.lastSelectedRows.length; l++) {
+									if (sels[i] == loader.lastSelectedRows[l]) {
+										exists = true;//zaten var
+										break;
+									}
+								}
+							}
+							if (!exists) {
+								var rowData = data[sels[i]];
+								var rowId = rowData ? rowData[keyColumnName]
+										: null;
+								x.@com.javexpress.gwt.library.ui.data.slickgrid.DataGrid::fireOnRowSelect(Ljava/lang/String;ZLcom/google/gwt/core/client/JavaScriptObject;)(rowId?rowId+"":null,true,rowData);
+							}
+						}
+						if (loader.lastSelectedRows) {
+							for (var l = 0; l < loader.lastSelectedRows.length; l++) {
+								var found = false;
+								for (var i = 0; i < sels.length; i++) {
+									if (loader.lastSelectedRows[l] == sels[i]) {
+										found = true;
+										break;
+									}
+								}
+								if (!found) {
+									var rowData = data[loader.lastSelectedRows[l]];
+									var rowId = rowData ? rowData[keyColumnName]
+											: null;
+									x.@com.javexpress.gwt.library.ui.data.slickgrid.DataGrid::fireOnRowSelect(Ljava/lang/String;ZLcom/google/gwt/core/client/JavaScriptObject;)(rowId?rowId+"":null,false,rowData);
+								}
+							}
+						}
+					}
+					loader.lastSelectedRows = sels;
+				});
 
-																																																																																																									grid.onDblClick
-																																																																																																									.subscribe(function(e, args) {
-																																																																																																									var rowData = data[args.row];
-																																																																																																									if (!rowData)
-																																																																																																									return;
-																																																																																																									var rowId = rowData[keyColumnName];
-																																																																																																									x.@com.javexpress.gwt.library.ui.data.slickgrid.DataGrid::fireOnRowDoubleClick(Ljava/lang/String;Lcom/google/gwt/core/client/JavaScriptObject;)(rowId+"",rowData);
-																																																																																																									});
+		grid.onDblClick
+				.subscribe(function(e, args) {
+					var rowData = data[args.row];
+					if (!rowData)
+						return;
+					var rowId = rowData[keyColumnName];
+					x.@com.javexpress.gwt.library.ui.data.slickgrid.DataGrid::fireOnRowDoubleClick(Ljava/lang/String;Lcom/google/gwt/core/client/JavaScriptObject;)(rowId+"",rowData);
+				});
 
-																																																																																																									// load the first page
-																																																																																																									if (autoLoad) {
-																																																																																																									if (dataView) {
-																																																																																																									loader.ensureData(0, 9999);
-																																																																																																									} else
-																																																																																																									grid.onViewportChanged.notify();
-																																																																																																									}
-																																																																																																									$wnd
-																																																																																																									.$("#" + elGridId)
-																																																																																																									.bind(
-																																																																																																									"linkclicked",
-																																																																																																									function(event, linkElement, row, cell, field,
-																																																																																																									linkIndex, value) {
-																																																																																																									x.@com.javexpress.gwt.library.ui.data.slickgrid.DataGrid::fireLinkClicked(Lcom/google/gwt/core/client/JavaScriptObject;IILjava/lang/String;ILjava/lang/String;)(linkElement,row,cell,field,linkIndex,value);
-																																																																																																									});
-																																																																																																									return grid;
-																																																																																																									}-*/;
+		// load the first page
+		if (autoLoad) {
+			if (dataView) {
+				loader.ensureData(0, 9999);
+			} else
+				grid.onViewportChanged.notify();
+		}
+		$wnd
+				.$("#" + elGridId)
+				.bind(
+						"linkclicked",
+						function(event, linkElement, row, cell, field,
+								linkIndex, value) {
+							x.@com.javexpress.gwt.library.ui.data.slickgrid.DataGrid::fireLinkClicked(Lcom/google/gwt/core/client/JavaScriptObject;IILjava/lang/String;ILjava/lang/String;)(linkElement,row,cell,field,linkIndex,value);
+						});
+		return grid;
+	}-*/;
 
 	@Override
 	public HandlerRegistration addContextMenuHandler(ContextMenuHandler handler) {
@@ -512,13 +513,13 @@ public class DataGrid<T extends Serializable> extends BaseSlickGrid<ListColumn> 
 	}
 
 	private native void _clearData(JavaScriptObject grid, JavaScriptObject loader, JavaScriptObject dataView) /*-{
-																												if (loader)
-																												loader.clear();
-																												if (dataView)
-																												dataView.setItems([]);
-																												if (grid)
-																												grid.invalidateAllRows();
-																												}-*/;
+		if (loader)
+			loader.clear();
+		if (dataView)
+			dataView.setItems([]);
+		if (grid)
+			grid.invalidateAllRows();
+	}-*/;
 
 	@Override
 	public void refresh(final Serializable result) {
@@ -539,16 +540,16 @@ public class DataGrid<T extends Serializable> extends BaseSlickGrid<ListColumn> 
 	}
 
 	private native void _refresh(JavaScriptObject grid, JavaScriptObject loader, JavaScriptObject dataView) /*-{
-																											loader.clear();
-																											if (dataView)
-																											dataView.setItems([]);
-																											grid.invalidateAllRows();
-																											if (dataView) {
-																											loader.ensureData(0, 9999);
-																											} else {
-																											grid.onViewportChanged.notify();
-																											}
-																											}-*/;
+		loader.clear();
+		if (dataView)
+			dataView.setItems([]);
+		grid.invalidateAllRows();
+		if (dataView) {
+			loader.ensureData(0, 9999);
+		} else {
+			grid.onViewportChanged.notify();
+		}
+	}-*/;
 
 	@Override
 	public String getSelectedId() {
@@ -595,15 +596,15 @@ public class DataGrid<T extends Serializable> extends BaseSlickGrid<ListColumn> 
 	}
 
 	private native JsArray<JavaScriptObject> _getSelectedRowsData(JavaScriptObject grid, JavaScriptObject data) /*-{
-																												var selectedIndexes = grid.getSelectedRows();
-																												if (selectedIndexes && selectedIndexes.length > 0) {
-																												var arr = [];
-																												for (var i = 0; i < selectedIndexes.length; i++)
-																												arr[i] = data[selectedIndexes[i]];
-																												return arr;
-																												}
-																												return null;
-																												}-*/;
+		var selectedIndexes = grid.getSelectedRows();
+		if (selectedIndexes && selectedIndexes.length > 0) {
+			var arr = [];
+			for (var i = 0; i < selectedIndexes.length; i++)
+				arr[i] = data[selectedIndexes[i]];
+			return arr;
+		}
+		return null;
+	}-*/;
 
 	@Override
 	public void setListener(IGridListener listener) {
@@ -653,44 +654,44 @@ public class DataGrid<T extends Serializable> extends BaseSlickGrid<ListColumn> 
 	}
 
 	private native void _scrollToSelection(JavaScriptObject grid, JsArrayInteger rowIndexes) /*-{
-																								if (rowIndexes != null && rowIndexes.length > 0)
-																								grid.scrollRowToTop(rowIndexes[0]);
-																								}-*/;
+		if (rowIndexes != null && rowIndexes.length > 0)
+			grid.scrollRowToTop(rowIndexes[0]);
+	}-*/;
 
 	private native void _setSelectedRows(JavaScriptObject grid, JavaScriptObject loader, JsArrayInteger rowIndexes, boolean fireOnSelect) /*-{
-																																			if (!fireOnSelect)
-																																			loader.disableSelectEventFire = true;
-																																			grid.setSelectedRows(rowIndexes != null ? rowIndexes : []);
-																																			loader.disableSelectEventFire = false;
-																																			}-*/;
+		if (!fireOnSelect)
+			loader.disableSelectEventFire = true;
+		grid.setSelectedRows(rowIndexes != null ? rowIndexes : []);
+		loader.disableSelectEventFire = false;
+	}-*/;
 
 	private native JavaScriptObject _createAggregator(String func, String field) /*-{
-																					if (func == "sum")
-																					return new Slick.Data.Aggregators.Sum(field);
-																					if (func == "avg")
-																					return new Slick.Data.Aggregators.Avg(field);
-																					if (func == "min")
-																					return new Slick.Data.Aggregators.Min(field);
-																					if (func == "max")
-																					return new Slick.Data.Aggregators.Max(field);
-																					}-*/;
+		if (func == "sum")
+			return new Slick.Data.Aggregators.Sum(field);
+		if (func == "avg")
+			return new Slick.Data.Aggregators.Avg(field);
+		if (func == "min")
+			return new Slick.Data.Aggregators.Min(field);
+		if (func == "max")
+			return new Slick.Data.Aggregators.Max(field);
+	}-*/;
 
 	private native JavaScriptObject _createGroupDef(String field, String title, String template, JsArray<JavaScriptObject> aggregators, boolean collapsed) /*-{
-																																							var gd = {
-																																							getter : field,
-																																							formatter : function(g) {
-																																							return title + ": " + g.value + "	<span style='color:green'>("
-																																							+ g.count + " öğe)</span>";
-																																							},
-																																							collapsed : collapsed,
-																																							};
-																																							if (aggregators && aggregators.length > 0) {
-																																							gd.aggregators = aggregators;
-																																							gd.aggregateCollapsed = true;
-																																							gd.lazyTotalsCalculation = true;
-																																							}
-																																							return gd;
-																																							}-*/;
+		var gd = {
+			getter : field,
+			formatter : function(g) {
+				return title + ": " + g.value + "	<span style='color:green'>("
+						+ g.count + " öğe)</span>";
+			},
+			collapsed : collapsed,
+		};
+		if (aggregators && aggregators.length > 0) {
+			gd.aggregators = aggregators;
+			gd.aggregateCollapsed = true;
+			gd.lazyTotalsCalculation = true;
+		}
+		return gd;
+	}-*/;
 
 	@Override
 	public void setGroupColumn(String... fields) {
@@ -715,8 +716,8 @@ public class DataGrid<T extends Serializable> extends BaseSlickGrid<ListColumn> 
 	}
 
 	private native void _setGrouping(JavaScriptObject dataView, JsArray<JavaScriptObject> groupDef) /*-{
-																									dataView.setGrouping(groupDef);
-																									}-*/;
+		dataView.setGrouping(groupDef);
+	}-*/;
 
 	@Override
 	public void setListing(IJsonServicePoint listingEnum) {
@@ -786,7 +787,7 @@ public class DataGrid<T extends Serializable> extends BaseSlickGrid<ListColumn> 
 
 	private void fireLinkClicked(JavaScriptObject linkElement, int row, int cell, String field, int linkIndex, String value) {
 		for (ListColumn ec : getColumns())
-			if (ec.getField().equals(field)) {
+			if (ec instanceof LinkColumn) {
 				LinkColumn elc = (LinkColumn) ec;
 				if (elc.getLinkIndexInGrid() == linkIndex) {
 					JavaScriptObject jso = getData().get(row);

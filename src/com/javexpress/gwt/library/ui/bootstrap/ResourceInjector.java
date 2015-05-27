@@ -2,6 +2,7 @@ package com.javexpress.gwt.library.ui.bootstrap;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.user.client.Command;
+import com.google.gwt.user.client.ui.Panel;
 import com.javexpress.gwt.library.ui.BaseResourceInjector;
 import com.javexpress.gwt.library.ui.container.dashboard.Dashboard;
 import com.javexpress.gwt.library.ui.data.jqgrid.JqGrid;
@@ -14,15 +15,22 @@ import com.javexpress.gwt.library.ui.js.WidgetBundles;
 
 public abstract class ResourceInjector extends BaseResourceInjector {
 
-	public static interface IBootstrapThemeBundlesProvider {
+	public static interface IBootstrapThemeProvider {
 		String getThemeName();
 
 		void addStyleSheets(WidgetBundles wb, int phase);
 
 		void addJavaScripts(WidgetBundles wb, int phase);
+
+		ApplicationHeaderPanel createHeaderPanel(Panel parent, String id);
+
+		ApplicationMainContainer createMainContainer(Panel parent, String id);
+
+		Panel createRootPanel(Panel body);
+
 	}
 
-	protected IBootstrapThemeBundlesProvider	theme;
+	protected IBootstrapThemeProvider	theme;
 
 	@Override
 	public void injectCore(JsonMap requireConfig, final Command onload) {

@@ -2,9 +2,11 @@ function JexpPercentCompleteBarFormatter(row, cell, value, columnDef, dataContex
     if (value == null || value === "")
     	return "";
     var color;
-    if (value < 30) {
+    if (value < 25) {
     	color = "red";
-    } else if (value < 70) {
+    } else if (value < 50) {
+		color = "orange";
+    } else if (value < 75) {
     	color = "silver";
     } else {
     	color = "green";

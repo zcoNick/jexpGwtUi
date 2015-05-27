@@ -7,6 +7,18 @@
 
 	<inherits name="com.javexpress.common.model.JexpCommon"/>
 	
+	<define-property name="bootstrapTheme" values="alte" />
+	<property-provider name="bootstrapTheme"><![CDATA[                    
+	     return __gwt_getMetaProperty("bootstrapTheme"); 
+	]]></property-provider>
+	
+	<set-property-fallback name="bootstrapTheme" value="alte"/>
+	
+	<replace-with class="com.javexpress.gwt.library.ui.bootstrap.alte.AlteResourceInjector">
+		<when-type-is class="com.javexpress.gwt.library.ui.IResourceInjector" />
+		<when-property-is name="bootstrapTheme" value="alte" />
+	</replace-with>
+	
 	<!--generate-with class="com.javexpress.gwt.library.rebind.JexpRemoteServiceProxyGenerator">
 		<when-type-assignable class="com.javexpress.gwt.library.shared.service.IJexpRemoteService" />
 	</generate-with--> 

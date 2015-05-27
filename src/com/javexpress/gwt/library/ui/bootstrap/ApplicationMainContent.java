@@ -6,34 +6,21 @@ import java.util.Map;
 
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.dom.client.Style.Display;
-import com.google.gwt.user.client.DOM;
 import com.javexpress.gwt.library.ui.AbstractContainer;
 
 public class ApplicationMainContent extends AbstractContainer {
 
-	private static final int		VIEW_CACHE_SIZE	= 10;
+	protected static final int				VIEW_CACHE_SIZE	= 20;
 
-	private Element					inner;
-	private Element					page;
-	private ApplicationBreadcrumb	breadcrumb;
+	private ApplicationBreadcrumb			breadcrumb;
 
-	private Map<String, MainContentView>		viewCache		= new LinkedHashMap<String, MainContentView>(VIEW_CACHE_SIZE);
+	private Map<String, MainContentView>	viewCache		= new LinkedHashMap<String, MainContentView>(VIEW_CACHE_SIZE);
 	private MainContentView					currentView		= null;
 
-	public ApplicationMainContent() {
-		super(DOM.createDiv());
-		getElement().setClassName("main-content");
+	protected Element						page;
 
-		inner = DOM.createDiv();
-		inner.setClassName("main-content-inner");
-		getElement().appendChild(inner);
-
-		ApplicationBreadcrumb breadcrumb = new ApplicationBreadcrumb();
-		add(breadcrumb, inner);
-
-		page = DOM.createDiv();
-		page.setClassName("page-content");
-		inner.appendChild(page);
+	public ApplicationMainContent(Element el) {
+		super(el);
 	}
 
 	public ApplicationBreadcrumb getBreadcrumb() {
@@ -81,10 +68,9 @@ public class ApplicationMainContent extends AbstractContainer {
 	@Override
 	protected void onUnload() {
 		breadcrumb = null;
-		inner = null;
-		page = null;
 		viewCache = null;
 		currentView = null;
+		page = null;
 		super.onUnload();
 	}
 

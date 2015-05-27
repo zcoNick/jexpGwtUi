@@ -19,7 +19,7 @@ public abstract class ConfirmButton extends Button {
 					public void onOk() throws Exception {
 						onConfirm();
 					}
-				});
+				}).show();
 			}
 		});
 	}

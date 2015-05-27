@@ -1,16 +1,19 @@
 package com.javexpress.gwt.library.ui.bootstrap.alte;
 
 import com.google.gwt.user.client.Command;
+import com.google.gwt.user.client.ui.Panel;
+import com.javexpress.gwt.library.ui.bootstrap.ApplicationHeaderPanel;
+import com.javexpress.gwt.library.ui.bootstrap.ApplicationMainContainer;
 import com.javexpress.gwt.library.ui.bootstrap.ResourceInjector;
-import com.javexpress.gwt.library.ui.bootstrap.ResourceInjector.IBootstrapThemeBundlesProvider;
+import com.javexpress.gwt.library.ui.bootstrap.ResourceInjector.IBootstrapThemeProvider;
 import com.javexpress.gwt.library.ui.js.JsonMap;
 import com.javexpress.gwt.library.ui.js.WidgetBundles;
 
-public class AlteResourceInjector extends ResourceInjector implements IBootstrapThemeBundlesProvider {
+public class AlteResourceInjector extends ResourceInjector implements IBootstrapThemeProvider {
 
 	@Override
 	public String getThemeName() {
-		return "ALTE UI 2.1.1";
+		return "AdminLTE UI 2.1.1";
 	}
 
 	@Override
@@ -42,6 +45,25 @@ public class AlteResourceInjector extends ResourceInjector implements IBootstrap
 			case 100:
 				break;
 		}
+	}
+
+	@Override
+	public Panel createRootPanel(Panel body) {
+		return body;//div class=wrapper idi
+	}
+
+	@Override
+	public ApplicationHeaderPanel createHeaderPanel(Panel parent, String id) {
+		ApplicationHeaderPanelAlte ahp = new ApplicationHeaderPanelAlte(id);
+		parent.add(ahp);
+		return ahp;
+	}
+
+	@Override
+	public ApplicationMainContainer createMainContainer(Panel parent, String id) {
+		ApplicationMainContainer mc = new ApplicationMainContainerAlte(parent, id);
+		//parent.add(mc);dont add!
+		return mc;
 	}
 
 }
