@@ -5,10 +5,6 @@
 .jexpCheckBox { font-size:12px; }
 .jexpCheckBox.form-control { background-color: transparent; }
 .gwt-CheckBox.jexpSmallGwtCheck > label { font-size:inherit; }
-.jexp-view{ font-size:1em }
-.jexp-view .jexpMainViewToolItem { font-size:1em;color:#2679B5;opacity:0.25;cursor:pointer; }
-.jexp-view .pull-right.jexpMainViewToolItem { opacity:0.6; }
-.jexp-view .jexpMainViewToolItem:hover { opacity:1; }
 .modal > .widget-box { margin-top: 20px; }
 .jexp-ui-window { font-size: 1em }
 .jexp-ui-window.widget-box { border:none }

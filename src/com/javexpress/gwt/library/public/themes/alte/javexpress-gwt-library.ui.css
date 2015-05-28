@@ -1,7 +1,19 @@
 .user.user-menu > a { padding: 2px 20px 2px 20px; }
 .breadcrumb { background-color:transparent;margin-bottom:0; }
+.sidebar { font-size:13px; }
+.sidebar-menu .treeview-menu>li>a { font-size: 1em; }
 .sidebar-menu > li > a { display: block;padding: 10px 10px 10px 5px; }
+.sidebar-menu .treeview-menu>li>a { padding: 4px 5px 4px 8px; }
+.sidebar-menu .treeview-menu>li>a>.fa, .sidebar-menu .treeview-menu>li>a>.glyphicon, .sidebar-menu .treeview-menu>li>a>.ion { width: 14px; }
 .content-header { padding: 0 5px; }
-.content {
-	padding:5px;
-}
+.content { padding:5px; }
+.purple { color: #a069c3!important; }
+.red { color: #dd5a43!important; }
+.green { color: #69aa46!important; }
+.grey { color: #777!important; }
+.blue { color: #478fca!important; }
+.orange { color: #ff892a!important; }
+.jexp-view{ font-size: 12px;font-family: Helvetica; }
+.jexp-view .jexpMainViewToolItem { font-size:1em;color:#2679B5;opacity:0.25;cursor:pointer; }
+.jexp-view .pull-right.jexpMainViewToolItem { opacity:0.6; }
+.jexp-view .jexpMainViewToolItem:hover { opacity:1; }
