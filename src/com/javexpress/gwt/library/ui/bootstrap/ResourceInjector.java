@@ -49,8 +49,10 @@ public abstract class ResourceInjector extends BaseResourceInjector {
 		WidgetBundles wb = new WidgetBundles("Bootstrap 3.3.1", jq);
 		wb.addStyleSheet("scripts/bootstrap/bootstrap-3.3.1.min.css");
 		wb.addStyleSheet("fonts/fontawesome/font-awesome-4.2.0.min.css");
-		if (theme != null)
+		if (theme != null) {
 			theme.addStyleSheets(wb, 0);
+			theme.addJavaScripts(wb, 0);
+		}
 		wb.addStyleSheet("JexpGwtBootstrapBase-0.1.css");
 		wb.addJavaScript("scripts/bootstrap/bootstrap-3.3.1.min.js");
 		wb.addJavaScript("scripts/jexpUICore-0.1.js");

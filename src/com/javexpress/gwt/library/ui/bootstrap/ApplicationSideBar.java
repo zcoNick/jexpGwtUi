@@ -34,4 +34,6 @@ public abstract class ApplicationSideBar extends AbstractContainer {
 			linkHandler.linkClicked(path);
 	}
 
+	public abstract SideBarItem createSideBarItem(String id, String path);
+
 }

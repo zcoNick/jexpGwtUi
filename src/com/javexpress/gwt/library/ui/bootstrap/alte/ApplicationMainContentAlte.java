@@ -1,36 +1,49 @@
 package com.javexpress.gwt.library.ui.bootstrap.alte;
 
-import com.google.gwt.dom.client.Element;
 import com.google.gwt.user.client.DOM;
 import com.javexpress.gwt.library.ui.bootstrap.ApplicationBreadcrumb;
 import com.javexpress.gwt.library.ui.bootstrap.ApplicationMainContent;
+import com.javexpress.gwt.library.ui.bootstrap.MainContentView;
 
 public class ApplicationMainContentAlte extends ApplicationMainContent {
+	/*<div class="content-wrapper">
+	  <!-- Content Header (Page header) -->
+	  <section class="content-header">
+	    <h1>
+	      Page Header
+	      <small>Optional description</small>
+	    </h1>
+	    <ol class="breadcrumb">
+	      <li><a href="#"><i class="fa fa-dashboard"></i> Level</a></li>
+	      <li class="active">Here</li>
+	    </ol>
+	  </section>
 
-	private Element	inner;
-	private Element	page;
+	  <!-- Main content -->
+	  <section class="content">
+
+	    <!-- Your Page Content Here -->
+
+	  </section><!-- /.content -->
+	</div><!-- /.content-wrapper -->
+	*/
 
 	public ApplicationMainContentAlte() {
 		super(DOM.createDiv());
-		getElement().setClassName("main-content");
-
-		inner = DOM.createDiv();
-		inner.setClassName("main-content-inner");
-		getElement().appendChild(inner);
+		getElement().setClassName("content-wrapper");
 
 		ApplicationBreadcrumb breadcrumb = new ApplicationBreadcrumb();
-		add(breadcrumb, inner);
+		add(breadcrumb);
 
 		page = DOM.createDiv();
 		page.setClassName("page-content");
-		inner.appendChild(page);
+		getElement().appendChild(page);
 	}
 
 	@Override
-	protected void onUnload() {
-		inner = null;
-		page = null;
-		super.onUnload();
+	public MainContentView createView(String id) {
+		MainContentView mcv = new MainContentViewAlte(id);
+		return mcv;
 	}
 
 }

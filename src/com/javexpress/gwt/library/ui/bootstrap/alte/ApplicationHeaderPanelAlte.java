@@ -26,6 +26,16 @@ public class ApplicationHeaderPanelAlte extends ApplicationHeaderPanel {
 		navMain.setClassName("navbar navbar-fixed-top");
 		navMain.setAttribute("role", "navigation");
 
+		Element atgl = DOM.createAnchor();
+		atgl.setAttribute("href", "#");
+		atgl.setClassName("sidebar-toggle");
+		atgl.setAttribute("role", "button");
+		Element stgl = DOM.createSpan();
+		stgl.setClassName("sr-only");
+		stgl.setInnerText("Toggle navigation");
+		atgl.appendChild(stgl);
+		navMain.appendChild(atgl);
+
 		Element div = DOM.createDiv();
 		div.setClassName("navbar-custom-menu");
 

@@ -1,0 +1,7 @@
+.user.user-menu > a { padding: 2px 20px 2px 20px; }
+.breadcrumb { background-color:transparent;margin-bottom:0; }
+.sidebar-menu > li > a { display: block;padding: 10px 10px 10px 5px; }
+.content-header { padding: 0 5px; }
+.content {
+	padding:5px;
+}

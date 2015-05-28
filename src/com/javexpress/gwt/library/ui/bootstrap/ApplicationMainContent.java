@@ -8,7 +8,7 @@ import com.google.gwt.dom.client.Element;
 import com.google.gwt.dom.client.Style.Display;
 import com.javexpress.gwt.library.ui.AbstractContainer;
 
-public class ApplicationMainContent extends AbstractContainer {
+public abstract class ApplicationMainContent extends AbstractContainer {
 
 	protected static final int				VIEW_CACHE_SIZE	= 20;
 
@@ -73,5 +73,7 @@ public class ApplicationMainContent extends AbstractContainer {
 		page = null;
 		super.onUnload();
 	}
+
+	public abstract MainContentView createView(String id);
 
 }

@@ -1,7 +1,6 @@
 package com.javexpress.gwt.library.ui.bootstrap.alte;
 
 import com.google.gwt.dom.client.Element;
-import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.user.client.DOM;
 import com.javexpress.gwt.library.ui.ClientContext;
 import com.javexpress.gwt.library.ui.FaIcon;
@@ -55,10 +54,6 @@ public class ApplicationUserInfoDropdownAlte extends ApplicationUserInfoDropdown
 
 	@Override
 	protected void fillAnchor() {
-		anchor.getStyle().setPaddingTop(2, Unit.PX);
-		anchor.getStyle().setPaddingLeft(2, Unit.PX);
-		anchor.getStyle().setPaddingBottom(2, Unit.PX);
-		anchor.getStyle().setPaddingRight(20, Unit.PX);
 		icon = DOM.createElement("i");
 		icon.setClassName(FaIcon.user.getCssClass());
 		anchor.appendChild(icon);

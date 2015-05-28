@@ -1,6 +1,7 @@
 package com.javexpress.gwt.library.ui.bootstrap.alte;
 
 import com.google.gwt.user.client.ui.Panel;
+import com.google.gwt.user.client.ui.Widget;
 import com.javexpress.gwt.library.ui.bootstrap.ApplicationFooter;
 import com.javexpress.gwt.library.ui.bootstrap.ApplicationMainContainer;
 import com.javexpress.gwt.library.ui.bootstrap.ApplicationMainContent;
@@ -18,7 +19,7 @@ public class ApplicationMainContainerAlte extends ApplicationMainContainer {
 	@Override
 	public ApplicationSideBar createSideBar(String id) {
 		ApplicationSideBar asb = new ApplicationSideBarAlte(id);
-		parent.add(asb);
+		//parent.add(asb);dont add
 		return asb;
 	}
 
@@ -34,6 +35,14 @@ public class ApplicationMainContainerAlte extends ApplicationMainContainer {
 		ApplicationFooter footer = new ApplicationFooter("footer");
 		parent.add(footer);
 		return footer;
+	}
+
+	@Override
+	public void add(Widget child) {
+		if (child instanceof ApplicationSideBar)
+			parent.add(child);
+		else
+			super.add(child);
 	}
 
 	@Override

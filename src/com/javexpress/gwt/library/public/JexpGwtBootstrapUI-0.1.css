@@ -5,31 +5,6 @@
 .jexpCheckBox { font-size:12px; }
 .jexpCheckBox.form-control { background-color: transparent; }
 .gwt-CheckBox.jexpSmallGwtCheck > label { font-size:inherit; }
-.sidebar { font-size:1em }
-.sidebar .nav-search { position:relative; }
-.sidebar .nav > li > a { padding-top:5px }
-.sidebar .nav-list > li a > .arrow { top:8px; }
-.sidebar .nav-list > li.active:after{ top:0px; }
-.sidebar .nav-list > li li.active > a:after { top:1px; }
-.sidebar.menu-min .nav-list > li > a { height:30px;line-height:12px; }
-.sidebar .nav-list > li .submenu > li > a { padding: 9px 0 9px 17px; }
-.sidebar.menu-min, .sidebar.menu-min.compact, .sidebar.menu-min.navbar-collapse { width:34px; }
-.sidebar.menu-min .nav-list > li.active > a:after { top:8px; }
-.sidebar.menu-min .nav-list > li > a > .menu-icon { width:40px; }
-.sidebar .nav-list > li > .submenu:before { left:8px; } 
-.sidebar .nav-list > li > .submenu > li:before { left:10px;top:16px;width:4px; }
-.sidebar .nav-list > li > .submenu li > .submenu > li > a { margin-left: 0;padding-left: 18px; }
-.sidebar .nav-list > li .submenu > li a > .menu-icon { left: 7px;top: 10px;width: 8px; }
-.sidebar .nav-list > li:before { height: 30px;top: 0; }
-.sidebar .nav-list > li > a { height: 30px;padding-left: 3px;line-height: 20px;}
-.sidebar .nav-list > li > a > .menu-icon { font-size: 1.3em;margin-right: 0;min-width: 24px;vertical-align: middle; }
-.sidebar .nav-list > li .submenu { line-height: 1; }
-.breadcrumbs { line-height:27px;min-height: 27px; }
-.breadcrumb { font-size: 1em;margin: 0 0 0 5px; }
-.breadcrumbs-fixed + .page-content { padding-top: 32px; }
-.page-content { padding-left:8px;padding-right:8px;padding-bottom:4px; }
-.page-header { margin: 0 0 4px;padding-bottom:6px;padding-top:3px; }
-.page-header h1 { font-size: 1.5em;margin: 0 2px; }
 .jexp-view{ font-size:1em }
 .jexp-view .jexpMainViewToolItem { font-size:1em;color:#2679B5;opacity:0.25;cursor:pointer; }
 .jexp-view .pull-right.jexpMainViewToolItem { opacity:0.6; }

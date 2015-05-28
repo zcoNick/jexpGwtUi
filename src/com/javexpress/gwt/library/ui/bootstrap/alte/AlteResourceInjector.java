@@ -18,7 +18,7 @@ public class AlteResourceInjector extends ResourceInjector implements IBootstrap
 
 	@Override
 	public String getSkinName() {
-		return "skin-blue";
+		return "skin-blue fixed";
 	}
 
 	@Override
@@ -33,6 +33,7 @@ public class AlteResourceInjector extends ResourceInjector implements IBootstrap
 			case 0:
 				wb.addStyleSheet("themes/alte/AdminLTE-2.1.1.min.css");
 				wb.addStyleSheet("themes/alte/skins/skin-blue.min.css");
+				wb.addStyleSheet("themes/alte/javexpress-gwt-library.ui.css");
 				break;
 		}
 	}
@@ -41,8 +42,10 @@ public class AlteResourceInjector extends ResourceInjector implements IBootstrap
 	public void addJavaScripts(WidgetBundles wb, int phase) {
 		switch (phase) {
 			case 10:
+				wb.addJavaScript("scripts/slimscroll/jquery.slimscroll-1.3.3.min.js");
 				break;
 			case 100:
+				wb.addJavaScript("scripts/alte/app.js");
 				break;
 		}
 	}

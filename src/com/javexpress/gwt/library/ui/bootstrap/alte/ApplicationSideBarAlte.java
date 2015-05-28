@@ -2,6 +2,7 @@ package com.javexpress.gwt.library.ui.bootstrap.alte;
 
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.user.client.DOM;
+import com.google.gwt.user.client.Window;
 import com.javexpress.gwt.library.ui.bootstrap.ApplicationSideBar;
 import com.javexpress.gwt.library.ui.bootstrap.SideBarItem;
 
@@ -15,13 +16,13 @@ public class ApplicationSideBarAlte extends ApplicationSideBar {
 		getElement().setClassName("main-sidebar");
 		getElement().getStyle().setZIndex(1);
 
-		area = DOM.createElement("section");
+		area = DOM.createElement("div");
 		area.setClassName("sidebar");
 		getElement().appendChild(area);
 
 		buttonsUl = DOM.createElement("ul");
 		buttonsUl.setClassName("sidebar-menu");
-		getElement().appendChild(buttonsUl);//was adding to contents
+		area.appendChild(buttonsUl);//was adding to contents
 	}
 
 	@Override
@@ -32,12 +33,25 @@ public class ApplicationSideBarAlte extends ApplicationSideBar {
 	@Override
 	protected void onLoad() {
 		super.onLoad();
-		createByJs(this, getElement());
+		createByJs(this, area, Window.getClientHeight());
 	}
 
-	private native void createByJs(ApplicationSideBarAlte x, Element element) /*-{
-		var opts = {};
-		$wnd.$(element);
+	private native void createByJs(ApplicationSideBarAlte x, Element element, int wheight) /*-{
+		$wnd.$.AdminLTE.tree(element);
+		$wnd.$(element).slimscroll({
+			height : 200 + 'px',
+			alwaysVisible : false,
+			size : '3px'
+		}).css("width", "100%");
+		$wnd.$.AdminLTE.layout.activate();
+		$wnd.$("a.sidebar-link", $wnd.$(element)).click(
+				function(e) {
+					var a = $wnd.$(this);
+					x.@com.javexpress.gwt.library.ui.bootstrap.alte.ApplicationSideBarAlte::fireLinkClicked(Ljava/lang/String;)(a.attr("path"));
+					$wnd.$(".open,.active", $wnd.$(element)).removeClass("open active");
+					a.parent().addClass("active")
+					a.parents("li.hsub").addClass("open active");
+				});		
 	}-*/;
 
 	@Override
@@ -45,6 +59,11 @@ public class ApplicationSideBarAlte extends ApplicationSideBar {
 		area = null;
 		buttonsUl = null;
 		super.onUnload();
+	}
+
+	@Override
+	public SideBarItem createSideBarItem(String id, String path) {
+		return new SideBarItemAlte(this, id, path);
 	}
 
 }
