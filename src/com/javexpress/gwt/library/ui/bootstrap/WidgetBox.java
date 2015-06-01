@@ -124,7 +124,7 @@ public class WidgetBox extends AbstractContainerFocusable implements ISizeAwareW
 		if (collapsed) {
 			elCollapse.setInnerHTML("<i class='ace-icon fa fa-chevron-up'></i>");
 			bodyDiv.getStyle().setDisplay(Display.NONE);
-		} else if (elCollapse!=null){
+		} else if (elCollapse != null) {
 			elCollapse.setInnerHTML("<i class='ace-icon fa fa-chevron-down'></i>");
 		}
 		super.onLoad();
@@ -183,5 +183,23 @@ public class WidgetBox extends AbstractContainerFocusable implements ISizeAwareW
 			return listener.onCollapsing();
 		return true;
 	}
+
+	public void expand() {
+		if (isAttached())
+			collapsed = false;
+		else if (elCollapse != null)
+			_perform(getElement(), "show");
+	}
+
+	public void collapse() {
+		if (isAttached())
+			collapsed = true;
+		else if (elCollapse != null)
+			_perform(getElement(), "hide");
+	}
+
+	private native void _perform(Element el, String func) /*-{
+		$wnd.$(el).widget_box(func);
+	}-*/;
 
 }
