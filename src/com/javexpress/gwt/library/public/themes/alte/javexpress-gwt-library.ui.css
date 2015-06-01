@@ -17,10 +17,7 @@
 .jexp-view .jexpMainViewToolItem { font-size:1em;color:#2679B5;opacity:0.25;cursor:pointer; }
 .jexp-view .pull-right.jexpMainViewToolItem { opacity:0.6; }
 .jexp-view .jexpMainViewToolItem:hover { opacity:1; }
-.widget-toolbar {
-    display: inline-block;
-    float: right;
-    line-height: 37px;
-    padding: 0 10px;
-    position: relative;
-}
+.content-header > h1 { margin: 6px 0px 0px 0px;font-size: 20px; }
+.content-header > .breadcrumb { top:0;right:23px;font-size:11px; }
+.widget-header>.widget-title { line-height: 36px;padding: 0;margin: 0;display: inline; }
+.widget-toolbar { display: inline-block;float: right;line-height: 37px;padding: 0 10px;position: relative; }

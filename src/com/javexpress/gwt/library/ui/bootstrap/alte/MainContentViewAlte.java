@@ -6,13 +6,16 @@ import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.ui.Widget;
 import com.javexpress.gwt.library.ui.FaIcon;
 import com.javexpress.gwt.library.ui.ICssIcon;
+import com.javexpress.gwt.library.ui.bootstrap.ApplicationBreadcrumb;
 import com.javexpress.gwt.library.ui.bootstrap.MainContentView;
 import com.javexpress.gwt.library.ui.form.IUIComposite;
 import com.javexpress.gwt.library.ui.js.JsUtil;
 
 public class MainContentViewAlte extends MainContentView {
 
-	private Element	header, h1, content;
+	private ApplicationBreadcrumb	breadcrumb;
+
+	private Element					header, h1, content;
 
 	public MainContentViewAlte(String id) {
 		super(id);
@@ -28,10 +31,18 @@ public class MainContentViewAlte extends MainContentView {
 
 	@Override
 	public void setContents(IUIComposite form) {
+		clear();
 		setHeader(form.getIcon(), form.getHeader());
+		breadcrumb = new ApplicationBreadcrumbAlte("breadcrumb");
+		add(breadcrumb, header);
 		Widget w = (Widget) form;
 		w.addStyleName("container-fluid no-padding");
 		add((Widget) form, content);
+	}
+
+	@Override
+	public IUIComposite getContents() {
+		return (IUIComposite) (getWidgetCount() < 2 ? null : getWidget(1));
 	}
 
 	@Override

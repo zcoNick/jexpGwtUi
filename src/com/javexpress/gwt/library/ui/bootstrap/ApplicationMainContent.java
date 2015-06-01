@@ -7,12 +7,11 @@ import java.util.Map;
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.dom.client.Style.Display;
 import com.javexpress.gwt.library.ui.AbstractContainer;
+import com.javexpress.gwt.library.ui.js.JsUtil;
 
 public abstract class ApplicationMainContent extends AbstractContainer {
 
 	protected static final int				VIEW_CACHE_SIZE	= 20;
-
-	private ApplicationBreadcrumb			breadcrumb;
 
 	private Map<String, MainContentView>	viewCache		= new LinkedHashMap<String, MainContentView>(VIEW_CACHE_SIZE);
 	private MainContentView					currentView		= null;
@@ -23,26 +22,23 @@ public abstract class ApplicationMainContent extends AbstractContainer {
 		super(el);
 	}
 
-	public ApplicationBreadcrumb getBreadcrumb() {
-		return breadcrumb;
-	}
-
 	public void addView(String path, MainContentView view) {
-		hideCurrent();
 		try {
+			hideCurrent();
 			add(view, page);
+			viewCache.put(path, view);
+			currentView = view;
+			currentView.onShow();
+			if (viewCache.size() > VIEW_CACHE_SIZE) {
+				Iterator<String> iter = viewCache.keySet().iterator();
+				iter.next();//Dashboard
+				String second = iter.next();
+				MainContentView cached = viewCache.get(second);
+				viewCache.remove(second);
+				cached.removeFromParent();
+			}
 		} catch (Exception e) {
-		}
-		viewCache.put(path, view);
-		currentView = view;
-		currentView.onShow();
-		if (viewCache.size() > VIEW_CACHE_SIZE) {
-			Iterator<String> iter = viewCache.keySet().iterator();
-			iter.next();//Dashboard
-			String second = iter.next();
-			MainContentView cached = viewCache.get(second);
-			viewCache.remove(second);
-			cached.removeFromParent();
+			JsUtil.handleError(this, e);
 		}
 	}
 
@@ -65,9 +61,12 @@ public abstract class ApplicationMainContent extends AbstractContainer {
 		currentView.onShow();
 	}
 
+	public MainContentView getCurrentView() {
+		return currentView;
+	}
+
 	@Override
 	protected void onUnload() {
-		breadcrumb = null;
 		viewCache = null;
 		currentView = null;
 		page = null;

@@ -26,10 +26,14 @@ public abstract class MainContentView extends AbstractContainer implements IUICo
 
 	public abstract void setContents(IUIComposite form);
 
+	public IUIComposite getContents() {
+		return (IUIComposite) (getWidgetCount() == 0 ? null : getWidget(0));
+	}
+
 	@Override
 	protected void onLoad() {
 		super.onLoad();
-		final IUIComposite cmp = (IUIComposite) getWidget(0);
+		final IUIComposite cmp = getContents();
 		addToolItem(FaIcon.questionCircle, ClientContext.nlsCommon.yardim(), true, new Command() {
 			@Override
 			public void execute() {
@@ -71,12 +75,12 @@ public abstract class MainContentView extends AbstractContainer implements IUICo
 	}-*/;
 
 	public void onHide() {
-		IUIComposite form = (IUIComposite) getWidget(0);
+		IUIComposite form = getContents();
 		form.onHide();
 	}
 
 	public void onShow() {
-		IUIComposite form = (IUIComposite) getWidget(0);
+		IUIComposite form = getContents();
 		form.onShow();
 	}
 

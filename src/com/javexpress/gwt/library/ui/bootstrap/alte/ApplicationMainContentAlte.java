@@ -1,7 +1,6 @@
 package com.javexpress.gwt.library.ui.bootstrap.alte;
 
 import com.google.gwt.user.client.DOM;
-import com.javexpress.gwt.library.ui.bootstrap.ApplicationBreadcrumb;
 import com.javexpress.gwt.library.ui.bootstrap.ApplicationMainContent;
 import com.javexpress.gwt.library.ui.bootstrap.MainContentView;
 
@@ -31,9 +30,6 @@ public class ApplicationMainContentAlte extends ApplicationMainContent {
 	public ApplicationMainContentAlte() {
 		super(DOM.createDiv());
 		getElement().setClassName("content-wrapper");
-
-		ApplicationBreadcrumb breadcrumb = new ApplicationBreadcrumb();
-		add(breadcrumb);
 
 		page = DOM.createDiv();
 		page.setClassName("page-content");
