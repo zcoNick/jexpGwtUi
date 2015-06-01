@@ -17,3 +17,10 @@
 .jexp-view .jexpMainViewToolItem { font-size:1em;color:#2679B5;opacity:0.25;cursor:pointer; }
 .jexp-view .pull-right.jexpMainViewToolItem { opacity:0.6; }
 .jexp-view .jexpMainViewToolItem:hover { opacity:1; }
+.widget-toolbar {
+    display: inline-block;
+    float: right;
+    line-height: 37px;
+    padding: 0 10px;
+    position: relative;
+}
