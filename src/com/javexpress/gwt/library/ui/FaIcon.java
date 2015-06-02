@@ -24,7 +24,7 @@ public enum FaIcon implements ICssIcon {
 			"paperclip"), table("table"), clock("clock-o"), database(
 			"database"), download("download"), barChart("bar-chart"), comment(
 			"comment-o"), comments("comments-o"), briefcase("briefcase"), pause(
-			"pause");
+			"pause"), ban("ban");
 
 	private String	icon;
 
