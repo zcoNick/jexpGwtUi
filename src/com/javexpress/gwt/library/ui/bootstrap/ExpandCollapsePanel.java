@@ -189,7 +189,7 @@ public class ExpandCollapsePanel extends AbstractContainerFocusable implements I
 		if (isAttached())
 			collapsed = true;
 		else if (elCollapse != null)
-			_perform(getElement(), "hide");
+			_perform(contentDiv, "hide");
 	}
 
 	private native void _perform(Element el, String func) /*-{
