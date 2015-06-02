@@ -42,13 +42,13 @@ public class ExpandCollapsePanel extends AbstractContainerFocusable implements I
 	public ExpandCollapsePanel(Widget parent, final String id, boolean smallTitle, boolean transparentTitle) {
 		super(DOM.createDiv());
 		JsUtil.ensureId(parent, this, WidgetConst.DASHBOARDWIDGET_PREFIX, id);
-		getElement().setClassName("jexpGroupBox widget-box" + (transparentTitle ? " transparent" : ""));
+		getElement().setClassName("jexpGroupBox widget-box" + (transparentTitle ? " transparent" : "") + (smallTitle ? " smalltitle" : ""));
 		if (!transparentTitle)
 			getElement().getStyle().setPadding(0, Unit.PX);
 		Element headerDiv = DOM.createDiv();
 		headerDiv.setClassName("widget-header");
 		headerEl = DOM.createElement(smallTitle ? "h5" : "h4");
-		headerEl.setClassName("widget-title lighter smaller");
+		headerEl.setClassName("widget-title lighter" + (smallTitle ? " smaller" : ""));
 		iconSpan = DOM.createElement("i");
 		headerEl.appendChild(iconSpan);
 		headerSpan = DOM.createSpan();
@@ -116,17 +116,18 @@ public class ExpandCollapsePanel extends AbstractContainerFocusable implements I
 	protected void onLoad() {
 		if (collapsed) {
 			elCollapse.addClassName("ace-icon fa fa-chevron-up");
+			contentDiv.addClassName("collapse in");
 		} else if (elCollapse != null) {
 			elCollapse.addClassName("ace-icon fa fa-chevron-down");
 		}
 		super.onLoad();
-		_createByJs(this, getElement(), elCollapse, isCollapsed(), contentDiv);
+		_createByJs(this, getElement(), elCollapse, contentDiv);
 	}
 
-	private native void _createByJs(ExpandCollapsePanel x, Element el, Element btcollapse, boolean collapsed, Element cdiv) /*-{
+	private native void _createByJs(ExpandCollapsePanel x, Element el, Element btcollapse, Element cdiv) /*-{
 		$wnd
 				.$(cdiv)
-				.collapse(collapsed ? "hide" : "show")
+				.collapse()
 				.on(
 						"show.bs.collapse",
 						function(event) {
@@ -179,14 +180,14 @@ public class ExpandCollapsePanel extends AbstractContainerFocusable implements I
 	}
 
 	public void expand() {
-		if (isAttached())
+		if (!isAttached())
 			collapsed = false;
 		else if (elCollapse != null)
-			_perform(getElement(), "show");
+			_perform(contentDiv, "show");
 	}
 
 	public void collapse() {
-		if (isAttached())
+		if (!isAttached())
 			collapsed = true;
 		else if (elCollapse != null)
 			_perform(contentDiv, "hide");
