@@ -16,6 +16,7 @@ import com.javexpress.gwt.library.ui.AbstractContainerFocusable;
 import com.javexpress.gwt.library.ui.ClientContext;
 import com.javexpress.gwt.library.ui.ICssIcon;
 import com.javexpress.gwt.library.ui.form.IUIComposite;
+import com.javexpress.gwt.library.ui.form.IUICompositeView;
 import com.javexpress.gwt.library.ui.form.keyboard.KeyCode;
 import com.javexpress.gwt.library.ui.js.JexpCallback;
 import com.javexpress.gwt.library.ui.js.JsCache;
@@ -24,6 +25,8 @@ import com.javexpress.gwt.library.ui.js.JsUtil;
 public abstract class UIComposite extends AbstractContainerFocusable implements IUIComposite {
 
 	public final static JsCache<String, String>	viewRights	= new JsCache<String, String>(30);
+
+	private IUICompositeView					attachedTo;
 
 	protected UIComposite						that;
 	private String								rights;
@@ -56,6 +59,16 @@ public abstract class UIComposite extends AbstractContainerFocusable implements 
 		getElement().addClassName("jexp-ui-form");
 
 		that = this;
+	}
+
+	@Override
+	public IUICompositeView getAttachedTo() {
+		return attachedTo;
+	}
+
+	@Override
+	public void setAttachedTo(IUICompositeView attachedTo) {
+		this.attachedTo = attachedTo;
 	}
 
 	protected void createGUI() {
@@ -131,6 +144,9 @@ public abstract class UIComposite extends AbstractContainerFocusable implements 
 
 	public void setHeader(String header) {
 		this.header = header;
+		if (isAttached() && attachedTo != null) {
+			attachedTo.setHeader(icon, header);
+		}
 	}
 
 	@Override

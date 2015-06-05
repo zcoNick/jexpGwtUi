@@ -32,6 +32,7 @@ public class WindowView extends AbstractContainerFocusable implements IUIComposi
 	private boolean	maximizable;
 	private boolean	helpVisible;
 	private Element	helpSpan;
+	private Element	headerEl;
 
 	public boolean isDraggable() {
 		return draggable;
@@ -114,6 +115,7 @@ public class WindowView extends AbstractContainerFocusable implements IUIComposi
 
 		IUIComposite form = (IUIComposite) getWidget(0);
 		fillHeader(form.getIcon(), form.getHeader());
+		form.setAttachedTo(this);
 
 		super.doAttachChildren();
 	}
@@ -145,12 +147,7 @@ public class WindowView extends AbstractContainerFocusable implements IUIComposi
 	}
 
 	private void fillHeader(ICssIcon icon, String header) {
-		Element h5 = DOM.createElement("h5");
-		h5.setClassName("widget-title");
-		if (icon != null)
-			header = "<i class='ace-icon " + icon.getCssClass() + "'></i>" + header;
-		h5.setInnerHTML(header);
-		headerDiv.appendChild(h5);
+		setHeader(icon, header);
 
 		Element tools = DOM.createDiv();
 		tools.setClassName("widget-toolbar");
@@ -174,11 +171,23 @@ public class WindowView extends AbstractContainerFocusable implements IUIComposi
 		headerDiv.appendChild(tools);
 	}
 
+	@Override
+	public void setHeader(ICssIcon icon, String header) {
+		if (headerEl == null) {
+			headerEl = DOM.createElement("h5");
+			headerEl.setClassName("widget-title");
+			headerDiv.appendChild(headerEl);
+		}
+		if (icon != null)
+			header = "<i class='ace-icon " + icon.getCssClass() + "'></i>" + header;
+		headerEl.setInnerHTML(header);
+	}
+
 	private native void bindOnClick(Element el, Command command) /*-{
-																	$wnd.$(el).click(function() {
-																	command.@com.google.gwt.user.client.Command::execute()();
-																	});
-																	}-*/;
+		$wnd.$(el).click(function() {
+			command.@com.google.gwt.user.client.Command::execute()();
+		});
+	}-*/;
 
 	public void show() {
 		RootPanel.get().add(this);
@@ -230,6 +239,7 @@ public class WindowView extends AbstractContainerFocusable implements IUIComposi
 
 	@Override
 	protected void onUnload() {
+		headerEl = null;
 		headerDiv = null;
 		mainDiv = null;
 		_destroyByJs(getElement(), ".ub_" + windowDiv.getId());
@@ -238,8 +248,8 @@ public class WindowView extends AbstractContainerFocusable implements IUIComposi
 	}
 
 	private native void _destroyByJs(Element el, String ubSel) /*-{
-																$wnd.$(ubSel, $wnd.$(el)).off();
-																}-*/;
+		$wnd.$(ubSel, $wnd.$(el)).off();
+	}-*/;
 
 	@Override
 	public void onResize() {

@@ -12,6 +12,10 @@ public interface IUIComposite extends IsWidget, HasWidgets, ISizeAwareWidget, Fo
 
 	final static byte	ACT_INSERTRECORD	= -128;
 
+	IUICompositeView getAttachedTo();
+
+	void setAttachedTo(IUICompositeView attachedTo);
+
 	void addOnLoadCommand(Command command);
 
 	void addOnUnloadCommand(Command command);

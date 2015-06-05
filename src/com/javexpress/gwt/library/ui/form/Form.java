@@ -35,8 +35,18 @@ public abstract class Form extends SimplePanelFocusable implements IWindow, IUIC
 	private List<Command>						onLoadCommands;
 	private List<Command>						onUnloadCommands;
 	private HandlerRegistration					keyDownHandlerRegistration;
-
+	private IUICompositeView					attachedTo;
 	private boolean								showing;
+
+	@Override
+	public IUICompositeView getAttachedTo() {
+		return attachedTo;
+	}
+
+	@Override
+	public void setAttachedTo(IUICompositeView attachedTo) {
+		this.attachedTo = attachedTo;
+	}
 
 	@Override
 	public void setCloseHandler(Command command) {
