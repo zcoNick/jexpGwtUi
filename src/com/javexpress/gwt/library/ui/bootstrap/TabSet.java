@@ -136,8 +136,8 @@ public class TabSet extends AbstractContainerFocusable implements ISizeAwareWidg
 	}
 
 	private native void destroyByJs(Element element) /*-{
-														$wnd.$(element).off().empty();
-														}-*/;
+		$wnd.$(element).off().empty();
+	}-*/;
 
 	public void addTab(final IUIComposite form, boolean closable) throws Exception {
 		addTab(form.getHeader(), (Widget) form, form.getId(), closable);
@@ -248,8 +248,8 @@ public class TabSet extends AbstractContainerFocusable implements ISizeAwareWidg
 																					}-*/;
 
 	private native void _select(Element navbar, int index) /*-{
-															$wnd.$("li:eq(" + index + ")", navbar).tab('show');
-															}-*/;
+		$wnd.$("li:eq(" + index + ")", navbar).tab('show');
+	}-*/;
 
 	public void hideItem(String id) {
 		toggleItem(id, false);

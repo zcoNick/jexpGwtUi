@@ -30,14 +30,30 @@ public class ErrorDialog extends JexpSimplePanel {
 	private void createGUI() {
 		StringBuffer html = new StringBuffer("<div class='well'>");
 		html.append("<h1 class='header red lighter smaller'><span class='red bigger-125'><i class='ace-icon fa fa-random'></i></span> ");
-		html.append(appException.isLocalizable() ? ClientContext.nlsCommon.hataBaslikKontrollu() : ClientContext.nlsCommon.hataBaslikKontrolsuz());
-		html.append("</h1>");
 
-		html.append("<h3 class='lighter smaller'>");
-		if (appException.isLocalizable())
+		if (appException.isLocalizable()) {
+			html.append(ClientContext.nlsCommon.hataBaslikKontrollu());
+			html.append("</h1>");
+			html.append("<h3 class='lighter smaller'>");
 			html.append(ClientContext.instance.getModuleNls(appException.getModuleId(), "error_" + appException.getErrorCode())).append("</h3>");
-		else
-			html.append("En kısa zamanda çözmek için <i class='ace-icon fa fa-wrench icon-animated-wrench bigger-125'></i>çalışacağız!</h3>");
+		} else {
+			if (appException.getMessage().indexOf(AppException.LINE_SEPERATOR) > -1) {
+				html.append(ClientContext.nlsCommon.hataBaslikKontrollu());
+				html.append("</h1>");
+				html.append("<h3 class='lighter smaller'>");
+				String[] errors = appException.getMessage().split(AppException.LINE_SEPERATOR);
+				for (String mdlErrCode : errors) {
+					String[] mdlErr = mdlErrCode.split("é");
+					html.append(ClientContext.instance.getModuleNls(Long.valueOf(mdlErr[0]), "error_" + mdlErr[1])).append("<br/>");
+				}
+				html.append("</h3>");
+			} else {
+				html.append(ClientContext.nlsCommon.hataBaslikKontrolsuz());
+				html.append("</h1>");
+				html.append("<h3 class='lighter smaller'>");
+				html.append("En kısa zamanda çözmek için <i class='ace-icon fa fa-wrench icon-animated-wrench bigger-125'></i>çalışacağız!</h3>");
+			}
+		}
 
 		html.append("<div class='space'></div>");
 
@@ -73,25 +89,25 @@ public class ErrorDialog extends JexpSimplePanel {
 	}
 
 	private native void createByJsBs(ErrorDialog x, String id) /*-{
-																$wnd
-																.$("#" + id + "_c")
-																.click(
-																function(e) {
-																x.@com.javexpress.gwt.library.ui.bootstrap.ErrorDialog::removeFromParent()();
-																});
-																$wnd
-																.$("#" + id + "_s")
-																.click(
-																function(e) {
-																x.@com.javexpress.gwt.library.ui.bootstrap.ErrorDialog::fireShowSolution()();
-																});
-																$wnd
-																.$("#" + id + "_j")
-																.click(
-																function(e) {
-																x.@com.javexpress.gwt.library.ui.bootstrap.ErrorDialog::fireJira()();
-																});
-																}-*/;
+		$wnd
+				.$("#" + id + "_c")
+				.click(
+						function(e) {
+							x.@com.javexpress.gwt.library.ui.bootstrap.ErrorDialog::removeFromParent()();
+						});
+		$wnd
+				.$("#" + id + "_s")
+				.click(
+						function(e) {
+							x.@com.javexpress.gwt.library.ui.bootstrap.ErrorDialog::fireShowSolution()();
+						});
+		$wnd
+				.$("#" + id + "_j")
+				.click(
+						function(e) {
+							x.@com.javexpress.gwt.library.ui.bootstrap.ErrorDialog::fireJira()();
+						});
+	}-*/;
 
 	@Override
 	protected void onUnload() {
@@ -100,8 +116,8 @@ public class ErrorDialog extends JexpSimplePanel {
 	};
 
 	private native void destroyByJs(ErrorDialog x, Element elm) /*-{
-																$wnd.$(elm).empty().off();
-																}-*/;
+		$wnd.$(elm).empty().off();
+	}-*/;
 
 	private void show() {
 		RootPanel.get().add(this);
