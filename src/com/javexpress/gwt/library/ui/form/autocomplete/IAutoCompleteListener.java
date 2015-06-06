@@ -8,4 +8,6 @@ public interface IAutoCompleteListener {
 
 	public boolean itemSelected(final String id, final String label, final JsonMap data) throws Exception;
 
+	public void buttonClicked();
+
 }

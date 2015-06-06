@@ -69,7 +69,7 @@ function JexpDecimalFormatter(row, cell, value, columnDef, data) {
 	return numeral(value).format(columnDef.numeralFormat);	
 }
 function JexpLinkFormatter(row, cell, value, columnDef, data) {
-	if (value == null || value === "" || value.toString().substring(0,1)=="é")
+	if (value == null || value === "" || (!columnDef.renderOnNew && value.toString().substring(0,1)=="é"))
 		return "";
 	return "<span class=\"ui-icon "+columnDef.linkIconClass+" ui-cursor-hand\" title=\""+columnDef.linkTitle+"\" onclick=\"$('#"+columnDef.linkOwner+"').trigger('linkclicked'," +
 			"[$(this),"+row+","+cell+",'"+columnDef.field+"',"+columnDef.linkIndex+",'"+value+"']);return false;\"></span>";
