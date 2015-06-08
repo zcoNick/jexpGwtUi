@@ -11,6 +11,16 @@ public abstract class Column {
 	private ColumnAlign	align;
 	private String		width;
 	private boolean		hidden, frozen;
+	private int			columnKey;
+	private String		styleNames;
+
+	public String getStyleNames() {
+		return styleNames;
+	}
+
+	public void setStyleNames(String styleNames) {
+		this.styleNames = styleNames;
+	}
 
 	public String getTitle() {
 		return title;
@@ -58,6 +68,14 @@ public abstract class Column {
 
 	public void setFrozen(boolean frozen) {
 		this.frozen = frozen;
+	}
+
+	public int getColumnKey() {
+		return columnKey;
+	}
+
+	public void setColumnKey(int columnKey) {
+		this.columnKey = columnKey;
 	}
 
 	public Column(final String title, final String field, final ColumnAlign align, final String width, final boolean hidden, boolean frozen) {

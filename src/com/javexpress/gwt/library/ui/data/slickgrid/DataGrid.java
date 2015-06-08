@@ -453,8 +453,8 @@ public class DataGrid<T extends Serializable> extends BaseSlickGrid<ListColumn> 
 				.bind(
 						"linkclicked",
 						function(event, linkElement, row, cell, field,
-								linkIndex, value) {
-							x.@com.javexpress.gwt.library.ui.data.slickgrid.DataGrid::fireLinkClicked(Lcom/google/gwt/core/client/JavaScriptObject;IILjava/lang/String;ILjava/lang/String;)(linkElement,row,cell,field,linkIndex,value);
+								columnKey, value) {
+							x.@com.javexpress.gwt.library.ui.data.slickgrid.DataGrid::fireLinkClicked(Lcom/google/gwt/core/client/JavaScriptObject;IILjava/lang/String;ILjava/lang/String;)(linkElement,row,cell,field,columnKey,value);
 						});
 		return grid;
 	}-*/;
@@ -727,7 +727,15 @@ public class DataGrid<T extends Serializable> extends BaseSlickGrid<ListColumn> 
 	@Override
 	public void setPaging(boolean dataPaging) {
 		this.dataPaging = dataPaging;
-		getOptions().setInt("rowsPerPage", dataPaging ? 50 : 0);
+		setRowsPerPage(dataPaging ? 50 : 0);
+	}
+
+	public int getRowsPerPage() {
+		return getOptions().getInt("rowsPerPage", 50);
+	}
+
+	public void setRowsPerPage(int rowsPerPage) {
+		getOptions().setInt("rowsPerPage", rowsPerPage);
 	}
 
 	@Override
@@ -785,11 +793,11 @@ public class DataGrid<T extends Serializable> extends BaseSlickGrid<ListColumn> 
 		}
 	}
 
-	private void fireLinkClicked(JavaScriptObject linkElement, int row, int cell, String field, int linkIndex, String value) {
+	private void fireLinkClicked(JavaScriptObject linkElement, int row, int cell, String field, int columnKey, String value) {
 		for (ListColumn ec : getColumns())
 			if (ec instanceof LinkColumn) {
 				LinkColumn elc = (LinkColumn) ec;
-				if (elc.getLinkIndexInGrid() == linkIndex) {
+				if (elc.getColumnKey() == columnKey) {
 					JavaScriptObject jso = getData().get(row);
 					elc.cellClicked(linkElement, value, jso != null ? new JsonMap(jso) : null);
 					break;

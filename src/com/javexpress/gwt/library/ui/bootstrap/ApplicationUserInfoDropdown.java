@@ -7,9 +7,8 @@ import com.javexpress.gwt.library.ui.AbstractContainer;
 public abstract class ApplicationUserInfoDropdown extends AbstractContainer {
 
 	protected Element	anchor;
-	private Element		dropdown;
 
-	public ApplicationUserInfoDropdown(String id, String liClass, String ulClass) {
+	public ApplicationUserInfoDropdown(String id, String liClass) {
 		super(DOM.createElement("li"));
 		getElement().setClassName(liClass);
 
@@ -19,10 +18,6 @@ public abstract class ApplicationUserInfoDropdown extends AbstractContainer {
 		getElement().appendChild(anchor);
 
 		fillAnchor();
-
-		dropdown = DOM.createElement("ul");
-		dropdown.setClassName(ulClass);
-		getElement().appendChild(dropdown);
 	}
 
 	protected abstract void fillAnchor();
@@ -32,7 +27,6 @@ public abstract class ApplicationUserInfoDropdown extends AbstractContainer {
 	@Override
 	protected void onUnload() {
 		anchor = null;
-		dropdown = null;
 		super.onUnload();
 	}
 

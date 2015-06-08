@@ -16,6 +16,7 @@ import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.ui.Widget;
 import com.javexpress.gwt.library.ui.container.panel.ContainerWithBar;
 import com.javexpress.gwt.library.ui.data.Column;
+import com.javexpress.gwt.library.ui.data.Column.ColumnAlign;
 import com.javexpress.gwt.library.ui.data.GridToolItem;
 import com.javexpress.gwt.library.ui.js.JsUtil;
 import com.javexpress.gwt.library.ui.js.JsonMap;
@@ -187,20 +188,20 @@ public abstract class BaseSlickGrid<CT extends Column> extends ContainerWithBar 
 	}
 
 	private native void _bindToolElement(GridToolItem gi, Element el) /*-{
-																		$wnd
-																		.$(el)
-																		.click(
-																		function(e) {
-																		if ($wnd.$(this).attr("disabled") == "disabled")
-																		return;
-																		gi.@com.javexpress.gwt.library.ui.data.GridToolItem::executeHandler(Lcom/google/gwt/user/client/Event;)(e);
-																		});
-																		}-*/;
+		$wnd
+				.$(el)
+				.click(
+						function(e) {
+							if ($wnd.$(this).attr("disabled") == "disabled")
+								return;
+							gi.@com.javexpress.gwt.library.ui.data.GridToolItem::executeHandler(Lcom/google/gwt/user/client/Event;)(e);
+						});
+	}-*/;
 
 	private native void _unbindToolElement(GridToolItem gi, Element el) /*-{
-																		gi.@com.javexpress.gwt.library.ui.data.GridToolItem::unload()();
-																		$wnd.$(el).off();
-																		}-*/;
+		gi.@com.javexpress.gwt.library.ui.data.GridToolItem::unload()();
+		$wnd.$(el).off();
+	}-*/;
 
 	protected void toggleToolItem(GridToolItem ti, boolean enable) {
 		Element el = ti.getElement();
@@ -223,10 +224,20 @@ public abstract class BaseSlickGrid<CT extends Column> extends ContainerWithBar 
 		JsonMap model = new JsonMap();
 		model.set("id", column.getField());
 		model.set("field", column.getField());
+		column.setColumnKey(column.hashCode());
+		model.setInt("columnKey", column.getColumnKey());
 		model.set("name", column.getTitle() != null ? column.getTitle() : "");
-		if (column.getWidth() != null) {
+		if (column.getWidth() != null)
 			model.setInt("width", Integer.parseInt(column.getWidth()));
-		}
+		String cssClass = column.getStyleNames();
+		if (JsUtil.isEmpty(cssClass))
+			cssClass = "";
+		if (column.getAlign() == ColumnAlign.right)
+			cssClass += " jexpRightAlign";
+		else if (column.getAlign() == ColumnAlign.center)
+			cssClass += " jexpCenter";
+		if (JsUtil.isNotEmpty(cssClass))
+			model.set("cssClass", cssClass);
 		return model;
 	}
 
@@ -242,12 +253,12 @@ public abstract class BaseSlickGrid<CT extends Column> extends ContainerWithBar 
 	}
 
 	private native void _redraw(JavaScriptObject grid) /*-{
-														grid.invalidate();
-														}-*/;
+		grid.invalidate();
+	}-*/;
 
 	private native void _autosizeColumns(JavaScriptObject grid) /*-{
-																grid.autosizeColumns();
-																}-*/;
+		grid.autosizeColumns();
+	}-*/;
 
 	public void performAutoSizeColumns() {
 		_autosizeColumns(jsObject);
@@ -259,20 +270,20 @@ public abstract class BaseSlickGrid<CT extends Column> extends ContainerWithBar 
 	}
 
 	private native void _updateSize(JavaScriptObject slick, Element element) /*-{
-																				slick.resizeCanvas();
-																				}-*/;
+		slick.resizeCanvas();
+	}-*/;
 
 	protected native void _updateOptionBool(JavaScriptObject slick, String poption, boolean pvalue) /*-{
-																									var opt = {};
-																									opt[poption] = pvalue;
-																									$wnd.console.debug(opt);
-																									slick.setOptions(opt);
-																									slick.invalidate();
-																									}-*/;
+		var opt = {};
+		opt[poption] = pvalue;
+		$wnd.console.debug(opt);
+		slick.setOptions(opt);
+		slick.invalidate();
+	}-*/;
 
 	protected native JavaScriptObject _getSelectedRows(JavaScriptObject grid) /*-{
-																				return grid.getSelectedRows();
-																				}-*/;
+		return grid.getSelectedRows();
+	}-*/;
 
 	public JsArrayInteger getSelectedRowIndexes() {
 		if (!isAttached())
@@ -285,13 +296,13 @@ public abstract class BaseSlickGrid<CT extends Column> extends ContainerWithBar 
 	}
 
 	private native void _destroyByJs(JavaScriptObject slick, Element elGrid, Element topPanel) /*-{
-																								$wnd.$(".slick-viewport", $wnd.$(elGrid)).off();
-																								$wnd.$(elGrid).unbind("linkclicked");
-																								slick.destroy();
-																								delete slick;
-																								if (topPanel)
-																								$wnd.$(topPanel).empty().off();
-																								}-*/;
+		$wnd.$(".slick-viewport", $wnd.$(elGrid)).off();
+		$wnd.$(elGrid).unbind("linkclicked");
+		slick.destroy();
+		delete slick;
+		if (topPanel)
+			$wnd.$(topPanel).empty().off();
+	}-*/;
 
 	protected JsArray getData() {
 		return data;

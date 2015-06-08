@@ -10,9 +10,14 @@ public class ApplicationUserInfoDropdownAlte extends ApplicationUserInfoDropdown
 
 	private Element	icon;
 	private Element	user;
+	private Element	dropdown;
 
 	public ApplicationUserInfoDropdownAlte(String id) {
-		super(id, "user user-menu", "dropdown");
+		super(id, "user user-menu");
+
+		dropdown = DOM.createElement("ul");
+		dropdown.setClassName("dropdown");
+		getElement().appendChild(dropdown);
 		/*<li class="dropdown user user-menu">
 		<a href="#" class="dropdown-toggle" data-toggle="dropdown">
 		<img src="dist/img/user2-160x160.jpg" class="user-image" alt="User Image"/>
@@ -72,6 +77,7 @@ public class ApplicationUserInfoDropdownAlte extends ApplicationUserInfoDropdown
 	protected void onUnload() {
 		icon = null;
 		user = null;
+		dropdown = null;
 		super.onUnload();
 	}
 
