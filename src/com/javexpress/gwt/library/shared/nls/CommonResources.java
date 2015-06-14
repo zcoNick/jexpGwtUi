@@ -40,6 +40,9 @@ public interface CommonResources extends ConstantsWithLookup {
 	/** Yahudi */
 	String DinEnum_Yahudi();
 
+	/** Uzantı */
+	String Dosya_uzanti();
+
 	/** İlkokul */
 	String EgitimEnum_Ilk();
 
@@ -355,6 +358,9 @@ public interface CommonResources extends ConstantsWithLookup {
 	/** Geçersiz TC Kimlik No */
 	String gecersizTCKimlik();
 
+	/** Geri */
+	String geri();
+
 	/** Giden Mesajlar */
 	String gidenMesajlar();
 
@@ -427,6 +433,9 @@ public interface CommonResources extends ConstantsWithLookup {
 
 	/** İlçe / İl */
 	String ilceIl();
+
+	/** İleri */
+	String ileri();
 
 	/** İncele */
 	String incele();
@@ -515,6 +524,9 @@ public interface CommonResources extends ConstantsWithLookup {
 
 	/** Mahalle */
 	String mahalle();
+
+	/** Menu */
+	String menu();
 
 	/** Mesleği */
 	String meslegi();
@@ -618,6 +630,9 @@ public interface CommonResources extends ConstantsWithLookup {
 	/** Sıra */
 	String siraNo();
 
+	/** Son */
+	String son();
+
 	/** Soyadı */
 	String soyadi();
 
@@ -665,6 +680,9 @@ public interface CommonResources extends ConstantsWithLookup {
 
 	/** Tümünü Seç */
 	String tumunuSec();
+
+	/** Türü */
+	String turu();
 
 	/** Ünvanı */
 	String unvani();

@@ -11,7 +11,8 @@ public enum FaIcon implements ICssIcon {
 			"trash"), check("check"), key("key"), lock("lock"), phone("phone"), email(
 			"at"), Fax("fax"), dashboard("dashboard"), warning(
 			"warning-sign"), info_sign("info-sign"), arrowRight("arrow-right"), arrowLeft(
-			"arrow-left"), close("close"), gear("gear"), rss("rss"), eraser(
+			"arrow-left"), arrowTop("arrow-top"), close("close"), gear("gear"), rss(
+			"rss"), eraser(
 			"eraser"), plus("plus"), minus("minus"), calendar("calendar"), question(
 			"question"), questionCircle("question-circle"), search("search"), play(
 			"play"), playCircle("play-circle"), undo("undo"), empire("empire"),
@@ -24,7 +25,8 @@ public enum FaIcon implements ICssIcon {
 			"paperclip"), table("table"), clock("clock-o"), database(
 			"database"), download("download"), barChart("bar-chart"), comment(
 			"comment-o"), comments("comments-o"), briefcase("briefcase"), pause(
-			"pause"), ban("ban"), eye("eye"), eyeSlash("eye-slash");
+			"pause"), ban("ban"), eye("eye"), eyeSlash("eye-slash"), flash(
+			"flash");
 
 	private String	icon;
 

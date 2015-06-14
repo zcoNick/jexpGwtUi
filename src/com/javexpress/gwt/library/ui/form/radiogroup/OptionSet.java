@@ -60,8 +60,8 @@ public class OptionSet extends JexpSimplePanel implements IUserInputWidget<Strin
 	}
 
 	private native void createByJs(OptionSet x, Element element) /*-{
-																	$wnd.$(element).buttonset();
-																	}-*/;
+		$wnd.$(element).buttonset();
+	}-*/;
 
 	@Override
 	protected void onUnload() {
@@ -71,8 +71,8 @@ public class OptionSet extends JexpSimplePanel implements IUserInputWidget<Strin
 	}
 
 	private native void destroyByJs(Element element) /*-{
-														$wnd.$(element).buttonset('destroy');
-														}-*/;
+		$wnd.$(element).buttonset('destroy');
+	}-*/;
 
 	@Override
 	public int getTabIndex() {
@@ -128,8 +128,8 @@ public class OptionSet extends JexpSimplePanel implements IUserInputWidget<Strin
 	}
 
 	private native void _refresh(Element element) /*-{
-													$wnd.$(element).buttonset('refresh');
-													}-*/;
+		$wnd.$(element).buttonset('refresh');
+	}-*/;
 
 	@Override
 	public void setEnabled(boolean locked) {
@@ -151,7 +151,6 @@ public class OptionSet extends JexpSimplePanel implements IUserInputWidget<Strin
 	public void setDataBindingHandler(DataBindingHandler handler) {
 		this.dataBinding = handler;
 		dataBinding.setControl(this);
-
 	}
 
 	@Override

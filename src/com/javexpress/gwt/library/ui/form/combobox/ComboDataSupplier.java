@@ -3,11 +3,10 @@ package com.javexpress.gwt.library.ui.form.combobox;
 import java.io.Serializable;
 import java.util.List;
 
-@Deprecated
 public abstract class ComboDataSupplier<T, V extends Serializable, L extends Serializable> extends LazyDataSupplier<T, V, L> {
 
 	private ListBoxBase[]	combo;
-	private boolean		enableOnComplete;
+	private boolean			enableOnComplete;
 
 	@Override
 	protected void fillItems(List<T> result) {
