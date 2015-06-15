@@ -20,6 +20,15 @@ public abstract class ListBoxBase extends ListBox implements IUserInputWidget<St
 
 	protected Map<Serializable, Serializable>	dataMap;
 	private boolean								required;
+	private IItemsChangeHandler					itemsChangeHandler;
+
+	public IItemsChangeHandler getItemsChangeHandler() {
+		return itemsChangeHandler;
+	}
+
+	public void setItemsChangeHandler(IItemsChangeHandler itemsChangeHandler) {
+		this.itemsChangeHandler = itemsChangeHandler;
+	}
 
 	@Override
 	public boolean isRequired() {
@@ -62,18 +71,6 @@ public abstract class ListBoxBase extends ListBox implements IUserInputWidget<St
 		comboDataLoader.add(this, moduleId, key, params);
 		return (T) this;
 	}
-
-	/*
-	public <T extends ListBoxBase> T setItemsConstant(final KeyValueDataLoader comboDataLoader, IModuleConstantsEnum key) {
-		clear(!required);
-		comboDataLoader.addConstant(this, key);
-		return (T) this;
-	}
-	public <T extends ListBoxBase> T setItemsEnum(ModuleEnumItems<? extends Serializable> moduleEnumDescriber) {
-		ConstantsWithLookup nls = GwtBootstrapApplication.getModuleNls(moduleEnumDescriber.getModuleId());
-		return setItems(moduleEnumDescriber, nls);
-	}
-	*/
 
 	public <T extends ListBoxBase> T setItems(final Map<? extends Serializable, ? extends Serializable> map, ConstantsWithLookup nls) {
 		clear(!required);
@@ -152,6 +149,8 @@ public abstract class ListBoxBase extends ListBox implements IUserInputWidget<St
 	}
 
 	protected void onItemListChanged() {
+		if (itemsChangeHandler != null)
+			itemsChangeHandler.onItemsChanged();
 	}
 
 	public void addItem(final Serializable label, final Serializable value, final Serializable data) {
@@ -193,6 +192,7 @@ public abstract class ListBoxBase extends ListBox implements IUserInputWidget<St
 	@Override
 	protected void onUnload() {
 		dataMap = null;
+		itemsChangeHandler = null;
 		super.onUnload();
 	}
 
