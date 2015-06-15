@@ -134,16 +134,16 @@ public abstract class ListBoxBase extends ListBox implements IUserInputWidget<St
 
 	@Override
 	public void setKeyValueDataItems(JSONObject itm) {
-		if (itm == null)
-			return;
-		for (String lb : itm.keySet()) {
-			JSONArray arr = itm.get(lb).isArray();//0-Value,1-Data,2-Path
-			String data = JsUtil.asString(arr.get(1));
-			String path = JsUtil.asString(arr.get(2));
-			if (path != null) {
-				addItem(JsUtil.repeat("-", (path.split("\\.").length - 1) * 2) + lb, JsUtil.asString(arr.get(0)), data);
-			} else
-				addItem(lb, JsUtil.asString(arr.get(0)), data);
+		if (itm != null) {
+			for (String lb : itm.keySet()) {
+				JSONArray arr = itm.get(lb).isArray();//0-Value,1-Data,2-Path
+				String data = JsUtil.asString(arr.get(1));
+				String path = JsUtil.asString(arr.get(2));
+				if (path != null) {
+					addItem(JsUtil.repeat("-", (path.split("\\.").length - 1) * 2) + lb, JsUtil.asString(arr.get(0)), data);
+				} else
+					addItem(lb, JsUtil.asString(arr.get(0)), data);
+			}
 		}
 		onItemListChanged();
 	}
@@ -180,11 +180,11 @@ public abstract class ListBoxBase extends ListBox implements IUserInputWidget<St
 
 	public void setItems(final boolean useEmpty, final String items, final String itemSep, final String keyValueSep) {
 		clear(useEmpty);
-		if (JsUtil.isEmpty(items))
-			return;
-		for (String s : items.split(itemSep)) {
-			String[] kv = s.split(keyValueSep);
-			addItem(kv[1], kv[0]);
+		if (JsUtil.isNotEmpty(items)) {
+			for (String s : items.split(itemSep)) {
+				String[] kv = s.split(keyValueSep);
+				addItem(kv[1], kv[0]);
+			}
 		}
 		onItemListChanged();
 	}

@@ -85,8 +85,10 @@ public class KeyValueDataLoader implements Command {
 								JSONObject itm = grp.get(ig).isObject();
 								combo.setKeyValueDataItems(itm);
 							}
-						}
+						} else
+							combo.setKeyValueDataItems(null);
 					}
+					comboKey.clear();
 				}
 
 				@Override
