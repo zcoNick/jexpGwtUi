@@ -79,8 +79,8 @@ public class KeyValueDataLoader implements Command {
 					for (IKeyValueList combo : comboKey.keySet()) {
 						String k = comboKey.get(combo);
 						JSONValue va = json.get(k);
-						if (va != null) {
-							JSONObject grp = va.isObject();
+						JSONObject grp = va != null ? va.isObject() : null;
+						if (grp != null && grp.size() > 0) {
 							for (String ig : grp.keySet()) {
 								JSONObject itm = grp.get(ig).isObject();
 								combo.setKeyValueDataItems(itm);
