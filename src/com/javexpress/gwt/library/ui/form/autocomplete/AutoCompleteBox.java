@@ -117,7 +117,7 @@ public class AutoCompleteBox<V extends Serializable> extends JexpSimplePanel imp
 				.on(
 						"blur",
 						function() {
-							if (el.attr("v") != "" && el.val() == "") {
+							if (el.attr("v") != "" && el.val().trim() == "") {
 								el.attr("v", "");
 								$wnd.$.data(el, "acdata", null);
 								x.@com.javexpress.gwt.library.ui.form.autocomplete.AutoCompleteBox::fireOnSelect(Ljava/lang/String;Ljava/lang/String;Lcom/google/gwt/core/client/JavaScriptObject;)(null,null,null);
@@ -264,7 +264,7 @@ public class AutoCompleteBox<V extends Serializable> extends JexpSimplePanel imp
 	}
 
 	private boolean fireOnSelect(final String id, final String label, JavaScriptObject data) throws Exception {
-		if (listener != null && JsUtil.isNotEmpty(id))
+		if (listener != null)
 			return listener.itemSelected(id, label, data != null ? new JsonMap(data) : null);
 		return true;
 	}
