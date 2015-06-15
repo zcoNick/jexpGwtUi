@@ -73,8 +73,11 @@ background:radial-gradient(50% 75%,circle,#ffffff,#EFF3F8);
 .jexpCheckGroupBoxCheck > label { height:15px; }
 .jexpCheckGroupBoxCheck > input { margin: 4px 2px 0; }
 .jexpPickList{ }
+.jexpPickList h6 { margin:0; }
+.jexpPickList.hasBorder{ border: 1px solid #EEEEEE; }
+.jexpPickList .list-group { margin-bottom: 0; }
 .jexpPickList .list-group-item { padding: 2px 17px 4px 6px; }
-.jexpPickListButtons { min-height:100px; display: flex; justify-content:center; flex-flow: column wrap; }
+.jexpPickListButtons .btn { font-size:1.3em;margin-left:16.666%; }
 .jexpTabSet { margin-top:4px }
 .jexpTabSet > .nav-tabs > li > a { padding: 2px 7px 4px; }
 .jexpTabSet > .tab-content { padding: 4px 0 2px; }

@@ -82,15 +82,15 @@ public class PickList<V extends Serializable> extends FlexTable {
 		Element btDiv = DOM.createDiv();
 		btDiv.setClassName("jexpPickListButtons col-xs-2");
 		btAdd = DOM.createButton();
-		btAdd.setClassName("btn btn-default");
+		btAdd.setClassName("btn btn-white col-xs-8");
 		Element ia = DOM.createElement("i");
-		ia.setClassName("glyphicon glyphicon-chevron-left");
+		ia.setClassName("fa fa-arrow-left");
 		btAdd.appendChild(ia);
 		btDiv.appendChild(btAdd);
 		btRemove = DOM.createButton();
-		btRemove.setClassName("btn btn-default");
+		btRemove.setClassName("btn btn-white col-xs-8");
 		Element ir = DOM.createElement("i");
-		ir.setClassName("glyphicon glyphicon-chevron-right");
+		ir.setClassName("fa fa-arrow-right");
 		btRemove.appendChild(ir);
 		btDiv.appendChild(btRemove);
 		getElement().appendChild(btDiv);
@@ -214,7 +214,7 @@ public class PickList<V extends Serializable> extends FlexTable {
 	}
 
 	private native void destroyByJs(Element el) /*-{
-		$wnd.$(el).empty().remove();
+		$wnd.$(el).empty().off();
 	}-*/;
 
 	public LinkedHashMap<String, String> getSelectionsMap() {

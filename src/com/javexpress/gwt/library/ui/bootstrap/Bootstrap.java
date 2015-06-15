@@ -40,14 +40,14 @@ public class Bootstrap {
 		}
 	}
 
-	public static Element createSpacer(int size) {
+	public static Element createSpace(int size) {
 		Element el = DOM.createDiv();
 		el.setClassName("space" + (size > -1 ? "-" + size : ""));
 		return el;
 	}
 
 	public static Node createSpacer() {
-		return createSpacer(-1);
+		return createSpace(-1);
 	}
 
 	public static Element createBlockLabel() {
