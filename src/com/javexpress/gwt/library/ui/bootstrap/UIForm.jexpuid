@@ -1,14 +1,19 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<JavExpress-UIDesign extendable="true" field="true" modelName="gwt.ResponsiveTitleCompositeModel" name="this" disableCodeGeneration="true">
+<JavExpress-UIDesign disableCodeGeneration="true" extendable="true" field="true" modelName="gwt.ResponsiveTitleCompositeModel" name="this">
+    <designerHints extra="onLoad" type="VIRTUALEVENT" value="load"/>
+    <designerHints extra="onShow" type="VIRTUALEVENT" value="show"/>
+    <designerHints extra="onResize" type="VIRTUALEVENT" value="resize"/>
+    <designerHints extra="onUnload" type="VIRTUALEVENT" value="unload"/>
     <eventBindings/>
+    <listenerBindings/>
     <propertyValues>
-        <entry>
-            <key>_PROPC_COLSIZEXS</key>
-            <value>212</value>
-        </entry>
         <entry>
             <key>PROP_VARIABLE</key>
             <value>0this</value>
+        </entry>
+        <entry>
+            <key>_PROPC_COLSIZEXS</key>
+            <value>212</value>
         </entry>
     </propertyValues>
     <lastState>
