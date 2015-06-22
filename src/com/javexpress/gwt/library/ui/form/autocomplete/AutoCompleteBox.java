@@ -51,6 +51,7 @@ public class AutoCompleteBox<V extends Serializable> extends JexpSimplePanel imp
 		getElement().setClassName("input-group jexpAutoComplete");
 
 		input = DOM.createInputText().cast();
+		JsUtil.ensureSubId(getElement(), input, "inp");
 		getElement().appendChild(input);
 
 		indicator = DOM.createSpan();
