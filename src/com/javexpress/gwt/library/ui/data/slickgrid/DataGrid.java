@@ -328,16 +328,16 @@ public class DataGrid<T extends Serializable> extends BaseSlickGrid<ListColumn> 
 						dataView.setItems(loader.data, keyColumnName);
 						if (currentGroupDef)
 							dataView.setGrouping(currentGroupDef);
-						$wnd.console.debug(currentGroupDef);
+						x.@com.javexpress.gwt.library.ui.data.slickgrid.DataGrid::fireOnDataLoaded(IILcom/google/gwt/core/client/JavaScriptObject;)(args.from, args.to, data);
 						dataView.endUpdate();
 					} else {
 						if (loader.lastLength != data.length) {
 							grid.updateRowCount();
 							loader.lastLength = data.length;
 						}
+						x.@com.javexpress.gwt.library.ui.data.slickgrid.DataGrid::fireOnDataLoaded(IILcom/google/gwt/core/client/JavaScriptObject;)(args.from, args.to, data);
 						grid.render();
 					}
-					x.@com.javexpress.gwt.library.ui.data.slickgrid.DataGrid::fireOnDataLoaded(Lcom/google/gwt/core/client/JavaScriptObject;)(data);
 				});
 
 		if (dataView) {
@@ -787,10 +787,9 @@ public class DataGrid<T extends Serializable> extends BaseSlickGrid<ListColumn> 
 			setGroupColumn(field);
 	}
 
-	private void fireOnDataLoaded(JavaScriptObject data) throws Exception {
-		if (listener != null) {
+	private void fireOnDataLoaded(int from, int to, JavaScriptObject data) throws Exception {
+		if (listener != null)
 			listener.onGridDataLoaded(data);
-		}
 	}
 
 	private void fireLinkClicked(JavaScriptObject linkElement, int row, int cell, String field, int columnKey, String value) {
