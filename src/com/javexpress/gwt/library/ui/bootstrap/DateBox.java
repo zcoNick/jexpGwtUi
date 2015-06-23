@@ -57,6 +57,7 @@ public class DateBox extends JexpSimplePanel implements IWrappedInput<Date> {
 		getElement().setClassName("input-group jexpDateBox");
 
 		input = DOM.createInputText();
+		JsUtil.ensureSubId(getElement(), input, "inp");
 		getElement().appendChild(input);
 
 		btDate = DOM.createSpan();
