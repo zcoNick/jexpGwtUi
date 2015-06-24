@@ -189,7 +189,14 @@ public class AutoCompleteBox<V extends Serializable> extends JexpSimplePanel imp
 	@Override
 	public void clear() {
 		input.setValue("");
+		String old = input.getAttribute("v");
 		input.setAttribute("v", "");
+		try {
+			if (JsUtil.isNotEmpty(old))
+				fireOnSelect(null, null, null);
+		} catch (Exception e) {
+			JsUtil.handleError(getParent(), e);
+		}
 	}
 
 	public void setValue(final Long value) {
