@@ -564,6 +564,9 @@ public interface CommonResources extends ConstantsWithLookup {
 	/** Org.Birimi */
 	String orgBirimi();
 
+	/** Oto. */
+	String oto();
+
 	/** Oturum Kilitli */
 	String oturumZamaniAsilmis();
 

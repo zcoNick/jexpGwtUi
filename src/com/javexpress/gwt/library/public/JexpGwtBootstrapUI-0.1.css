@@ -2,6 +2,7 @@
 .jexpFormArea > .form-group > label[class*="col-"]{margin-bottom:2px}
 .jexpFormArea > .form-group > .jexpControlContainer{margin-bottom:2px}
 .jexpLabel.form-control { border: 0 none; height: 26px; line-height: 1; padding-bottom: 1px; padding-left: 0; padding-top:5px; background-color: transparent; }
+.jexpLabel.jexpNoContentBanner { color: #9F9F9F;font-size: 1.5em;font-style: italic;line-height: 2em; }
 .jexpCheckBox { font-size:12px; }
 .jexpCheckBox.form-control { background-color: transparent; }
 .gwt-CheckBox.jexpSmallGwtCheck > label { font-size:inherit; }
