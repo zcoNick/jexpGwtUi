@@ -28,7 +28,9 @@ public class Bootstrap {
 		Default("default"), Primary("primary"), Grey("grey"), Purple("purple"), Orange(
 				"orange"),
 		Important("important"), Green("green"), Success("success"), light_blue(
-				"light-blue"), Info("light-blue"), Danger("danger");
+				"light-blue"),
+		Info("light-blue"), Danger("danger"), Inverse("inverse"), Warning(
+				"warning"), Light("light"), Yellow("yellow"), Pink("pink");
 		private String	value;
 
 		public String getValue() {

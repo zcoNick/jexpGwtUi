@@ -339,7 +339,7 @@ public class JqGrid<T extends Serializable> extends JexpWidget implements IDataV
 		nav.set("del", false);
 		nav.set("search", false);
 		if (JsUtil.USE_BOOTSTRAP) {
-			nav.set("refreshicon", "fa fa-refresh");
+			nav.set("refreshicon", "fa fa-refresh green");
 			nav.set("refreshtitle", ClientContext.nlsCommon.yenile());
 		}
 		widget = createByJs(this, table, table.getId(), listener, options.getJavaScriptObject(), nav.getJavaScriptObject(), colModel.getJavaScriptObject(), hasFrozenColumns, keyNavigation, listener != null && listener.hasRowStyler(), useSmallFonts, arrGroupableColumns, keyColumnName, maxHeight);
@@ -381,7 +381,7 @@ public class JqGrid<T extends Serializable> extends JexpWidget implements IDataV
 				if (colModel[i]["formatter"].substring(0,4)=="link"){
 					colModel[i]["formatter"]=function(cellValue, options, rowObject){
 						if (x.@com.javexpress.gwt.library.ui.data.jqgrid.JqGrid::isRenderCell(ILjava/lang/String;)(options.pos,cellValue+""))
-							return "<span class='ui-icon "+options.colModel.jqicon+" ui-cursor-hand' grid=\""+id+"\" col=\""+options.pos+"\" title=\""+options.colModel.hint+"\" value=\""+cellValue+"\">";
+							return "<span class='ui-icon "+options.colModel.jqicon+" jexpHandCursor' grid=\""+id+"\" col=\""+options.pos+"\" title=\""+options.colModel.hint+"\" value=\""+cellValue+"\">";
 						else
 							return "";
 					};
@@ -566,7 +566,7 @@ public class JqGrid<T extends Serializable> extends JexpWidget implements IDataV
 			_addtoolseparator(tool, widget, table.getId());
 		JsonMap options = new JsonMap();
 		options.set("id", table.getId() + "_" + tool.getId());
-		options.set("buttonicon", tool.getIcon().getCssClass());
+		options.set("buttonicon", tool.getIcon().getCssClass() + (JsUtil.isNotEmpty(tool.getIconClass()) ? " " + tool.getIconClass() : ""));
 		options.set("caption", tool.getCaption() != null ? tool.getCaption() : "");
 		if (tool.getHint() != null)
 			options.set("title", tool.getHint());

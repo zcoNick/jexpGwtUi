@@ -80,6 +80,9 @@ public abstract class UIComposite extends AbstractContainerFocusable implements 
 
 	public void setXsSize(Integer xsSize) {
 		this.xsSize = xsSize;
+		if (isAttached() && attachedTo != null) {
+			attachedTo.onResize();
+		}
 	}
 
 	public Integer getSmSize() {
@@ -88,6 +91,9 @@ public abstract class UIComposite extends AbstractContainerFocusable implements 
 
 	public void setSmSize(Integer smSize) {
 		this.smSize = smSize;
+		if (isAttached() && attachedTo != null) {
+			attachedTo.onResize();
+		}
 	}
 
 	public Integer getMdSize() {
@@ -96,6 +102,9 @@ public abstract class UIComposite extends AbstractContainerFocusable implements 
 
 	public void setMdSize(Integer mdSize) {
 		this.mdSize = mdSize;
+		if (isAttached() && attachedTo != null) {
+			attachedTo.onResize();
+		}
 	}
 
 	public Integer getLgSize() {
@@ -104,6 +113,9 @@ public abstract class UIComposite extends AbstractContainerFocusable implements 
 
 	public void setLgSize(Integer lgSize) {
 		this.lgSize = lgSize;
+		if (isAttached() && attachedTo != null) {
+			attachedTo.onResize();
+		}
 	}
 
 	@Override

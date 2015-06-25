@@ -145,6 +145,27 @@ public class Button extends ButtonBase implements ICallbackAware {
 				case Purple:
 					clazz += " btn-purple";
 					break;
+				case Pink:
+					clazz += " btn-pink";
+					break;
+				case Info:
+					clazz += " btn-info";
+					break;
+				case Inverse:
+					clazz += " btn-inverse";
+					break;
+				case Grey:
+					clazz += " btn-grey";
+					break;
+				case Warning:
+					clazz += " btn-warning";
+					break;
+				case Light:
+					clazz += " btn-light";
+					break;
+				case Yellow:
+					clazz += " btn-yellow";
+					break;
 				case Danger:
 					clazz += " btn-danger";
 					break;
@@ -190,6 +211,8 @@ public class Button extends ButtonBase implements ICallbackAware {
 
 	public void setHighlight(boolean highlight) {
 		this.highlight = highlight;
+		if (isAttached())
+			updateStyleContext();
 	}
 
 	@Override
