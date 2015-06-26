@@ -26,8 +26,8 @@ public class JexpGwtUser implements Serializable {
 	private char						currencyDecimalChar;
 	private String						sessionId;
 	private String						companyName;
-	private Map<String, Serializable>	clientVariables = new HashMap<String, Serializable>();
-	
+	private Map<String, Serializable>	clientVariables	= new HashMap<String, Serializable>();
+
 	public Map<String, Serializable> getClientParams() {
 		return clientVariables;
 	}
@@ -35,9 +35,9 @@ public class JexpGwtUser implements Serializable {
 	public void setClientVariables(Map<String, Serializable> clientVariables) {
 		this.clientVariables = clientVariables;
 	}
-	
-	public static Serializable getVariable(long moduleId, String key){
-		return instance.clientVariables.get(moduleId+":"+key);
+
+	public static Serializable getVariable(long moduleId, String key) {
+		return instance.clientVariables.get(moduleId + "é" + key);
 	}
 
 	public String getCompanyName() {
