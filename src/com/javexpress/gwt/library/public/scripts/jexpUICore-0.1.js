@@ -323,3 +323,27 @@ $.widget( "custom.jexpautocomplete", $.ui.autocomplete, {
 			.appendTo( ul );
 	},
 });
+
+//--TESTBENCH SUPPORT
+function mouseWheel(element,delta) {
+	//Works with Chrome and FireFox
+	var evt = document.createEvent("MouseEvents");
+	evt.initMouseEvent(
+	  'DOMMouseScroll', // in DOMString typeArg,
+	   true,  // in boolean canBubbleArg,
+	   true,  // in boolean cancelableArg,
+	   window,// in views::AbstractView viewArg,
+	   delta,   // in long detailArg,
+	   0,     // in long screenXArg,
+	   0,     // in long screenYArg,
+	   0,     // in long clientXArg,
+	   0,     // in long clientYArg,
+	   0,     // in boolean ctrlKeyArg,
+	   0,     // in boolean altKeyArg,
+	   0,     // in boolean shiftKeyArg,
+	   0,     // in boolean metaKeyArg,
+	   0,     // in unsigned short buttonArg,
+	   null   // in EventTarget relatedTargetArg
+	);
+	element.dispatchEvent(evt);
+}
