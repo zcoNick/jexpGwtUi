@@ -8,6 +8,7 @@ import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.user.client.DOM;
 import com.javexpress.gwt.library.ui.AbstractContainer;
 import com.javexpress.gwt.library.ui.ICssIcon;
+import com.javexpress.gwt.library.ui.data.GridToolItem;
 import com.javexpress.gwt.library.ui.form.ISizeAwareWidget;
 import com.javexpress.gwt.library.ui.js.JsUtil;
 
@@ -82,6 +83,21 @@ public abstract class ContainerWithBar extends AbstractContainer implements ISiz
 		return 0;
 	}
 
+	protected void toggleToolItem(GridToolItem ti, boolean enable) {
+		Element el = ti.getElement();
+		if (el == null)
+			return;
+		if (enable) {
+			el.removeAttribute("disabled");
+			el.removeClassName("disabled");
+			el.addClassName("ui-state-hover");
+		} else {
+			el.setAttribute("disabled", "true");
+			el.addClassName("disabled");
+			el.removeClassName("ui-state-hover");
+		}
+	}
+
 	protected Element addToolItemElement(String id, ICssIcon icon, String caption, String hint, String iconClass, boolean enabled, boolean startsWithSeperator, boolean endsWithSeperator) {
 		if (startsWithSeperator) {
 			Element divsep = DOM.createDiv();
@@ -99,8 +115,10 @@ public abstract class ContainerWithBar extends AbstractContainer implements ISiz
 		Element span = DOM.createSpan();
 		if (hint != null)
 			span.setTitle(hint);
-		if (!enabled)
+		if (!enabled) {
 			span.setAttribute("disabled", "true");
+			span.addClassName("disabled");
+		}
 		if (!JsUtil.USE_BOOTSTRAP) {
 			if (JsUtil.isEmpty(caption)) {
 				span.addClassName("ui-cursor-hand ui-icon ui-icon-only " + icon.getCssClass());
@@ -136,12 +154,12 @@ public abstract class ContainerWithBar extends AbstractContainer implements ISiz
 	}
 
 	private native void _bindHover(Element div) /*-{
-												$wnd.$(div).hover(function() {
-												$wnd.$(this).addClass("ui-state-hover");
-												}, function() {
-												$wnd.$(this).removeClass("ui-state-hover");
-												});
-												}-*/;
+		$wnd.$(div).hover(function() {
+			$wnd.$(this).addClass("ui-state-hover");
+		}, function() {
+			$wnd.$(this).removeClass("ui-state-hover");
+		});
+	}-*/;
 
 	@Override
 	protected void onUnload() {
@@ -152,8 +170,8 @@ public abstract class ContainerWithBar extends AbstractContainer implements ISiz
 	}
 
 	private native void _destroyByJs(Element container, Element tbar) /*-{
-																		$wnd.$(container).empty().off();
-																		$wnd.$(tbar).empty().off();
-																		}-*/;
+		$wnd.$(container).empty().off();
+		$wnd.$(tbar).empty().off();
+	}-*/;
 
 }

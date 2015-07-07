@@ -203,21 +203,6 @@ public abstract class BaseSlickGrid<CT extends Column> extends ContainerWithBar 
 		$wnd.$(el).off();
 	}-*/;
 
-	protected void toggleToolItem(GridToolItem ti, boolean enable) {
-		Element el = ti.getElement();
-		if (el == null)
-			return;
-		if (enable) {
-			el.removeAttribute("disabled");
-			el.removeClassName("disabled");
-			el.addClassName("ui-state-hover");
-		} else {
-			el.setAttribute("disabled", "true");
-			el.addClassName("disabled");
-			el.removeClassName("ui-state-hover");
-		}
-	}
-
 	protected JsonMap createColumnModel(final CT column, final int index) {
 		if (column.isHidden())
 			return null;
