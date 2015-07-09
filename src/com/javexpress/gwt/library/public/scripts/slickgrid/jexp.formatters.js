@@ -65,7 +65,11 @@ function JexpTimeStampFormatter(row, cell, value, columnDef, data) {
 function JexpDecimalFormatter(row, cell, value, columnDef, data) {
 	if (value == null || value === "")
 		return "";
-	//return JexpUI.formatMoney(value,columnDef.options.mDec,columnDef.options.aDec,columnDef.options.aSep);
+	return numeral(value).format(columnDef.numeralFormat);	
+}
+function JexpCurrencyFormatter(row, cell, value, columnDef, data) {
+	if (value == null || value === "")
+		return "";
 	return numeral(value).format(columnDef.numeralFormat);	
 }
 function JexpLinkFormatter(row, cell, value, columnDef, data) {

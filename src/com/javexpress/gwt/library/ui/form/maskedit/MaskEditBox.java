@@ -16,7 +16,7 @@ import com.javexpress.gwt.library.ui.js.WidgetBundles;
 public class MaskEditBox extends TextBoxBase implements IUserInputWidget<String> {
 
 	public static void fillResources(WidgetBundles wb) {
-		wb.addJavaScript("scripts/inputmask/jquery.inputmask.bundle-3.1.62.min.js");//http://jsfiddle.net/6nNJs/4/
+		wb.addJavaScript("scripts/inputmask/jquery.inputmask.bundle-3.1.64.min.js");//http://jsfiddle.net/6nNJs/4/
 	}
 
 	private boolean				required;
@@ -103,8 +103,8 @@ public class MaskEditBox extends TextBoxBase implements IUserInputWidget<String>
 	}
 
 	private native void createByJs(MaskEditBox x, Element element, String mask, JavaScriptObject options) /*-{
-																											$wnd.$(element).inputmask(mask, options);
-																											}-*/;
+		$wnd.$(element).inputmask(mask, options);
+	}-*/;
 
 	@Override
 	protected void onUnload() {
@@ -115,8 +115,8 @@ public class MaskEditBox extends TextBoxBase implements IUserInputWidget<String>
 	}
 
 	private native void destroyByJs(Element element) /*-{
-														$wnd.$(element).inputmask('remove');
-														}-*/;
+		$wnd.$(element).inputmask('remove');
+	}-*/;
 
 	@Override
 	public boolean validate(final boolean focusedBefore) {
@@ -124,8 +124,8 @@ public class MaskEditBox extends TextBoxBase implements IUserInputWidget<String>
 	}
 
 	private native boolean _isCompleted(Element element) /*-{
-															return $wnd.$(element).inputmask("isComplete");
-															}-*/;
+		return $wnd.$(element).inputmask("isComplete");
+	}-*/;
 
 	@Override
 	public String getValue() {

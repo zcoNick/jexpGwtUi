@@ -7,8 +7,9 @@
   width: 14px;
   background-repeat: no-repeat;
   background-position: left center;
-  background-image: url(images/down.gif);
+  background-image: url(../images/down.gif);
   cursor: pointer;
+
   display: none;
   border-left: thin ridge silver;
 }
@@ -25,27 +26,15 @@
   margin: 0;
   padding: 2px;
   cursor: default;
-  border: 1px solid #718BB7;
-  background-color:menu;
-  z-index:9999;
-  -moz-box-shadow: 2px 2px 2px silver;
-  -webkit-box-shadow: 2px 2px 2px silver;
-  min-width: 100px;
 }
+
 
 /* Menu items */
 .slick-header-menuitem {
   list-style: none;
   margin: 0;
+  padding: 0;
   cursor: pointer;
-  padding: 2px 4px;
-  border: 1px solid transparent;
-  border-radius: 3px;
-}
-
-.slick-header-menuitem:hover {
-  border-color: silver;
-  background: white;
 }
 
 .slick-header-menuicon {
@@ -63,9 +52,8 @@
   vertical-align: middle;
 }
 
+
 /* Disabled */
 .slick-header-menuitem-disabled {
   color: silver;
-  border-color: transparent !important;
-  background: inherit !important;
 }

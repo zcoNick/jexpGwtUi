@@ -20,7 +20,6 @@ public class Schedule extends JexpWidget implements IDataChangeListener {
 
 	public static void fillResources(final WidgetBundles wb) {
 		wb.addStyleSheet("scripts/schedule/fullcalendar.css");
-		wb.addJavaScript("scripts/schedule/moment-2.7.0.min.js");
 		wb.addJavaScript("scripts/schedule/fullcalendar-2.0.2.min.js");
 	}
 
@@ -73,91 +72,91 @@ public class Schedule extends JexpWidget implements IDataChangeListener {
 	}
 
 	private native void createByJs(Schedule x, Element element, JavaScriptObject options, String dataUrl) /*-{
-																											var el = $wnd.$(element);
-																											var opts = {
-																											theme : true,
-																											header : {
-																											left : 'prev,next today',
-																											center : 'title',
-																											right : 'agendaDay,agendaWeek,month'
-																											},
-																											editable : options.editable,
-																											selectable : options.selectable,
-																											selectHelper : true,
-																											slotMinutes : options.slotMinutes,
-																											firstHour : options.firstHour,
-																											monthNames : [ 'Ocak', 'Şubat', 'Mart', 'Nisan', 'Mayıs',
-																											'Haziran', 'Temmuz', 'Ağustos', 'Eylül', 'Ekim', 'Kasım',
-																											'Aralık' ],
-																											monthNamesShort : [ 'Oca', 'Şub', 'Mar', 'Nis', 'May', 'Haz',
-																											'Tem', 'Ağu', 'Eyl', 'Eki', 'Kas', 'Ara' ],
-																											dayNames : [ 'Pazar', 'Pazartesi', 'Salı', 'Çarşamba', 'Perşembe',
-																											'Cuma', 'Cumartesi' ],
-																											dayNamesShort : [ 'Paz', 'Pzt', 'Sal', 'Çrş', 'Prş', 'Cum', 'Cmt' ],
-																											buttonText : {
-																											today : 'Bugün',
-																											month : 'Ay',
-																											week : 'Hafta',
-																											day : 'Gün'
-																											},
-																											defaultView : 'agendaWeek',
-																											firstHour : 8,
-																											allDayText : 'Tüm Gün',
-																											defaultEventMinutes : 60,
-																											timeFormat : 'H(:mm)',
-																											eventClick : function(calEvent, jsEvent, view) {
-																											x.@com.javexpress.gwt.library.ui.data.schedule.Schedule::fireOnEvent(Ljava/lang/String;Ljava/lang/String;)(calEvent.id+"",view.name);
-																											},
-																											select : function(s, e, allday) {
-																											x.@com.javexpress.gwt.library.ui.data.schedule.Schedule::fireOnAdd(Lcom/google/gwt/core/client/JsDate;Lcom/google/gwt/core/client/JsDate;)(s,e);
-																											el.fullCalendar('unselect');
-																											},
-																											eventDrop : function(event, dayDelta, minuteDelta, allDay,
-																											revertFunc, jsEvent, ui, view) {
-																											x.@com.javexpress.gwt.library.ui.data.schedule.Schedule::fireOnMove(Lcom/google/gwt/core/client/JavaScriptObject;Lcom/google/gwt/core/client/JsDate;Lcom/google/gwt/core/client/JsDate;)(event, event.start, event.end);
-																											},
-																											eventResize : function(event, dayDelta, minuteDelta, revertFunc,
-																											jsEvent, ui, view) {
-																											x.@com.javexpress.gwt.library.ui.data.schedule.Schedule::fireOnResize(Lcom/google/gwt/core/client/JavaScriptObject;Lcom/google/gwt/core/client/JsDate;Lcom/google/gwt/core/client/JsDate;)(event, event.start, event.end);
-																											},
-																											eventSources : [ {
-																											events : function(start, end, callback) {
-																											var postData = {
-																											start : Math.round(start.getTime() / 1000),
-																											end : Math.round(end.getTime() / 1000)
-																											};
-																											x.@com.javexpress.gwt.library.ui.data.schedule.Schedule::preparePostData(Lcom/google/gwt/core/client/JavaScriptObject;)(postData);
-																											$wnd.$.ajax({
-																											url : dataUrl,
-																											type : "POST",
-																											cache : false,
-																											dataType : "json",
-																											data : postData,
-																											success : function(json) {
-																											var events = [];
-																											for (var i = 0; i < json.length; i++) {
-																											events.push({
-																											id : json[i].id,
-																											start : json[i].start,
-																											end : json[i].end,
-																											title : json[i].title,
-																											backgroundColor : json[i].backgroundColor,
-																											editable : json[i].editable,
-																											allDay : json[i].allDay
-																											});
-																											}
-																											callback(events);
-																											}
-																											});
-																											}
-																											} ]
-																											};
-																											if (options.aspectRatio)
-																											opts.aspectRatio = options.aspectRatio;
-																											else
-																											opts.contentHeight = el.height() - 42;
-																											el.fullCalendar(opts);
-																											}-*/;
+		var el = $wnd.$(element);
+		var opts = {
+			theme : true,
+			header : {
+				left : 'prev,next today',
+				center : 'title',
+				right : 'agendaDay,agendaWeek,month'
+			},
+			editable : options.editable,
+			selectable : options.selectable,
+			selectHelper : true,
+			slotMinutes : options.slotMinutes,
+			firstHour : options.firstHour,
+			monthNames : [ 'Ocak', 'Şubat', 'Mart', 'Nisan', 'Mayıs',
+					'Haziran', 'Temmuz', 'Ağustos', 'Eylül', 'Ekim', 'Kasım',
+					'Aralık' ],
+			monthNamesShort : [ 'Oca', 'Şub', 'Mar', 'Nis', 'May', 'Haz',
+					'Tem', 'Ağu', 'Eyl', 'Eki', 'Kas', 'Ara' ],
+			dayNames : [ 'Pazar', 'Pazartesi', 'Salı', 'Çarşamba', 'Perşembe',
+					'Cuma', 'Cumartesi' ],
+			dayNamesShort : [ 'Paz', 'Pzt', 'Sal', 'Çrş', 'Prş', 'Cum', 'Cmt' ],
+			buttonText : {
+				today : 'Bugün',
+				month : 'Ay',
+				week : 'Hafta',
+				day : 'Gün'
+			},
+			defaultView : 'agendaWeek',
+			firstHour : 8,
+			allDayText : 'Tüm Gün',
+			defaultEventMinutes : 60,
+			timeFormat : 'H(:mm)',
+			eventClick : function(calEvent, jsEvent, view) {
+				x.@com.javexpress.gwt.library.ui.data.schedule.Schedule::fireOnEvent(Ljava/lang/String;Ljava/lang/String;)(calEvent.id+"",view.name);
+			},
+			select : function(s, e, allday) {
+				x.@com.javexpress.gwt.library.ui.data.schedule.Schedule::fireOnAdd(Lcom/google/gwt/core/client/JsDate;Lcom/google/gwt/core/client/JsDate;)(s,e);
+				el.fullCalendar('unselect');
+			},
+			eventDrop : function(event, dayDelta, minuteDelta, allDay,
+					revertFunc, jsEvent, ui, view) {
+				x.@com.javexpress.gwt.library.ui.data.schedule.Schedule::fireOnMove(Lcom/google/gwt/core/client/JavaScriptObject;Lcom/google/gwt/core/client/JsDate;Lcom/google/gwt/core/client/JsDate;)(event, event.start, event.end);
+			},
+			eventResize : function(event, dayDelta, minuteDelta, revertFunc,
+					jsEvent, ui, view) {
+				x.@com.javexpress.gwt.library.ui.data.schedule.Schedule::fireOnResize(Lcom/google/gwt/core/client/JavaScriptObject;Lcom/google/gwt/core/client/JsDate;Lcom/google/gwt/core/client/JsDate;)(event, event.start, event.end);
+			},
+			eventSources : [ {
+				events : function(start, end, callback) {
+					var postData = {
+						start : Math.round(start.getTime() / 1000),
+						end : Math.round(end.getTime() / 1000)
+					};
+					x.@com.javexpress.gwt.library.ui.data.schedule.Schedule::preparePostData(Lcom/google/gwt/core/client/JavaScriptObject;)(postData);
+					$wnd.$.ajax({
+						url : dataUrl,
+						type : "POST",
+						cache : false,
+						dataType : "json",
+						data : postData,
+						success : function(json) {
+							var events = [];
+							for (var i = 0; i < json.length; i++) {
+								events.push({
+									id : json[i].id,
+									start : json[i].start,
+									end : json[i].end,
+									title : json[i].title,
+									backgroundColor : json[i].backgroundColor,
+									editable : json[i].editable,
+									allDay : json[i].allDay
+								});
+							}
+							callback(events);
+						}
+					});
+				}
+			} ]
+		};
+		if (options.aspectRatio)
+			opts.aspectRatio = options.aspectRatio;
+		else
+			opts.contentHeight = el.height() - 42;
+		el.fullCalendar(opts);
+	}-*/;
 
 	@Override
 	public void refresh(final Serializable result) {
@@ -165,8 +164,8 @@ public class Schedule extends JexpWidget implements IDataChangeListener {
 	}
 
 	private native void _refresh(final Element element) /*-{
-														$wnd.$(element).fullCalendar('refetchEvents');
-														}-*/;
+		$wnd.$(element).fullCalendar('refetchEvents');
+	}-*/;
 
 	@Override
 	protected void onUnload() {
@@ -178,8 +177,8 @@ public class Schedule extends JexpWidget implements IDataChangeListener {
 	}
 
 	private native void destroyByJs(Element element) /*-{
-														$wnd.$(element).fullCalendar("destroy");
-														}-*/;
+		$wnd.$(element).fullCalendar("destroy");
+	}-*/;
 
 	//---------- EVENTS
 	public void preparePostData(final JavaScriptObject jsobject) {

@@ -50,7 +50,7 @@ public class JqGrid<T extends Serializable> extends JexpWidget implements IDataV
 
 		WidgetBundles jexp = new WidgetBundles("JavExpress jqGrid Extensions", wb);
 		if (JsUtil.USE_BOOTSTRAP)
-			jexp.addStyleSheet("scripts/bootstrap/jexpGrids-0.1.css");
+			jexp.addStyleSheet("scripts/javexpress/jexpGrids-0.1.css");
 		jexp.addJavaScript("scripts/jqgrid/jexpJqGrid-0.1.js");
 		return jexp;
 	}

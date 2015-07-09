@@ -20,7 +20,7 @@ public class ListColumn extends Column {
 	private Map<String, Serializable>	values;
 
 	public static enum Formatter {
-		currency, date, bool, number, map, timestamp, link, checkbox, email, percentBar;
+		decimal, currency, date, bool, number, map, timestamp, link, checkbox, email, percentBar;
 	}
 
 	public static enum SummaryType {

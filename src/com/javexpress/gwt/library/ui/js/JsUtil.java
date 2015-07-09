@@ -1058,7 +1058,7 @@ public class JsUtil {
 		$wnd.numeral(cultureCode);
 	}-*/;
 
-	public static String createNumeralFormat(int decimals, boolean emptyDecimal) {
+	public static String createNumeralFormat(int decimals, boolean emptyDecimal, String currSymbol) {
 		String f = "0,0";
 		if (decimals == 0)
 			return f;
@@ -1070,7 +1070,13 @@ public class JsUtil {
 			f += "0";
 		if (emptyDecimal)
 			f += "]";
+		if (currSymbol != null)
+			f += " " + currSymbol;
 		return f;
+	}
+
+	public static String createNumeralFormat(int decimals, boolean emptyDecimal) {
+		return createNumeralFormat(decimals, emptyDecimal, null);
 	}
 
 }

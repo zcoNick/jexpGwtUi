@@ -36,34 +36,34 @@ public abstract class ResourceInjector extends BaseResourceInjector {
 	public void injectCore(JsonMap requireConfig, final Command onload) {
 		JsUtil.USE_BOOTSTRAP = true;
 
-		requireConfig.set("jquery", "scripts/jquery/jquery-1.11.1.min");
+		requireConfig.set("jquery", "scripts/jquery/jquery-1.11.3.min");
 		requireConfig.set("moment", "scripts/moment/moment.min");
 		_requireConfig(GWT.getModuleName(), requireConfig.getJavaScriptObject());
 
-		WidgetBundles jq = new WidgetBundles("jQuery 1.11.1");
+		WidgetBundles jq = new WidgetBundles("jQuery 1.11.4");
 		jq.addJavaScript("@jquery");
 
-		jq = new WidgetBundles("jQuery UI 1.11.2", jq);
-		jq.addJavaScript("scripts/jquery/jquery-ui-1.11.2.min.js");
+		jq = new WidgetBundles("jQuery UI 1.11.4", jq);
+		jq.addJavaScript("scripts/jquery/jquery-ui-1.11.4.min.js");
 
-		WidgetBundles wb = new WidgetBundles("Bootstrap 3.3.1", jq);
-		wb.addStyleSheet("scripts/bootstrap/bootstrap-3.3.1.min.css");
-		wb.addStyleSheet("fonts/fontawesome/font-awesome-4.2.0.min.css");
+		WidgetBundles wb = new WidgetBundles("Bootstrap 3.3.5", jq);
+		wb.addStyleSheet("scripts/bootstrap/bootstrap-3.3.5.min.css");
+		wb.addStyleSheet("fonts/fontawesome/font-awesome-4.3.0.min.css");
 		if (theme != null) {
 			theme.addStyleSheets(wb, 0);
 			theme.addJavaScripts(wb, 0);
 		}
-		wb.addStyleSheet("JexpGwtBootstrapBase-0.1.css");
-		wb.addJavaScript("scripts/bootstrap/bootstrap-3.3.1.min.js");
-		wb.addJavaScript("scripts/jexpUICore-0.1.js");
+		wb.addStyleSheet("scripts/javexpress/JexpGwtBootstrapBase-0.1.css");
+		wb.addJavaScript("scripts/bootstrap/bootstrap-3.3.5.min.js");
+		wb.addJavaScript("scripts/javexpress/jexpUICore-0.1.js");
 		injectLibrary(wb, onload);
 	}
 
 	protected WidgetBundles createUIBundles() {
 		WidgetBundles ace = new WidgetBundles(theme != null ? theme.getThemeName() : "Bootstrap Based UI");
 		ace.addStyleSheet("scripts/gritter/jquery.gritter-1.7.4.css");
-		ace.addStyleSheet("JexpGwtBootstrapUI-0.1.css");
-		ace.addJavaScript("scripts/jexpLocalizationStringHelper-0.1.js");
+		ace.addStyleSheet("scripts/javexpress/JexpGwtBootstrapUI-0.1.css");
+		ace.addJavaScript("scripts/javexpress/jexpLocalizationStringHelper-0.1.js");
 		if (theme != null) {
 			theme.addStyleSheets(ace, 10);
 			theme.addJavaScripts(ace, 10);
@@ -79,7 +79,7 @@ public abstract class ResourceInjector extends BaseResourceInjector {
 		jexp.addJavaScript("scripts/numeral/numeral.languages.min.js");
 		jexp.addJavaScript("scripts/slickgrid/jquery.event.drag-2.2.js");
 		jexp.addJavaScript("scripts/slickgrid/jquery.event.drop-2.2.js");
-		DateBox.fillResources(jexp);
+		jexp = DateBox.fillResources(jexp);
 		Dashboard.fillResources(jexp);
 		MaskEditBox.fillResources(jexp);
 		DecimalBox.fillResources(jexp);

@@ -22,7 +22,9 @@ import com.javexpress.gwt.library.ui.js.WidgetBundles;
 
 public class DateBox extends JexpSimplePanel implements IWrappedInput<Date> {
 
-	public static void fillResources(final WidgetBundles wb) {
+	public static WidgetBundles fillResources(final WidgetBundles parent) {
+		WidgetBundles wb = new WidgetBundles("Date/Time Pickers", parent);
+
 		wb.addStyleSheet("scripts/datetimepicker/datepicker.css");
 		wb.addStyleSheet("scripts/datetimepicker/bootstrap-timepicker.css");
 		wb.addStyleSheet("scripts/datetimepicker/daterangepicker.css");
@@ -32,7 +34,10 @@ public class DateBox extends JexpSimplePanel implements IWrappedInput<Date> {
 		wb.addJavaScript("scripts/datetimepicker/bootstrap-timepicker.min.js");
 		wb.addJavaScript("scripts/datetimepicker/daterangepicker.min.js");
 		wb.addJavaScript("scripts/datetimepicker/bootstrap-datetimepicker.min.js");
-		wb.addJavaScript("scripts/datetimepicker/bootstrap-datepicker.tr.js");
+
+		WidgetBundles lclz = new WidgetBundles("Date/Time Localizations", wb);
+		lclz.addJavaScript("scripts/datetimepicker/bootstrap-datepicker.tr.js");
+		return lclz;
 	}
 
 	private JsonMap				options;

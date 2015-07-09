@@ -62,11 +62,11 @@ public class ResourceInjector extends BaseResourceInjector {
 		styleSheets.add("JexpGwtLibraryBase.css");
 
 		List<String> javaScripts = new ArrayList<String>();
-		javaScripts.add("scripts/jquery-1.11.1.min.js");
-		javaScripts.add("scripts/jquery-ui-1.11.2.min.js");
+		javaScripts.add("scripts/jquery-1.11.3.min.js");
+		javaScripts.add("scripts/jquery-ui-1.11.4.min.js");
 		javaScripts.add("scripts/gritter/jquery.gritter.min.js");
-		javaScripts.add("scripts/jexpUICore-0.1.js");
-		javaScripts.add("scripts/jexpLocalizationStringHelper-0.1.js");
+		javaScripts.add("scripts/javexpress/jexpUICore-0.1.js");
+		javaScripts.add("scripts/javexpress/jexpLocalizationStringHelper-0.1.js");
 		injectLibrary("JexpUI Core", styleSheets, javaScripts, onload);
 	}
 
@@ -75,8 +75,8 @@ public class ResourceInjector extends BaseResourceInjector {
 		WidgetBundles wb = new WidgetBundles("JexpUI Extra");
 
 		wb.addStyleSheet("themes/common/jquery-silk-icons.css");
-		wb.addJavaScript("scripts/jquery.ui.datepicker-" + LocaleInfo.getCurrentLocale().getLocaleName() + ".min.js");
-		wb.addJavaScript("scripts/jquery-ui-timepicker-1.3.js");
+		wb.addJavaScript("scripts/datetimepicker/jquery.ui.datepicker-" + LocaleInfo.getCurrentLocale().getLocaleName() + ".min.js");
+		wb.addJavaScript("scripts/datetimepicker/jquery-ui-timepicker-1.3.js");
 		MenuBar.fillResources(wb);
 		Dashboard.fillResources(wb);
 		JqGrid.fillResources(wb);
@@ -100,7 +100,7 @@ public class ResourceInjector extends BaseResourceInjector {
 		//-END AWESOME
 
 		//APPLICATION
-		wb.addStyleSheet("JexpGwtLibraryUI.css");
+		wb.addStyleSheet("scripts/javexpress/JexpGwtLibraryUI.css");
 		wb.addJavaScript(applicationCss);
 		//-END APPLICATION
 

@@ -17,7 +17,7 @@ public class DecimalBox extends TextBox {
 
 	public static void fillResources(WidgetBundles wb) {
 		//https://github.com/BobKnothe/autoNumeric
-		wb.addJavaScript("scripts/autonumeric/autoNumeric-1.9.30.js");
+		wb.addJavaScript("scripts/autonumeric/autoNumeric-1.9.37.js");
 	}
 
 	private JsonMap	options;
@@ -55,7 +55,7 @@ public class DecimalBox extends TextBox {
 	public int getDecimals() {
 		return options.getInt("mDec", 2);
 	}
-	
+
 	public void setEmptyDecimals(boolean emptyDecimals) {
 		options.set("aPad", emptyDecimals);
 	}
@@ -93,9 +93,12 @@ public class DecimalBox extends TextBox {
 		var el = $wnd.$(element).autoNumeric('init', options);
 		if (value && value != '')
 			el.autoNumeric('set', parseFloat(value));
-		el.on("change", function(){
-			x.@com.javexpress.gwt.library.ui.form.decimalbox.DecimalBox::fireOnChange()();
-		});
+		el
+				.on(
+						"change",
+						function() {
+							x.@com.javexpress.gwt.library.ui.form.decimalbox.DecimalBox::fireOnChange()();
+						});
 	}-*/;
 
 	@Override
@@ -123,21 +126,21 @@ public class DecimalBox extends TextBox {
 	private native void _setValue(Element element, double d) /*-{
 		$wnd.$(element).autoNumeric('set', d);
 	}-*/;
-	
+
 	public void setValue(final BigDecimal val) {
 		String oldValue = getValue();
 		if (val == null)
 			super.setValue(null);
 		else {
-			if (isAttached()){
+			if (isAttached()) {
 				_setValue(getElement(), val.doubleValue());
 				ValueChangeEvent.fireIfNotEqual(this, oldValue, getValue());
 			} else
 				setValue(val.toString());
 		}
 	}
-	
-	private void fireOnChange(){
+
+	private void fireOnChange() {
 		ValueChangeEvent.fireIfNotEqual(this, null, getValue());
 	}
 

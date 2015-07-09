@@ -29,6 +29,7 @@ import com.javexpress.gwt.library.shared.model.WidgetConst;
 import com.javexpress.gwt.library.ui.ClientContext;
 import com.javexpress.gwt.library.ui.FaIcon;
 import com.javexpress.gwt.library.ui.data.Column.ColumnAlign;
+import com.javexpress.gwt.library.ui.data.CurrencyColumn;
 import com.javexpress.gwt.library.ui.data.DecimalColumn;
 import com.javexpress.gwt.library.ui.data.GridToolItem;
 import com.javexpress.gwt.library.ui.data.IDataViewer;
@@ -178,11 +179,17 @@ public class DataGrid<T extends Serializable> extends BaseSlickGrid<ListColumn> 
 		} else if (column.getFormatter() == Formatter.date) {
 			model.set("formatter", "date");
 			model.set("dateFormat", JexpGwtUser.getDateFormat());
-		} else if (column.getFormatter() == Formatter.currency) {
+		} else if (column.getFormatter() == Formatter.decimal) {
 			DecimalColumn dc = (DecimalColumn) column;
 			model.set("formatter", "decimal");
 			JsonMap options = new JsonMap();
-			model.set("numeralFormat", JsUtil.createNumeralFormat(dc.getDecimalPlaces(), true));
+			model.set("numeralFormat", JsUtil.createNumeralFormat(dc.getDecimalPlaces(), dc.isEmptyDecimals()));
+			model.set("options", options);
+		} else if (column.getFormatter() == Formatter.currency) {
+			CurrencyColumn dc = (CurrencyColumn) column;
+			model.set("formatter", "currency");
+			JsonMap options = new JsonMap();
+			model.set("numeralFormat", JsUtil.createNumeralFormat(dc.getDecimalPlaces(), dc.isEmptyDecimals(), JexpGwtUser.instance.getCurrencySymbol()));
 			model.set("options", options);
 		} else if (column.getFormatter() == Formatter.timestamp) {
 			model.set("formatter", "timestamp");
@@ -237,6 +244,8 @@ public class DataGrid<T extends Serializable> extends BaseSlickGrid<ListColumn> 
 				model.formatter = $wnd.JexpTimeStampFormatter;
 			} else if (model.formatter == "decimal") {
 				model.formatter = $wnd.JexpDecimalFormatter;
+			} else if (model.formatter == "currency") {
+				model.formatter = $wnd.JexpCurrencyFormatter;
 			} else if (model.formatter == "link") {
 				model.formatter = $wnd.JexpLinkFormatter;
 			} else if (model.formatter == "percentbar") {

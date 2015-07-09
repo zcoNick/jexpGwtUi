@@ -66,6 +66,7 @@ public class WindowView extends AbstractContainerFocusable implements IUIComposi
 		Element backdrop = DOM.createDiv();
 		backdrop.setClassName("modal-backdrop in");
 		backdrop.getStyle().setHeight(com.google.gwt.user.client.Window.getClientHeight(), Unit.PX);
+		backdrop.getStyle().setZIndex(JsUtil.calcDialogZIndex());
 		getElement().appendChild(backdrop);
 
 		windowDiv = DOM.createDiv();
@@ -73,6 +74,7 @@ public class WindowView extends AbstractContainerFocusable implements IUIComposi
 		windowDiv.setTabIndex(-1);
 		windowDiv.setAttribute("role", "dialog");
 		windowDiv.setId(WidgetConst.WINDOWPREFIX + "_" + id);
+		windowDiv.setAttribute("zindex", String.valueOf(JsUtil.calcDialogZIndex()));
 		getElement().appendChild(windowDiv);
 
 		headerDiv = DOM.createDiv();
@@ -143,7 +145,8 @@ public class WindowView extends AbstractContainerFocusable implements IUIComposi
 			width = String.valueOf(pct) + "%";
 			marginLeft = Math.ceil((100 - pct) / 2) + "%";
 		}
-		windowDiv.setAttribute("style", (width != null ? "width:" + width + ";" : "") + "margin:20px " + marginLeft + ";min-width:100px;display:block");
+		String zindex = windowDiv.getAttribute("zindex");
+		windowDiv.setAttribute("style", "z-index:" + zindex + ";" + (width != null ? "width:" + width + ";" : "") + "margin:20px " + marginLeft + ";min-width:100px;display:block");
 	}
 
 	private void fillHeader(ICssIcon icon, String header) {

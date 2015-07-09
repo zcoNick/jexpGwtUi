@@ -31,7 +31,7 @@ public class AlteResourceInjector extends ResourceInjector implements IBootstrap
 	public void addStyleSheets(WidgetBundles wb, int phase) {
 		switch (phase) {
 			case 0:
-				wb.addStyleSheet("themes/alte/AdminLTE-2.1.1.min.css");
+				wb.addStyleSheet("themes/alte/AdminLTE-2.1.2.min.css");
 				wb.addStyleSheet("themes/alte/skins/skin-blue.min.css");
 				wb.addStyleSheet("themes/alte/javexpress-gwt-library.ui.css");
 				break;
