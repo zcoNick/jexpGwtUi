@@ -86,3 +86,4 @@
 .jexpSchedule .jexpPendingTask { }
 .jexpSchedule .jexpCompletedTask { text-decoration: line-through; }
 .toolitem > .disabled { opacity: 0.3; }
+.modal-header > .close { color: white;opacity: 0.8; }

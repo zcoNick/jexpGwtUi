@@ -52,7 +52,7 @@ public class ConfirmDialog extends JexpSimplePanel {
 			getElement().setClassName("modal fade");
 			getElement().setAttribute("role", "dialog");
 			StringBuffer html = new StringBuffer();
-			html.append("<div class='modal-dialog'>");
+			html.append("<div class='modal-dialog jexpShadow'>");
 			html.append("<div class='modal-content'>");
 			html.append("<div class='modal-header btn-danger' style='padding:7px'>");
 			html.append("<button type='button' class='close' data-dismiss='modal' aria-label='").append(ClientContext.nlsCommon.kapat()).append("'><span aria-hidden='true'>&times;</span></button>");
@@ -95,7 +95,10 @@ public class ConfirmDialog extends JexpSimplePanel {
 							x.@com.javexpress.gwt.library.ui.dialog.ConfirmDialog::fireOnCancel()();
 						});
 		dlg
-				.modal('show')
+				.modal({
+					backdrop : false,
+					show : true
+				})
 				.on(
 						'hidden.bs.modal',
 						function(e) {

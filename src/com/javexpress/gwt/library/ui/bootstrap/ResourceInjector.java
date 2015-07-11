@@ -37,7 +37,7 @@ public abstract class ResourceInjector extends BaseResourceInjector {
 		JsUtil.USE_BOOTSTRAP = true;
 
 		requireConfig.set("jquery", "scripts/jquery/jquery-1.11.3.min");
-		requireConfig.set("moment", "scripts/moment/moment.min");
+		requireConfig.set("moment", "scripts/moment/moment-2.10.3.min");
 		_requireConfig(GWT.getModuleName(), requireConfig.getJavaScriptObject());
 
 		WidgetBundles jq = new WidgetBundles("jQuery 1.11.4");
