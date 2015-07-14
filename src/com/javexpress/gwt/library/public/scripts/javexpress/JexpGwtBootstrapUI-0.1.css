@@ -1,6 +1,8 @@
 .form-control-container.form-control { border: 0 none; height: 26px; line-height: 1; padding-bottom: 1px; padding-left: 0; padding-top: 1px;background-color: transparent; }
 .jexpFormArea > .form-group > label[class*="col-"]{margin-bottom:2px}
 .jexpFormArea > .form-group > .jexpControlContainer{margin-bottom:2px}
+.jexpFormArea.borderTop { border-top:1px solid #EEEEEE;margin-top:3px;padding-top: 3px; }
+.jexpFormArea.borderBottom { border-bottom:1px solid #EEEEEE;margin-bottom:3px;padding-bottom: 3px; }
 .jexpLabel.form-control { border: 0 none; height: 26px; line-height: 1; padding-bottom: 1px; padding-left: 0; padding-top:5px; background-color: transparent; }
 .jexpLabel.jexpNoContentBanner { color: #9F9F9F;font-size: 1.5em;font-style: italic;line-height: 2em; }
 .jexpCheckBox { font-size:12px; }

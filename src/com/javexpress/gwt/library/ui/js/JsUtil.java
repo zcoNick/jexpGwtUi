@@ -52,6 +52,7 @@ import com.javexpress.gwt.library.ui.ClientContext;
 import com.javexpress.gwt.library.ui.JqIcon;
 import com.javexpress.gwt.library.ui.bootstrap.CheckBox;
 import com.javexpress.gwt.library.ui.bootstrap.DateBox;
+import com.javexpress.gwt.library.ui.bootstrap.LabelControlCell;
 import com.javexpress.gwt.library.ui.container.buttonbar.ButtonBar;
 import com.javexpress.gwt.library.ui.dialog.ConfirmDialog;
 import com.javexpress.gwt.library.ui.dialog.ConfirmationListener;
@@ -536,8 +537,10 @@ public class JsUtil {
 		return getWidgetValue(w, false);
 	}
 
-	public static Serializable getWidgetValue(final Widget w, boolean forceNumeric) throws ParseException {
+	public static Serializable getWidgetValue(Widget w, boolean forceNumeric) throws ParseException {
 		Serializable val = null;
+		if (w instanceof LabelControlCell)
+			w = ((LabelControlCell) w).getWidget(0);
 		if (w instanceof com.javexpress.gwt.library.ui.jquery.DateBox)
 			val = ((com.javexpress.gwt.library.ui.jquery.DateBox) w).getDate();
 		else if (w instanceof DateBox)
