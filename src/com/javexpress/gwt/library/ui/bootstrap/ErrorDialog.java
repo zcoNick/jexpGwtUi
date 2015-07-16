@@ -11,6 +11,8 @@ import com.javexpress.gwt.library.ui.ClientContext;
 import com.javexpress.gwt.library.ui.container.panel.JexpSimplePanel;
 import com.javexpress.gwt.library.ui.dialog.AsyncRunningTaskForm;
 import com.javexpress.gwt.library.ui.dialog.MessageDialog;
+import com.javexpress.gwt.library.ui.facet.ProvidesJira;
+import com.javexpress.gwt.library.ui.facet.ProvidesModuleUtils;
 import com.javexpress.gwt.library.ui.form.IJiraEnabledForm;
 import com.javexpress.gwt.library.ui.js.JsUtil;
 
@@ -35,7 +37,10 @@ public class ErrorDialog extends JexpSimplePanel {
 			html.append(ClientContext.nlsCommon.hataBaslikKontrollu());
 			html.append("</h1>");
 			html.append("<h3 class='lighter smaller'>");
-			html.append(ClientContext.instance.getModuleNls(appException.getModuleId(), "error_" + appException.getErrorCode())).append("</h3>");
+			String s = appException.getErrorCode();
+			if (ClientContext.instance instanceof ProvidesModuleUtils)
+				s = ((ProvidesModuleUtils) ClientContext.instance).getModuleNls(appException.getModuleId(), "error_" + appException.getErrorCode());
+			html.append(s).append("</h3>");
 		} else {
 			if (appException.getMessage().indexOf(AppException.LINE_SEPERATOR) > -1) {
 				html.append(ClientContext.nlsCommon.hataBaslikKontrollu());
@@ -44,7 +49,10 @@ public class ErrorDialog extends JexpSimplePanel {
 				String[] errors = appException.getMessage().split(AppException.LINE_SEPERATOR);
 				for (String mdlErrCode : errors) {
 					String[] mdlErr = mdlErrCode.split("é");
-					html.append(ClientContext.instance.getModuleNls(Long.valueOf(mdlErr[0]), "error_" + mdlErr[1])).append("<br/>");
+					String s = mdlErr[1];
+					if (ClientContext.instance instanceof ProvidesModuleUtils)
+						s = ((ProvidesModuleUtils) ClientContext.instance).getModuleNls(Long.valueOf(mdlErr[0]), "error_" + mdlErr[1]);
+					html.append(s).append("<br/>");
 				}
 				html.append("</h3>");
 			} else {
@@ -138,7 +146,7 @@ public class ErrorDialog extends JexpSimplePanel {
 			@Override
 			protected void startTask(AsyncCallback<Result<String>> callback) {
 				String smry = appException.getMessage() != null ? appException.getMessage() : (appException.getErrorCode());
-				ClientContext.instance.createJiraIssue(appException.getModuleId(), smry == null ? "Unknown / Empty" : smry,
+				((ProvidesJira) ClientContext.instance).createJiraIssue(appException.getModuleId(), smry == null ? "Unknown / Empty" : smry,
 						appException.getTraceHtml(), JsUtil.getUserAgent() + ",Prmt:" + GWT.getPermutationStrongName(),
 						IJiraEnabledForm.TYPE_ERROR, callback);
 			}

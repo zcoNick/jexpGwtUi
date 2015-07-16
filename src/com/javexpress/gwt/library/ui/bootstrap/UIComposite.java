@@ -15,6 +15,7 @@ import com.javexpress.common.model.item.type.Pair;
 import com.javexpress.gwt.library.ui.AbstractContainerFocusable;
 import com.javexpress.gwt.library.ui.ClientContext;
 import com.javexpress.gwt.library.ui.ICssIcon;
+import com.javexpress.gwt.library.ui.facet.ProvidesAuthorization;
 import com.javexpress.gwt.library.ui.form.IUIComposite;
 import com.javexpress.gwt.library.ui.form.IUICompositeView;
 import com.javexpress.gwt.library.ui.form.keyboard.KeyCode;
@@ -259,8 +260,8 @@ public abstract class UIComposite extends AbstractContainerFocusable implements 
 		if (authKey != null && authKey.getLeft() != Long.MIN_VALUE && authKey.getRight().equals(" ")) {//if not anonymous
 			final String key = authKey.getLeft() + ":" + authKey.getRight();
 			String cached = viewRights.get(key);
-			if (cached == null)
-				ClientContext.instance.formYetkiListesi(authKey.getLeft(), authKey.getRight(), new JexpCallback<List<String>>() {
+			if (cached == null && ClientContext.instance instanceof ProvidesAuthorization) {
+				((ProvidesAuthorization) ClientContext.instance).formYetkiListesi(authKey.getLeft(), authKey.getRight(), new JexpCallback<List<String>>() {
 					@Override
 					protected void onResult(final List<String> result) {
 						String r = JsUtil.join(result, ",");
@@ -268,7 +269,7 @@ public abstract class UIComposite extends AbstractContainerFocusable implements 
 						applyFormRights(r);
 					}
 				});
-			else
+			} else
 				applyFormRights(cached);
 		} else
 			applyFormRights(null);

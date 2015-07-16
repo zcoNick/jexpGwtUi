@@ -13,6 +13,7 @@ import com.javexpress.gwt.library.ui.JqIcon;
 import com.javexpress.gwt.library.ui.container.buttonbar.ButtonBar;
 import com.javexpress.gwt.library.ui.container.layout.DivBorderLayout;
 import com.javexpress.gwt.library.ui.container.layout.GridLayout;
+import com.javexpress.gwt.library.ui.facet.ProvidesJira;
 import com.javexpress.gwt.library.ui.form.IJiraEnabledForm;
 import com.javexpress.gwt.library.ui.form.button.Button;
 import com.javexpress.gwt.library.ui.form.combobox.ComboBox;
@@ -105,7 +106,7 @@ public class NewJiraIssueDialog extends JexpPopupPanel {
 
 					@Override
 					protected void startTask(AsyncCallback<Result<String>> callback) {
-						ClientContext.instance.createJiraIssue(form.getModuleId(), ozet.getText(), aciklama.getText(), "Form:" + form.getFormQualifiedName() + ",Prmt:" + GWT.getPermutationStrongName() + ",UA:" + JsUtil.getUserAgent(),
+						((ProvidesJira) ClientContext.instance).createJiraIssue(form.getModuleId(), ozet.getText(), aciklama.getText(), "Form:" + form.getFormQualifiedName() + ",Prmt:" + GWT.getPermutationStrongName() + ",UA:" + JsUtil.getUserAgent(),
 								turu.getValueByte(), callback);
 					}
 

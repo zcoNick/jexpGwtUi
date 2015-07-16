@@ -58,6 +58,7 @@ import com.javexpress.gwt.library.ui.dialog.JexpPopupPanel;
 import com.javexpress.gwt.library.ui.dialog.MessageDialog;
 import com.javexpress.gwt.library.ui.dialog.Notification;
 import com.javexpress.gwt.library.ui.dialog.Notification.NotificationType;
+import com.javexpress.gwt.library.ui.facet.ProvidesModuleUtils;
 import com.javexpress.gwt.library.ui.form.Form;
 import com.javexpress.gwt.library.ui.form.IDataBindable;
 import com.javexpress.gwt.library.ui.form.IUserInputWidget;
@@ -360,9 +361,9 @@ public class JsUtil {
 	}
 
 	private static String resolveMessage(String msg) {
-		if (isNotEmpty(msg) && msg.startsWith("@")) {
+		if ((ClientContext.instance instanceof ProvidesModuleUtils) && isNotEmpty(msg) && msg.startsWith("@")) {
 			String[] ml = msg.substring(1).split("@");
-			return ClientContext.instance.getModuleNls(Long.valueOf(ml[0]), ml[1]);
+			return ((ProvidesModuleUtils) ClientContext.instance).getModuleNls(Long.valueOf(ml[0]), ml[1]);
 		}
 		return msg;
 	}
@@ -1037,7 +1038,9 @@ public class JsUtil {
 	}
 
 	public static String getServiceUrl(IJsonServicePoint servicePoint) {
-		return ClientContext.instance.getModuleServiceTarget(servicePoint.getModuleId()).getServiceEntryPoint() + "." + ((Enum) servicePoint).toString();
+		if (ClientContext.instance instanceof ProvidesModuleUtils)
+			return ((ProvidesModuleUtils) ClientContext.instance).getModuleServiceTarget(servicePoint.getModuleId()).getServiceEntryPoint() + "." + ((Enum) servicePoint).toString();
+		return null;
 	}
 
 	public static boolean	USE_BOOTSTRAP	= false;

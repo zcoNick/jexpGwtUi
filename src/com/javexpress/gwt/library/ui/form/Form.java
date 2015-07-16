@@ -19,6 +19,7 @@ import com.javexpress.gwt.library.ui.ClientContext;
 import com.javexpress.gwt.library.ui.ICssIcon;
 import com.javexpress.gwt.library.ui.container.panel.SimplePanelFocusable;
 import com.javexpress.gwt.library.ui.dialog.NewJiraIssueDialog;
+import com.javexpress.gwt.library.ui.facet.ProvidesAuthorization;
 import com.javexpress.gwt.library.ui.form.keyboard.KeyCode;
 import com.javexpress.gwt.library.ui.js.JexpCallback;
 import com.javexpress.gwt.library.ui.js.JsCache;
@@ -140,8 +141,8 @@ public abstract class Form extends SimplePanelFocusable implements IWindow, IUIC
 		if (authKey != null && authKey.getLeft() != Long.MIN_VALUE && authKey.getRight().equals(" ")) {//if not anonymous
 			final String key = authKey.getLeft() + ":" + authKey.getRight();
 			String cached = formRights.get(key);
-			if (cached == null)
-				ClientContext.instance.formYetkiListesi(authKey.getLeft(), authKey.getRight(), new JexpCallback<List<String>>() {
+			if (cached == null && ClientContext.instance instanceof ProvidesAuthorization) {
+				((ProvidesAuthorization) ClientContext.instance).formYetkiListesi(authKey.getLeft(), authKey.getRight(), new JexpCallback<List<String>>() {
 					@Override
 					protected void onResult(final List<String> result) {
 						String r = JsUtil.join(result, ",");
@@ -149,7 +150,7 @@ public abstract class Form extends SimplePanelFocusable implements IWindow, IUIC
 						applyFormRights(r);
 					}
 				});
-			else
+			} else
 				applyFormRights(cached);
 		} else
 			applyFormRights(null);
