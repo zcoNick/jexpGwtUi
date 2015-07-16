@@ -29,7 +29,6 @@ import com.google.gwt.user.client.Command;
 import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.ServiceDefTarget;
-import com.google.gwt.user.client.rpc.StatusCodeException;
 import com.google.gwt.user.client.ui.Focusable;
 import com.google.gwt.user.client.ui.FormPanel;
 import com.google.gwt.user.client.ui.FormPanel.SubmitCompleteEvent;
@@ -43,7 +42,6 @@ import com.google.gwt.user.datepicker.client.CalendarUtil;
 import com.javexpress.common.model.item.ControlType;
 import com.javexpress.common.model.item.Result;
 import com.javexpress.common.model.item.exception.AppException;
-import com.javexpress.common.model.item.exception.SessionInvalidException;
 import com.javexpress.common.model.item.type.Pair;
 import com.javexpress.gwt.library.shared.model.IJsonServicePoint;
 import com.javexpress.gwt.library.shared.model.JexpGwtUser;
@@ -413,9 +411,6 @@ public class JsUtil {
 					buf.append("<br/>");
 			}
 			MessageDialog.showAlert(windowId, ClientContext.nlsCommon.hata(), buf.toString());
-		} else if (e instanceof SessionInvalidException || (e instanceof StatusCodeException && ((StatusCodeException) e).getStatusCode() == 901)) {
-			if (ClientContext.instance != null)
-				ClientContext.instance.goLockScreen();
 		} else if (e instanceof AppException) {
 			AppException ae = (AppException) e;
 			ClientContext.instance.showError(windowId, ae);

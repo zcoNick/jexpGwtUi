@@ -2,14 +2,14 @@ package com.javexpress.gwt.library.ui.bootstrap.alte;
 
 import com.google.gwt.user.client.Command;
 import com.google.gwt.user.client.ui.Panel;
+import com.javexpress.gwt.library.ui.ClientContext;
 import com.javexpress.gwt.library.ui.bootstrap.ApplicationHeaderPanel;
 import com.javexpress.gwt.library.ui.bootstrap.ApplicationMainContainer;
-import com.javexpress.gwt.library.ui.bootstrap.ResourceInjector;
-import com.javexpress.gwt.library.ui.bootstrap.ResourceInjector.IBootstrapThemeProvider;
+import com.javexpress.gwt.library.ui.bootstrap.BootstrapTheme;
 import com.javexpress.gwt.library.ui.js.JsonMap;
 import com.javexpress.gwt.library.ui.js.WidgetBundles;
 
-public class AlteResourceInjector extends ResourceInjector implements IBootstrapThemeProvider {
+public class AlteStdTheme extends BootstrapTheme {
 
 	@Override
 	public String getThemeName() {
@@ -23,7 +23,6 @@ public class AlteResourceInjector extends ResourceInjector implements IBootstrap
 
 	@Override
 	public void injectCore(JsonMap requireConfig, final Command onload) {
-		theme = this;
 		super.injectCore(requireConfig, onload);
 	}
 
@@ -50,23 +49,24 @@ public class AlteResourceInjector extends ResourceInjector implements IBootstrap
 		}
 	}
 
-	@Override
 	public Panel createRootPanel(Panel body) {
 		return body;//div class=wrapper idi
 	}
 
-	@Override
 	public ApplicationHeaderPanel createHeaderPanel(Panel parent, String id) {
 		ApplicationHeaderPanelAlte ahp = new ApplicationHeaderPanelAlte(id);
 		parent.add(ahp);
 		return ahp;
 	}
 
-	@Override
 	public ApplicationMainContainer createMainContainer(Panel parent, String id) {
 		ApplicationMainContainer mc = new ApplicationMainContainerAlte(parent, id);
 		//parent.add(mc);dont add!
 		return mc;
+	}
+
+	@Override
+	public void prepareUI(ClientContext clientContext) {
 	}
 
 }

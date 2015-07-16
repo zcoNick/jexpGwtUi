@@ -14,7 +14,7 @@
 	
 	<set-property-fallback name="bootstrapTheme" value="alte"/>
 	
-	<replace-with class="com.javexpress.gwt.library.ui.bootstrap.alte.AlteResourceInjector">
+	<replace-with class="com.javexpress.gwt.library.ui.bootstrap.alte.AlteStdTheme">
 		<when-type-is class="com.javexpress.gwt.library.ui.IResourceInjector" />
 		<when-property-is name="bootstrapTheme" value="alte" />
 	</replace-with>

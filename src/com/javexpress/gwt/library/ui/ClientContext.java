@@ -4,6 +4,8 @@ import java.util.List;
 
 import com.google.gwt.core.client.EntryPoint;
 import com.google.gwt.core.client.GWT;
+import com.google.gwt.event.shared.EventBus;
+import com.google.gwt.event.shared.SimpleEventBus;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.rpc.ServiceDefTarget;
 import com.javexpress.common.model.item.Result;
@@ -16,6 +18,7 @@ public abstract class ClientContext implements EntryPoint {
 
 	public static ClientContext		instance	= null;
 	public static CommonResources	nlsCommon	= GWT.create(CommonResources.class);
+	public static EventBus			EVENT_BUS	= GWT.create(SimpleEventBus.class);
 
 	abstract public void formYetkiListesi(Long moduleId, String authKey, JexpCallback<List<String>> callback);
 
@@ -25,10 +28,10 @@ public abstract class ClientContext implements EntryPoint {
 
 	abstract public void openHelp(IUIComposite widget);
 
-	abstract public void goLockScreen();
-
 	abstract public void showError(String windowId, AppException ae);
 
 	abstract public ServiceDefTarget getModuleServiceTarget(long moduleId);
+
+	abstract public void showInWindow(IUIComposite form, boolean modal);
 
 }

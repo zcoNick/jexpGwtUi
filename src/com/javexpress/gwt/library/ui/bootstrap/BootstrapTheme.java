@@ -2,8 +2,8 @@ package com.javexpress.gwt.library.ui.bootstrap;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.user.client.Command;
-import com.google.gwt.user.client.ui.Panel;
 import com.javexpress.gwt.library.ui.BaseResourceInjector;
+import com.javexpress.gwt.library.ui.ClientContext;
 import com.javexpress.gwt.library.ui.container.dashboard.Dashboard;
 import com.javexpress.gwt.library.ui.data.jqgrid.JqGrid;
 import com.javexpress.gwt.library.ui.data.slickgrid.DataGrid;
@@ -13,24 +13,7 @@ import com.javexpress.gwt.library.ui.js.JsUtil;
 import com.javexpress.gwt.library.ui.js.JsonMap;
 import com.javexpress.gwt.library.ui.js.WidgetBundles;
 
-public abstract class ResourceInjector extends BaseResourceInjector {
-
-	public static interface IBootstrapThemeProvider {
-		String getThemeName();
-
-		void addStyleSheets(WidgetBundles wb, int phase);
-
-		void addJavaScripts(WidgetBundles wb, int phase);
-
-		ApplicationHeaderPanel createHeaderPanel(Panel parent, String id);
-
-		ApplicationMainContainer createMainContainer(Panel parent, String id);
-
-		Panel createRootPanel(Panel body);
-
-	}
-
-	protected IBootstrapThemeProvider	theme;
+public abstract class BootstrapTheme extends BaseResourceInjector {
 
 	@Override
 	public void injectCore(JsonMap requireConfig, final Command onload) {
@@ -49,10 +32,9 @@ public abstract class ResourceInjector extends BaseResourceInjector {
 		WidgetBundles wb = new WidgetBundles("Bootstrap 3.3.5", jq);
 		wb.addStyleSheet("scripts/bootstrap/bootstrap-3.3.5.min.css");
 		wb.addStyleSheet("fonts/fontawesome/font-awesome-4.3.0.min.css");
-		if (theme != null) {
-			theme.addStyleSheets(wb, 0);
-			theme.addJavaScripts(wb, 0);
-		}
+		addStyleSheets(wb, 0);
+		addJavaScripts(wb, 0);
+
 		wb.addStyleSheet("scripts/javexpress/JexpGwtBootstrapBase-0.1.css");
 		wb.addJavaScript("scripts/bootstrap/bootstrap-3.3.5.min.js");
 		wb.addJavaScript("scripts/javexpress/jexpUICore-0.1.js");
@@ -60,20 +42,17 @@ public abstract class ResourceInjector extends BaseResourceInjector {
 	}
 
 	protected WidgetBundles createUIBundles() {
-		WidgetBundles ace = new WidgetBundles(theme != null ? theme.getThemeName() : "Bootstrap Based UI");
+		WidgetBundles ace = new WidgetBundles(getThemeName() != null ? getThemeName() : "Bootstrap Based UI");
 		ace.addStyleSheet("scripts/gritter/jquery.gritter-1.7.4.css");
 		ace.addStyleSheet("scripts/javexpress/JexpGwtBootstrapUI-0.1.css");
 		ace.addJavaScript("scripts/javexpress/jexpLocalizationStringHelper-0.1.js");
-		if (theme != null) {
-			theme.addStyleSheets(ace, 10);
-			theme.addJavaScripts(ace, 10);
-		}
+		addStyleSheets(ace, 10);
+		addJavaScripts(ace, 10);
 
 		WidgetBundles jexp = new WidgetBundles("JavExpress UI", ace);
-		if (theme != null) {
-			theme.addStyleSheets(jexp, 100);
-			theme.addJavaScripts(jexp, 100);
-		}
+		addStyleSheets(jexp, 100);
+		addJavaScripts(jexp, 100);
+
 		jexp.addJavaScript("scripts/gritter/jquery.gritter-1.7.4.min.js");
 		jexp.addJavaScript("scripts/numeral/numeral-1.5.3.min.js");
 		jexp.addJavaScript("scripts/numeral/numeral.languages.min.js");
@@ -95,5 +74,13 @@ public abstract class ResourceInjector extends BaseResourceInjector {
 		jexp.addStyleSheet(applicationCss);
 		injectLibrary(jexp, onload);
 	}
+
+	protected abstract String getThemeName();
+
+	protected abstract void addStyleSheets(WidgetBundles wb, int phase);
+
+	protected abstract void addJavaScripts(WidgetBundles wb, int phase);
+
+	public abstract void prepareUI(ClientContext clientContext);
 
 }
