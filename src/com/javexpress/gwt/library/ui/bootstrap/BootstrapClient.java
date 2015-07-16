@@ -21,12 +21,10 @@ import com.google.gwt.user.client.ui.ProvidesResize;
 import com.google.gwt.user.client.ui.RequiresResize;
 import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.Widget;
-import com.javexpress.common.model.item.exception.AppException;
 import com.javexpress.gwt.library.shared.model.JexpGwtUser;
 import com.javexpress.gwt.library.ui.ClientContext;
 import com.javexpress.gwt.library.ui.IResourceInjector;
 import com.javexpress.gwt.library.ui.dialog.NewJiraIssueDialog;
-import com.javexpress.gwt.library.ui.event.FormShowInWindowRequest;
 import com.javexpress.gwt.library.ui.event.SessionExpiredEvent;
 import com.javexpress.gwt.library.ui.form.IJiraEnabledForm;
 import com.javexpress.gwt.library.ui.form.IUIComposite;
@@ -170,11 +168,6 @@ public abstract class BootstrapClient extends ClientContext implements ProvidesR
 		return "jexpApplication";
 	}
 
-	@Override
-	public void showInWindow(IUIComposite form, boolean modal) {
-		EVENT_BUS.fireEvent(new FormShowInWindowRequest(form, modal));
-	}
-
 	public void doLogout() {
 		JexpGwtUser.clear();
 		String old = Window.Location.getHref().replaceFirst(GWT.getHostPageBaseURL(), "");
@@ -183,11 +176,6 @@ public abstract class BootstrapClient extends ClientContext implements ProvidesR
 
 	public String getApplicationCssIcon() {
 		return "fa fa-dashboard green";
-	}
-
-	@Override
-	public void showError(String windowId, AppException ae) {
-		com.javexpress.gwt.library.ui.bootstrap.ErrorDialog.showError(windowId, ae);
 	}
 
 	protected void handleHistoryValueChanged(String value) {
