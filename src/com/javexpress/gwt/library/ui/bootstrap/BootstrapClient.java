@@ -23,7 +23,6 @@ import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.Widget;
 import com.javexpress.gwt.library.shared.model.JexpGwtUser;
 import com.javexpress.gwt.library.ui.ClientContext;
-import com.javexpress.gwt.library.ui.IResourceInjector;
 import com.javexpress.gwt.library.ui.dialog.NewJiraIssueDialog;
 import com.javexpress.gwt.library.ui.event.SessionExpiredEvent;
 import com.javexpress.gwt.library.ui.form.IJiraEnabledForm;
@@ -77,9 +76,7 @@ public abstract class BootstrapClient extends ClientContext implements ProvidesR
 		if (JsUtil.isRTL())
 			RootPanel.getBodyElement().setAttribute("dir", "rtl");
 
-		final IResourceInjector resInjector = createResourceInjector();
-
-		resInjector.injectCore(createRequireConfig(), new Command() {
+		resourceInjector.injectCore(createRequireConfig(), new Command() {
 			@Override
 			public void execute() {
 				Window.addResizeHandler(new ResizeHandler() {
@@ -99,7 +96,7 @@ public abstract class BootstrapClient extends ClientContext implements ProvidesR
 						});
 					}
 				});
-				handleOnResourceInjectFinished(resInjector);
+				handleOnResourceInjectFinished();
 			}
 		});
 		Window.addCloseHandler(new CloseHandler<Window>() {
@@ -117,7 +114,7 @@ public abstract class BootstrapClient extends ClientContext implements ProvidesR
 		RootPanel.get().addDomHandler(handler, KeyDownEvent.getType());
 	}
 
-	protected void handleOnResourceInjectFinished(IResourceInjector resInjector) {
+	protected void handleOnResourceInjectFinished() {
 		DOM.getElementById("appLoading").removeFromParent();
 	}
 
@@ -154,10 +151,6 @@ public abstract class BootstrapClient extends ClientContext implements ProvidesR
 				event.stopPropagation();
 			}
 		}
-	}
-
-	protected IResourceInjector createResourceInjector() {
-		return GWT.create(IResourceInjector.class);
 	}
 
 	protected boolean disableF5Key() {

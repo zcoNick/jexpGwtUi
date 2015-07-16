@@ -13,9 +13,10 @@ import com.javexpress.gwt.library.ui.form.IUIComposite;
 
 public abstract class ClientContext implements EntryPoint {
 
-	public static ClientContext		instance	= null;
-	public static CommonResources	nlsCommon	= GWT.create(CommonResources.class);
-	public static EventBus			EVENT_BUS	= GWT.create(SimpleEventBus.class);
+	public static ClientContext				instance			= null;
+	public static final CommonResources		nlsCommon			= GWT.create(CommonResources.class);
+	public static final EventBus			EVENT_BUS			= GWT.create(SimpleEventBus.class);
+	public static final IResourceInjector	resourceInjector	= GWT.create(IResourceInjector.class);
 
 	public void openHelp(IUIComposite form) {
 		EVENT_BUS.fireEvent(new HelpRequest(form));

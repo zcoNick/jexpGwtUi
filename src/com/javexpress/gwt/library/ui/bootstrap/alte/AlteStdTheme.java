@@ -1,8 +1,10 @@
 package com.javexpress.gwt.library.ui.bootstrap.alte;
 
+import com.google.gwt.dom.client.Element;
 import com.google.gwt.user.client.Command;
 import com.google.gwt.user.client.ui.Panel;
 import com.javexpress.gwt.library.ui.ClientContext;
+import com.javexpress.gwt.library.ui.ICssIcon;
 import com.javexpress.gwt.library.ui.bootstrap.ApplicationMainContainer;
 import com.javexpress.gwt.library.ui.bootstrap.BootstrapTheme;
 import com.javexpress.gwt.library.ui.event.ExceptionThrownEvent;
@@ -80,6 +82,13 @@ public class AlteStdTheme extends BootstrapTheme {
 				com.javexpress.gwt.library.ui.bootstrap.ErrorDialog.showError(exceptionThrownEvent.getWindowId(), exceptionThrownEvent.getAppException());
 			}
 		});
+	}
+
+	@Override
+	public void applyIconInputGroupStyles(Element element, Element input, Element icon, ICssIcon iconClass) {
+		element.setClassName("form-group has-feedback");
+		input.setClassName("form-control");
+		icon.setClassName("alte-icon " + iconClass.getCssClass() + " form-control-feedback");
 	}
 
 }

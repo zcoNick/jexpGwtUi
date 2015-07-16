@@ -16,6 +16,7 @@ import com.google.gwt.user.client.ui.Focusable;
 import com.google.gwt.user.client.ui.SimplePanel;
 import com.google.gwt.user.client.ui.Widget;
 import com.javexpress.gwt.library.shared.model.WidgetConst;
+import com.javexpress.gwt.library.ui.ClientContext;
 import com.javexpress.gwt.library.ui.ICssIcon;
 import com.javexpress.gwt.library.ui.IJexpWidget;
 import com.javexpress.gwt.library.ui.js.JsUtil;
@@ -26,16 +27,14 @@ public class IconEmbeddedInput extends SimplePanel implements IJexpWidget, Focus
 	private Element	icon;
 
 	public IconEmbeddedInput(Widget parent, String id, ICssIcon iconClass) {
-		super(DOM.createSpan());
+		super(DOM.createDiv());
 		JsUtil.ensureId(parent, this, getIdPrefix(), "c_" + id);
-		getElement().setClassName("block input-icon");
 		input = createInput();
-		input.setClassName("form-control");
 		JsUtil.ensureId(parent, input, getIdPrefix(), id);
 		getElement().appendChild(input);
-		icon = DOM.createElement("i");
-		icon.setClassName("ace-icon " + iconClass.getCssClass());
+		icon = DOM.createSpan();
 		getElement().appendChild(icon);
+		ClientContext.resourceInjector.applyIconInputGroupStyles(getElement(), input, icon, iconClass);
 	}
 
 	protected String getIdPrefix() {

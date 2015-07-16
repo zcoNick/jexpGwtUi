@@ -3,10 +3,12 @@ package com.javexpress.gwt.library.ui.jquery;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.google.gwt.dom.client.Element;
 import com.google.gwt.i18n.client.LocaleInfo;
 import com.google.gwt.user.client.Command;
 import com.google.gwt.user.client.Window;
 import com.javexpress.gwt.library.ui.BaseResourceInjector;
+import com.javexpress.gwt.library.ui.ICssIcon;
 import com.javexpress.gwt.library.ui.container.dashboard.Dashboard;
 import com.javexpress.gwt.library.ui.container.panel.SplitPanel;
 import com.javexpress.gwt.library.ui.data.jqgrid.JqGrid;
@@ -110,6 +112,10 @@ public class ResourceInjector extends BaseResourceInjector {
 	@Override
 	public String getSkinName() {
 		return null;
+	}
+
+	@Override
+	public void applyIconInputGroupStyles(Element element, Element input, Element icon, ICssIcon iconClass) {
 	}
 
 }
