@@ -42,14 +42,14 @@ public abstract class BootstrapTheme extends BaseResourceInjector {
 	}
 
 	protected WidgetBundles createUIBundles() {
-		WidgetBundles ace = new WidgetBundles(getThemeName() != null ? getThemeName() : "Bootstrap Based UI");
-		ace.addStyleSheet("scripts/gritter/jquery.gritter-1.7.4.css");
-		ace.addStyleSheet("scripts/javexpress/JexpGwtBootstrapUI-0.1.css");
-		ace.addJavaScript("scripts/javexpress/jexpLocalizationStringHelper-0.1.js");
-		addStyleSheets(ace, 10);
-		addJavaScripts(ace, 10);
+		WidgetBundles bundles = new WidgetBundles(getThemeName() != null ? getThemeName() : "Bootstrap Based UI");
+		bundles.addStyleSheet("scripts/gritter/jquery.gritter-1.7.4.css");
+		bundles.addStyleSheet("scripts/javexpress/JexpGwtBootstrapUI-0.1.css");
+		bundles.addJavaScript("scripts/javexpress/jexpLocalizationStringHelper-0.1.js");
+		addStyleSheets(bundles, 10);
+		addJavaScripts(bundles, 10);
 
-		WidgetBundles jexp = new WidgetBundles("JavExpress UI", ace);
+		WidgetBundles jexp = new WidgetBundles("JavExpress UI", bundles);
 		addStyleSheets(jexp, 100);
 		addJavaScripts(jexp, 100);
 

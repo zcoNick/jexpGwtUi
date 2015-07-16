@@ -42,4 +42,13 @@ public class ApplicationMainContentAlte extends ApplicationMainContent {
 		return mcv;
 	}
 
+	@Override
+	protected void onLoad() {
+		super.onLoad();
+		createByJs(this);
+	}
+
+	private native void createByJs(ApplicationMainContentAlte x) /*-{
+		$wnd.$.AdminLTE.layout.activate();
+	}-*/;
 }

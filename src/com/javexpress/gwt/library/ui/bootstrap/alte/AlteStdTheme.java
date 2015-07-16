@@ -3,9 +3,13 @@ package com.javexpress.gwt.library.ui.bootstrap.alte;
 import com.google.gwt.user.client.Command;
 import com.google.gwt.user.client.ui.Panel;
 import com.javexpress.gwt.library.ui.ClientContext;
-import com.javexpress.gwt.library.ui.bootstrap.ApplicationHeaderPanel;
 import com.javexpress.gwt.library.ui.bootstrap.ApplicationMainContainer;
 import com.javexpress.gwt.library.ui.bootstrap.BootstrapTheme;
+import com.javexpress.gwt.library.ui.event.ExceptionThrownEvent;
+import com.javexpress.gwt.library.ui.event.FormShowInWindowRequest;
+import com.javexpress.gwt.library.ui.event.handler.ExceptionThrownEventHandler;
+import com.javexpress.gwt.library.ui.event.handler.FormShowInWindowRequestHandler;
+import com.javexpress.gwt.library.ui.form.IUIComposite;
 import com.javexpress.gwt.library.ui.js.JsonMap;
 import com.javexpress.gwt.library.ui.js.WidgetBundles;
 
@@ -49,16 +53,6 @@ public class AlteStdTheme extends BootstrapTheme {
 		}
 	}
 
-	public Panel createRootPanel(Panel body) {
-		return body;//div class=wrapper idi
-	}
-
-	public ApplicationHeaderPanel createHeaderPanel(Panel parent, String id) {
-		ApplicationHeaderPanelAlte ahp = new ApplicationHeaderPanelAlte(id);
-		parent.add(ahp);
-		return ahp;
-	}
-
 	public ApplicationMainContainer createMainContainer(Panel parent, String id) {
 		ApplicationMainContainer mc = new ApplicationMainContainerAlte(parent, id);
 		//parent.add(mc);dont add!
@@ -67,6 +61,25 @@ public class AlteStdTheme extends BootstrapTheme {
 
 	@Override
 	public void prepareUI(ClientContext clientContext) {
+		prepareAlteCommons(clientContext);
+	}
+
+	public void prepareAlteCommons(ClientContext clientContext) {
+		ClientContext.EVENT_BUS.addHandler(FormShowInWindowRequest.TYPE, new FormShowInWindowRequestHandler() {
+			@Override
+			public void onFormShowInWindowRequested(FormShowInWindowRequest formShowInWindowRequest) {
+				IUIComposite form = formShowInWindowRequest.getForm();
+				com.javexpress.gwt.library.ui.dialog.WindowView w = new com.javexpress.gwt.library.ui.dialog.WindowView(form.getId());
+				w.setForm(form);
+				w.show();
+			}
+		});
+		ClientContext.EVENT_BUS.addHandler(ExceptionThrownEvent.TYPE, new ExceptionThrownEventHandler() {
+			@Override
+			public void onExceptionThrown(ExceptionThrownEvent exceptionThrownEvent) {
+				com.javexpress.gwt.library.ui.bootstrap.ErrorDialog.showError(exceptionThrownEvent.getWindowId(), exceptionThrownEvent.getAppException());
+			}
+		});
 	}
 
 }
