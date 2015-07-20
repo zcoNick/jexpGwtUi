@@ -6,7 +6,6 @@
 .jexpRightAlign { text-align:right }
 .jexpCenter { text-align:center }
 .light-login { background: none repeat scroll 0 0 #DFE0E2 }
-.btn { padding:0;font-size:1.1em }
 .jexpShadow { -moz-box-shadow: 0 0 36px 12px #888;-webkit-box-shadow: 0 0 30px 8px #888;box-shadow: 0 0 30px 8px #888}
 .jexpHandCursor { cursor:pointer }
 .jexpErrorDialog { -moz-box-shadow: 0 0 30px 8px #FF3300;-webkit-box-shadow: 0 0 30px 8px #FF3300;box-shadow: 0 0 30px 8px #FF3300; position:fixed;top:70px;left:25%;width:50%;z-index: 9999; }

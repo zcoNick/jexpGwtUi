@@ -7,6 +7,8 @@ import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.ui.Widget;
 import com.javexpress.gwt.library.shared.model.WidgetConst;
 import com.javexpress.gwt.library.ui.AbstractContainerFocusable;
+import com.javexpress.gwt.library.ui.ClientContext;
+import com.javexpress.gwt.library.ui.FaIcon;
 import com.javexpress.gwt.library.ui.ICssIcon;
 import com.javexpress.gwt.library.ui.form.ISizeAwareWidget;
 import com.javexpress.gwt.library.ui.js.JsUtil;
@@ -78,7 +80,7 @@ public class ExpandCollapsePanel extends AbstractContainerFocusable implements I
 	}
 
 	public void setIcon(ICssIcon icon) {
-		iconSpan.setClassName("ace-icon " + icon.getCssClass());
+		ClientContext.resourceInjector.applyIconStyles(iconSpan, icon);
 	}
 
 	public void setHeader(String header) {
@@ -115,10 +117,10 @@ public class ExpandCollapsePanel extends AbstractContainerFocusable implements I
 	@Override
 	protected void onLoad() {
 		if (collapsed) {
-			elCollapse.addClassName("ace-icon fa fa-chevron-up");
+			ClientContext.resourceInjector.applyIconStyles(elCollapse, FaIcon.chevronUp);
 			contentDiv.addClassName("collapse in");
 		} else if (elCollapse != null) {
-			elCollapse.addClassName("ace-icon fa fa-chevron-down");
+			ClientContext.resourceInjector.applyIconStyles(elCollapse, FaIcon.chevronDown);
 		}
 		super.onLoad();
 		_createByJs(this, getElement(), elCollapse, contentDiv);

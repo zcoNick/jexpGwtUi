@@ -26,7 +26,8 @@ public enum FaIcon implements ICssIcon {
 			"database"), download("download"), barChart("bar-chart"), comment(
 			"comment-o"), comments("comments-o"), briefcase("briefcase"), pause(
 			"pause"), ban("ban"), eye("eye"), eyeSlash("eye-slash"), flash(
-			"flash"), plusSquareO("plus-square-o");
+			"flash"), plusSquareO("plus-square-o"), chevronUp("chevron-up"), chevronDown(
+			"chevron-down");
 
 	private String	icon;
 

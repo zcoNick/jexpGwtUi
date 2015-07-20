@@ -7,6 +7,7 @@ import com.google.gwt.dom.client.Style.Position;
 import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.user.client.DOM;
 import com.javexpress.gwt.library.ui.AbstractContainer;
+import com.javexpress.gwt.library.ui.ClientContext;
 import com.javexpress.gwt.library.ui.ICssIcon;
 import com.javexpress.gwt.library.ui.data.GridToolItem;
 import com.javexpress.gwt.library.ui.form.ISizeAwareWidget;
@@ -127,7 +128,8 @@ public abstract class ContainerWithBar extends AbstractContainer implements ISiz
 				span.setInnerHTML(caption);
 			}
 		} else {
-			span.addClassName("ace-icon jexpHandCursor " + icon.getCssClass());
+			ClientContext.resourceInjector.applyIconStyles(span, icon);
+			span.addClassName("jexpHandCursor");
 			if (JsUtil.isNotEmpty(caption))
 				span.setInnerHTML(caption);
 		}

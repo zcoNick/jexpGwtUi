@@ -7,6 +7,7 @@ import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.ui.ButtonBase;
 import com.google.gwt.user.client.ui.Widget;
 import com.javexpress.gwt.library.shared.model.WidgetConst;
+import com.javexpress.gwt.library.ui.ClientContext;
 import com.javexpress.gwt.library.ui.ICssIcon;
 import com.javexpress.gwt.library.ui.bootstrap.Bootstrap.WContext;
 import com.javexpress.gwt.library.ui.bootstrap.Bootstrap.WPull;
@@ -21,7 +22,7 @@ public class Button extends ButtonBase implements ICallbackAware {
 	private WPull		wpull;
 	private WSize		wsize;
 	private WContext	wcontext;
-	private String		iconClass;
+	private ICssIcon	iconClass;
 	private String		textClass;
 	private boolean		highlight;
 	private Element		iconSpan;
@@ -75,18 +76,14 @@ public class Button extends ButtonBase implements ICallbackAware {
 			updateStyleContext();
 	}
 
-	public String getIconClass() {
+	public ICssIcon getIcon() {
 		return iconClass;
 	}
 
 	public void setIcon(ICssIcon icon) {
-		this.iconClass = icon.getCssClass();
+		this.iconClass = icon;
 		if (isAttached())
-			iconSpan.setClassName("ace-icon " + iconClass);
-	}
-
-	public void setIconClass(String iconClass) {
-		this.iconClass = iconClass;
+			ClientContext.resourceInjector.applyIconStyles(iconSpan, icon);
 	}
 
 	public String getTextClass() {
@@ -111,7 +108,7 @@ public class Button extends ButtonBase implements ICallbackAware {
 	protected void onLoad() {
 		updateStyleContext();
 		iconSpan = DOM.createElement("i");
-		iconSpan.setClassName("ace-icon " + iconClass);
+		ClientContext.resourceInjector.applyIconStyles(iconSpan, iconClass);
 		getElement().appendChild(iconSpan);
 		textSpan = DOM.createSpan();
 		textSpan.setClassName(textClass);
@@ -131,6 +128,9 @@ public class Button extends ButtonBase implements ICallbackAware {
 			switch (wsize) {
 				case Small:
 					clazz += " btn-sm";
+					break;
+				case Large:
+					clazz += " btn-lg";
 					break;
 			}
 		}

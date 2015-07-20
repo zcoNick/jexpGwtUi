@@ -181,7 +181,7 @@ public class TabSet extends AbstractContainerFocusable implements ISizeAwareWidg
 			a.setInnerHTML(useSmallerTitles ? "<small>" + title + "</small>" : title);
 		if (icon != null) {
 			Element span = DOM.createElement("i");
-			span.setClassName("ace-icon " + icon.getCssClass());
+			ClientContext.resourceInjector.applyIconStyles(span, icon);
 			a.insertFirst(span);
 		}
 		Element li = DOM.createElement("li");
@@ -189,7 +189,7 @@ public class TabSet extends AbstractContainerFocusable implements ISizeAwareWidg
 		Element closeSpan = null;
 		if (closable) {
 			closeSpan = DOM.createSpan();
-			closeSpan.setClassName("ace-icon " + FaIcon.close.getCssClass());
+			ClientContext.resourceInjector.applyIconStyles(closeSpan, FaIcon.close);
 			closeSpan.setInnerText(ClientContext.nlsCommon.kapat());
 			li.appendChild(closeSpan);
 		}

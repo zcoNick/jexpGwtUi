@@ -25,6 +25,7 @@ import com.javexpress.gwt.library.ui.js.WidgetBundles;
 import com.javexpress.gwt.library.ui.menu.MenuBar;
 import com.javexpress.gwt.library.ui.webcam.WebCam;
 
+@Deprecated
 public class ResourceInjector extends BaseResourceInjector {
 
 	public static enum JqTheme {
@@ -116,6 +117,10 @@ public class ResourceInjector extends BaseResourceInjector {
 
 	@Override
 	public void applyIconInputGroupStyles(Element element, Element input, Element icon, ICssIcon iconClass) {
+	}
+
+	@Override
+	public void applyIconStyles(Element iconSpan, ICssIcon iconClass) {
 	}
 
 }

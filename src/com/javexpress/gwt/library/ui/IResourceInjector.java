@@ -14,4 +14,6 @@ public interface IResourceInjector {
 
 	public void applyIconInputGroupStyles(Element element, Element input, Element icon, ICssIcon iconClass);
 
+	public void applyIconStyles(Element iconSpan, ICssIcon iconClass);
+
 }

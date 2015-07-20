@@ -12,6 +12,7 @@ import com.google.gwt.user.client.ui.RequiresResize;
 import com.google.gwt.user.client.ui.Widget;
 import com.javexpress.gwt.library.shared.model.WidgetConst;
 import com.javexpress.gwt.library.ui.AbstractContainerFocusable;
+import com.javexpress.gwt.library.ui.ClientContext;
 import com.javexpress.gwt.library.ui.ICssIcon;
 import com.javexpress.gwt.library.ui.container.accordion.AccordionItem;
 import com.javexpress.gwt.library.ui.container.accordion.IAccordionListener;
@@ -116,7 +117,7 @@ public class AccordionBox extends AbstractContainerFocusable implements ISizeAwa
 			a.setInnerHTML(useSmallerTitles ? "<small>" + title + "</small>" : title);
 		if (icon != null) {
 			Element span = DOM.createElement("i");
-			span.setClassName("ace-icon " + icon.getCssClass());
+			ClientContext.resourceInjector.applyIconStyles(span, icon);
 			a.insertFirst(span);
 		}
 		h4.appendChild(a);

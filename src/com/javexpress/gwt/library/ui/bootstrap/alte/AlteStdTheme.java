@@ -83,4 +83,9 @@ public class AlteStdTheme extends BootstrapTheme {
 		icon.setClassName("alte-icon " + iconClass.getCssClass() + " form-control-feedback");
 	}
 
+	@Override
+	public void applyIconStyles(Element iconSpan, ICssIcon iconClass) {
+		iconSpan.addClassName("alte-icon " + iconClass.getCssClass());
+	}
+
 }
