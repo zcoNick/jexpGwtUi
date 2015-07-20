@@ -2,10 +2,8 @@ package com.javexpress.gwt.library.ui.bootstrap.alte;
 
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.user.client.Command;
-import com.google.gwt.user.client.ui.Panel;
 import com.javexpress.gwt.library.ui.ClientContext;
 import com.javexpress.gwt.library.ui.ICssIcon;
-import com.javexpress.gwt.library.ui.bootstrap.ApplicationMainContainer;
 import com.javexpress.gwt.library.ui.bootstrap.BootstrapTheme;
 import com.javexpress.gwt.library.ui.event.ExceptionThrownEvent;
 import com.javexpress.gwt.library.ui.event.FormShowInWindowRequest;
@@ -53,12 +51,6 @@ public class AlteStdTheme extends BootstrapTheme {
 				wb.addJavaScript("scripts/alte/app.js");
 				break;
 		}
-	}
-
-	public ApplicationMainContainer createMainContainer(Panel parent, String id) {
-		ApplicationMainContainer mc = new ApplicationMainContainerAlte(parent, id);
-		//parent.add(mc);dont add!
-		return mc;
 	}
 
 	@Override
