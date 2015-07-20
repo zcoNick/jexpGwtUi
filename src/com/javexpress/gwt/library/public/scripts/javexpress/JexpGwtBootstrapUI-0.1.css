@@ -1,4 +1,6 @@
 .form-control-container.form-control { border: 0 none; height: 26px; line-height: 1; padding-bottom: 1px; padding-left: 0; padding-top: 1px;background-color: transparent; }
+.jexpFormArea .form-group { margin-bottom: 0px; }
+.jexpFormArea .form-group label { font-size:1em;height:22px; }
 .jexpFormArea > .form-group > label[class*="col-"]{margin-bottom:2px}
 .jexpFormArea > .form-group > .jexpControlContainer{margin-bottom:2px}
 .jexpFormArea.borderTop { border-top:1px solid #EEEEEE;margin-top:3px;padding-top: 3px; }
@@ -25,10 +27,8 @@
 .jexp-ui-buttonset-center { display:inline-block }
 .jexp-ui-buttonset-right { display:inline-block;float:right }
 .form-horizontal .control-label { padding-top: 3px; color:#777777;overflow: hidden;text-overflow: ellipsis;white-space: nowrap; }
-.form-group { margin-bottom: 0px; }
-.form-group label { font-size:1em;height:22px; }
 .jexpTextBox,.jexpComboBox,.jexpNumericBox,.jexpDateBox,.jexpDateBox input[type="text"],
-.form-group select,.form-group textarea,.form-group input[type="text"], .form-group input[type="password"], .form-group input[type="datetime"], .form-group input[type="datetime-local"], .form-group input[type="date"], .form-group input[type="month"], .form-group input[type="time"], .form-group input[type="week"], .form-group input[type="number"], .form-group input[type="email"], .form-group input[type="url"], .form-group input[type="search"], .form-group input[type="tel"], .form-group input[type="color"]{
+	.form-group select,.form-group textarea,.form-group input[type="text"], .form-group input[type="password"], .form-group input[type="datetime"], .form-group input[type="datetime-local"], .form-group input[type="date"], .form-group input[type="month"], .form-group input[type="time"], .form-group input[type="week"], .form-group input[type="number"], .form-group input[type="email"], .form-group input[type="url"], .form-group input[type="search"], .form-group input[type="tel"], .form-group input[type="color"]{
 	font-size:1em;
 	padding:1px;	
 	height:22px;
@@ -54,7 +54,7 @@
 .ui-autocomplete > .ui-menu-item { font-size: 0.9em; white-space: nowrap; padding: 2px 2px 2px }
 .ui-autocomplete > .evenitem { opacity: 0.9;background-color: #eefcfe }
 .ui-autocomplete > .ui-menu-item > a { color:inherit; }
-.ui-autocomplete > .evenitem.ui-state-focus { background-color: #4F99C6;color:#FFFFFF;font-weight: 400;margin: auto;text-decoration: none }
+.ui-autocomplete > .evenitem.ui-state-focus { background-color:#4F99C6;color:#FFFFFF;font-weight:400;margin:auto;text-decoration:none }
 .jexpCheckGroupBox { font-size:0.9em; }
 .jexpCheckGroupBox.form-control { height:inherit;padding: 2px 4px; }
 .jexpCheckGroupBoxCheck > label { height:15px; }
@@ -89,3 +89,4 @@
 .jexpSchedule .jexpCompletedTask { text-decoration: line-through; }
 .toolitem > .disabled { opacity: 0.3; }
 .modal-header > .close { color: white;opacity: 0.8; }
+.greatControl { height:34px; }
