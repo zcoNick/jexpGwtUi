@@ -106,6 +106,10 @@ public class IconEmbeddedInput extends SimplePanel implements IJexpWidget, Focus
 		input.setAttribute("disabled", locked ? "disabled" : "false");
 	}
 
+	public void addInputStyleName(String style) {
+		input.addClassName(style);
+	}
+
 	public void setValue(String value) {
 		input.setPropertyString("value", value);
 	}
