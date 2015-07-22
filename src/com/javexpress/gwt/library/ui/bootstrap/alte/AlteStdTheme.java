@@ -85,7 +85,7 @@ public class AlteStdTheme extends BootstrapTheme {
 
 	@Override
 	public void applyIconStyles(Element iconSpan, ICssIcon iconClass) {
-		iconSpan.addClassName("alte-icon " + iconClass != null ? iconClass.getCssClass() : "");
+		iconSpan.addClassName("alte-icon " + (iconClass != null ? iconClass.getCssClass() : ""));
 	}
 
 }
