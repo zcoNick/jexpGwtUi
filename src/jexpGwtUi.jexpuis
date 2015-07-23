@@ -32,7 +32,7 @@
             <key>FaIcon.</key>
             <value>
                 <accessor>FaIcon.</accessor>
-                <iconClass>com.javexpress.gwt.library.ui.FaIcon</iconClass>
+                <iconClass>fontawesome</iconClass>
                 <path>!jar{../src/}com/javexpress/gwt/library/ui/FaIcon.java</path>
             </value>
         </entry>
@@ -48,4 +48,5 @@
             </value>
         </entry>
     </resourceMappingFile>
+    <uploadHandlerAccess/>
 </JavExpress-UISettings>
