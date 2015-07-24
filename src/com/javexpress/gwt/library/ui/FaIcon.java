@@ -10,12 +10,12 @@ public enum FaIcon implements ICssIcon {
 	pencil("pencil"), print("print"), filter("filter"), copy("copy"), trash(
 			"trash"), check("check"), key("key"), lock("lock"), phone("phone"), email(
 			"at"), Fax("fax"), dashboard("dashboard"), warning(
-			"warning-sign"), info_sign("info-sign"), arrowRight("arrow-right"), arrowLeft(
-			"arrow-left"), arrowTop("arrow-top"), close("close"), gear("gear"), rss(
+			"warning-sign"), info_sign("info-sign"), arrow_right("arrow-right"), arrow_left(
+			"arrow-left"), arrow_top("arrow-top"), close("close"), gear("gear"), rss(
 			"rss"), eraser(
 			"eraser"), plus("plus"), minus("minus"), calendar("calendar"), question(
 			"question"), questionCircle("question-circle"), search("search"), play(
-			"play"), playCircle("play-circle"), undo("undo"), empire("empire"),
+			"play"), play_circle("play-circle"), undo("undo"), empire("empire"),
 	xml("file-code-o"), xls("file-excel-o"), pdf("file-pdf-o"), doc(
 			"file-word-o"), magic("magic"), arrowDown("arrow-down"), circleThin(
 			"circle-thin"), longArrowRight("long-arrow-right"),
