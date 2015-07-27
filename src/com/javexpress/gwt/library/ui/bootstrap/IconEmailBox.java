@@ -9,7 +9,7 @@ import com.javexpress.gwt.library.ui.js.JsUtil;
 public class IconEmailBox extends IconTextBox {
 
 	public IconEmailBox(Widget parent, String id) {
-		super(parent, id, FaIcon.email);
+		super(parent, id, FaIcon.at);
 		JsUtil.ensureId(parent, this, WidgetConst.EMAIL_PREFIX, id);
 		setMaxLength(100);
 	}

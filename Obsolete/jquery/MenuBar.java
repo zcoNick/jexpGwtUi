@@ -22,7 +22,7 @@ public class MenuBar extends JexpSimplePanel implements Focusable {
 
 	public static void fillResources(final WidgetBundles wb) {
 		wb.addStyleSheet("scripts/menubar/jesMenuBar.css");
-		wb.addJavaScript("scripts/menubar/jesMenuBar.css");
+		wb.addJavaScript("scripts/menubar/jesMenuBar-0.1.js");
 	}
 
 	private JsonMap						options;

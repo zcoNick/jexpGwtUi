@@ -117,10 +117,10 @@ public class ExpandCollapsePanel extends AbstractContainerFocusable implements I
 	@Override
 	protected void onLoad() {
 		if (collapsed) {
-			ClientContext.resourceInjector.applyIconStyles(elCollapse, FaIcon.chevronUp);
+			ClientContext.resourceInjector.applyIconStyles(elCollapse, FaIcon.chevron_up);
 			contentDiv.addClassName("collapse in");
 		} else if (elCollapse != null) {
-			ClientContext.resourceInjector.applyIconStyles(elCollapse, FaIcon.chevronDown);
+			ClientContext.resourceInjector.applyIconStyles(elCollapse, FaIcon.chevron_down);
 		}
 		super.onLoad();
 		_createByJs(this, getElement(), elCollapse, contentDiv);

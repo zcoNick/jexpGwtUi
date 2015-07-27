@@ -28,7 +28,7 @@ import com.google.gwt.user.client.ui.Hidden;
 import com.google.gwt.user.client.ui.Widget;
 import com.javexpress.gwt.library.shared.model.IJsonServicePoint;
 import com.javexpress.gwt.library.shared.model.WidgetConst;
-import com.javexpress.gwt.library.ui.JqIcon;
+import com.javexpress.gwt.library.ui.FaIcon;
 import com.javexpress.gwt.library.ui.dialog.ConfirmationListener;
 import com.javexpress.gwt.library.ui.form.button.Button;
 import com.javexpress.gwt.library.ui.form.label.Label;
@@ -150,7 +150,7 @@ public class FileUpload extends FormPanel implements ChangeHandler, SubmitComple
 		if (multi) {
 			td = DOM.createTD();
 			btGonder = new Button(this, getElement().getId() + "_send", "Gönder");
-			btGonder.setIcon(JqIcon.arrowreturnthick_1_n);
+			btGonder.setIcon(FaIcon.upload);
 			btGonder.addClickHandler(new ClickHandler() {
 				@Override
 				public void onClick(final ClickEvent event) {
@@ -242,7 +242,7 @@ public class FileUpload extends FormPanel implements ChangeHandler, SubmitComple
 			table.getRows().getItem(start + 1).appendChild(td);
 			table.getRows().getItem(start + 1).setId(id);
 			Label span = new Label();
-			span.setIcon(JqIcon.trash);
+			span.setIcon(FaIcon.trash);
 			final Widget that = this;
 			span.addClickHandler(new ClickHandler() {
 				@Override

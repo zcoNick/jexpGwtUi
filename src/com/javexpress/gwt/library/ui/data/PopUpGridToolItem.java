@@ -1,14 +1,14 @@
 package com.javexpress.gwt.library.ui.data;
 
 import com.google.gwt.user.client.Event;
-import com.javexpress.gwt.library.ui.JqIcon;
+import com.javexpress.gwt.library.ui.ICssIcon;
 import com.javexpress.gwt.library.ui.menu.PopupMenu;
 
 public class PopUpGridToolItem extends GridToolItem {
 
 	private PopupMenu	menu;
 
-	public PopUpGridToolItem(final String id, final String caption, final JqIcon icon, final String hint) {
+	public PopUpGridToolItem(final String id, final String caption, final ICssIcon icon, final String hint) {
 		super(id, caption, icon, hint);
 	}
 

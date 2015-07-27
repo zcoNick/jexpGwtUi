@@ -54,49 +54,49 @@ public class MessageDialog extends JexpSimplePanel {
 	}
 
 	private native void createByJsBs(MessageDialog x, Element elm) /*-{
-																	$wnd
-																	.$(elm)
-																	.modal('show')
-																	.on(
-																	'hidden.bs.modal',
-																	function(e) {
-																	x.@com.javexpress.gwt.library.ui.dialog.MessageDialog::fireOnOk()();
-																	});
-																	}-*/;
+		$wnd
+				.$(elm)
+				.modal('show')
+				.on(
+						'hidden.bs.modal',
+						function(e) {
+							x.@com.javexpress.gwt.library.ui.dialog.MessageDialog::fireOnOk()();
+						});
+	}-*/;
 
 	private native void createByJs(MessageDialog x, String id, String type, String message) /*-{
-																							var pr = "<p><span class='ui-icon ui-icon-alert' style='float:left'></span>"
-																							+ message + "</p>";
-																							var div = $wnd.$("#" + id).append(pr);
-																							div
-																							.dialog({
-																							autoOpen : true,
-																							resizable : false,
-																							modal : true,
-																							minWidth : 300,
-																							maxWidth : 600,
-																							height : 'auto',
-																							show : "bounce",
-																							dialogClass : "no-close jesMaxZindex",
-																							close : function(event, ui) {
-																							div.dialog('destroy').remove();
-																							},
-																							buttons : {
-																							'Tamam' : {
-																							id : id + "_ok",
-																							text : "Tamam",
-																							click : function() {
-																							x.@com.javexpress.gwt.library.ui.dialog.MessageDialog::fireOnOk()();
-																							div.dialog("close");
-																							}
-																							}
-																							}
-																							});
-																							}-*/;
+		var pr = "<p><span class='ui-icon ui-icon-alert' style='float:left'></span>"
+				+ message + "</p>";
+		var div = $wnd.$("#" + id).append(pr);
+		div
+				.dialog({
+					autoOpen : true,
+					resizable : false,
+					modal : true,
+					minWidth : 300,
+					maxWidth : 600,
+					height : 'auto',
+					show : "bounce",
+					dialogClass : "no-close jesMaxZindex",
+					close : function(event, ui) {
+						div.dialog('destroy').remove();
+					},
+					buttons : {
+						'Tamam' : {
+							id : id + "_ok",
+							text : "Tamam",
+							click : function() {
+								x.@com.javexpress.gwt.library.ui.dialog.MessageDialog::fireOnOk()();
+								div.dialog("close");
+							}
+						}
+					}
+				});
+	}-*/;
 
 	private native void destroyByJs(MessageDialog x, Element elm) /*-{
-																	$wnd.$(elm).empty().off();
-																	}-*/;
+		$wnd.$(elm).empty().off();
+	}-*/;
 
 	public static void showAlert(final Widget parent, final String title, final String message) {
 		showAlert(parent.getElement().getId(), title, message);
@@ -111,7 +111,7 @@ public class MessageDialog extends JexpSimplePanel {
 	}
 
 	public static void showInfo(final String id, final String title, final String message) {
-		new MessageDialog(null, id, FaIcon.info_sign, title, message);
+		new MessageDialog(null, id, FaIcon.info_circle, title, message);
 	}
 
 	//---------- EVENTS

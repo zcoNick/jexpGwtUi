@@ -23,7 +23,7 @@ public class IconPhoneBox extends IconMaskBox {
 	@Override
 	protected void doAttachChildren() {
 		if (fax)
-			setIcon(FaIcon.Fax);
+			setIcon(FaIcon.fax);
 		super.doAttachChildren();
 	}
 

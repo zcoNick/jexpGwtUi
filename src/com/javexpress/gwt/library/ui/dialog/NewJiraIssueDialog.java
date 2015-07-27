@@ -9,7 +9,7 @@ import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.javexpress.common.model.item.Result;
 import com.javexpress.gwt.library.shared.model.WidgetConst;
 import com.javexpress.gwt.library.ui.ClientContext;
-import com.javexpress.gwt.library.ui.JqIcon;
+import com.javexpress.gwt.library.ui.FaIcon;
 import com.javexpress.gwt.library.ui.container.buttonbar.ButtonBar;
 import com.javexpress.gwt.library.ui.container.layout.DivBorderLayout;
 import com.javexpress.gwt.library.ui.container.layout.GridLayout;
@@ -94,7 +94,7 @@ public class NewJiraIssueDialog extends JexpPopupPanel {
 		ButtonBar bb = new ButtonBar();
 
 		Button btGonder = new Button(this, "gonder", ClientContext.nlsCommon.gonder());
-		btGonder.setIcon(JqIcon.check);
+		btGonder.setIcon(FaIcon.check);
 		btGonder.addClickHandler(new ClickHandler() {
 			@Override
 			public void onClick(ClickEvent event) {

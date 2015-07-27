@@ -280,6 +280,9 @@ public interface CommonResources extends ConstantsWithLookup {
 	/** Diğer */
 	String diger();
 
+	/** Dil */
+	String dil();
+
 	/** Doğum Tarihi */
 	String dogumTarihi();
 
@@ -452,6 +455,9 @@ public interface CommonResources extends ConstantsWithLookup {
 	/** İşlem Başarılı */
 	String islemBasarili();
 
+	/** İşlem Yapan */
+	String islemYapan();
+
 	/** Hata başarıyla iletildi. Açılan pencereden durumunu takip edebilirsiniz.
 	 * Referans : */
 	String jiraBildirildi();
@@ -467,6 +473,9 @@ public interface CommonResources extends ConstantsWithLookup {
 
 	/** Kaydet */
 	String kaydet();
+
+	/** Kayıt Bilgisi */
+	String kayitBilgisi();
 
 	/** Kayıt bulunamadı */
 	String kayitBulunamadi();
@@ -590,6 +599,9 @@ public interface CommonResources extends ConstantsWithLookup {
 
 	/** Raporlar */
 	String raporlar();
+
+	/** Referans */
+	String referans();
 
 	/** Resim silinecektir. Emin misiniz? */
 	String resimSilmeOnay();

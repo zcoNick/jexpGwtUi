@@ -13,8 +13,8 @@ import com.google.gwt.user.client.ui.Widget;
 import com.javexpress.gwt.library.shared.model.WidgetConst;
 import com.javexpress.gwt.library.ui.AbstractContainerFocusable;
 import com.javexpress.gwt.library.ui.ClientContext;
+import com.javexpress.gwt.library.ui.FaIcon;
 import com.javexpress.gwt.library.ui.ICssIcon;
-import com.javexpress.gwt.library.ui.JqIcon;
 import com.javexpress.gwt.library.ui.container.tabset.ITabSetListener;
 import com.javexpress.gwt.library.ui.container.tabset.TabItem;
 import com.javexpress.gwt.library.ui.form.Form;
@@ -75,22 +75,22 @@ public class TabSet extends AbstractContainerFocusable implements ISizeAwareWidg
 	}
 
 	private native void bindCloseButtons(TabSet x, JavaScriptObject obj, Element liElement, Element closeSpan) /*-{
-																													$wnd
-																													.$(closeSpan)
-																													.click(
-																													function() {
-																													var li = $wnd.$(liElement);
-																													var tabId = li.attr("tabid");
-																													x.@com.javexpress.gwt.library.ui.jquery.TabSet::fireOnTabClosed(Ljava/lang/String;)(tabId);
-																													var panelId = li.remove().attr("aria-controls");
-																													$wnd.$("#" + panelId).remove();
-																													obj.tabs("refresh");
-																													});
-																													}-*/;
+		$wnd
+				.$(closeSpan)
+				.click(
+						function() {
+							var li = $wnd.$(liElement);
+							var tabId = li.attr("tabid");
+							x.@com.javexpress.gwt.library.ui.jquery.TabSet::fireOnTabClosed(Ljava/lang/String;)(tabId);
+							var panelId = li.remove().attr("aria-controls");
+							$wnd.$("#" + panelId).remove();
+							obj.tabs("refresh");
+						});
+	}-*/;
 
 	private native void unbindCloseButtons(TabSet x, Element navBar) /*-{
-																		$wnd.$("li > span.ui-icon-close", $wnd.$(navBar)).off();
-																		}-*/;
+		$wnd.$("li > span.ui-icon-close", $wnd.$(navBar)).off();
+	}-*/;
 
 	@Override
 	protected void onUnload() {
@@ -108,8 +108,8 @@ public class TabSet extends AbstractContainerFocusable implements ISizeAwareWidg
 	}
 
 	private native void destroyByJs(Element element) /*-{
-														$wnd.$(element).tabs('destroy');
-														}-*/;
+		$wnd.$(element).tabs('destroy');
+	}-*/;
 
 	private native JavaScriptObject createByJs(TabSet x, String id, JavaScriptObject options) /*-{
 																								options.activate=function(event, ui ) {
@@ -135,7 +135,7 @@ public class TabSet extends AbstractContainerFocusable implements ISizeAwareWidg
 		addTab(null, title, widget, id, closable);
 	}
 
-	public void addTab(final JqIcon icon, final String title, final Widget widget, final String id) {
+	public void addTab(final FaIcon icon, final String title, final Widget widget, final String id) {
 		addTab(icon, title, widget, id, false);
 	}
 
@@ -164,7 +164,7 @@ public class TabSet extends AbstractContainerFocusable implements ISizeAwareWidg
 		Element closeSpan = null;
 		if (closable) {
 			closeSpan = DOM.createSpan();
-			closeSpan.setClassName("ui-icon " + JqIcon.close.getCssClass());
+			closeSpan.setClassName("ui-icon " + FaIcon.close.getCssClass());
 			closeSpan.setAttribute("role", "presentation");
 			closeSpan.setInnerText(ClientContext.nlsCommon.kapat());
 			li.appendChild(closeSpan);
@@ -202,16 +202,16 @@ public class TabSet extends AbstractContainerFocusable implements ISizeAwareWidg
 	}
 
 	private native void _refresh(JavaScriptObject obj) /*-{
-														obj.tabs("refresh");
-														}-*/;
+		obj.tabs("refresh");
+	}-*/;
 
 	public void select(int index) {
 		_select(jsObject, index);
 	}
 
 	private native void _select(JavaScriptObject obj, int index) /*-{
-																	obj.tabs("option", "active", index);
-																	}-*/;
+		obj.tabs("option", "active", index);
+	}-*/;
 
 	//EVENTS
 	private void fireOnAfterActivate(final String oldId, final String newId) {

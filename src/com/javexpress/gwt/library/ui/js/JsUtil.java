@@ -47,7 +47,7 @@ import com.javexpress.gwt.library.shared.model.IJsonServicePoint;
 import com.javexpress.gwt.library.shared.model.JexpGwtUser;
 import com.javexpress.gwt.library.shared.model.WidgetConst;
 import com.javexpress.gwt.library.ui.ClientContext;
-import com.javexpress.gwt.library.ui.JqIcon;
+import com.javexpress.gwt.library.ui.FaIcon;
 import com.javexpress.gwt.library.ui.bootstrap.CheckBox;
 import com.javexpress.gwt.library.ui.bootstrap.DateBox;
 import com.javexpress.gwt.library.ui.bootstrap.LabelControlCell;
@@ -537,8 +537,6 @@ public class JsUtil {
 		Serializable val = null;
 		if (w instanceof LabelControlCell)
 			w = ((LabelControlCell) w).getWidget(0);
-		if (w instanceof com.javexpress.gwt.library.ui.jquery.DateBox)
-			val = ((com.javexpress.gwt.library.ui.jquery.DateBox) w).getDate();
 		else if (w instanceof DateBox)
 			val = ((DateBox) w).getDate();
 		else if (w instanceof NumericBox)
@@ -562,9 +560,7 @@ public class JsUtil {
 	}
 
 	public static void setWidgetValue(final Widget w, Serializable value) {
-		if (w instanceof com.javexpress.gwt.library.ui.jquery.DateBox)
-			((com.javexpress.gwt.library.ui.jquery.DateBox) w).setValue((Date) value);
-		else if (w instanceof DateBox)
+		if (w instanceof DateBox)
 			((DateBox) w).setValue((Date) value);
 		else if (w instanceof NumericBox)
 			((NumericBox) w).setValue(value != null ? value.toString() : null);
@@ -600,9 +596,7 @@ public class JsUtil {
 	}
 
 	public static void setWidgetEnabled(final Widget w, boolean enabled) {
-		if (w instanceof com.javexpress.gwt.library.ui.jquery.DateBox)
-			((com.javexpress.gwt.library.ui.jquery.DateBox) w).setEnabled(enabled);
-		else if (w instanceof DateBox)
+		if (w instanceof DateBox)
 			((DateBox) w).setEnabled(enabled);
 		else if (w instanceof NumericBox)
 			((NumericBox) w).setEnabled(enabled);
@@ -631,9 +625,7 @@ public class JsUtil {
 
 	public static Serializable clearWidgetValue(final Widget w) throws ParseException {
 		Serializable val = null;
-		if (w instanceof com.javexpress.gwt.library.ui.jquery.DateBox)
-			((com.javexpress.gwt.library.ui.jquery.DateBox) w).setValueDate(null);
-		else if (w instanceof DateBox)
+		if (w instanceof DateBox)
 			((DateBox) w).setValueDate(null);
 		else if (w instanceof NumericBox)
 			((NumericBox) w).setValueLong(null);
@@ -652,9 +644,7 @@ public class JsUtil {
 		String val = w.getElement().getAttribute("defaultValue");
 		if (isEmpty(val))
 			val = null;
-		if (w instanceof com.javexpress.gwt.library.ui.jquery.DateBox)
-			((com.javexpress.gwt.library.ui.jquery.DateBox) w).setValue(val);
-		else if (w instanceof DateBox)
+		if (w instanceof DateBox)
 			((DateBox) w).setValue(val);
 		else if (w instanceof NumericBox)
 			((NumericBox) w).setValue(val);
@@ -866,7 +856,7 @@ public class JsUtil {
 	public static void addCloseButton(final Form that, ButtonBar bb) {
 		Button b = new Button(that, "kapat", ClientContext.nlsCommon.kapat());
 		b.setTitle(ClientContext.nlsCommon.kapat() + " (Esc)");
-		b.setIcon(JqIcon.close);
+		b.setIcon(FaIcon.close);
 		b.addClickHandler(new ClickHandler() {
 			@Override
 			public void onClick(final ClickEvent event) {
@@ -879,7 +869,7 @@ public class JsUtil {
 	public static void addCancelButton(final Form that, ButtonBar bb) {
 		Button b = new Button(that, "vazgec", ClientContext.nlsCommon.vazgec());
 		b.setTitle(ClientContext.nlsCommon.vazgec() + " (Esc)");
-		b.setIcon(JqIcon.cancel);
+		b.setIcon(FaIcon.close);
 		b.addClickHandler(new ClickHandler() {
 			@Override
 			public void onClick(final ClickEvent event) {

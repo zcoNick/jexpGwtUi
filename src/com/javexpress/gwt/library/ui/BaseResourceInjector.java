@@ -15,7 +15,8 @@ import com.javexpress.gwt.library.ui.js.WidgetBundles;
 
 public abstract class BaseResourceInjector implements IResourceInjector {
 
-	protected static void injectLibrary(final WidgetBundles wb, final Command onload) {
+	@Override
+	public void injectLibrary(final WidgetBundles wb, final Command onload) {
 		if (wb.getParent() != null)
 			injectLibrary(wb.getParent(), new Command() {
 				@Override
@@ -28,12 +29,12 @@ public abstract class BaseResourceInjector implements IResourceInjector {
 	}
 
 	public static native void loadCss(String url) /*-{
-													var fileref = document.createElement("link");
-													fileref.setAttribute("rel", "stylesheet");
-													fileref.setAttribute("type", "text/css");
-													fileref.setAttribute("href", url);
-													$doc.getElementsByTagName("head")[0].appendChild(fileref);
-													}-*/;
+		var fileref = document.createElement("link");
+		fileref.setAttribute("rel", "stylesheet");
+		fileref.setAttribute("type", "text/css");
+		fileref.setAttribute("href", url);
+		$doc.getElementsByTagName("head")[0].appendChild(fileref);
+	}-*/;
 
 	protected static void injectLibrary(final String name, List<String> styleSheets, List<String> javaScripts, final Command onload) {
 		RootPanel root = RootPanel.get("progress");
@@ -72,24 +73,21 @@ public abstract class BaseResourceInjector implements IResourceInjector {
 	}
 
 	private static native void _injectFiles(JsArrayString files, Command command) /*-{
-																					$wnd.require(files, function() {
-																					command.@com.google.gwt.user.client.Command::execute()();
-																					});
-																					}-*/;
+		$wnd.require(files, function() {
+			command.@com.google.gwt.user.client.Command::execute()();
+		});
+	}-*/;
 
-	public static void injectScript(final String path, final Callback<Void, Exception> callback) {
+	@Override
+	public void injectScript(final String path, final Callback<Void, Exception> callback) {
 		ScriptInjector.fromUrl(path.startsWith("http") ? path : GWT.getModuleBaseURL() + path).setWindow(ScriptInjector.TOP_WINDOW).setCallback(callback).inject();
 	}
 
 	protected static native void _requireConfig(String module, JavaScriptObject pathConfig) /*-{
-																							$wnd.requirejs.config({
-																							baseUrl : module,
-																							paths : pathConfig
-																							});
-																							}-*/;
-
-	public static void inject(WidgetBundles wb, Command onload) {
-		injectLibrary(wb, onload);
-	}
+		$wnd.requirejs.config({
+			baseUrl : module,
+			paths : pathConfig
+		});
+	}-*/;
 
 }

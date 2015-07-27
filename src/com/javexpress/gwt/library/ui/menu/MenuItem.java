@@ -12,7 +12,6 @@ import com.google.gwt.user.client.DOM;
 import com.javexpress.gwt.library.shared.model.WidgetConst;
 import com.javexpress.gwt.library.ui.ICssIcon;
 import com.javexpress.gwt.library.ui.JexpWidget;
-import com.javexpress.gwt.library.ui.JqIcon;
 import com.javexpress.gwt.library.ui.js.JsUtil;
 
 public class MenuItem extends JexpWidget {
@@ -47,12 +46,6 @@ public class MenuItem extends JexpWidget {
 		}
 		setElement(li);
 		JsUtil.ensureId(null, this, WidgetConst.MENUITEM_PREFIX, id);
-	}
-
-	public MenuItem(final PopupMenu popMenu, String id, JqIcon icon, final String label) {
-		this(id, icon, label, null);
-		getElement().setId(popMenu.getElement().getId() + "_" + id);
-		popMenu.add(this);
 	}
 
 	public void setHasSeperator(final boolean hasSeperator) {

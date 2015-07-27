@@ -12,7 +12,6 @@ import com.javexpress.gwt.library.ui.bootstrap.LabelControlCell;
 import com.javexpress.gwt.library.ui.data.DataBindingHandler;
 import com.javexpress.gwt.library.ui.form.IUserInputWidget;
 import com.javexpress.gwt.library.ui.js.JsUtil;
-import com.javexpress.gwt.library.ui.keyboard.Keyboard;
 
 public class TextBox extends com.google.gwt.user.client.ui.TextBox implements IUserInputWidget<String>, BlurHandler {
 
@@ -85,10 +84,6 @@ public class TextBox extends com.google.gwt.user.client.ui.TextBox implements IU
 		return JsUtil.isEmpty(s) ? null : s;
 	}
 
-	public void enableVirtualKeyboard() {
-		addStyleName(Keyboard.STYLENAME);
-	}
-
 	@Override
 	protected void onLoad() {
 		if (titleCaseConvert || upperCaseConvert) {
@@ -109,12 +104,12 @@ public class TextBox extends com.google.gwt.user.client.ui.TextBox implements IU
 	}
 
 	private static native String _toTitleCase(String str, String locale) /*-{
-																			return $wnd.toLocaleTitleCase(str, locale);
-																			}-*/;
+		return $wnd.toLocaleTitleCase(str, locale);
+	}-*/;
 
 	private static native String _toUpperCase(String str, String locale) /*-{
-																			$wnd.toLocaleUpperCase(str, locale);
-																			}-*/;
+		$wnd.toLocaleUpperCase(str, locale);
+	}-*/;
 
 	@Override
 	public void setValidationError(String validationError) {

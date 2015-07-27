@@ -34,14 +34,14 @@ public abstract class MainContentView extends AbstractContainer implements IUICo
 	protected void onLoad() {
 		super.onLoad();
 		final IUIComposite cmp = getContents();
-		addToolItem(FaIcon.questionCircle, ClientContext.nlsCommon.yardim(), true, new Command() {
+		addToolItem(FaIcon.question_circle, ClientContext.nlsCommon.yardim(), true, new Command() {
 			@Override
 			public void execute() {
 				ClientContext.instance.openHelp((IUIComposite) getWidget(0));
 			}
 		});
 		if (cmp.isSupportsAction(IUIComposite.ACT_INSERTRECORD)) {
-			addToolItem(FaIcon.plusCircle, ClientContext.nlsCommon.yeni(), false, new Command() {
+			addToolItem(FaIcon.plus_circle, ClientContext.nlsCommon.yeni(), false, new Command() {
 				@Override
 				public void execute() {
 					try {
@@ -54,6 +54,7 @@ public abstract class MainContentView extends AbstractContainer implements IUICo
 		}
 	}
 
+	@Override
 	public abstract void setHeader(ICssIcon icon, String title);
 
 	protected abstract void addToolItem(FaIcon icon, String title, boolean right, Command command);

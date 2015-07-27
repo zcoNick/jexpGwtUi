@@ -23,8 +23,8 @@ import com.javexpress.gwt.library.shared.model.IJsonServicePoint;
 import com.javexpress.gwt.library.shared.model.JexpGwtUser;
 import com.javexpress.gwt.library.shared.model.WidgetConst;
 import com.javexpress.gwt.library.ui.ClientContext;
+import com.javexpress.gwt.library.ui.FaIcon;
 import com.javexpress.gwt.library.ui.JexpWidget;
-import com.javexpress.gwt.library.ui.JqIcon;
 import com.javexpress.gwt.library.ui.data.DecimalColumn;
 import com.javexpress.gwt.library.ui.data.GridToolItem;
 import com.javexpress.gwt.library.ui.data.IDataViewer;
@@ -344,7 +344,7 @@ public class JqGrid<T extends Serializable> extends JexpWidget implements IDataV
 		}
 		widget = createByJs(this, table, table.getId(), listener, options.getJavaScriptObject(), nav.getJavaScriptObject(), colModel.getJavaScriptObject(), hasFrozenColumns, keyNavigation, listener != null && listener.hasRowStyler(), useSmallFonts, arrGroupableColumns, keyColumnName, maxHeight);
 		if (!options.get("shrinkToFit").isBoolean().booleanValue()) {
-			GridToolItem tiHideShow = new GridToolItem("hideShow", null, JqIcon.arrow_2_ne_sw, ClientContext.nlsCommon.hideShowColumn());
+			GridToolItem tiHideShow = new GridToolItem("hideshow", null, FaIcon.arrows_h, ClientContext.nlsCommon.hideShowColumn());
 			tiHideShow.setEndsWithSeparator(true);
 			tiHideShow.setHandler(new IToolItemHandler() {
 				@Override
