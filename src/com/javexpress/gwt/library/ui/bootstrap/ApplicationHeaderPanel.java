@@ -14,6 +14,8 @@ public abstract class ApplicationHeaderPanel extends AbstractContainer {
 
 	public abstract void setBrand(ICssIcon icon, String appName);
 
+	public abstract ApplicationNavBar getNavBar();
+
 	public abstract ApplicationNotificationDropdown createNotificationDropdown(String id, WContext styleName, ICssIcon iconClass);
 
 	public abstract ApplicationUserInfoDropdown createUserInfoDropdown(String id, WContext styleName);

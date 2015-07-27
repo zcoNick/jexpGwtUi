@@ -5,14 +5,16 @@ import com.google.gwt.dom.client.Style.Cursor;
 import com.google.gwt.user.client.DOM;
 import com.javexpress.gwt.library.ui.ICssIcon;
 import com.javexpress.gwt.library.ui.bootstrap.ApplicationHeaderPanel;
+import com.javexpress.gwt.library.ui.bootstrap.ApplicationNavBar;
 import com.javexpress.gwt.library.ui.bootstrap.ApplicationNotificationDropdown;
 import com.javexpress.gwt.library.ui.bootstrap.ApplicationUserInfoDropdown;
 import com.javexpress.gwt.library.ui.bootstrap.Bootstrap.WContext;
 
 public class ApplicationHeaderPanelAlte extends ApplicationHeaderPanel {
 
-	private Element	brand;
-	private Element	navUl;
+	private Element					brand;
+	private Element					navUl;
+	private ApplicationNavBarAlte	navbar;
 
 	public ApplicationHeaderPanelAlte(String id) {
 		super(DOM.createElement("header"), id);
@@ -35,6 +37,9 @@ public class ApplicationHeaderPanelAlte extends ApplicationHeaderPanel {
 		stgl.setInnerText("Toggle navigation");
 		atgl.appendChild(stgl);
 		navMain.appendChild(atgl);
+
+		navbar = new ApplicationNavBarAlte("navbar");
+		add(navbar, navMain);
 
 		Element div = DOM.createDiv();
 		div.setClassName("navbar-custom-menu");
@@ -65,6 +70,11 @@ public class ApplicationHeaderPanelAlte extends ApplicationHeaderPanel {
 		ApplicationUserInfoDropdown user = new ApplicationUserInfoDropdownAlte(id);
 		add(user, navUl);
 		return user;
+	}
+
+	@Override
+	public ApplicationNavBar getNavBar() {
+		return navbar;
 	}
 
 }

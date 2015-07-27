@@ -3,24 +3,24 @@ package com.javexpress.gwt.library.ui.bootstrap;
 import com.google.gwt.dom.client.Element;
 import com.javexpress.gwt.library.ui.AbstractContainer;
 
-public abstract class ApplicationSideBar extends AbstractContainer {
+public abstract class ApplicationNavBar extends AbstractContainer {
 
-	private ISideBarHandler	linkHandler;
+	private INavBarHandler	linkHandler;
 
-	public ISideBarHandler getLinkHandler() {
+	public INavBarHandler getLinkHandler() {
 		return linkHandler;
 	}
 
-	public void setLinkHandler(ISideBarHandler linkHandler) {
+	public void setLinkHandler(INavBarHandler linkHandler) {
 		this.linkHandler = linkHandler;
 	}
 
-	public ApplicationSideBar(Element el, String id) {
+	public ApplicationNavBar(Element el, String id) {
 		super(el);
 		getElement().setId(id);
 	}
 
-	public abstract void addItem(SideBarItem sbi);
+	public abstract void addItem(NavBarItem sbi);
 
 	@Override
 	protected void onUnload() {
@@ -31,9 +31,9 @@ public abstract class ApplicationSideBar extends AbstractContainer {
 	//--EVENTS
 	protected void fireLinkClicked(String path) {
 		if (linkHandler != null)
-			linkHandler.sideLinkClicked(path);
+			linkHandler.navLinkClicked(path);
 	}
 
-	public abstract SideBarItem createSideBarItem(String id, String path);
+	public abstract NavBarItem createNavBarItem(String id, String path);
 
 }

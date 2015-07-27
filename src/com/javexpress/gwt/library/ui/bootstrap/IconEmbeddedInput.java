@@ -1,6 +1,7 @@
 package com.javexpress.gwt.library.ui.bootstrap;
 
 import com.google.gwt.dom.client.Element;
+import com.google.gwt.dom.client.Style;
 import com.google.gwt.event.dom.client.HasKeyDownHandlers;
 import com.google.gwt.event.dom.client.HasKeyPressHandlers;
 import com.google.gwt.event.dom.client.HasKeyUpHandlers;
@@ -112,6 +113,10 @@ public class IconEmbeddedInput extends SimplePanel implements IJexpWidget, Focus
 
 	public void setValue(String value) {
 		input.setPropertyString("value", value);
+	}
+
+	public Style getInputStyle() {
+		return input.getStyle();
 	}
 
 }
