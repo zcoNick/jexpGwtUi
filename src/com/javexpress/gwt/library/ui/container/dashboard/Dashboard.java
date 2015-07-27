@@ -1,6 +1,5 @@
 package com.javexpress.gwt.library.ui.container.dashboard;
 
-import java.beans.Beans;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -163,7 +162,6 @@ public class Dashboard extends AbstractContainer implements ISizeAwareWidget {
 		else
 			insert(panel, ul, order, true);
 		if (isAttached()) {
-			panel.onResize();
 			panel.onShow();
 		}
 	}
@@ -182,9 +180,7 @@ public class Dashboard extends AbstractContainer implements ISizeAwareWidget {
 	@Override
 	protected void onLoad() {
 		super.onLoad();
-		if (!Beans.isDesignTime()) {
-			init();
-		}
+		init();
 	}
 
 	private native JavaScriptObject createByJs(Dashboard x, String id, JavaScriptObject options) /*-{
@@ -230,7 +226,7 @@ public class Dashboard extends AbstractContainer implements ISizeAwareWidget {
 		for (Widget w : getChildren()) {
 			DashboardWidget dbw = (DashboardWidget) w;
 			options.set(dbw.getElement().getId(), dbw.getOptions());
-			dbw.onShow();
+			//dbw.onShow();
 		}
 		if (JsUtil.isRTL())
 			options.set("direction", "rtl");

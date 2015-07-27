@@ -261,7 +261,6 @@ public abstract class BaseSlickGrid<CT extends Column> extends ContainerWithBar 
 	protected native void _updateOptionBool(JavaScriptObject slick, String poption, boolean pvalue) /*-{
 		var opt = {};
 		opt[poption] = pvalue;
-		$wnd.console.debug(opt);
 		slick.setOptions(opt);
 		slick.invalidate();
 	}-*/;
