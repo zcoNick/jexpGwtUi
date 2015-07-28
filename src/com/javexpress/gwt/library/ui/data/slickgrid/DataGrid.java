@@ -519,7 +519,8 @@ public class DataGrid<T extends Serializable> extends BaseSlickGrid<ListColumn> 
 	@Override
 	public void clearData() {
 		_clearData(getJsObject(), loader, getDataView());
-		clearSelection();
+		if (listener != null)
+			clearSelection();
 	}
 
 	private native void _clearData(JavaScriptObject grid, JavaScriptObject loader, JavaScriptObject dataView) /*-{
@@ -832,11 +833,11 @@ public class DataGrid<T extends Serializable> extends BaseSlickGrid<ListColumn> 
 
 	@Override
 	protected void onUnload() {
+		listener = null;
 		clearData();
 		recInfo = null;
 		loadingPanel = null;
 		loader = null;
-		listener = null;
 		styler = null;
 		super.onUnload();
 	}

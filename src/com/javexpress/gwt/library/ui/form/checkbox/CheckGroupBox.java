@@ -124,11 +124,8 @@ public class CheckGroupBox extends FlexTable implements IUserInputWidget<String>
 	public void clear() {
 		super.clear();
 		if (items != null)
-			for (CheckBox ch : items) {
+			for (CheckBox ch : items)
 				ch.removeFromParent();
-				if (isAttached())
-					orphan(ch);
-			}
 		items = null;
 	}
 
@@ -201,6 +198,24 @@ public class CheckGroupBox extends FlexTable implements IUserInputWidget<String>
 		return true;
 	}
 
+	public void addSelection(String value) {
+		for (CheckBox ch : items) {
+			if (ch.getElement().getAttribute("v").equals(value)){
+				ch.setValue(true);
+				break;
+			}
+		}
+	}
+
+	public void removeSelection(String value) {
+		for (CheckBox ch : items) {
+			if (ch.getElement().getAttribute("v").equals(value)){
+				ch.setValue(false);
+				break;
+			}
+		}
+	}
+	
 	@Override
 	public void setEnabled(boolean enabled) {
 		if (items == null)
