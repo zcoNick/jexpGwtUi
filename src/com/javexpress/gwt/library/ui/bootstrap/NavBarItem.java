@@ -11,11 +11,11 @@ import com.javexpress.gwt.library.ui.menu.IMenuHandler;
 
 public abstract class NavBarItem extends AbstractContainer {
 
-	protected Element		ul;
-	private IMenuHandler	handler;
-	protected String		text;
-	protected String		iconClass;
-	protected String		path;
+	protected Element ul;
+	private IMenuHandler handler;
+	protected String text;
+	protected String iconClass;
+	protected String path;
 
 	public IMenuHandler getHandler() {
 		return handler;
@@ -25,10 +25,10 @@ public abstract class NavBarItem extends AbstractContainer {
 		this.handler = handler;
 	}
 
-	public NavBarItem(Widget sideBar, String id, String path) {
+	public NavBarItem(Widget navBar, String id, String path) {
 		super(DOM.createElement("li"));
 		this.path = path;
-		JsUtil.ensureId(sideBar, this, WidgetConst.SIDEBARITEM, id);
+		JsUtil.ensureId(navBar, this, WidgetConst.NAVBARITEM, id);
 	}
 
 	public String getText() {
