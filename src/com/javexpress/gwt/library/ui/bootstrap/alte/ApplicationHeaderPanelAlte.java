@@ -5,7 +5,6 @@ import com.google.gwt.dom.client.Style.Cursor;
 import com.google.gwt.user.client.DOM;
 import com.javexpress.gwt.library.ui.ICssIcon;
 import com.javexpress.gwt.library.ui.bootstrap.ApplicationHeaderPanel;
-import com.javexpress.gwt.library.ui.bootstrap.ApplicationNavBar;
 import com.javexpress.gwt.library.ui.bootstrap.ApplicationNotificationDropdown;
 import com.javexpress.gwt.library.ui.bootstrap.ApplicationUserInfoDropdown;
 import com.javexpress.gwt.library.ui.bootstrap.Bootstrap.WContext;
@@ -15,6 +14,7 @@ public class ApplicationHeaderPanelAlte extends ApplicationHeaderPanel {
 	private Element					brand;
 	private Element					navRightUl;
 	private ApplicationNavBarAlte	navbar;
+	private Element					navDiv;
 
 	public ApplicationHeaderPanelAlte(String id) {
 		super(DOM.createElement("header"), id);
@@ -38,25 +38,22 @@ public class ApplicationHeaderPanelAlte extends ApplicationHeaderPanel {
 		atgl.appendChild(stgl);
 		navMain.appendChild(atgl);
 
-		Element div = DOM.createDiv();
-		div.setClassName("collapse navbar-collapse");
-		div.setId("navbar-collapse");
-
-		navbar = new ApplicationNavBarAlte("navbar");
-		add(navbar, div);
+		navDiv = DOM.createDiv();
+		navDiv.setClassName("collapse navbar-collapse");
+		navDiv.setId("navbar-collapse");
 
 		navRightUl = DOM.createElement("ul");
 		navRightUl.setClassName("nav navbar-nav navbar-right");
 		navRightUl.getStyle().setCursor(Cursor.POINTER);
-		div.appendChild(navRightUl);
+		navDiv.appendChild(navRightUl);
 
-		navMain.appendChild(div);
+		navMain.appendChild(navDiv);
 		getElement().appendChild(navMain);
 	}
 
 	@Override
-	public void setBrand(ICssIcon icon, String appName) {
-		brand.setInnerHTML("<small><i class=\"" + icon.getCssClass() + "\"></i> " + appName + "</small>");
+	public void setBrand(String icon, String appName) {
+		brand.setInnerHTML("<small><i class=\"" + icon + "\"></i> " + appName + "</small>");
 	}
 
 	@Override
@@ -74,8 +71,13 @@ public class ApplicationHeaderPanelAlte extends ApplicationHeaderPanel {
 	}
 
 	@Override
-	public ApplicationNavBar getNavBar() {
+	public ApplicationNavBarAlte createNavBar() {
+		navbar = new ApplicationNavBarAlte("navbar");
 		return navbar;
+	}
+
+	public void addNavBar(ApplicationNavBarAlte navbar) {
+		add(navbar, navDiv);
 	}
 
 }

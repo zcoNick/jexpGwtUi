@@ -12,9 +12,13 @@ public abstract class ApplicationHeaderPanel extends AbstractContainer {
 		getElement().setId(id);
 	}
 
-	public abstract void setBrand(ICssIcon icon, String appName);
+	public void setBrand(ICssIcon icon, String appName) {
+		setBrand(icon.getCssClass(), appName);
+	}
 
-	public abstract ApplicationNavBar getNavBar();
+	public abstract void setBrand(String icon, String appName);
+
+	public abstract ApplicationNavBar createNavBar();
 
 	public abstract ApplicationNotificationDropdown createNotificationDropdown(String id, WContext styleName, ICssIcon iconClass);
 
