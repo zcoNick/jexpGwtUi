@@ -62,6 +62,7 @@ import com.javexpress.gwt.library.ui.facet.ProvidesModuleUtils;
 import com.javexpress.gwt.library.ui.form.Form;
 import com.javexpress.gwt.library.ui.form.IDataBindable;
 import com.javexpress.gwt.library.ui.form.IUserInputWidget;
+import com.javexpress.gwt.library.ui.form.autocomplete.AutoCompleteBox;
 import com.javexpress.gwt.library.ui.form.button.Button;
 import com.javexpress.gwt.library.ui.form.checkbox.CheckBoxJq;
 import com.javexpress.gwt.library.ui.form.checkbox.CheckInlineBox;
@@ -452,7 +453,7 @@ public class JsUtil {
 		db.show();
 	}
 
-	public static Widget createControl(final Widget parent, final ControlType type, final String property, final String controlData, final boolean useEmpty, String value, boolean searchMode) {
+	public static Widget createControl(final Widget parent, final ControlType type, final String property, final String controlData, final boolean useEmpty, String value, boolean searchMode) throws Exception {
 		Widget w = null;
 		switch (type) {
 			case Text:
@@ -491,6 +492,28 @@ public class JsUtil {
 				}
 				if (value != null) {
 					ComboBox c = ((ComboBox) w);
+					c.setValue(value);
+				}
+				break;
+			case AutoCompleteNumber:
+				w = new AutoCompleteBox<Long>(parent, property + "_");
+				if (JsUtil.isNotEmpty(controlData)) {
+					if (!controlData.startsWith("@"))
+						((AutoCompleteBox<Long>) w).setListingAlias(controlData);
+				}
+				if (value != null) {
+					AutoCompleteBox<Long> c = (AutoCompleteBox<Long>) w;
+					c.setValue(value);
+				}
+				break;
+			case AutoCompleteText:
+				w = new AutoCompleteBox<String>(parent, property + "_");
+				if (JsUtil.isNotEmpty(controlData)) {
+					if (!controlData.startsWith("@"))
+						((AutoCompleteBox<String>) w).setListingAlias(controlData);
+				}
+				if (value != null) {
+					AutoCompleteBox<String> c = (AutoCompleteBox<String>) w;
 					c.setValue(value);
 				}
 				break;
@@ -556,6 +579,8 @@ public class JsUtil {
 			val = ((CheckBoxJq) w).getValue();
 		else if (w instanceof CheckBox)
 			val = ((CheckBox) w).getValue();
+		else if (w instanceof AutoCompleteBox)
+			val = ((AutoCompleteBox) w).getValue();
 		return val;
 	}
 
@@ -591,8 +616,14 @@ public class JsUtil {
 				((ListBox) w).setValueList((ArrayList<String>) value);
 		} else if (w instanceof TextBox)
 			((TextBox) w).setValue((String) value);
-		else if (w instanceof CheckBoxJq)
-			((CheckBoxJq) w).setValue((Boolean) value);
+		else if (w instanceof CheckBox)
+			((CheckBox) w).setValue((Boolean) value);
+		else if (w instanceof AutoCompleteBox) {
+			if (value instanceof String)
+				((AutoCompleteBox) w).setValue((String) value);
+			else if (value instanceof Long)
+				((AutoCompleteBox) w).setValue((Long) value);
+		}
 	}
 
 	public static void setWidgetEnabled(final Widget w, boolean enabled) {
@@ -610,8 +641,10 @@ public class JsUtil {
 			((ListBox) w).setEnabled(enabled);
 		else if (w instanceof TextBox)
 			((TextBox) w).setEnabled(enabled);
-		else if (w instanceof CheckBoxJq)
-			((CheckBoxJq) w).setEnabled(enabled);
+		else if (w instanceof CheckBox)
+			((CheckBox) w).setEnabled(enabled);
+		else if (w instanceof AutoCompleteBox)
+			((AutoCompleteBox) w).setEnabled(enabled);
 	}
 
 	public static String getWidgetText(final Widget w) throws ParseException {

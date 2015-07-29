@@ -12,9 +12,11 @@ import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.ui.Widget;
 import com.javexpress.gwt.library.shared.model.IJsonServicePoint;
 import com.javexpress.gwt.library.shared.model.WidgetConst;
+import com.javexpress.gwt.library.ui.ClientContext;
 import com.javexpress.gwt.library.ui.bootstrap.LabelControlCell;
 import com.javexpress.gwt.library.ui.container.panel.JexpSimplePanel;
 import com.javexpress.gwt.library.ui.data.DataBindingHandler;
+import com.javexpress.gwt.library.ui.facet.ProvidesModuleUtils;
 import com.javexpress.gwt.library.ui.form.IWrappedInput;
 import com.javexpress.gwt.library.ui.js.JsUtil;
 import com.javexpress.gwt.library.ui.js.JsonMap;
@@ -29,7 +31,6 @@ public class AutoCompleteBox<V extends Serializable> extends JexpSimplePanel imp
 	private DataBindingHandler		dataBinding;
 	private InputElement			input;
 	private Element					indicator;
-	private ChangeHandler			onChangeHandler;
 
 	public IAutoCompleteListener getListener() {
 		return listener;
@@ -74,6 +75,18 @@ public class AutoCompleteBox<V extends Serializable> extends JexpSimplePanel imp
 			options.clear("url");
 		else
 			options.set("url", JsUtil.getServiceUrl(servicePoint));
+	}
+
+	public void setListingAlias(String controlData) throws Exception {
+		if (ClientContext.instance instanceof ProvidesModuleUtils) {
+			String[] cds = controlData.split("/");
+			if (cds.length >= 2) {
+				String url = ((ProvidesModuleUtils) ClientContext.instance).getModuleServiceTarget(Long.valueOf(cds[0])).getServiceEntryPoint() + "." + controlData.substring(controlData.indexOf("/") + 1);
+				options.set("url", url);
+				return;
+			}
+		}
+		throw new Exception("ControlData is not resolvable");
 	}
 
 	@Override
@@ -150,7 +163,6 @@ public class AutoCompleteBox<V extends Serializable> extends JexpSimplePanel imp
 		newItemRequestCommand = null;
 		options = null;
 		dataBinding = null;
-		onChangeHandler = null;
 		destroyByJs(input, indicator);
 		indicator = null;
 		input = null;
