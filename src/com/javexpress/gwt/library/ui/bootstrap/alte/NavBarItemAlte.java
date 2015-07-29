@@ -16,6 +16,7 @@ public class NavBarItemAlte extends NavBarItem {
 		if (ul == null) {
 			ul = DOM.createElement("ul");
 			ul.setClassName("dropdown");
+			getElement().appendChild(ul);
 		}
 		add(nbi, ul);
 		return nbi;

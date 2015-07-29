@@ -40,10 +40,8 @@ public class SideBarItemAlte extends SideBarItem {
 			Element b1 = DOM.createElement("i");
 			b1.setClassName("fa fa-angle-left pull-right");
 			a.appendChild(b1);
-		}
-
-		if (ul != null)
 			getElement().appendChild(ul);
+		}
 
 		super.onLoad();
 	}

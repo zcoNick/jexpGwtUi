@@ -13,7 +13,7 @@ import com.javexpress.gwt.library.ui.bootstrap.Bootstrap.WContext;
 public class ApplicationHeaderPanelAlte extends ApplicationHeaderPanel {
 
 	private Element					brand;
-	private Element					navUl;
+	private Element					navRightUl;
 	private ApplicationNavBarAlte	navbar;
 
 	public ApplicationHeaderPanelAlte(String id) {
@@ -38,17 +38,18 @@ public class ApplicationHeaderPanelAlte extends ApplicationHeaderPanel {
 		atgl.appendChild(stgl);
 		navMain.appendChild(atgl);
 
-		navbar = new ApplicationNavBarAlte("navbar");
-		add(navbar, navMain);
-
 		Element div = DOM.createDiv();
-		div.setClassName("navbar-custom-menu");
+		div.setClassName("collapse navbar-collapse");
+		div.setId("navbar-collapse");
 
-		navUl = DOM.createElement("ul");
-		navUl.setClassName("nav navbar-nav");
-		navUl.getStyle().setCursor(Cursor.POINTER);
+		navbar = new ApplicationNavBarAlte("navbar");
+		add(navbar, div);
 
-		div.appendChild(navUl);
+		navRightUl = DOM.createElement("ul");
+		navRightUl.setClassName("nav navbar-nav navbar-right");
+		navRightUl.getStyle().setCursor(Cursor.POINTER);
+		div.appendChild(navRightUl);
+
 		navMain.appendChild(div);
 		getElement().appendChild(navMain);
 	}
@@ -61,14 +62,14 @@ public class ApplicationHeaderPanelAlte extends ApplicationHeaderPanel {
 	@Override
 	public ApplicationNotificationDropdown createNotificationDropdown(String id, WContext styleName, ICssIcon iconClass) {
 		ApplicationNotificationDropdown andd = new ApplicationNotificationDropdownAlte(id, styleName, iconClass);
-		add(andd, navUl);
+		add(andd, navRightUl);
 		return andd;
 	}
 
 	@Override
 	public ApplicationUserInfoDropdown createUserInfoDropdown(String id, WContext styleName) {
 		ApplicationUserInfoDropdown user = new ApplicationUserInfoDropdownAlte(id);
-		add(user, navUl);
+		add(user, navRightUl);
 		return user;
 	}
 

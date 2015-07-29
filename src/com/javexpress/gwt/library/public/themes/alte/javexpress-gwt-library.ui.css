@@ -1,5 +1,6 @@
 .login-logo, .register-logo { font-size: 35px;font-weight: 400; }
 .login-box-body { border-bottom: 1px solid rgba(50, 50, 50, 0.33);box-shadow: 0 0 8px 3px rgba(0, 0, 0, 0.17); }
+.login-borderTop { border-top:1px solid #D2D6DE; }
 .main-header .logo { font-weight:400; }
 .user.user-menu > a { padding: 2px 20px 2px 20px; }
 .breadcrumb { background-color:transparent;margin-bottom:0; }
