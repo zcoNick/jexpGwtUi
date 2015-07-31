@@ -38,6 +38,9 @@ public class AlteStdTheme extends BootstrapTheme {
 				wb.addStyleSheet("themes/alte/skins/skin-blue.min.css");
 				wb.addStyleSheet("themes/alte/javexpress-gwt-library.ui.css");
 				break;
+			case 1000:
+				wb.addStyleSheet("themes/alte/javexpress-gwt-library.ui.css");
+				break;
 		}
 	}
 

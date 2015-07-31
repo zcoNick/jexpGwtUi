@@ -65,6 +65,8 @@ public abstract class BootstrapTheme extends BaseResourceInjector {
 
 		jexp = JqGrid.fillResources(jexp);
 		jexp = DataGrid.fillResources(jexp);
+		addStyleSheets(jexp, 1000);
+		addJavaScripts(jexp, 1000);
 		return jexp;
 	}
 
