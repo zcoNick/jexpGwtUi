@@ -33,3 +33,4 @@
 .btn-lg > .alte-icon { margin-right: 5px; }
 label { font-weight: 400; }
 .jexp-ui-window { font-size: 0.9em; }
+.widget-header > .widget-title > .alte-icon { display: inline-block; font-weight: 400; margin-right: 5px; }

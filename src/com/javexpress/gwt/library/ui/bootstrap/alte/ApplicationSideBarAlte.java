@@ -46,9 +46,9 @@ public class ApplicationSideBarAlte extends ApplicationSideBar {
 				function(e) {
 					var a = $wnd.$(this);
 					x.@com.javexpress.gwt.library.ui.bootstrap.alte.ApplicationSideBarAlte::fireLinkClicked(Ljava/lang/String;)(a.attr("path"));
-					$wnd.$(".open,.active", $wnd.$(element)).removeClass("open active");
+					$wnd.$(".active", $wnd.$(element)).removeClass("active");
 					a.parent().addClass("active")
-					a.parents("li.hsub").addClass("open active");
+					a.parents("li.treeview").addClass("active");
 				});		
 	}-*/;
 
