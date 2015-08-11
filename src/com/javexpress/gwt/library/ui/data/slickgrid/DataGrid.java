@@ -111,7 +111,7 @@ public class DataGrid<T extends Serializable> extends BaseSlickGrid<ListColumn> 
 		tiRefresh.setEndsWithSeparator(true);
 		tiRefresh.setHandler(new IToolItemHandler() {
 			@Override
-			public void execute(Event event) {
+			public void execute(final String itemId, Event event) {
 				refresh();
 			}
 		});

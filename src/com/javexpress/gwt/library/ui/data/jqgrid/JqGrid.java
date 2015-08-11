@@ -348,7 +348,7 @@ public class JqGrid<T extends Serializable> extends JexpWidget implements IDataV
 			tiHideShow.setEndsWithSeparator(true);
 			tiHideShow.setHandler(new IToolItemHandler() {
 				@Override
-				public void execute(Event event) {
+				public void execute(final String itemId, Event event) {
 					JsonMap opt = new JsonMap();
 					opt.set("title", ClientContext.nlsCommon.alanlariSecin());
 					_openColumnChooser(widget, opt.getJavaScriptObject());
