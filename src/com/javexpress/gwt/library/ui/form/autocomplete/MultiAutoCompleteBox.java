@@ -17,23 +17,27 @@ import com.google.gwt.dom.client.Style.Overflow;
 import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.dom.client.TableElement;
 import com.google.gwt.dom.client.TableRowElement;
+import com.google.gwt.event.dom.client.ChangeHandler;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.event.shared.HandlerRegistration;
 import com.google.gwt.user.client.Command;
 import com.google.gwt.user.client.DOM;
-import com.google.gwt.user.client.ui.Focusable;
 import com.google.gwt.user.client.ui.Widget;
 import com.javexpress.gwt.library.shared.model.IJsonServicePoint;
 import com.javexpress.gwt.library.shared.model.WidgetConst;
 import com.javexpress.gwt.library.ui.AbstractContainer;
 import com.javexpress.gwt.library.ui.ICssIcon;
+import com.javexpress.gwt.library.ui.data.DataBindingHandler;
+import com.javexpress.gwt.library.ui.form.IUserInputWidget;
 import com.javexpress.gwt.library.ui.form.label.Label;
 import com.javexpress.gwt.library.ui.js.JqEffect;
 import com.javexpress.gwt.library.ui.js.JsUtil;
 import com.javexpress.gwt.library.ui.js.JsonMap;
 
-public class MultiAutoCompleteBox<V extends Serializable> extends AbstractContainer implements Focusable {
+public class MultiAutoCompleteBox extends AbstractContainer implements IUserInputWidget<ArrayList<String>> {
 
+	private boolean						required;
 	private TableElement				table;
 	private InputElement				input;
 	private DivElement					div;
@@ -42,6 +46,7 @@ public class MultiAutoCompleteBox<V extends Serializable> extends AbstractContai
 	private Map<String, JsonMap>		acData;
 	private Element						tdOpen;
 	private Label						btOpen;
+	private DataBindingHandler			dataBinding;
 
 	public IMultiAutoCompleteListener getListener() {
 		return listener;
@@ -181,7 +186,7 @@ public class MultiAutoCompleteBox<V extends Serializable> extends AbstractContai
 			remove(btOpen);
 		tdOpen = null;
 		btOpen = null;
-			destroyByJs(input);
+		destroyByJs(input);
 		super.onUnload();
 	}
 
@@ -189,8 +194,9 @@ public class MultiAutoCompleteBox<V extends Serializable> extends AbstractContai
 		$wnd.$(element).jexpautocomplete('destroy');
 	}-*/;
 
-	public List<String> getValues() {
-		List<String> list = new ArrayList<String>();
+	@Override
+	public ArrayList<String> getValue() {
+		ArrayList<String> list = new ArrayList<String>();
 		for (int i = 0; i < div.getChildCount(); i++) {
 			Element t = (Element) div.getChild(i);
 			list.add(t.getAttribute("value"));
@@ -216,7 +222,7 @@ public class MultiAutoCompleteBox<V extends Serializable> extends AbstractContai
 		return list.isEmpty() ? null : list;
 	}
 
-	private native void _addCloseEvent(MultiAutoCompleteBox<V> x, Element span) /*-{
+	private native void _addCloseEvent(MultiAutoCompleteBox x, Element span) /*-{
 		$wnd
 				.$(span)
 				.click(
@@ -355,13 +361,51 @@ public class MultiAutoCompleteBox<V extends Serializable> extends AbstractContai
 		}
 	}
 
-	public void setValues(Map<V, String> values) {
+	public void setValues(Map<? extends Serializable, String> values) {
 		removeItems();
 		if (values == null || values.isEmpty())
 			return;
-		for (Serializable v : values.keySet()) {
+		for (Serializable v : values.keySet())
 			addItem(v, values.get(v));
-		}
+	}
+
+	@Override
+	public HandlerRegistration addChangeHandler(ChangeHandler handler) {
+		return null;
+	}
+
+	@Override
+	public void setDataBindingHandler(DataBindingHandler handler) {
+		this.dataBinding = handler;
+		dataBinding.setControl(this);
+	}
+
+	@Override
+	public DataBindingHandler getDataBindingHandler() {
+		return dataBinding;
+	}
+
+	@Override
+	public boolean isRequired() {
+		return required;
+	}
+
+	@Override
+	public void setRequired(boolean required) {
+		this.required = required;
+	}
+
+	@Override
+	public boolean validate(boolean focusedBefore) {
+		return JsUtil.validateWidget(this, focusedBefore);
+	}
+
+	@Override
+	public void setEnabled(boolean locked) {
+	}
+
+	@Override
+	public void setValidationError(String validationError) {
 	}
 
 }
