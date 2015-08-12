@@ -25,14 +25,14 @@ import com.javexpress.gwt.library.ui.js.JexpCallback;
 import com.javexpress.gwt.library.ui.js.JsCache;
 import com.javexpress.gwt.library.ui.js.JsUtil;
 
+@Deprecated
 public abstract class Form extends SimplePanelFocusable implements IWindow, IUIComposite {
 
-	public final static JsCache<String, String>	formRights				= new JsCache<String, String>(30);
+	public final static JsCache<String, String>	formRights	= new JsCache<String, String>(30);
 
 	private IWindowContainer					window;
 	protected Form								that;
 	private String								rights;
-	private boolean								highlightInputElement	= !JsUtil.isBrowserChrome();
 	private List<Command>						onLoadCommands;
 	private List<Command>						onUnloadCommands;
 	private HandlerRegistration					keyDownHandlerRegistration;
@@ -101,14 +101,6 @@ public abstract class Form extends SimplePanelFocusable implements IWindow, IUIC
 	@Override
 	public String getId() {
 		return getElement().getId();
-	}
-
-	public boolean isHighlightInputElement() {
-		return highlightInputElement;
-	}
-
-	public void setHighlightInputElement(boolean highlightInputElement) {
-		this.highlightInputElement = highlightInputElement;
 	}
 
 	@Override
@@ -188,8 +180,6 @@ public abstract class Form extends SimplePanelFocusable implements IWindow, IUIC
 
 	@Override
 	protected void onUnload() {
-		if (highlightInputElement)
-			JsUtil.detachHighlightListeners(getElement());
 		keyDownHandlerRegistration.removeHandler();
 		super.onUnload();
 	}
@@ -244,8 +234,6 @@ public abstract class Form extends SimplePanelFocusable implements IWindow, IUIC
 	@Override
 	public void onShow() {
 		showing = true;
-		if (highlightInputElement)
-			JsUtil.attachHighlightListeners(getElement());
 	}
 
 	@Override

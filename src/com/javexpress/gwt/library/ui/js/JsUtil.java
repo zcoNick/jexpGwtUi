@@ -877,15 +877,6 @@ public class JsUtil {
 		return result;
 	}
 
-	public static native boolean isOverlayShowing() /*-{
-		return $wnd.$(".ui-widget-overlay")[0] != null;
-	}-*/;
-
-	public static native void console(String log) /*-{
-		if ($wnd.window.console)
-			$wnd.window.console.debug(log);
-	}-*/;
-
 	public static void addCloseButton(final Form that, ButtonBar bb) {
 		Button b = new Button(that, "kapat", ClientContext.nlsCommon.kapat());
 		b.setTitle(ClientContext.nlsCommon.kapat() + " (Esc)");
@@ -912,16 +903,6 @@ public class JsUtil {
 		bb.add(b);
 	}
 
-	public static void ensureRtlClass(final Widget w) {
-		if (isRTL())
-			w.addStyleName("ui-rtl");
-	}
-
-	public static void ensureRtlClass(final Element e) {
-		if (isRTL())
-			e.addClassName("ui-rtl");
-	}
-
 	public static String getUrlForImage(String imagePath) {
 		return getImagesPath() + imagePath;
 	}
@@ -937,26 +918,6 @@ public class JsUtil {
 	public static String calcSizeForMaxLength(int length) {
 		return length >= 50 ? WidgetConst.WIDTH_WIDE : (length >= 35 ? WidgetConst.WIDTH_BIG : (length >= 20 ? WidgetConst.WIDTH_MIDDLE : Math.max(length - 1, 5) + "em"));
 	}
-
-	public static native void attachHighlightListeners(Element element) /*-{
-		$wnd.$(element).find("input,textarea,select").each(
-				function(index, value) {
-					var el = $wnd.$(this);
-					el.on("focus", function(event) {
-						el.addClass("jesFocusedInput");
-					}).on("blur", function(event) {
-						el.removeClass("jesFocusedInput");
-					});
-				});
-	}-*/;
-
-	public static native void detachHighlightListeners(Element element) /*-{
-		$wnd.$(element).find("input,textarea,select").each(
-				function(index, value) {
-					var el = $wnd.$(this);
-					el.off();
-				});
-	}-*/;
 
 	public static Date dateAfter(int amount) {
 		return dateAfter(amount, new Date());
