@@ -95,7 +95,7 @@ public class AutoCompleteBox<V extends Serializable> extends JexpSimplePanel imp
 		createByJs(this, input, indicator, options.getJavaScriptObject(), newItemTitle, listener != null);
 	}
 
-	private native void createByJs(AutoCompleteBox x, Element input, Element indicator, JavaScriptObject options, String newItemTitle, boolean hasListener) /*-{
+	private native void createByJs(AutoCompleteBox<V> x, Element input, Element indicator, JavaScriptObject options, String newItemTitle, boolean hasListener) /*-{
 		var el = $wnd.$(input);
 		el.attr("v", "");
 		if (hasListener) {
@@ -227,7 +227,7 @@ public class AutoCompleteBox<V extends Serializable> extends JexpSimplePanel imp
 		}
 	}
 
-	private native void _setValueById(AutoCompleteBox x, Element input, JavaScriptObject options, String value) /*-{
+	private native void _setValueById(AutoCompleteBox<V> x, Element input, JavaScriptObject options, String value) /*-{
 		var lb = $wnd.$(input).val("...");
 		$wnd.$
 				.post(
@@ -236,6 +236,9 @@ public class AutoCompleteBox<V extends Serializable> extends JexpSimplePanel imp
 							"term" : "@" + value
 						},
 						function(data) {
+							if (!data)
+								return;
+							data = data[0];
 							var r = x.@com.javexpress.gwt.library.ui.form.autocomplete.AutoCompleteBox::fireOnSelect(Ljava/lang/String;Ljava/lang/String;Lcom/google/gwt/core/client/JavaScriptObject;)(data.id,data.label,data.data);
 							if (r) {
 								lb.val(data.label);

@@ -309,7 +309,7 @@ public class MultiAutoCompleteBox extends AbstractContainer implements IUserInpu
 	private void fireAddToSelection(final String id, final String label, JavaScriptObject data, boolean userAction) {
 		TableElement t = DOM.createTable().cast();
 		t.setAttribute("align", "center");
-		t.addClassName("jesMultiAutoCompleteListItem");
+		t.addClassName("jexpMultiAutoCompleteListItem");
 		t.setCellPadding(2);
 		t.setCellSpacing(0);
 		t.getStyle().setDisplay(Display.NONE);
