@@ -19,18 +19,19 @@ import com.google.gwt.user.client.Window;
 import com.javexpress.gwt.library.ui.dialog.JexpPopupPanel;
 import com.javexpress.gwt.library.ui.js.JsUtil;
 
-public abstract class PopupMenu extends JexpPopupPanel implements ContextMenuHandler {
+@Deprecated
+public abstract class JqPopupMenu extends JexpPopupPanel implements ContextMenuHandler {
 
 	private Element						ul;
 	private Map<String, Command>		commands;
 	private Map<String, IMenuHandler>	handlers;
-	private List<MenuItem>				items;
+	private List<JqMenuItem>				items;
 
-	public PopupMenu() {
+	public JqPopupMenu() {
 		this(null);
 	}
 
-	public PopupMenu(HasContextMenuHandlers parent) {
+	public JqPopupMenu(HasContextMenuHandlers parent) {
 		super(true);
 		getElement().addClassName("jexpPopupMenu ui-shadow");
 		if (parent != null)
@@ -89,13 +90,13 @@ public abstract class PopupMenu extends JexpPopupPanel implements ContextMenuHan
 		}
 	}
 
-	public void add(MenuItem mi) {
+	public void add(JqMenuItem mi) {
 		// Detach new child.
 		mi.removeFromParent();
 
 		// Logical attach.
 		if (items == null)
-			items = new ArrayList<MenuItem>();
+			items = new ArrayList<JqMenuItem>();
 		items.add(mi);
 
 		// Physical attach.
@@ -120,16 +121,16 @@ public abstract class PopupMenu extends JexpPopupPanel implements ContextMenuHan
 		super.onUnload();
 	}
 
-	private native void createByJs(PopupMenu x, Element element, Element ul) /*-{
+	private native void createByJs(JqPopupMenu x, Element element, Element ul) /*-{
 		var options = { select:function(event, ui){
 				var el = event.currentTarget;
-				x.@com.javexpress.gwt.library.ui.menu.PopupMenu::fireOnClick(Ljava/lang/String;Ljava/lang/String;)(el.id,el.getAttribute("code"));
+				x.@com.javexpress.gwt.library.ui.menu.JqPopupMenu::fireOnClick(Ljava/lang/String;Ljava/lang/String;)(el.id,el.getAttribute("code"));
 			}
 		};
 		$wnd.$(ul).menu(options);
 	}-*/;
 
-	private native void destroyByJs(PopupMenu x, Element ul) /*-{
+	private native void destroyByJs(JqPopupMenu x, Element ul) /*-{
 		$wnd.$(ul).menu("destroy");
 	}-*/;
 
@@ -138,7 +139,7 @@ public abstract class PopupMenu extends JexpPopupPanel implements ContextMenuHan
 		commands = new HashMap<String, Command>();
 		if (items == null || items.isEmpty())
 			return;
-		Iterator<MenuItem> iter = items.iterator();
+		Iterator<JqMenuItem> iter = items.iterator();
 		while (iter.hasNext()) {
 			iter.next().fillHandlers(handlers, commands);
 		}
@@ -149,7 +150,7 @@ public abstract class PopupMenu extends JexpPopupPanel implements ContextMenuHan
 		boolean executed = false;
 		IMenuHandler handler = handlers.get(id);
 		if (handler != null) {
-			handler.itemClicked(code);
+			handler.menuItemClicked(code);
 			executed = true;
 		}
 		Command command = commands.get(id);

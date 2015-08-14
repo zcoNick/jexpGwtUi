@@ -42,7 +42,7 @@ import com.javexpress.gwt.library.ui.data.ListColumn.Formatter;
 import com.javexpress.gwt.library.ui.data.ListColumn.SummaryType;
 import com.javexpress.gwt.library.ui.js.JsUtil;
 import com.javexpress.gwt.library.ui.js.JsonMap;
-import com.javexpress.gwt.library.ui.menu.PopupMenu;
+import com.javexpress.gwt.library.ui.menu.JqPopupMenu;
 
 public class DataGrid<T extends Serializable> extends BaseSlickGrid<ListColumn> implements IDataViewer {
 
@@ -475,12 +475,12 @@ public class DataGrid<T extends Serializable> extends BaseSlickGrid<ListColumn> 
 	}
 
 	@Override
-	public void setPopupMenu(PopupMenu menu) {
+	public void setPopupMenu(JqPopupMenu menu) {
 		addContextMenuHandler(menu);
 	}
 
 	@Override
-	public boolean canOpenContextMenu(PopupMenu menu) throws Exception {
+	public boolean canOpenContextMenu(JqPopupMenu menu) throws Exception {
 		if (listener != null)
 			return listener.onGridContextMenu(menu, getSelectedId(), getSelectedData());
 		return false;

@@ -14,21 +14,22 @@ import com.javexpress.gwt.library.ui.ICssIcon;
 import com.javexpress.gwt.library.ui.JexpWidget;
 import com.javexpress.gwt.library.ui.js.JsUtil;
 
-public class MenuItem extends JexpWidget {
+@Deprecated
+public class JqMenuItem extends JexpWidget {
 
-	private Command			command;
-	private IMenuHandler	handler;
-	private List<MenuItem>	children;
+	private Command				command;
+	private IMenuHandler		handler;
+	private List<JqMenuItem>	children;
 
-	public MenuItem(final String id, final String label) {
+	public JqMenuItem(final String id, final String label) {
 		this(id, label, null);
 	}
 
-	public MenuItem(final String id, final String label, final IMenuHandler menuHandler) {
+	public JqMenuItem(final String id, final String label, final IMenuHandler menuHandler) {
 		this(id, null, label, menuHandler);
 	}
 
-	public MenuItem(final String id, final ICssIcon icon, final String label, final IMenuHandler menuHandler) {
+	public JqMenuItem(final String id, final ICssIcon icon, final String label, final IMenuHandler menuHandler) {
 		super();
 		this.handler = menuHandler;
 		Element li = DOM.createElement("li");
@@ -55,9 +56,9 @@ public class MenuItem extends JexpWidget {
 			getElement().removeClassName("ui-menubar-item-seperator");
 	}
 
-	public void add(final MenuItem mi) {
+	public void add(final JqMenuItem mi) {
 		if (children == null)
-			children = new ArrayList<MenuItem>();
+			children = new ArrayList<JqMenuItem>();
 		Element ul = null;
 		NodeList<Element> nl = getElement().getElementsByTagName("ul");
 		if (nl.getLength() > 0)
@@ -75,7 +76,7 @@ public class MenuItem extends JexpWidget {
 		return command;
 	}
 
-	public MenuItem setCommand(final Command command) {
+	public JqMenuItem setCommand(final Command command) {
 		this.command = command;
 		return this;
 	}
@@ -94,7 +95,7 @@ public class MenuItem extends JexpWidget {
 		if (handler != null)
 			handlers.put(getElement().getAttribute("id"), handler);
 		if (children != null)
-			for (MenuItem mi : children)
+			for (JqMenuItem mi : children)
 				mi.fillHandlers(handlers, commands);
 	}
 
@@ -103,7 +104,7 @@ public class MenuItem extends JexpWidget {
 		command = null;
 		handler = null;
 		if (children != null)
-			for (MenuItem mi : children)
+			for (JqMenuItem mi : children)
 				mi.removeFromParent();
 		children = null;
 		super.onUnload();

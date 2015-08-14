@@ -37,8 +37,8 @@ import com.javexpress.gwt.library.ui.js.JsUtil;
 import com.javexpress.gwt.library.ui.js.JsonMap;
 import com.javexpress.gwt.library.ui.js.WidgetBundles;
 import com.javexpress.gwt.library.ui.menu.IMenuHandler;
-import com.javexpress.gwt.library.ui.menu.MenuItem;
-import com.javexpress.gwt.library.ui.menu.PopupMenu;
+import com.javexpress.gwt.library.ui.menu.JqMenuItem;
+import com.javexpress.gwt.library.ui.menu.JqPopupMenu;
 
 public class JqGrid<T extends Serializable> extends JexpWidget implements IDataViewer {
 
@@ -680,12 +680,12 @@ public class JqGrid<T extends Serializable> extends JexpWidget implements IDataV
 	}
 
 	@Override
-	public void setPopupMenu(PopupMenu menu) {
+	public void setPopupMenu(JqPopupMenu menu) {
 		addContextMenuHandler(menu);
 	}
 
 	@Override
-	public boolean canOpenContextMenu(PopupMenu menu) throws Exception {
+	public boolean canOpenContextMenu(JqPopupMenu menu) throws Exception {
 		if (listener != null)
 			return listener.onGridContextMenu(menu, getSelectedId(), getSelectedData());
 		return false;
@@ -707,10 +707,10 @@ public class JqGrid<T extends Serializable> extends JexpWidget implements IDataV
 	private void fireOnHeaderColumnContextMenu(final String field, final int x, final int y) {
 		for (final ListColumn column : columns) {
 			if (column.getField().equals(field) && column.isGroupable()) {
-				final PopupMenu menu = new PopupMenu() {
+				final JqPopupMenu menu = new JqPopupMenu() {
 					IMenuHandler	handler	= new IMenuHandler() {
 												@Override
-												public void itemClicked(String code) {
+												public void menuItemClicked(String code) {
 													if (code.equals("group"))
 														setGroupColumn(field);
 												}
@@ -718,7 +718,7 @@ public class JqGrid<T extends Serializable> extends JexpWidget implements IDataV
 
 					@Override
 					public void prepareMenu() {
-						MenuItem mig = new MenuItem("group", ClientContext.nlsCommon.grupla(), handler);//if isgroupable
+						JqMenuItem mig = new JqMenuItem("group", ClientContext.nlsCommon.grupla(), handler);//if isgroupable
 						add(mig);
 					}
 				};

@@ -2,21 +2,21 @@ package com.javexpress.gwt.library.ui.data;
 
 import com.google.gwt.user.client.Event;
 import com.javexpress.gwt.library.ui.ICssIcon;
-import com.javexpress.gwt.library.ui.menu.PopupMenu;
+import com.javexpress.gwt.library.ui.menu.JqPopupMenu;
 
-public class PopUpGridToolItem extends GridToolItem {
+public class GridToolMenu extends GridToolItem {
 
-	private PopupMenu	menu;
+	private JqPopupMenu	menu;
 
-	public PopUpGridToolItem(final String id, final String caption, final ICssIcon icon, final String hint) {
+	public GridToolMenu(final String id, final String caption, final ICssIcon icon, final String hint) {
 		super(id, caption, icon, hint);
 	}
 
-	public PopupMenu getMenu() {
+	public JqPopupMenu getMenu() {
 		return menu;
 	}
 
-	public void setMenu(PopupMenu menu) {
+	public void setMenu(JqPopupMenu menu) {
 		this.menu = menu;
 	}
 

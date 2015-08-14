@@ -14,14 +14,14 @@ import com.javexpress.gwt.library.ui.ClientContext;
 import com.javexpress.gwt.library.ui.ICssIcon;
 import com.javexpress.gwt.library.ui.js.JsUtil;
 import com.javexpress.gwt.library.ui.js.JsonMap;
-import com.javexpress.gwt.library.ui.menu.PopupMenu;
+import com.javexpress.gwt.library.ui.menu.JqPopupMenu;
 
 public abstract class SplitButton extends AbstractContainer {
 
 	private JsonMap			options;
 	private ButtonElement	normalButton;
 	private ButtonElement	downButton;
-	private PopupMenu		popup;
+	private JqPopupMenu		popup;
 	private ClickHandler	normalButtonClickHandler;
 
 	public void setIcon(final ICssIcon icon) {
@@ -52,7 +52,7 @@ public abstract class SplitButton extends AbstractContainer {
 		downButton.setInnerText(ClientContext.nlsCommon.opsiyonlar());
 		getElement().appendChild(downButton);
 
-		popup = new PopupMenu() {
+		popup = new JqPopupMenu() {
 			@Override
 			public void prepareMenu() {
 				prepareSplitMenu(this);
@@ -60,7 +60,7 @@ public abstract class SplitButton extends AbstractContainer {
 		};
 	}
 
-	public abstract void prepareSplitMenu(PopupMenu menu);
+	public abstract void prepareSplitMenu(JqPopupMenu menu);
 
 	private JsonMap createDefaultOptions() {
 		options = new JsonMap();
