@@ -89,3 +89,5 @@
 .jexpSchedule .jexpCompletedTask { text-decoration: line-through; }
 .toolitem > .disabled { opacity: 0.3; }
 .modal-header > .close { color: white;opacity: 0.8; }
+.jexpMultiAutoCompleteBox.form-control { padding: 2px 0;font-size:0.9em; }
+.table > tbody > tr.jexpMultiAutoCompleteListItem > td { padding:3px; }
