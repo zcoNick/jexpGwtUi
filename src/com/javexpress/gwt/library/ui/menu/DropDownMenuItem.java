@@ -3,6 +3,7 @@ package com.javexpress.gwt.library.ui.menu;
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.ui.ComplexPanel;
+import com.google.gwt.user.client.ui.Widget;
 
 public class DropDownMenuItem extends ComplexPanel {
 
@@ -25,6 +26,15 @@ public class DropDownMenuItem extends ComplexPanel {
 			getElement().insertAfter(ul, anchor);
 		}
 		super.add(sub, ul);
+	}
+
+	protected DropDownMenu getMenu() {
+		Widget parent = getParent();
+		while (parent != null && parent instanceof DropDownMenuItem)
+			parent = parent.getParent();
+		if (parent != null && parent instanceof DropDownMenu)
+			return (DropDownMenu) parent;
+		return null;
 	}
 
 }

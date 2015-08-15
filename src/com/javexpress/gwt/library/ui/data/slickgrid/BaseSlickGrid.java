@@ -14,10 +14,12 @@ import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.json.client.JSONArray;
 import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.ui.Widget;
+import com.javexpress.gwt.library.ui.ClientContext;
 import com.javexpress.gwt.library.ui.container.panel.ContainerWithBar;
 import com.javexpress.gwt.library.ui.data.Column;
 import com.javexpress.gwt.library.ui.data.Column.ColumnAlign;
 import com.javexpress.gwt.library.ui.data.GridToolItem;
+import com.javexpress.gwt.library.ui.data.GridToolMenu;
 import com.javexpress.gwt.library.ui.js.JsUtil;
 import com.javexpress.gwt.library.ui.js.JsonMap;
 import com.javexpress.gwt.library.ui.js.WidgetBundles;
@@ -177,7 +179,10 @@ public abstract class BaseSlickGrid<CT extends Column> extends ContainerWithBar 
 
 	protected void renderToolItems() {
 		for (GridToolItem ti : tools)
-			renderToolItem(ti, true);
+			if (ti instanceof GridToolMenu)
+				renderToolMenu((GridToolMenu) ti, true);
+			else
+				renderToolItem(ti, true);
 	}
 
 	protected Element renderToolItem(GridToolItem ti, boolean enabled) {
@@ -185,6 +190,51 @@ public abstract class BaseSlickGrid<CT extends Column> extends ContainerWithBar 
 		_bindToolElement(ti, span);
 		ti.setElement(span);
 		return span;
+	}
+
+	protected Element renderToolMenu(GridToolMenu ti, boolean enabled) {
+		if (ti.isStartsWithSeparator()) {
+			Element divsep = DOM.createDiv();
+			divsep.addClassName("toolseparator");
+			divsep.getStyle().setDisplay(Display.INLINE_BLOCK);
+			Element sep = DOM.createSpan();
+			sep.addClassName("ui-separator");
+			divsep.appendChild(sep);
+			getToolContainer().appendChild(divsep);
+		}
+		Element div = DOM.createDiv();
+		JsUtil.ensureSubId(getElement(), div, ti.getId());
+		div.addClassName("toolitem dropup");
+		div.getStyle().setDisplay(Display.INLINE_BLOCK);
+		Element anchor = DOM.createAnchor();
+		if (ti.getHint() != null)
+			anchor.setTitle(ti.getHint());
+		if (!enabled) {
+			anchor.setAttribute("disabled", "true");
+			anchor.addClassName("disabled");
+		}
+		ClientContext.resourceInjector.applyIconStyles(anchor, ti.getIcon());
+		anchor.addClassName("jexpHandCursor dropdown-toggle");
+		if (JsUtil.isNotEmpty(ti.getCaption()))
+			anchor.setInnerHTML(ti.getCaption());
+		if (JsUtil.isNotEmpty(ti.getIconClass())) {
+			anchor.addClassName(ti.getIconClass());
+		}
+		add(ti.getDropDown(), div);
+		getToolContainer().appendChild(div);
+		anchor.setAttribute("data-toggle", "dropdown");
+		div.insertFirst(anchor);
+
+		if (ti.isEndsWithSeparator()) {
+			Element divsep = DOM.createDiv();
+			divsep.addClassName("toolseparator");
+			divsep.getStyle().setDisplay(Display.INLINE_BLOCK);
+			Element sep = DOM.createSpan();
+			sep.addClassName("ui-separator");
+			divsep.appendChild(sep);
+			getToolContainer().appendChild(divsep);
+		}
+		return anchor;
 	}
 
 	private native void _bindToolElement(GridToolItem gi, Element el) /*-{

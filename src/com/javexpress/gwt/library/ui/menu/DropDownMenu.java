@@ -29,9 +29,15 @@ public class DropDownMenu extends ComplexPanel {
 	@Override
 	public void add(Widget child) {
 		if (child instanceof DropDownMenuItem) {
-			super.add(child);
+			super.add(child, getElement());
 		} else
 			return;
+	}
+
+	@Override
+	protected void onUnload() {
+		handler = null;
+		super.onUnload();
 	}
 
 }

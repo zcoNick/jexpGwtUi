@@ -72,7 +72,7 @@ public abstract class ContainerWithBar extends AbstractContainer implements ISiz
 		}
 		toolContainer.getStyle().setPosition(Position.ABSOLUTE);
 		toolContainer.getStyle().setDisplay(Display.BLOCK);
-		toolContainer.getStyle().setOverflow(Overflow.AUTO);
+		toolContainer.getStyle().setOverflow(Overflow.VISIBLE);
 		toolContainer.getStyle().setLeft(0, Unit.PX);
 		toolContainer.getStyle().setRight(0, Unit.PX);
 		toolContainer.getStyle().setBottom(0, Unit.PX);
