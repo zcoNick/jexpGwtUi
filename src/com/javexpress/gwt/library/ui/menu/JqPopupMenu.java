@@ -25,7 +25,7 @@ public abstract class JqPopupMenu extends JexpPopupPanel implements ContextMenuH
 	private Element						ul;
 	private Map<String, Command>		commands;
 	private Map<String, IMenuHandler>	handlers;
-	private List<JqMenuItem>				items;
+	private List<JqMenuItem>			items;
 
 	public JqPopupMenu() {
 		this(null);
@@ -150,7 +150,7 @@ public abstract class JqPopupMenu extends JexpPopupPanel implements ContextMenuH
 		boolean executed = false;
 		IMenuHandler handler = handlers.get(id);
 		if (handler != null) {
-			handler.menuItemClicked(code);
+			handler.menuItemClicked(code, null);
 			executed = true;
 		}
 		Command command = commands.get(id);

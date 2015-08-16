@@ -14,7 +14,10 @@ public class DropDownMenuItem extends ComplexPanel {
 		super();
 		setElement(DOM.createElement("li"));
 		anchor = DOM.createAnchor();
+		anchor.setAttribute("href", "#");
 		anchor.setInnerHTML(label);
+		anchor.setClassName("jexpLink");
+		anchor.setAttribute("v", id);
 		getElement().appendChild(anchor);
 	}
 
@@ -24,6 +27,8 @@ public class DropDownMenuItem extends ComplexPanel {
 			ul.addClassName("dropdown-menu");
 			getElement().addClassName("dropdown-submenu");
 			getElement().insertAfter(ul, anchor);
+			anchor.removeClassName("jexpLink");
+			anchor.removeAttribute("v");
 		}
 		super.add(sub, ul);
 	}

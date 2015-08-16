@@ -710,7 +710,7 @@ public class JqGrid<T extends Serializable> extends JexpWidget implements IDataV
 				final JqPopupMenu menu = new JqPopupMenu() {
 					IMenuHandler	handler	= new IMenuHandler() {
 												@Override
-												public void menuItemClicked(String code) {
+												public void menuItemClicked(String code, Event event) {
 													if (code.equals("group"))
 														setGroupColumn(field);
 												}

@@ -101,9 +101,9 @@ public class ListBox extends ListBoxBase {
 
 	public void setAltRows(boolean altRows) {
 		if (altRows)
-			getElement().addClassName("jesAltRows");
+			getElement().addClassName("jexpAltRows");
 		else
-			getElement().removeClassName("jesAltRows");
+			getElement().removeClassName("jexpAltRows");
 	}
 
 	public List<String> getValues() {

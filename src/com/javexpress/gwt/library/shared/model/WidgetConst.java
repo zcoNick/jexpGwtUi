@@ -45,6 +45,7 @@ public class WidgetConst {
 	public static final String	MAPPANEL_PREFIX				= "map";
 	public static final String	MASKEDITBOX_PREFIX			= "ms";
 	public static final String	MENUBAR_PREFIX				= "mb";
+	public static final String	MENUBUTTON_PREFIX			= "mnb";
 	public static final String	MENUITEM_PREFIX				= "mi";
 	public static final String	MESSAGEDIALOG_PREFIX		= "md";
 	public static final String	MULTIAUTOCOMPLETE_PREFIX	= "mau";

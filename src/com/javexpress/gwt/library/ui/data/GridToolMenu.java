@@ -29,9 +29,9 @@ public class GridToolMenu extends GridToolItem {
 	public void add(DropDownMenu dropDown) {
 		dropDown.setHandler(new IMenuHandler() {
 			@Override
-			public void menuItemClicked(String code) {
+			public void menuItemClicked(String code, Event event) {
 				if (getHandler() != null)
-					getHandler().execute(code, null);
+					getHandler().execute(code, event);
 			}
 		});
 		this.dropDown = dropDown;
