@@ -15,17 +15,15 @@
 	font-size: 0.9em;
     font-weight: 600;	
 }
-.jexpSlickGridContainer .jexpSlickGridView {
-    -moz-border-bottom-colors: none;
-    -moz-border-left-colors: none;
-    -moz-border-right-colors: none;
-    -moz-border-top-colors: none;
-    border-color: #D3D3D3;
-    border-image: none;
-    border-style: solid;
-    border-width: 1px 1px;
-    text-shadow: none;
+.jexpSlickGridContainer .jexpSlickGridView { -moz-border-bottom-colors: none;-moz-border-left-colors: none;-moz-border-right-colors: none;-moz-border-top-colors: none;
+    border-color: #D3D3D3;border-image: none;border-style: solid;border-width: 1px 1px;text-shadow: none;
 }
+.slick-group { border-bottom: 2px solid #C0C0C0;background-color:  }
+.slick-group .jexpRightAlign { text-align: left; }
+.slick-group-toggle { height: 9px;margin-right: 5px;width: 9px; }
+.slick-group-toggle.expanded { background: url("../slickgrid/images/collapse.gif") no-repeat scroll center center rgba(0, 0, 0, 0); }
+.slick-group-toggle.collapsed { background: url("../slickgrid/images/expand.gif") no-repeat scroll center center rgba(0, 0, 0, 0); }
+.slick-group-totals { background: none repeat scroll 0 0 #FFFFFF; font-weight:bold; }
 .jexpSlickGridContainer .jexpGridToolbar {
 	background-color: #EFF3F8 !important;
     border: 1px solid #E1E1E1 !important;
@@ -84,8 +82,7 @@
 }
 .jexpEditGrid .jexpEditGridEditorCell { border:0 none !important;width:100%;height:100%;padding:0;margin:0;font-size:1em }
 .jexpEditGrid .jexpEditGridEditorCell > .input-group-addon { padding:1px;border:0;background-color:transparent; }
-.jexpEditGrid .jexpEditGridEditorCell > .jexpEditGridAutoCompleteCell { border:none;padding:1px;width:98%;}
-padding:1px;border:0;background-color:transparent
+.jexpEditGrid .jexpEditGridEditorCell > .jexpEditGridAutoCompleteCell { border:none;padding:1px;width:98%;padding:1px;border:0;background-color:transparent }
 .jexpEditGrid .slick-cell .editable { border:none;padding:0;margin:0;font-size:1em }
 .jexpEditGrid .slick-cell .editor-text{ border:none;width:100%;height:100%;padding:0;margin:0;font-size:1em }
 .jexpJqGrid {

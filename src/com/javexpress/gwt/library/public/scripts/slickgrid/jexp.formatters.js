@@ -78,3 +78,26 @@ function JexpLinkFormatter(row, cell, value, columnDef, data) {
 	return "<span class=\""+(columnDef.linkIconClass?"ui-icon "+columnDef.linkIconClass+" ":"")+"ui-cursor-hand\" title=\""+(columnDef.linkTitle?columnDef.linkTitle:"")+"\" onclick=\"$('#"+columnDef.linkOwner+"').trigger('linkclicked'," +
 			"[$(this),"+row+","+cell+",'"+columnDef.field+"',"+columnDef.columnKey+",'"+value+"']);return false;\">"+(columnDef.linkText?columnDef.linkText:"")+"</span>";
 }
+//--AGGREGATE FORMATTERS
+function JexpAvgFormatter(totals, columnDef) {
+	var val = totals.avg && totals.avg[columnDef.field];
+	if (val != null) {
+		return "avg: " + Math.round(val);
+	}
+	return "";
+}
+function JexpSumFormatter(totals, columnDef) {
+	var val = totals.sum && totals.sum[columnDef.field];
+	if (val != null) {
+		return "&Sigma; : " + val;
+	}
+	return "";
+}
+function JexpCurrencySumFormatter(totals, columnDef) {
+	var val = totals.sum && totals.sum[columnDef.field];
+	if (val != null) {
+		val = numeral(val).format(columnDef.numeralFormat);
+		return "&Sigma; : " + val;
+	}
+	return "";
+}

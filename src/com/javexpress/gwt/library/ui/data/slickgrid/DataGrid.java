@@ -29,7 +29,6 @@ import com.javexpress.gwt.library.shared.model.JexpGwtUser;
 import com.javexpress.gwt.library.shared.model.WidgetConst;
 import com.javexpress.gwt.library.ui.ClientContext;
 import com.javexpress.gwt.library.ui.FaIcon;
-import com.javexpress.gwt.library.ui.data.Column.ColumnAlign;
 import com.javexpress.gwt.library.ui.data.CurrencyColumn;
 import com.javexpress.gwt.library.ui.data.DecimalColumn;
 import com.javexpress.gwt.library.ui.data.GridToolItem;
@@ -147,22 +146,21 @@ public class DataGrid<T extends Serializable> extends BaseSlickGrid<ListColumn> 
 		JsonMap model = super.createColumnModel(column, index);
 		if (model == null)
 			return null;
-		if (column.isGroupable()) {
+
+		if (column.isGroupable())
 			model.set("jexpGroupable", true);
-		}
+
+		if (column.getSummaryType() != null)
+			model.set("groupTotalsFormatter", column.getSummaryType().toString());
+
 		if (column.isSortable()) {
 			model.set("sortable", true);
 			if (column.isSorted()) {
 				model.set("sortedAsc", !column.isSortDesc());
-				if (!column.isSortDesc()) {
+				if (!column.isSortDesc())
 					model.set("defaultSortAsc", false);
-				}
 			}
 		}
-		if (column.getAlign() == ColumnAlign.right)
-			model.set("cssClass", "jexpRightAlign");
-		else if (column.getAlign() == ColumnAlign.center)
-			model.set("cssClass", "jexpCenter");
 
 		if (column.getFormatter() == Formatter.bool || column.getFormatter() == Formatter.checkbox) {
 			model.set("formatter", "bool");
@@ -209,6 +207,8 @@ public class DataGrid<T extends Serializable> extends BaseSlickGrid<ListColumn> 
 
 	@Override
 	protected JavaScriptObject createJsObject(JSONArray colModel) {
+		if (currentGroupDef != null)
+			setPaging(false);
 		JavaScriptObject jso = createByJs(this, getContainer().getId(), getOptions().getJavaScriptObject(), colModel.getJavaScriptObject(), getKeyColumnName(),
 				"jexpDataGridLoadingPanel jexpDataGridLoadingIndicator", getData(), autoLoad, JsUtil.calcDialogZIndex(), loadingPanel, recInfo, ClientContext.nlsCommon.kayitBulunamadi(), ClientContext.nlsCommon.grupla(), styler, dataPaging, maxHeight, currentGroupDef);
 		autoLoad = false;
@@ -245,13 +245,22 @@ public class DataGrid<T extends Serializable> extends BaseSlickGrid<ListColumn> 
 				model.formatter = $wnd.JexpTimeStampFormatter;
 			} else if (model.formatter == "decimal") {
 				model.formatter = $wnd.JexpDecimalFormatter;
+				if (model.groupTotalsFormatter == "sum")
+					model.groupTotalsFormatter = $wnd.JexpCurrencySumFormatter;
 			} else if (model.formatter == "currency") {
 				model.formatter = $wnd.JexpCurrencyFormatter;
+				if (model.groupTotalsFormatter == "sum")
+					model.groupTotalsFormatter = $wnd.JexpCurrencySumFormatter;
 			} else if (model.formatter == "link") {
 				model.formatter = $wnd.JexpLinkFormatter;
 			} else if (model.formatter == "percentbar") {
 				model.formatter = $wnd.JexpPercentCompleteBarFormatter;
 			}
+
+			if (model.groupTotalsFormatter == "sum")
+				model.groupTotalsFormatter = $wnd.JexpSumFormatter;
+			else if (model.groupTotalsFormatter == "avg")
+				model.groupTotalsFormatter = $wnd.JexpAvgFormatter;
 		}
 		var checkboxSelector = null;
 		if (options.multiSelect) {
@@ -336,8 +345,11 @@ public class DataGrid<T extends Serializable> extends BaseSlickGrid<ListColumn> 
 					if (dataView) {
 						dataView.beginUpdate();
 						dataView.setItems(loader.data, keyColumnName);
-						if (currentGroupDef)
-							dataView.setGrouping(currentGroupDef);
+						if (currentGroupDef) {
+							dataView
+									.setGrouping(currentGroupDef.length > 1 ? currentGroupDef
+											: currentGroupDef[0]);
+						}
 						x.@com.javexpress.gwt.library.ui.data.slickgrid.DataGrid::fireOnDataLoaded(IILcom/google/gwt/core/client/JavaScriptObject;)(args.from, args.to, data);
 						dataView.endUpdate();
 					} else {
@@ -678,21 +690,23 @@ public class DataGrid<T extends Serializable> extends BaseSlickGrid<ListColumn> 
 
 	private native JavaScriptObject _createAggregator(String func, String field) /*-{
 		if (func == "sum")
-			return new Slick.Data.Aggregators.Sum(field);
+			return new $wnd.Slick.Data.Aggregators.Sum(field);
 		if (func == "avg")
-			return new Slick.Data.Aggregators.Avg(field);
+			return new $wnd.Slick.Data.Aggregators.Avg(field);
 		if (func == "min")
-			return new Slick.Data.Aggregators.Min(field);
+			return new $wnd.Slick.Data.Aggregators.Min(field);
 		if (func == "max")
-			return new Slick.Data.Aggregators.Max(field);
+			return new $wnd.Slick.Data.Aggregators.Max(field);
 	}-*/;
 
 	private native JavaScriptObject _createGroupDef(String field, String title, String template, JsArray<JavaScriptObject> aggregators, boolean collapsed) /*-{
 		var gd = {
 			getter : field,
 			formatter : function(g) {
-				return title + ": " + g.value + "	<span style='color:green'>("
-						+ g.count + " öğe)</span>";
+				var s = title + " : " + g.value
+						+ "	<span style='color:green'>(" + g.count
+						+ " öğe)</span>";
+				return s;
 			},
 			collapsed : collapsed,
 		};
@@ -716,7 +730,7 @@ public class DataGrid<T extends Serializable> extends BaseSlickGrid<ListColumn> 
 		for (String f : fields) {
 			for (ListColumn col : getColumns())
 				if (col.getField().equals(f)) {
-					groupDef.push(_createGroupDef(f, col.getTitle(), col.getSummaryTemplate(), aggregators, i == 0));
+					groupDef.push(_createGroupDef(f, col.getTitle(), col.getSummaryTemplate(), aggregators, i != 0));
 					break;
 				}
 			i++;
@@ -727,7 +741,7 @@ public class DataGrid<T extends Serializable> extends BaseSlickGrid<ListColumn> 
 	}
 
 	private native void _setGrouping(JavaScriptObject dataView, JsArray<JavaScriptObject> groupDef) /*-{
-		dataView.setGrouping(groupDef);
+		dataView.setGrouping(groupDef.length > 1 ? groupDef : groupDef[0]);
 	}-*/;
 
 	@Override

@@ -3,6 +3,7 @@ package com.javexpress.gwt.library.ui.bootstrap;
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.ui.Widget;
+import com.javexpress.gwt.library.ui.form.IUserInputWidget;
 import com.javexpress.gwt.library.ui.form.IWrappedInput;
 
 public class LabelControlCell extends FormGroupCell {
@@ -19,6 +20,7 @@ public class LabelControlCell extends FormGroupCell {
 	private Integer	controlMdCols;
 	private Integer	controlLgCols;
 	private String	labelId;
+	private Element	labelEl;
 
 	public String getLabelId() {
 		return labelId;
@@ -33,7 +35,16 @@ public class LabelControlCell extends FormGroupCell {
 	}
 
 	public void setRequired(boolean required) {
+		boolean old = this.required;
 		this.required = required;
+		if (old != required && isAttached()) {
+			if (old)
+				labelEl.removeClassName("jexp-ui-field-required");
+			else
+				labelEl.addClassName("jexp-ui-field-required");
+			if (getWidgetCount() > 0 && getWidget(0) instanceof IUserInputWidget)
+				((IUserInputWidget) getWidget(0)).setRequired(required);
+		}
 	}
 
 	public String getLabel() {
@@ -42,6 +53,8 @@ public class LabelControlCell extends FormGroupCell {
 
 	public void setLabel(String label) {
 		this.label = label;
+		if (isAttached())
+			labelEl.setInnerHTML(label);
 	}
 
 	public LabelControlCell() {
@@ -132,21 +145,21 @@ public class LabelControlCell extends FormGroupCell {
 	@Override
 	protected void onAttach() {
 		if (label != null) {
-			Element l = DOM.createLabel();
+			labelEl = DOM.createLabel();
 			if (labelXsCols != null)
-				l.addClassName("col-xs-" + labelXsCols);
+				labelEl.addClassName("col-xs-" + labelXsCols);
 			if (labelSmCols != null)
-				l.addClassName("col-sm-" + labelSmCols);
+				labelEl.addClassName("col-sm-" + labelSmCols);
 			if (labelMdCols != null)
-				l.addClassName("col-md-" + labelMdCols);
+				labelEl.addClassName("col-md-" + labelMdCols);
 			if (labelLgCols != null)
-				l.addClassName("col-lg-" + labelLgCols);
-			l.addClassName(" control-label no-padding-right" + (required ? " jexp-ui-field-required" : ""));
+				labelEl.addClassName("col-lg-" + labelLgCols);
+			labelEl.addClassName(" control-label no-padding-right" + (required ? " jexp-ui-field-required" : ""));
 			if (labelId != null)
-				l.setId(labelId);
-			l.setInnerHTML(label);
-			l.setTitle(label);
-			getElement().insertFirst(l);
+				labelEl.setId(labelId);
+			labelEl.setInnerHTML(label);
+			labelEl.setTitle(label);
+			getElement().insertFirst(labelEl);
 		} else {
 			if (labelXsCols != null)
 				div.addClassName("col-xs-offset-" + labelXsCols);
