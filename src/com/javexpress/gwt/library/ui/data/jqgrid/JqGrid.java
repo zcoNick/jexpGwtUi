@@ -2,7 +2,10 @@ package com.javexpress.gwt.library.ui.data.jqgrid;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.TreeMap;
 
 import com.google.gwt.core.client.JavaScriptObject;
 import com.google.gwt.core.client.JsArrayString;
@@ -68,6 +71,7 @@ public class JqGrid<T extends Serializable> extends JexpWidget implements IDataV
 	private boolean					useSmallFonts;
 	private String					keyColumnName;
 	private int						maxHeight		= 0;
+	private Map<Integer, String>	grouping		= null;
 
 	public String getKeyColumnName() {
 		return keyColumnName;
@@ -315,6 +319,13 @@ public class JqGrid<T extends Serializable> extends JexpWidget implements IDataV
 	}
 
 	@Override
+	protected void onAttach() {
+		if (grouping != null && !grouping.isEmpty())
+			applyGrouping();
+		super.onAttach();
+	}
+
+	@Override
 	protected void onLoad() {
 		super.onLoad();
 		JSONArray colModel = new JSONArray();
@@ -475,6 +486,7 @@ public class JqGrid<T extends Serializable> extends JexpWidget implements IDataV
 			for (GridToolItem gti : tools)
 				gti.unload();
 		tools = null;
+		grouping = null;
 		destroyByJs(table, table.getId() + "_pager", "alertmod_" + table.getId());
 		super.onUnload();
 	}
@@ -501,7 +513,14 @@ public class JqGrid<T extends Serializable> extends JexpWidget implements IDataV
 	}
 
 	@Override
-	public void setGroupColumn(String... field) {
+	public void setGroupingOrder(int order, ListColumn col) {
+		if (grouping == null)
+			grouping = new HashMap<Integer, String>();
+		grouping.put(order, col.getField());
+	}
+
+	@Override
+	public void applyGrouping() {
 		if (isAttached()) {
 			_clearGrouping(widget);
 			if (columns == null) {
@@ -509,21 +528,24 @@ public class JqGrid<T extends Serializable> extends JexpWidget implements IDataV
 				return;
 			}
 		}
+		if (grouping == null)
+			return;
 		options.set("grouping", true);
 		if (!isAttached()) {
 			JsonMap gd = new JsonMap();
 			JSONArray names = new JSONArray();
 			JSONArray summaries = new JSONArray();
 			int i = 0;
-			for (String f : field) {
-				names.set(i++, new JSONString(f));
-				summaries.set(i++, JSONBoolean.getInstance(true));
+			Map<Integer, String> ordered = new TreeMap<Integer, String>(grouping);
+			for (Integer order : ordered.keySet()) {
+				names.set(i++, new JSONString(ordered.get(order)));
+				summaries.set(i, JSONBoolean.getInstance(true));
 			}
 			JSONArray arrBool = new JSONArray();
 			gd.put("groupField", names);
 			gd.put("groupSummary", summaries);
 			i = 0;
-			for (String f : field)
+			for (Integer order : ordered.keySet())
 				arrBool.set(i++, JSONBoolean.getInstance(true));
 			gd.put("groupColumnShow", arrBool);
 			gd.set("groupDataSorted", true);
@@ -533,8 +555,9 @@ public class JqGrid<T extends Serializable> extends JexpWidget implements IDataV
 			 */
 		} else {
 			JsArrayString arrField = JsArrayString.createArray().cast();
-			for (String f : field)
-				arrField.push(f);
+			Map<Integer, String> ordered = new TreeMap<Integer, String>(grouping);
+			for (Integer order : ordered.keySet())
+				arrField.push(ordered.get(order));
 			_groupBy(widget, arrField);
 		}
 	}
@@ -711,8 +734,6 @@ public class JqGrid<T extends Serializable> extends JexpWidget implements IDataV
 					IMenuHandler	handler	= new IMenuHandler() {
 												@Override
 												public void menuItemClicked(String code, Event event) {
-													if (code.equals("group"))
-														setGroupColumn(field);
 												}
 											};
 

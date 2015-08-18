@@ -2,7 +2,10 @@ package com.javexpress.gwt.library.ui.data.slickgrid;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.TreeMap;
 
 import com.google.gwt.core.client.JavaScriptObject;
 import com.google.gwt.core.client.JsArray;
@@ -53,6 +56,7 @@ public class DataGrid<T extends Serializable> extends BaseSlickGrid<ListColumn> 
 	private Element						recInfo, loadingPanel;
 	private DataGridStyler				styler;
 	private JsArray<JavaScriptObject>	currentGroupDef;
+	private Map<Integer, String>		grouping	= null;
 
 	private JavaScriptObject getLoader() {
 		return loader;
@@ -719,18 +723,28 @@ public class DataGrid<T extends Serializable> extends BaseSlickGrid<ListColumn> 
 	}-*/;
 
 	@Override
-	public void setGroupColumn(String... fields) {
+	public void setGroupingOrder(int order, ListColumn col) {
+		if (grouping == null)
+			grouping = new HashMap<Integer, String>();
+		grouping.put(order, col.getField());
+	}
+
+	@Override
+	public void applyGrouping() {
 		JsArray<JavaScriptObject> aggregators = JsArray.createArray().cast();
 		for (ListColumn col : getColumns())
 			if (col.getSummaryType() != null && col.getSummaryType() != SummaryType.count)
 				aggregators.push(_createAggregator(col.getSummaryType().toString(), col.getField()));
 
 		JsArray<JavaScriptObject> groupDef = JsArray.createArray().cast();
+		Map<Integer, String> ordered = new TreeMap<Integer, String>(grouping);
 		int i = 0;
-		for (String f : fields) {
+		for (Integer order : ordered.keySet()) {
+			String f = ordered.get(order);
 			for (ListColumn col : getColumns())
 				if (col.getField().equals(f)) {
 					groupDef.push(_createGroupDef(f, col.getTitle(), col.getSummaryTemplate(), aggregators, i != 0));
+					col.setHidden(true);
 					break;
 				}
 			i++;
@@ -808,8 +822,14 @@ public class DataGrid<T extends Serializable> extends BaseSlickGrid<ListColumn> 
 
 	private void fireOnHeaderMenuItemClicked(String command, JavaScriptObject colDefObj) {
 		String field = new JsonMap(colDefObj).getString("field");
-		if (command.equals("group"))
-			setGroupColumn(field);
+		if (command.equals("group")) {
+			if (grouping != null)
+				grouping.clear();
+			else
+				grouping = new HashMap<Integer, String>();
+			grouping.put(0, field);
+			applyGrouping();
+		}
 	}
 
 	private void fireOnDataLoaded(int from, int to, JavaScriptObject data) throws Exception {
@@ -830,8 +850,10 @@ public class DataGrid<T extends Serializable> extends BaseSlickGrid<ListColumn> 
 	}
 
 	@Override
-	protected void onLoad() {
-		super.onLoad();
+	protected void onAttach() {
+		if (grouping != null && !grouping.isEmpty())
+			applyGrouping();
+		super.onAttach();
 	}
 
 	private int	lastCalculatedSize	= 0;
@@ -853,6 +875,7 @@ public class DataGrid<T extends Serializable> extends BaseSlickGrid<ListColumn> 
 		loadingPanel = null;
 		loader = null;
 		styler = null;
+		grouping = null;
 		super.onUnload();
 	}
 

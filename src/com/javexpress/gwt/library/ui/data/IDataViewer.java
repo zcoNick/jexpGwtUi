@@ -29,8 +29,6 @@ public interface IDataViewer extends IJexpWidget, ISizeAwareWidget, IDataChangeL
 
 	void clearSelection();
 
-	public void setGroupColumn(String... field);
-
 	void setListing(IJsonServicePoint serviceMethod);
 
 	void setPaging(boolean dataPaging);
@@ -62,5 +60,9 @@ public interface IDataViewer extends IJexpWidget, ISizeAwareWidget, IDataChangeL
 	void performAutoSizeColumns();
 
 	void setDataExportOptions(boolean useForeignKeysAsVariable);
+
+	void setGroupingOrder(int order, ListColumn col);
+
+	void applyGrouping();
 
 }
