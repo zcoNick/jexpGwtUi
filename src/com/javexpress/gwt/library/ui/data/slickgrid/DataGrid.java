@@ -154,8 +154,9 @@ public class DataGrid<T extends Serializable> extends BaseSlickGrid<ListColumn> 
 		if (column.isGroupable())
 			model.set("jexpGroupable", true);
 
-		if (column.getSummaryType() != null)
-			model.set("groupTotalsFormatter", column.getSummaryType().toString());
+		if (column.getSummaryType() != null) {
+			model.set("jexpSummaryType", column.getSummaryType().toString());
+		}
 
 		if (column.isSortable()) {
 			model.set("sortable", true);
@@ -261,9 +262,9 @@ public class DataGrid<T extends Serializable> extends BaseSlickGrid<ListColumn> 
 				model.formatter = $wnd.JexpPercentCompleteBarFormatter;
 			}
 
-			if (model.groupTotalsFormatter == "sum")
+			if (model.jexpSummaryType == "sum")
 				model.groupTotalsFormatter = $wnd.JexpSumFormatter;
-			else if (model.groupTotalsFormatter == "avg")
+			else if (model.jexpSummaryType == "avg")
 				model.groupTotalsFormatter = $wnd.JexpAvgFormatter;
 		}
 		var checkboxSelector = null;
@@ -460,8 +461,10 @@ public class DataGrid<T extends Serializable> extends BaseSlickGrid<ListColumn> 
 
 		grid.onDblClick
 				.subscribe(function(e, args) {
-					var rowData = data[args.row];
-					if (!rowData)
+					var rowData = dataView ? dataView.getItem(args.row)
+							: data[args.row];
+					if (!rowData || rowData.__group || rowData.__groupTotals
+							|| rowData.__nonDataRow)
 						return;
 					var rowId = rowData[keyColumnName];
 					x.@com.javexpress.gwt.library.ui.data.slickgrid.DataGrid::fireOnRowDoubleClick(Ljava/lang/String;Lcom/google/gwt/core/client/JavaScriptObject;)(rowId+"",rowData);
@@ -755,7 +758,9 @@ public class DataGrid<T extends Serializable> extends BaseSlickGrid<ListColumn> 
 	}
 
 	private native void _setGrouping(JavaScriptObject dataView, JsArray<JavaScriptObject> groupDef) /*-{
+		dataView.beginUpdate();
 		dataView.setGrouping(groupDef.length > 1 ? groupDef : groupDef[0]);
+		dataView.endUpdate();
 	}-*/;
 
 	@Override
