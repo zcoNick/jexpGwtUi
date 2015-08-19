@@ -18,7 +18,7 @@ public interface IUserInputWidget<T extends Serializable> extends Focusable, Has
 
 	public Element getElement();
 
-	public void setEnabled(boolean locked);
+	public void setEnabled(boolean enabled);
 
 	public void setValidationError(String validationError);
 

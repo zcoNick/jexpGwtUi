@@ -242,7 +242,7 @@ public class FileUpload extends FormPanel implements ChangeHandler, SubmitComple
 			table.getRows().getItem(start + 1).appendChild(td);
 			table.getRows().getItem(start + 1).setId(id);
 			Label span = new Label();
-			span.setIcon(FaIcon.trash);
+			span.setIcon(FaIcon.trash_o);
 			final Widget that = this;
 			span.addClickHandler(new ClickHandler() {
 				@Override

@@ -7,6 +7,8 @@ import java.util.Map;
 
 import com.google.gwt.event.dom.client.ChangeEvent;
 import com.google.gwt.event.dom.client.ChangeHandler;
+import com.google.gwt.event.dom.client.ClickEvent;
+import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.shared.HandlerRegistration;
 import com.google.gwt.i18n.client.ConstantsWithLookup;
 import com.google.gwt.user.client.ui.FlexTable;
@@ -24,7 +26,9 @@ public class RadioGroupBox extends FlexTable implements Focusable, IUserInputWid
 	private boolean				required;
 	private DataBindingHandler	dataBinding;
 	private final int			mod;
-	private List<RadioButton>	radios	= new ArrayList<RadioButton>();
+	private List<RadioButton>	radios				= new ArrayList<RadioButton>();
+	private ClickHandler		itemClickHandler	= null;
+	private ChangeHandler		handler;
 
 	@Override
 	public boolean isRequired() {
@@ -44,6 +48,13 @@ public class RadioGroupBox extends FlexTable implements Focusable, IUserInputWid
 		else
 			setStyleName("jexpRadioGroupBox");
 		this.mod = mod;
+		this.itemClickHandler = new ClickHandler() {
+			@Override
+			public void onClick(ClickEvent event) {
+				if (handler != null)
+					handler.onChange(null);
+			}
+		};
 	}
 
 	public void addItem(final Serializable value, final Serializable label) {
@@ -64,6 +75,7 @@ public class RadioGroupBox extends FlexTable implements Focusable, IUserInputWid
 		} else
 			row -= 1;
 		setWidget(row, col, rb);
+		rb.addClickHandler(itemClickHandler);
 		radios.add(rb);
 	}
 
@@ -122,6 +134,8 @@ public class RadioGroupBox extends FlexTable implements Focusable, IUserInputWid
 	@Override
 	protected void onUnload() {
 		radios = null;
+		itemClickHandler = null;
+		handler = null;
 		super.onUnload();
 	}
 
@@ -196,7 +210,7 @@ public class RadioGroupBox extends FlexTable implements Focusable, IUserInputWid
 
 	@Override
 	public HandlerRegistration addChangeHandler(ChangeHandler handler) {
-		return addDomHandler(handler, ChangeEvent.getType());
+		return addDomHandler(this.handler = handler, ChangeEvent.getType());
 	}
 
 	@Override
@@ -205,7 +219,7 @@ public class RadioGroupBox extends FlexTable implements Focusable, IUserInputWid
 	}
 
 	@Override
-	public void setEnabled(boolean locked) {
+	public void setEnabled(boolean enabled) {
 	}
 
 }
