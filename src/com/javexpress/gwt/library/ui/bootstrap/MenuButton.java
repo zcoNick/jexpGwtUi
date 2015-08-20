@@ -127,7 +127,8 @@ public class MenuButton extends ComplexPanel {
 		button.appendChild(iconSpan);
 		textSpan = DOM.createSpan();
 		textSpan.setClassName(textClass);
-		textSpan.setInnerText(text + " ");
+		if (text != null)
+			textSpan.setInnerText(text + " ");
 		button.appendChild(textSpan);
 		Element caret = DOM.createSpan();
 		caret.setClassName("caret");

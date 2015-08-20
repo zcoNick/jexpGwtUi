@@ -109,7 +109,7 @@ public class CheckBox extends SimplePanel implements IJexpWidget, HasKeyDownHand
 
 	@Override
 	public void setEnabled(boolean locked) {
-		getElement().setPropertyBoolean("disabled", !locked);
+		check.setPropertyBoolean("disabled", !locked);
 	}
 
 	@Override

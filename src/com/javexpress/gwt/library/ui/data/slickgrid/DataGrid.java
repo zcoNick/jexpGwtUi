@@ -154,9 +154,8 @@ public class DataGrid<T extends Serializable> extends BaseSlickGrid<ListColumn> 
 		if (column.isGroupable())
 			model.set("jexpGroupable", true);
 
-		if (column.getSummaryType() != null) {
+		if (column.getSummaryType() != null)
 			model.set("jexpSummaryType", column.getSummaryType().toString());
-		}
 
 		if (column.isSortable()) {
 			model.set("sortable", true);

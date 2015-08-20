@@ -20,6 +20,7 @@
 .jexp-ui-window .modal-footer { padding-bottom: 2px;padding-top: 2px;padding-right: 6px; }
 .jexp-ui-window > .widget-header > .widget-toolbar a { cursor: pointer }
 .jexp-ui-window > .widget-header > .widget-toolbar a.jexpWindowToolItem { padding-right:4px }
+.jexpToolBar { font-size:1.1em; }
 .jexp-ui-buttonset { text-align:center;margin-top: 4px; }
 .jexp-ui-buttonset-left { display:inline-block;float:left }
 .jexp-ui-buttonset-center { display:inline-block }
@@ -40,7 +41,7 @@
 .jexp-ui-form { background-color:transparent }
 .jexp-ui-formcontrol-no-border { border:none;padding:0;margin-bottom:4px;height:24px; }
 .jexp-ui-field-required:after{ content: "*" }
-.jexp-ui-window-modal.modal.in {opacity:1}
+.jexp-ui-window-modal.modal.in { opacity:1 }
 .jexp-ui-window-modal > .modal-backdrop.in {background-color: transparent}
 .jexpCheckComboBox { font-size:0.9em;padding:0; }
 .jexpCheckComboPanel { font-size:0.9em;z-index:9999;background-color: inherit;}

@@ -66,7 +66,7 @@ public class AlteStdTheme extends BootstrapTheme {
 			@Override
 			public void onFormShowInWindowRequested(FormShowInWindowRequest formShowInWindowRequest) {
 				IUIComposite form = formShowInWindowRequest.getForm();
-				com.javexpress.gwt.library.ui.dialog.WindowView w = new com.javexpress.gwt.library.ui.dialog.WindowView(form.getId());
+				com.javexpress.gwt.library.ui.dialog.WindowView w = new com.javexpress.gwt.library.ui.dialog.WindowView(form.getId(), formShowInWindowRequest.isModal());
 				w.setForm(form);
 				w.show();
 			}

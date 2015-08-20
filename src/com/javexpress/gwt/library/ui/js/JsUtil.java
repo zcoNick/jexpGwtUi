@@ -75,6 +75,18 @@ import com.javexpress.gwt.library.ui.form.upload.FileUpload;
 
 public class JsUtil {
 
+	public static boolean			isIE7					= false;
+	public static boolean			isIE8					= false;
+	public static boolean			isIE9					= false;
+	static {
+		if (Window.Navigator.getUserAgent().matches(".*MSIE 7.*"))
+			isIE7 = true;
+		if (Window.Navigator.getUserAgent().matches(".*MSIE 8.*"))
+			isIE8 = true;
+		if (Window.Navigator.getUserAgent().matches(".*MSIE 9.*"))
+			isIE9 = true;
+	}
+
 	public static final double[]	RESPONSIVE_COL_WIDTHS	= new double[] { 0, 8.33333333, 16.6667, 25, 33.3333, 41.6667, 50, 58.3333, 66.6667, 75, 83.3333, 91.6667, 100 };
 
 	public static boolean			testMode				= false;

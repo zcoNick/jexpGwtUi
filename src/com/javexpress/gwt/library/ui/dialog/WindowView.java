@@ -58,16 +58,17 @@ public class WindowView extends AbstractContainerFocusable implements IUIComposi
 		this.helpVisible = helpVisible;
 	}
 
-	public WindowView(String id) {
+	public WindowView(String id, boolean modal) {
 		super(DOM.createDiv());
-		setStyleName("jexp-ui-window-modal modal in");
+		if (modal) {
+			setStyleName("jexp-ui-window-modal modal in");
+			Element backdrop = DOM.createDiv();
+			backdrop.setClassName("modal-backdrop in");
+			backdrop.getStyle().setHeight(com.google.gwt.user.client.Window.getClientHeight(), Unit.PX);
+			backdrop.getStyle().setZIndex(JsUtil.calcDialogZIndex());
+			getElement().appendChild(backdrop);
+		}
 		getElement().setAttribute("style", "display: block; padding-right: 17px; z-index:" + JsUtil.calcDialogZIndex());
-
-		Element backdrop = DOM.createDiv();
-		backdrop.setClassName("modal-backdrop in");
-		backdrop.getStyle().setHeight(com.google.gwt.user.client.Window.getClientHeight(), Unit.PX);
-		backdrop.getStyle().setZIndex(JsUtil.calcDialogZIndex());
-		getElement().appendChild(backdrop);
 
 		windowDiv = DOM.createDiv();
 		windowDiv.setClassName("modal-dialog jexp-ui-window widget-box jexpShadow");

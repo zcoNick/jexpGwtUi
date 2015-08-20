@@ -365,11 +365,11 @@
     }
 
     function getLength() {
-      return rows.length+(jexpTotals?1:0);
+      return rows.length+((rows.length>0 && jexpTotals)?1:0);
     }
 
     function getItem(i) {
-		if (jexpTotals && index == rows.length){
+		if (rows.length>0 && jexpTotals && i == rows.length){
 			return jexpTotals;
 		}
       var item = rows[i];
@@ -391,7 +391,7 @@
     }
 
     function getItemMetadata(i) {
-    	if (jexpTotalsMetadata && index == rows.length){
+    	if (rows.length>0 && jexpTotalsMetadata && i == rows.length){
     		return jexpTotalsMetadata;
     	}
       var item = rows[i];
@@ -417,20 +417,22 @@
         jexpTotalsMetadata = {
           // Style the totals row differently.
           cssClasses: "jexpTotals",
+          focusable:false,
+          selectable:false,
           columns: {}
         };
         for (var i = 0; i < columns.length; i++) {
-        	var column =  columns[i];
+        	var column = columns[i];
         	jexpTotalsMetadata.columns[i] = { editor: null, def:column };
         	var agg = null;
         	if (column.jexpSummaryType=="sum"){
-        		agg = new Slick.Data.Aggregators.Sum(columns[i].field); 
+        		agg = new Slick.Data.Aggregators.Sum(column.field); 
         	} else if (column.jexpSummaryType=="avg"){
-        		agg = new Slick.Data.Aggregators.Avg(columns[i].field); 
+        		agg = new Slick.Data.Aggregators.Avg(column.field); 
         	} else if (column.jexpSummaryType=="min"){
-        		agg = new Slick.Data.Aggregators.Min(columns[i].field); 
+        		agg = new Slick.Data.Aggregators.Min(column.field); 
         	} else if (column.jexpSummaryType=="max"){
-        		agg = new Slick.Data.Aggregators.Max(columns[i].field); 
+        		agg = new Slick.Data.Aggregators.Max(column.field); 
         	}
         	if (agg){
         		jexpTotalsMetadata.columns[i].aggregator = agg; 
@@ -440,11 +442,12 @@
     }
     
     function updateFlatSubTotals() {
-    	i( (!jexpTotalsMetadata)
+    	if (!jexpTotalsMetadata)
     			return;
     	jexpTotals = { __groupTotals:true };
-        var columnIdx = jexpTotalsMetadata.columns.length;
-        while (columnIdx--) {
+    	if (rows.length==0)
+    		return;
+    	for (var columnIdx in jexpTotalsMetadata.columns) {
         	var column = jexpTotalsMetadata.columns[columnIdx];
         	var agg = column.aggregator;
         	if (agg){
@@ -464,7 +467,7 @@
 	        	jexpTotals[column.def.field] = value;
         	}
         }
-      };
+    }
 
     function expandCollapseAllGroups(level, collapse) {
       if (level == null) {
@@ -921,6 +924,8 @@
       updated = null;
       prevRefreshHints = refreshHints;
       refreshHints = {};
+   	  
+      updateFlatSubTotals();    	  
 
       if (totalRowsBefore != totalRows) {
         onPagingInfoChanged.notify(getPagingInfo(), null, self);
@@ -1049,6 +1054,8 @@
     }
 
     $.extend(this, {
+    	// methods
+    	"initFlatSubTotals": initFlatSubTotals,
       // methods
       "beginUpdate": beginUpdate,
       "endUpdate": endUpdate,
