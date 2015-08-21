@@ -21,12 +21,7 @@ public class ComboBox extends ListBoxBase implements AsyncCallback<List<? extend
 
 	/** Designer compatible constructor */
 	public ComboBox(final Widget parent, final String id) {
-		this(parent, id, false);
-	}
-
-	@Deprecated
-	protected ComboBox(final Widget parent, final String id, final boolean isMulti) {
-		super(isMulti);
+		super(false);
 		getElement().addClassName("jexpComboBox");
 		JsUtil.ensureId(parent, this, WidgetConst.COMBOBOX_PREFIX, id);
 	}
@@ -179,7 +174,7 @@ public class ComboBox extends ListBoxBase implements AsyncCallback<List<? extend
 
 	@Override
 	public void onSuccess(List<? extends IComboItem<Serializable>> result) {
-		clear(!isRequired());
+		removeItems();
 		if (result == null)
 			return;
 		for (IComboItem item : result)
