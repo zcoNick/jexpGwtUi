@@ -27,8 +27,7 @@ public class PickList<V extends Serializable> extends FlexTable {
 		super();
 		JsUtil.ensureId(parent, this, WidgetConst.PICKLIST_PREFIX, id);
 		addStyleName("jexpPickList");
-		setWidth("100%");
-		setHeight("100%");
+		setHeight("100px");
 		if (selectedLabel != null || nonSelectedLabel != null)
 			createLabelRow(selectedLabel, nonSelectedLabel);
 		createListRow();
@@ -76,7 +75,7 @@ public class PickList<V extends Serializable> extends FlexTable {
 		selected = DOM.createDiv();
 		selected.getStyle().setOverflow(Overflow.AUTO);
 		selected.setClassName("list-group col-xs-5");
-		JsUtil.ensureSubId(getElement(), selected, "_s");
+		JsUtil.ensureSubId(getElement(), selected, "s");
 		getElement().appendChild(selected);
 
 		Element btDiv = DOM.createDiv();
@@ -98,7 +97,7 @@ public class PickList<V extends Serializable> extends FlexTable {
 		nonSelected = DOM.createDiv();
 		nonSelected.getStyle().setOverflow(Overflow.AUTO);
 		nonSelected.setClassName("list-group col-xs-5");
-		JsUtil.ensureSubId(getElement(), nonSelected, "_a");
+		JsUtil.ensureSubId(getElement(), nonSelected, "a");
 		getElement().appendChild(nonSelected);
 	}
 
@@ -120,19 +119,23 @@ public class PickList<V extends Serializable> extends FlexTable {
 	}
 
 	public void clearItems() {
-		selected.removeAllChildren();
-		nonSelected.removeAllChildren();
+		JsUtil.clearChilds(selected);
+		JsUtil.clearChilds(nonSelected);
 	}
 
 	public PickList setItems(final PickListLazyDataSupplier<? extends Serializable, ? extends Serializable> mapSupplier) {
 		this.mapSupplier = mapSupplier;
+		if (isAttached())
+			load();
 		return this;
 	}
 
 	public void load() {
 		clearItems();
-		if (mapSupplier != null)
+		if (mapSupplier != null) {
 			mapSupplier.fillItems(this);
+		} else
+			fireItemsChanged();
 	}
 
 	@Override
@@ -173,7 +176,9 @@ public class PickList<V extends Serializable> extends FlexTable {
 					}
 					return false;
 				});
+	}-*/;
 
+	private native void _bindSelects(Element el, Element nonSelected, Element selected) /*-{
 		$wnd.$(".all", $wnd.$(el)).click(
 				function(e) {
 					e.stopPropagation();
@@ -259,6 +264,10 @@ public class PickList<V extends Serializable> extends FlexTable {
 				nonSelected.appendChild(a);
 			}
 		}
+	}
+
+	public void fireItemsChanged() {
+		_bindSelects(getElement(), nonSelected, selected);
 	}
 
 }

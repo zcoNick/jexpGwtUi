@@ -21,6 +21,7 @@ public abstract class PickListLazyDataSupplier<T, V extends Serializable> implem
 			return;
 		for (T t : result)
 			pickList.addItem(getValue(t), getLabel(t), isSelected(t));
+		pickList.fireItemsChanged();
 	}
 
 	protected abstract void loadData(AsyncCallback<List<T>> callBack);

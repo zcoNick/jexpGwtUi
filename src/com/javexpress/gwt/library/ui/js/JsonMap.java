@@ -56,6 +56,11 @@ public class JsonMap extends JSONObject {
 		return this;
 	}
 
+	public JsonMap setBool(final String key, final Boolean value) {
+		put(key, value != null ? JSONBoolean.getInstance(value) : JSONNull.getInstance());
+		return this;
+	}
+
 	public JsonMap set(final String key, final boolean value) {
 		put(key, JSONBoolean.getInstance(value));
 		return this;
@@ -65,6 +70,7 @@ public class JsonMap extends JSONObject {
 		put(key, value != null ? new JSONNumber(value.doubleValue()) : JSONNull.getInstance());
 		return this;
 	}
+
 	public JsonMap setShort(final String key, final Short value) {
 		put(key, value != null ? new JSONNumber(value.doubleValue()) : JSONNull.getInstance());
 		return this;
