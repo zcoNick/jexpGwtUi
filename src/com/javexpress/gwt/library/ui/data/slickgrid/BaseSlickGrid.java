@@ -167,7 +167,7 @@ public abstract class BaseSlickGrid<CT extends Column> extends ContainerWithBar 
 		JSONArray colModel = new JSONArray();
 		int i = 0;
 		for (CT column : columns) {
-			JsonMap cm = createColumnModel(column, i - 1);
+			JsonMap cm = createColumnModel(column, i);
 			if (cm != null)
 				colModel.set(i++, cm);
 		}
