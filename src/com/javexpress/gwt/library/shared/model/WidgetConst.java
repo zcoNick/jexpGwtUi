@@ -24,6 +24,7 @@ public class WidgetConst {
 	public static final String	DIALOG_PREFIX				= "dl";
 	public static final String	DROPDOWN_PREFIX				= "dd";
 	public static final String	EDITGRID_PREFIX				= "eg";
+	public static final String	EDITGRID_NEWROW				= EDITGRID_PREFIX + "NewRow";
 	public static final String	EMAIL_PREFIX				= "eb";
 	public static final String	ERRORDIALOG_PREFIX			= "err";
 	public static final String	EXPANDABLEPANEL_PREFIX		= "exp";
