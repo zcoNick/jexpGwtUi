@@ -11,11 +11,11 @@ import com.javexpress.gwt.library.ui.menu.IMenuHandler;
 
 public abstract class NavBarItem extends AbstractContainer {
 
-	protected Element ul;
-	private IMenuHandler handler;
-	protected String text;
-	protected String iconClass;
-	protected String path;
+	protected Element		ul;
+	private IMenuHandler	handler;
+	protected String		text;
+	protected String		iconClass;
+	protected String		path;
 
 	public IMenuHandler getHandler() {
 		return handler;
@@ -54,6 +54,10 @@ public abstract class NavBarItem extends AbstractContainer {
 		text = null;
 		iconClass = null;
 		super.onUnload();
+	}
+
+	public void setAttribute(String key, String value) {
+		getElement().setAttribute(key, value);
 	}
 
 	public abstract NavBarItem createSubItem(String id, String path);

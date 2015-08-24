@@ -13,6 +13,9 @@ import com.javexpress.gwt.library.ui.form.IUIComposite;
 
 public abstract class ClientContext implements EntryPoint {
 
+	public final static String				REPORT_NODE_PREFIX	= "rnrep_";
+	public final static String				PROCESS_NODE_PREFIX	= "rnprc_";
+
 	public static ClientContext				instance			= null;
 	public static final CommonResources		nlsCommon			= GWT.create(CommonResources.class);
 	public static final EventBus			EVENT_BUS			= GWT.create(SimpleEventBus.class);

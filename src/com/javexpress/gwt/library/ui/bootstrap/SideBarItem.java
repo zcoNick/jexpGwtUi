@@ -56,6 +56,10 @@ public abstract class SideBarItem extends AbstractContainer {
 		super.onUnload();
 	}
 
+	public void setAttribute(String key, String value) {
+		getElement().setAttribute(key, value);
+	}
+
 	public abstract SideBarItem createSubItem(String id, String path);
 
 }
