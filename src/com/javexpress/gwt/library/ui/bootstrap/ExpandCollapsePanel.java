@@ -43,7 +43,7 @@ public class ExpandCollapsePanel extends AbstractContainerFocusable implements I
 
 	public ExpandCollapsePanel(Widget parent, final String id, boolean smallTitle, boolean transparentTitle) {
 		super(DOM.createDiv());
-		JsUtil.ensureId(parent, this, WidgetConst.DASHBOARDWIDGET_PREFIX, id);
+		JsUtil.ensureId(parent, this, WidgetConst.EXPANDABLEPANEL_PREFIX, id);
 		getElement().setClassName("jexpGroupBox widget-box" + (transparentTitle ? " transparent" : "") + (smallTitle ? " smalltitle" : ""));
 		if (!transparentTitle)
 			getElement().getStyle().setPadding(0, Unit.PX);
