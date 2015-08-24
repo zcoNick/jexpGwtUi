@@ -252,6 +252,7 @@ public class PickList<V extends Serializable> extends FlexTable {
 			if (in.getValue().equals(sel)) {
 				Node a = in.getParentNode();
 				selected.appendChild(a);
+				break;
 			}
 		}
 	}
@@ -262,6 +263,7 @@ public class PickList<V extends Serializable> extends FlexTable {
 			if (in.getValue().equals(sel)) {
 				Node a = in.getParentNode();
 				nonSelected.appendChild(a);
+				break;
 			}
 		}
 	}

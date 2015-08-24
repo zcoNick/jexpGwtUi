@@ -988,10 +988,6 @@ public class JsUtil {
 		$wnd.$(element).effect(effect.toString());
 	}-*/;
 
-	public static void absoluteFill(Widget widget) {
-		widget.addStyleName("jesAbsoluteFill");
-	}
-
 	public static Date toMonthStart(Date date) {
 		CalendarUtil.setToFirstDayOfMonth(date);
 		return date;
