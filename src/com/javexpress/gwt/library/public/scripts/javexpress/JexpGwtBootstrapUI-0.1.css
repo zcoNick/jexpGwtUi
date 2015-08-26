@@ -39,8 +39,9 @@
 .form-group .input-group-addon, .jexpDateBox .input-group-addon{ font-size: 12px;padding: 2px 4px; }
 .input-group.jexpDateBox{ padding:0;width:8em }
 .jexp-ui-form { background-color:transparent }
-.jexp-ui-formcontrol-no-border { border:none;padding:0;margin-bottom:4px;height:24px; }
+.jexp-ui-formcontrol-no-border { border:none;padding:0;margin-bottom:0;height:24px; }
 .jexp-ui-field-required:after{ content: "*" }
+.form-group > label { text-align:right; }
 .jexp-ui-window-modal.modal.in { opacity:1 }
 .jexp-ui-window-modal > .modal-backdrop.in {background-color: transparent}
 .jexpCheckComboBox { font-size:0.9em;padding:0; }
