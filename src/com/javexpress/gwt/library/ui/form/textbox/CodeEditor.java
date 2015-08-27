@@ -20,16 +20,17 @@ public class CodeEditor extends TextArea implements IUserInputWidget<String> {
 	public static void fillResources(final WidgetBundles wb) {
 		wb.addStyleSheet("scripts/codemirror/lib/codemirror.css");
 		wb.addStyleSheet("scripts/codemirror/addon/hint/jexp.show-hint.css");
-		wb.addJavaScript("scripts/codemirror/lib/codemirror-4.1.0.js");
+		wb.addJavaScript("scripts/codemirror/lib/codemirror-5.6.js");
 		wb.addJavaScript("scripts/codemirror/addon/hint/show-hint.js");
-		wb.addJavaScript("scripts/codemirror/addon/hint/jexp.sql-hint.js");
+		//wb.addJavaScript("scripts/codemirror/addon/hint/jexp.sql-hint.js");
+		wb.addJavaScript("scripts/codemirror/addon/hint/sql-hint.js");
 		wb.addJavaScript("scripts/codemirror/addon/fold/xml-fold.js");
 		wb.addJavaScript("scripts/codemirror/addon/edit/matchbrackets.js");
 		wb.addJavaScript("scripts/codemirror/addon/edit/matchtags.js");
 		wb.addJavaScript("scripts/codemirror/mode/sql/sql.js");
-		wb.addJavaScript("scripts/codemirror/mode/xml/xml.js");
-		wb.addJavaScript("scripts/codemirror/mode/css/css.js");
-		wb.addJavaScript("scripts/codemirror/mode/javascript/javascript.js");
+		//wb.addJavaScript("scripts/codemirror/mode/xml/xml.js");
+		//wb.addJavaScript("scripts/codemirror/mode/css/css.js");
+		//wb.addJavaScript("scripts/codemirror/mode/javascript/javascript.js");
 		wb.addJavaScript("scripts/codemirror/mode/htmlmixed/htmlmixed.js");
 	}
 
@@ -89,10 +90,10 @@ public class CodeEditor extends TextArea implements IUserInputWidget<String> {
 	}
 
 	private native JavaScriptObject createByJs(CodeEditor x, Element el, JavaScriptObject options, String width, String height) /*-{
-																																var cm = $wnd.CodeMirror.fromTextArea(el, options);
-																																cm.setSize(width, height);
-																																return cm;
-																																}-*/;
+		var cm = $wnd.CodeMirror.fromTextArea(el, options);
+		cm.setSize(width, height);
+		return cm;
+	}-*/;
 
 	@Override
 	protected void onUnload() {
@@ -103,8 +104,8 @@ public class CodeEditor extends TextArea implements IUserInputWidget<String> {
 	}
 
 	private native void destroyByJs(Element element) /*-{
-														$wnd.$(element).empty().off();
-														}-*/;
+		$wnd.$(element).empty().off();
+	}-*/;
 
 	@Override
 	public String getValue() {
@@ -118,13 +119,13 @@ public class CodeEditor extends TextArea implements IUserInputWidget<String> {
 	}
 
 	private native String _getValue(JavaScriptObject cm) /*-{
-															return cm ? cm.getValue() : null;
-															}-*/;
+		return cm ? cm.getValue() : null;
+	}-*/;
 
 	private native void _setValue(JavaScriptObject cm, String data) /*-{
-																	if (cm)
-																	cm.setValue(data ? data : "");
-																	}-*/;
+		if (cm)
+			cm.setValue(data ? data : "");
+	}-*/;
 
 	@Override
 	public boolean validate(final boolean focusedBefore) {
@@ -154,8 +155,8 @@ public class CodeEditor extends TextArea implements IUserInputWidget<String> {
 	}
 
 	private native void _setFocus(JavaScriptObject cm) /*-{
-														cm.focus();
-														}-*/;
+		cm.focus();
+	}-*/;
 
 	@Override
 	public void setTabIndex(int index) {
@@ -168,8 +169,8 @@ public class CodeEditor extends TextArea implements IUserInputWidget<String> {
 	}
 
 	private native void _setReadOnly(JavaScriptObject cm, boolean readOnly) /*-{
-																			cm.setReadOnly(readOnly);
-																			}-*/;
+		cm.setReadOnly(readOnly);
+	}-*/;
 
 	public void setMaxLength(Integer maxLength) {
 		this.maxLength = maxLength;
