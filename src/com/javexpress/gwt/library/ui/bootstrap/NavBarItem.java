@@ -16,6 +16,7 @@ public abstract class NavBarItem extends AbstractContainer {
 	protected String		text;
 	protected String		iconClass;
 	protected String		path;
+	protected String		bpmnCode;
 
 	public IMenuHandler getHandler() {
 		return handler;
@@ -39,6 +40,14 @@ public abstract class NavBarItem extends AbstractContainer {
 		this.text = text;
 	}
 
+	public String getBpmnCode() {
+		return bpmnCode;
+	}
+
+	public void setBpmnCode(String bpmnCode) {
+		this.bpmnCode = bpmnCode;
+	}
+
 	public void setIcon(ICssIcon icon) {
 		this.iconClass = icon.getCssClass();
 	}
@@ -52,12 +61,9 @@ public abstract class NavBarItem extends AbstractContainer {
 		ul = null;
 		handler = null;
 		text = null;
+		bpmnCode = null;
 		iconClass = null;
 		super.onUnload();
-	}
-
-	public void setAttribute(String key, String value) {
-		getElement().setAttribute(key, value);
 	}
 
 	public abstract NavBarItem createSubItem(String id, String path);

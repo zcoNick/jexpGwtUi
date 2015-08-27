@@ -39,6 +39,8 @@ public class NavBarItemAlte extends NavBarItem {
 			anchor.setClassName("navbar-link");
 			if (path != null)
 				anchor.setAttribute("path", path);
+			if (bpmnCode != null)
+				anchor.setAttribute("bpmnCode", bpmnCode);
 		}
 		super.onLoad();
 	}

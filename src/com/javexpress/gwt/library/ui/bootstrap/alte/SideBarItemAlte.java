@@ -27,6 +27,8 @@ public class SideBarItemAlte extends SideBarItem {
 		a.setAttribute("href", "#");
 		if (ul == null) {
 			a.setAttribute("path", path);
+			if (bpmnCode != null)
+				a.setAttribute("bpmnCode", bpmnCode);
 			a.setClassName("sidebar-link");
 		}
 		Element i = DOM.createElement("i");
