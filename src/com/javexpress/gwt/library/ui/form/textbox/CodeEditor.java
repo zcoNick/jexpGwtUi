@@ -24,14 +24,14 @@ public class CodeEditor extends TextArea implements IUserInputWidget<String> {
 		wb.addJavaScript("scripts/codemirror/addon/hint/show-hint.js");
 		//wb.addJavaScript("scripts/codemirror/addon/hint/jexp.sql-hint.js");
 		wb.addJavaScript("scripts/codemirror/addon/hint/sql-hint.js");
-		wb.addJavaScript("scripts/codemirror/addon/fold/xml-fold.js");
+		//wb.addJavaScript("scripts/codemirror/addon/fold/xml-fold.js");
 		wb.addJavaScript("scripts/codemirror/addon/edit/matchbrackets.js");
-		wb.addJavaScript("scripts/codemirror/addon/edit/matchtags.js");
+		//wb.addJavaScript("scripts/codemirror/addon/edit/matchtags.js");
 		wb.addJavaScript("scripts/codemirror/mode/sql/sql.js");
 		//wb.addJavaScript("scripts/codemirror/mode/xml/xml.js");
 		//wb.addJavaScript("scripts/codemirror/mode/css/css.js");
 		//wb.addJavaScript("scripts/codemirror/mode/javascript/javascript.js");
-		wb.addJavaScript("scripts/codemirror/mode/htmlmixed/htmlmixed.js");
+		//wb.addJavaScript("scripts/codemirror/mode/htmlmixed/htmlmixed.js");
 	}
 
 	protected JavaScriptObject	jsObject;
