@@ -13,6 +13,7 @@ import com.google.gwt.i18n.client.ConstantsWithLookup;
 import com.google.gwt.json.client.JSONArray;
 import com.google.gwt.json.client.JSONObject;
 import com.google.gwt.user.client.ui.ListBox;
+import com.javexpress.gwt.library.ui.ClientContext;
 import com.javexpress.gwt.library.ui.form.IUserInputWidget;
 import com.javexpress.gwt.library.ui.js.JsUtil;
 
@@ -86,7 +87,12 @@ public abstract class ListBoxBase extends ListBox implements IUserInputWidget<St
 						String nlsValue = nls.getString(constant.substring(1));
 						addItem(nlsValue, key);
 					} catch (Exception ex) {
-						addItem(constant, key);
+						try {
+							String nlsValue = ClientContext.nlsCommon.getString(constant.substring(1));
+							addItem(nlsValue, key);
+						} catch (Exception ex1) {
+							addItem(constant, key);
+						}
 					}
 				} else
 					addItem(constant, key);

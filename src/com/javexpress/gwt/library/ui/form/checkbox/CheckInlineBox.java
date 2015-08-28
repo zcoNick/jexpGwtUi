@@ -214,7 +214,12 @@ public class CheckInlineBox extends TextArea implements IUserInputWidget<String>
 						String nlsValue = nls.getString(constant.substring(1));
 						addItem(nlsValue, key, false, null);
 					} catch (Exception ex) {
-						addItem(constant, key, false, null);
+						try {
+							String nlsValue = ClientContext.nlsCommon.getString(constant.substring(1));
+							addItem(nlsValue, key, false, null);
+						} catch (Exception ex1) {
+							addItem(constant, key, false, null);
+						}
 					}
 				} else
 					addItem(constant, key, false, null);
