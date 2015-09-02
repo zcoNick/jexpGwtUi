@@ -931,22 +931,39 @@ public class JsUtil {
 		return length >= 50 ? WidgetConst.WIDTH_WIDE : (length >= 35 ? WidgetConst.WIDTH_BIG : (length >= 20 ? WidgetConst.WIDTH_MIDDLE : Math.max(length - 1, 5) + "em"));
 	}
 
-	public static Date dateAfter(int amount) {
-		return dateAfter(amount, new Date());
+	public static Date toMonthStart(Date date) {
+		CalendarUtil.setToFirstDayOfMonth(date);
+		return date;
 	}
 
-	public static Date dateAfter(int amount, Date date) {
+	public static Date toMonthEnd(Date date) {
+		CalendarUtil.setToFirstDayOfMonth(date);
+		CalendarUtil.addMonthsToDate(date, 1);
+		CalendarUtil.addDaysToDate(date, -1);
+		return date;
+	}
+
+	public static Date monthsAfter(int months, Date date) {
+		CalendarUtil.addMonthsToDate(date, months);
+		return date;
+	}
+
+	public static Date daysAfter(int amount) {
+		return daysAfter(amount, new Date());
+	}
+
+	public static Date daysAfter(int amount, Date date) {
 		Date r = new Date();
 		CalendarUtil.addDaysToDate(r, amount);
 		return r;
 	}
 
-	public static Date dateBefore(int amount) {
-		return dateBefore(amount, new Date());
+	public static Date daysBefore(int amount) {
+		return daysBefore(amount, new Date());
 	}
 
-	public static Date dateBefore(int amount, Date date) {
-		return dateAfter(-1 * amount, date);
+	public static Date daysBefore(int amount, Date date) {
+		return daysAfter(-1 * amount, date);
 	}
 
 	public static native JsArrayInteger getParentWidthHeight(Element element) /*-{
@@ -987,11 +1004,6 @@ public class JsUtil {
 	public static native void applyEffect(Element element, JqEffect effect) /*-{
 		$wnd.$(element).effect(effect.toString());
 	}-*/;
-
-	public static Date toMonthStart(Date date) {
-		CalendarUtil.setToFirstDayOfMonth(date);
-		return date;
-	}
 
 	public static native void setElementData(Element element, String key, JavaScriptObject data) /*-{
 		$wnd.$.data(element, key, data);
@@ -1048,7 +1060,7 @@ public class JsUtil {
 	}-*/;
 
 	public static native void setNumeralLibLanguage(String cultureCode) /*-{
-		$wnd.numeral(cultureCode);
+		$wnd.numeral.language(cultureCode);
 	}-*/;
 
 	public static String createNumeralFormat(int decimals, boolean emptyDecimal, String currSymbol) {

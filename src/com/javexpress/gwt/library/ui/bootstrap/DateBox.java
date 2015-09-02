@@ -174,9 +174,9 @@ public class DateBox extends JexpSimplePanel implements IWrappedInput<Date> {
 			if (value.equals("@now"))
 				setValue(new Date());
 			else if (value.startsWith("@now-"))
-				setValue(JsUtil.dateBefore(Integer.parseInt(value.substring(5))));
+				setValue(JsUtil.daysBefore(Integer.parseInt(value.substring(5))));
 			else if (value.startsWith("@now+"))
-				setValue(JsUtil.dateAfter(Integer.parseInt(value.substring(5))));
+				setValue(JsUtil.daysAfter(Integer.parseInt(value.substring(5))));
 			else if (value.equals("@monthStart"))
 				setValue(JsUtil.toMonthStart(new Date()));
 		} else

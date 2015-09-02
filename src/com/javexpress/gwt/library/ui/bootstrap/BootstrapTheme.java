@@ -55,10 +55,10 @@ public abstract class BootstrapTheme extends BaseResourceInjector {
 
 		jexp.addJavaScript("scripts/gritter/jquery.gritter-1.7.4.min.js");
 		jexp.addJavaScript("scripts/numeral/numeral-1.5.3.min.js");
-		jexp.addJavaScript("scripts/numeral/numeral.languages.min.js");
 		jexp.addJavaScript("scripts/slickgrid/jquery.event.drag-2.2.js");
 		jexp.addJavaScript("scripts/slickgrid/jquery.event.drop-2.2.js");
 		jexp = DateBox.fillResources(jexp);
+		jexp.addJavaScript("scripts/numeral/numeral.languages.min.js");
 		Dashboard.fillResources(jexp);
 		MaskEditBox.fillResources(jexp);
 		DecimalBox.fillResources(jexp);
