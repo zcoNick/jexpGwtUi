@@ -100,6 +100,10 @@ public class ComboBox extends ListBoxBase implements AsyncCallback<List<? extend
 	}
 
 	public boolean setValue(final String selectedValue) {
+		return setValue(selectedValue, true);
+	}
+
+	public boolean setValue(final String selectedValue, boolean fireChanged) {
 		lazyValue = null;
 		setSelectedIndex(-1);
 		if (JsUtil.isEmpty(selectedValue)) {
@@ -112,6 +116,10 @@ public class ComboBox extends ListBoxBase implements AsyncCallback<List<? extend
 			}
 		}
 		lazyValue = selectedValue;
+		if (fireChanged) {
+			NativeEvent event = Document.get().createChangeEvent();
+			DomEvent.fireNativeEvent(event, this);
+		}
 		return false;
 	}
 
@@ -134,14 +142,6 @@ public class ComboBox extends ListBoxBase implements AsyncCallback<List<? extend
 	protected void onUnload() {
 		dataBinding = null;
 		super.onUnload();
-	}
-
-	public void setValueLong(Long value, boolean fireChanged) {
-		setValueLong(value);
-		if (fireChanged) {
-			NativeEvent event = Document.get().createChangeEvent();
-			DomEvent.fireNativeEvent(event, this);
-		}
 	}
 
 	@Override
