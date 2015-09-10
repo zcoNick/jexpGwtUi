@@ -29,8 +29,6 @@
     };
 
     // private
-    var jexpTotals = null;
-    var jexpTotalsMetadata = null;
     var idProperty = "id";  // property holding a unique row id
     var items = [];         // data by index
     var rows = [];          // data by row
@@ -81,6 +79,7 @@
     var onRowCountChanged = new Slick.Event();
     var onRowsChanged = new Slick.Event();
     var onPagingInfoChanged = new Slick.Event();
+	var onDataviewRefreshed = new Slick.Event();
 
     options = $.extend(true, {}, defaults, options);
 
@@ -365,13 +364,10 @@
     }
 
     function getLength() {
-      return rows.length+((rows.length>0 && jexpTotals)?1:0);
+      return rows.length;
     }
 
     function getItem(i) {
-		if (rows.length>0 && jexpTotals && i == rows.length){
-			return jexpTotals;
-		}
       var item = rows[i];
 
       // if this is a group row, make sure totals are calculated and update the title
@@ -391,9 +387,6 @@
     }
 
     function getItemMetadata(i) {
-    	if (rows.length>0 && jexpTotalsMetadata && i == rows.length){
-    		return jexpTotalsMetadata;
-    	}
       var item = rows[i];
       if (item === undefined) {
         return null;
@@ -412,63 +405,6 @@
       return null;
     }
     
-    function initFlatSubTotals(columns){
-        jexpTotals = {};
-        jexpTotalsMetadata = {
-          // Style the totals row differently.
-          cssClasses: "jexpTotals",
-          focusable:false,
-          selectable:false,
-          columns: {}
-        };
-        for (var i = 0; i < columns.length; i++) {
-        	var column = columns[i];
-        	jexpTotalsMetadata.columns[i] = { editor: null, def:column };
-        	var agg = null;
-        	if (column.jexpSummaryType=="sum"){
-        		agg = new Slick.Data.Aggregators.Sum(column.field); 
-        	} else if (column.jexpSummaryType=="avg"){
-        		agg = new Slick.Data.Aggregators.Avg(column.field); 
-        	} else if (column.jexpSummaryType=="min"){
-        		agg = new Slick.Data.Aggregators.Min(column.field); 
-        	} else if (column.jexpSummaryType=="max"){
-        		agg = new Slick.Data.Aggregators.Max(column.field); 
-        	}
-        	if (agg){
-        		jexpTotalsMetadata.columns[i].aggregator = agg; 
-        		jexpTotalsMetadata.columns[i].compiledAggregator = compileAccumulatorLoop(agg); 
-        	}
-        }
-    }
-    
-    function updateFlatSubTotals() {
-    	if (!jexpTotalsMetadata)
-    			return;
-    	jexpTotals = { __groupTotals:true };
-    	if (rows.length==0)
-    		return;
-    	for (var columnIdx in jexpTotalsMetadata.columns) {
-        	var column = jexpTotalsMetadata.columns[columnIdx];
-        	var agg = column.aggregator;
-        	if (agg){
-	          	agg.init();
-	          	column.compiledAggregator.call(agg, rows);
-	          	agg.storeResult(jexpTotals);
-	          	var value = 0;
-	        	if (column.def.jexpSummaryType=="sum"){
-	        		value = jexpTotals.sum[column.def.field]; 
-	        	} else if (column.def.jexpSummaryType=="avg"){
-	        		value = jexpTotals.avg[column.def.field]; 
-	        	} else if (column.def.jexpSummaryType=="min"){
-	        		value = jexpTotals.min[column.def.field]; 
-	        	} else if (column.def.jexpSummaryType=="max"){
-	        		value = jexpTotals.max[column.def.field]; 
-	        	}
-	        	jexpTotals[column.def.field] = value;
-        	}
-        }
-    }
-
     function expandCollapseAllGroups(level, collapse) {
       if (level == null) {
         for (var i = 0; i < groupingInfos.length; i++) {
@@ -925,8 +861,6 @@
       prevRefreshHints = refreshHints;
       refreshHints = {};
    	  
-      updateFlatSubTotals();    	  
-
       if (totalRowsBefore != totalRows) {
         onPagingInfoChanged.notify(getPagingInfo(), null, self);
       }
@@ -936,6 +870,8 @@
       if (diff.length > 0) {
         onRowsChanged.notify({rows: diff}, null, self);
       }
+      
+      onDataviewRefreshed.notify(self, null, self);
     }
 
     /***
@@ -970,9 +906,10 @@
 
         selectedRowIds = rowIds;
 
-        onSelectedRowIdsChanged.notify({
-          "grid": grid,
-          "ids": selectedRowIds
+		onSelectedRowIdsChanged.notify({
+			"grid": grid,
+			"ids": selectedRowIds,
+			"dataView": self
         }, new Slick.EventData(), self);
       }
 
@@ -1054,8 +991,6 @@
     }
 
     $.extend(this, {
-    	// methods
-    	"initFlatSubTotals": initFlatSubTotals,
       // methods
       "beginUpdate": beginUpdate,
       "endUpdate": endUpdate,
@@ -1100,7 +1035,8 @@
       // events
       "onRowCountChanged": onRowCountChanged,
       "onRowsChanged": onRowsChanged,
-      "onPagingInfoChanged": onPagingInfoChanged
+      "onPagingInfoChanged": onPagingInfoChanged,
+	  "onDataviewRefreshed": onDataviewRefreshed
     });
   }
 

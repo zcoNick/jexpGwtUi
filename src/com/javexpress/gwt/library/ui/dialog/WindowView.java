@@ -219,9 +219,17 @@ public class WindowView extends AbstractContainerFocusable implements IUIComposi
 		if (isDraggable()) {
 			JsonMap opts = new JsonMap();
 			opts.set("handle", ".widget-header");
-			opts.set("opacity", 0.5);
+			opts.set("opacity", 0.7);
 			opts.set("cursor", "move");
 			JsUtil.draggable(windowDiv, opts.getJavaScriptObject());
+		}
+		if (getElement().hasClassName("modal")) {
+			bindOnClick(headerDiv, new Command() {
+				@Override
+				public void execute() {
+					JsUtil.pulsate(getElement());
+				}
+			});
 		}
 	}
 
@@ -268,6 +276,13 @@ public class WindowView extends AbstractContainerFocusable implements IUIComposi
 		windowDiv.getStyle().setHeight(h, Unit.PX);
 		if (getWidget(0) instanceof RequiresResize)
 			((RequiresResize) getWidget(0)).onResize();
+	}
+
+	public void setPosition(Integer posX, Integer posY) {
+		if (posX != null)
+			windowDiv.getStyle().setLeft(posX, Unit.PX);
+		if (posY != null)
+			windowDiv.getStyle().setTop(posY, Unit.PX);
 	}
 
 }

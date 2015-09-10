@@ -33,4 +33,8 @@ public abstract class ClientContext implements EntryPoint {
 		EVENT_BUS.fireEvent(new FormShowInWindowRequest(form, modal));
 	}
 
+	public void showInWindow(IUIComposite form, boolean modal, Integer x, Integer y) {
+		EVENT_BUS.fireEvent(new FormShowInWindowRequest(form, modal, x, y));
+	}
+
 }
