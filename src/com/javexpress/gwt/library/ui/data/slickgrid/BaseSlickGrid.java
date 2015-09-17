@@ -55,7 +55,7 @@ public abstract class BaseSlickGrid<CT extends Column> extends ContainerWithBar 
 	}
 
 	private JsonMap								options;
-	private JsArray								data	= JsArray.createArray().cast();
+	protected JsArray							data	= JsArray.createArray().cast();
 	private JavaScriptObject					jsObject;
 	private List<CT>							columns	= new ArrayList<CT>();
 	private List<GridToolItem>					tools	= new ArrayList<GridToolItem>();
