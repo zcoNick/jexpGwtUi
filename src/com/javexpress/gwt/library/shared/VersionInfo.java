@@ -18,12 +18,12 @@ public final class VersionInfo implements com.javexpress.common.model.item.IVers
 
 	@Override
 	public String getBuildId(){
-		return "201507031058";
+		return "201509171131";
 	}
 
 	@Override
 	public String getBuildDate(){
-		return "201507031058";
+		return "201509171131";
 	}
 
 	@Override
@@ -33,7 +33,7 @@ public final class VersionInfo implements com.javexpress.common.model.item.IVers
 
 	@Override
 	public String getVersion(){
-		return "0.0.1";
+		return "1.0.0";
 	}
 
 }
