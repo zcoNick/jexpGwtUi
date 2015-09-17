@@ -1,11 +1,10 @@
 <module>
 	
-	<inherits name="com.google.gwt.user.User"/>
+	<inherits name="com.javexpress.common.model.JexpCommon"/>
+
 	<inherits name="com.google.gwt.i18n.I18N"/>
 	<inherits name="com.google.gwt.json.JSON" />
 	<inherits name="com.google.gwt.resources.Resources" />
-
-	<inherits name="com.javexpress.common.model.JexpCommon"/>
 	
 	<define-property name="bootstrapTheme" values="alte" />
 	<property-provider name="bootstrapTheme"><![CDATA[                    
