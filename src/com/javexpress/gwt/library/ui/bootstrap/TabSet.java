@@ -235,7 +235,8 @@ public class TabSet extends AbstractContainerFocusable implements ISizeAwareWidg
 		if (listener != null)
 			listener.onTabChanging(activeWidgetId, wid);
 		_select(navBar, index);
-		listener.onTabChanged(activeWidgetId, wid);
+		if (listener != null)
+			listener.onTabChanged(activeWidgetId, wid);
 		activeWidgetId = wid;
 	}
 
