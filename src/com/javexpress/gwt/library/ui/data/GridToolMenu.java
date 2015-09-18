@@ -8,6 +8,7 @@ import com.javexpress.gwt.library.ui.menu.IMenuHandler;
 public class GridToolMenu extends GridToolItem {
 
 	private DropDownMenu	dropDown;
+	private boolean			dropUp	= false;
 
 	public GridToolMenu(final String id, final String caption, final ICssIcon icon, final String hint) {
 		super(id, caption, icon, hint);
@@ -35,6 +36,14 @@ public class GridToolMenu extends GridToolItem {
 			}
 		});
 		this.dropDown = dropDown;
+	}
+
+	public boolean isDropUp() {
+		return dropUp;
+	}
+
+	public void setDropUp(boolean dropUp) {
+		this.dropUp = dropUp;
 	}
 
 }
