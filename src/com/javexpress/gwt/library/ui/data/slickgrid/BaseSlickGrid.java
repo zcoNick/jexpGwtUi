@@ -204,7 +204,12 @@ public abstract class BaseSlickGrid<CT extends Column> extends ContainerWithBar 
 		}
 		Element div = DOM.createDiv();
 		JsUtil.ensureSubId(getElement(), div, ti.getId());
-		div.addClassName("toolitem dropup");
+		div.addClassName("toolitem");
+		if (ti.isDropUp())
+			getElement().addClassName("dropup");
+		else
+			getElement().addClassName("dropdown");
+
 		div.getStyle().setDisplay(Display.INLINE_BLOCK);
 		Element anchor = DOM.createAnchor();
 		if (ti.getHint() != null)
