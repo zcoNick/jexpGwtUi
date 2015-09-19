@@ -45,5 +45,5 @@ public class GridToolMenu extends GridToolItem {
 	public void setDropUp(boolean dropUp) {
 		this.dropUp = dropUp;
 	}
-	
+
 }
