@@ -97,7 +97,6 @@ public abstract class BootstrapClient extends ClientContext implements ProvidesR
 					}
 				});
 				handleOnResourceInjectFinished();
-				resourceInjector.performFinalActions();
 			}
 		});
 		Window.addCloseHandler(new CloseHandler<Window>() {

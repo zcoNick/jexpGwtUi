@@ -22,8 +22,6 @@ public interface IResourceInjector {
 
 	void injectLibrary(WidgetBundles wb, Command onload);
 
-	void performFinalActions();
-
 	void destroyUI();
 
 }

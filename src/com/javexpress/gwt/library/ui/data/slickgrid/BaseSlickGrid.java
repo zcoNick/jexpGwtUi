@@ -58,7 +58,7 @@ public abstract class BaseSlickGrid<CT extends Column> extends ContainerWithBar 
 	protected JsArray							data	= JsArray.createArray().cast();
 	private JavaScriptObject					jsObject;
 	private List<CT>							columns	= new ArrayList<CT>();
-	private List<GridToolItem>					tools	= new ArrayList<GridToolItem>();
+	protected List<GridToolItem>				tools	= new ArrayList<GridToolItem>();
 	private String								keyColumnName;
 	private JavaScriptObject					dataView;
 	private Serializable						widgetData;
@@ -178,11 +178,15 @@ public abstract class BaseSlickGrid<CT extends Column> extends ContainerWithBar 
 	protected abstract JavaScriptObject createJsObject(JSONArray colModel);
 
 	protected void renderToolItems() {
+		beforeRenderToolItems();
 		for (GridToolItem ti : tools)
 			if (ti instanceof GridToolMenu)
 				renderToolMenu((GridToolMenu) ti, true);
 			else
 				renderToolItem(ti, true);
+	}
+
+	protected void beforeRenderToolItems() {
 	}
 
 	protected Element renderToolItem(GridToolItem ti, boolean enabled) {

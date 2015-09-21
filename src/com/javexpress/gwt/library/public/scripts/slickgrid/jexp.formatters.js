@@ -75,7 +75,12 @@ function JexpCurrencyFormatter(row, cell, value, columnDef, data) {
 function JexpLinkFormatter(row, cell, value, columnDef, data) {
 	if (value == null || value === "" || (!columnDef.renderOnNew && value.toString().substring(0,1)=="é"))
 		return "";
-	return "<span class=\""+(columnDef.linkIconClass?"ui-icon "+columnDef.linkIconClass+" ":"")+"ui-cursor-hand\" title=\""+(columnDef.linkTitle?columnDef.linkTitle:"")+"\" onclick=\"$('#"+columnDef.linkOwner+"').trigger('linkclicked'," +
+	var icon = null;
+	if (columnDef.iconModifier)
+		icon = columnDef.iconModifier.call(this,columnDef,value,data);
+	if (!icon)
+		icon = columnDef.linkIconClass?"ui-icon "+columnDef.linkIconClass+" ":"";
+	return "<span class=\""+icon+" ui-cursor-hand\" title=\""+(columnDef.linkTitle?columnDef.linkTitle:"")+"\" onclick=\"$('#"+columnDef.linkOwner+"').trigger('linkclicked'," +
 			"[$(this),"+row+","+cell+",'"+columnDef.field+"',"+columnDef.columnKey+",'"+value+"']);return false;\">"+(columnDef.linkText?columnDef.linkText:"")+"</span>";
 }
 //--AGGREGATE FORMATTERS

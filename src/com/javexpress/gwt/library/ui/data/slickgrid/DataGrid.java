@@ -298,7 +298,7 @@ public class DataGrid<T extends Serializable> extends BaseSlickGrid<ListColumn> 
 				dataView != null ? dataView : loader.data, columns, options);
 		grid.setSelectionModel(new $wnd.Slick.RowSelectionModel(
 				options.multiSelect ? {
-					selectActiveRow : false
+					selectActiveRow : true
 				} : {}));
 		if (groupItemMetadataProvider)
 			grid.registerPlugin(groupItemMetadataProvider);
@@ -799,7 +799,7 @@ public class DataGrid<T extends Serializable> extends BaseSlickGrid<ListColumn> 
 	}
 
 	//----EVENTS
-	private void fireOnBeforeDataRequest(final JavaScriptObject postData) throws Exception {
+	protected void fireOnBeforeDataRequest(final JavaScriptObject postData) throws Exception {
 		if (listener != null) {
 			listener.onGridBeforeDataRequest(new JsonMap(postData));
 		}

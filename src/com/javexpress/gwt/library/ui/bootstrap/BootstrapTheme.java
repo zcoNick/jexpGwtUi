@@ -1,7 +1,6 @@
 package com.javexpress.gwt.library.ui.bootstrap;
 
 import com.google.gwt.core.client.GWT;
-import com.google.gwt.i18n.client.LocaleInfo;
 import com.google.gwt.user.client.Command;
 import com.javexpress.gwt.library.ui.BaseResourceInjector;
 import com.javexpress.gwt.library.ui.ClientContext;
@@ -109,11 +108,6 @@ public abstract class BootstrapTheme extends BaseResourceInjector {
 	}
 
 	public abstract void prepareUI(ClientContext clientContext);
-
-	@Override
-	public void performFinalActions() {
-		JsUtil.setNumeralLibLanguage(LocaleInfo.getCurrentLocale().getLocaleName());
-	}
 
 	@Override
 	public void destroyUI() {

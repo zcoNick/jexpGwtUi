@@ -44,7 +44,7 @@ public class JqTree<T extends Serializable> extends JqGrid<T> {
 
 	@Override
 	public void setHeight(String height) {
-		options.setInt("height", Integer.valueOf(height));
+		options.setInt("height", Integer.valueOf(height.replaceFirst("px", "")));
 	}
 
 }

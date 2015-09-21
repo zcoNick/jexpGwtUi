@@ -14,8 +14,8 @@ import com.javexpress.gwt.library.ui.js.JsonMap;
 abstract class BaseSelect2 extends ListBoxBase {
 
 	public static void fillResources(final List<String> styleSheets, final List<String> javaScripts) {
-		styleSheets.add("ace/css/select2-3.5.0.css");
-		javaScripts.add("ace/js/select2-3.5.0.min.js");
+		styleSheets.add("scripts/select2/select2-3.5.0.css");
+		javaScripts.add("scripts/select2/select2-3.5.0.min.js");
 	}
 
 	private List<String>		lazyValues;
