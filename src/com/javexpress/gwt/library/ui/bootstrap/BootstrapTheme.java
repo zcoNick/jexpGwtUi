@@ -1,12 +1,18 @@
 package com.javexpress.gwt.library.ui.bootstrap;
 
 import com.google.gwt.core.client.GWT;
+import com.google.gwt.i18n.client.LocaleInfo;
 import com.google.gwt.user.client.Command;
 import com.javexpress.gwt.library.ui.BaseResourceInjector;
 import com.javexpress.gwt.library.ui.ClientContext;
 import com.javexpress.gwt.library.ui.container.dashboard.Dashboard;
 import com.javexpress.gwt.library.ui.data.jqgrid.JqGrid;
 import com.javexpress.gwt.library.ui.data.slickgrid.DataGrid;
+import com.javexpress.gwt.library.ui.event.ExceptionThrownEvent;
+import com.javexpress.gwt.library.ui.event.FormShowInWindowRequest;
+import com.javexpress.gwt.library.ui.event.handler.ExceptionThrownEventHandler;
+import com.javexpress.gwt.library.ui.event.handler.FormShowInWindowRequestHandler;
+import com.javexpress.gwt.library.ui.form.IUIComposite;
 import com.javexpress.gwt.library.ui.form.decimalbox.DecimalBox;
 import com.javexpress.gwt.library.ui.form.maskedit.MaskEditBox;
 import com.javexpress.gwt.library.ui.js.JsUtil;
@@ -83,6 +89,35 @@ public abstract class BootstrapTheme extends BaseResourceInjector {
 
 	protected abstract void addJavaScripts(WidgetBundles wb, int phase);
 
+	protected void prepareCommons(ClientContext clientContext) {
+		ClientContext.EVENT_BUS.addHandler(FormShowInWindowRequest.TYPE, new FormShowInWindowRequestHandler() {
+			@Override
+			public void onFormShowInWindowRequested(FormShowInWindowRequest formShowInWindowRequest) {
+				IUIComposite form = formShowInWindowRequest.getForm();
+				com.javexpress.gwt.library.ui.dialog.WindowView w = new com.javexpress.gwt.library.ui.dialog.WindowView(form.getId(), formShowInWindowRequest.isModal());
+				w.setForm(form);
+				w.setPosition(formShowInWindowRequest.getPosX(), formShowInWindowRequest.getPosY());
+				w.show();
+			}
+		});
+		ClientContext.EVENT_BUS.addHandler(ExceptionThrownEvent.TYPE, new ExceptionThrownEventHandler() {
+			@Override
+			public void onExceptionThrown(ExceptionThrownEvent exceptionThrownEvent) {
+				com.javexpress.gwt.library.ui.bootstrap.ErrorDialog.showError(exceptionThrownEvent.getWindowId(), exceptionThrownEvent.getAppException());
+			}
+		});
+	}
+
 	public abstract void prepareUI(ClientContext clientContext);
+
+	@Override
+	public void performFinalActions() {
+		JsUtil.setNumeralLibLanguage(LocaleInfo.getCurrentLocale().getLocaleName());
+	}
+
+	@Override
+	public void destroyUI() {
+		Dashboard.clearRegistry();
+	}
 
 }

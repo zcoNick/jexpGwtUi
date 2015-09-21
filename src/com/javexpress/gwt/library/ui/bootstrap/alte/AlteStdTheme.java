@@ -1,16 +1,9 @@
 package com.javexpress.gwt.library.ui.bootstrap.alte;
 
 import com.google.gwt.dom.client.Element;
-import com.google.gwt.user.client.Command;
 import com.javexpress.gwt.library.ui.ClientContext;
 import com.javexpress.gwt.library.ui.ICssIcon;
 import com.javexpress.gwt.library.ui.bootstrap.BootstrapTheme;
-import com.javexpress.gwt.library.ui.event.ExceptionThrownEvent;
-import com.javexpress.gwt.library.ui.event.FormShowInWindowRequest;
-import com.javexpress.gwt.library.ui.event.handler.ExceptionThrownEventHandler;
-import com.javexpress.gwt.library.ui.event.handler.FormShowInWindowRequestHandler;
-import com.javexpress.gwt.library.ui.form.IUIComposite;
-import com.javexpress.gwt.library.ui.js.JsonMap;
 import com.javexpress.gwt.library.ui.js.WidgetBundles;
 
 public class AlteStdTheme extends BootstrapTheme {
@@ -26,17 +19,11 @@ public class AlteStdTheme extends BootstrapTheme {
 	}
 
 	@Override
-	public void injectCore(JsonMap requireConfig, final Command onload) {
-		super.injectCore(requireConfig, onload);
-	}
-
-	@Override
 	public void addStyleSheets(WidgetBundles wb, int phase) {
 		switch (phase) {
 			case 0:
 				wb.addStyleSheet("themes/alte/AdminLTE-2.1.2.min.css");
 				wb.addStyleSheet("themes/alte/skins/skin-blue.min.css");
-				wb.addStyleSheet("themes/alte/javexpress-gwt-library.ui.css");
 				break;
 			case 1000:
 				wb.addStyleSheet("themes/alte/javexpress-gwt-library.ui.css");
@@ -58,26 +45,7 @@ public class AlteStdTheme extends BootstrapTheme {
 
 	@Override
 	public void prepareUI(ClientContext clientContext) {
-		prepareAlteCommons(clientContext);
-	}
-
-	public void prepareAlteCommons(ClientContext clientContext) {
-		ClientContext.EVENT_BUS.addHandler(FormShowInWindowRequest.TYPE, new FormShowInWindowRequestHandler() {
-			@Override
-			public void onFormShowInWindowRequested(FormShowInWindowRequest formShowInWindowRequest) {
-				IUIComposite form = formShowInWindowRequest.getForm();
-				com.javexpress.gwt.library.ui.dialog.WindowView w = new com.javexpress.gwt.library.ui.dialog.WindowView(form.getId(), formShowInWindowRequest.isModal());
-				w.setForm(form);
-				w.setPosition(formShowInWindowRequest.getPosX(), formShowInWindowRequest.getPosY());
-				w.show();
-			}
-		});
-		ClientContext.EVENT_BUS.addHandler(ExceptionThrownEvent.TYPE, new ExceptionThrownEventHandler() {
-			@Override
-			public void onExceptionThrown(ExceptionThrownEvent exceptionThrownEvent) {
-				com.javexpress.gwt.library.ui.bootstrap.ErrorDialog.showError(exceptionThrownEvent.getWindowId(), exceptionThrownEvent.getAppException());
-			}
-		});
+		prepareCommons(clientContext);
 	}
 
 	@Override

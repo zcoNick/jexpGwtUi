@@ -97,6 +97,7 @@ public abstract class BootstrapClient extends ClientContext implements ProvidesR
 					}
 				});
 				handleOnResourceInjectFinished();
+				resourceInjector.performFinalActions();
 			}
 		});
 		Window.addCloseHandler(new CloseHandler<Window>() {
@@ -119,6 +120,7 @@ public abstract class BootstrapClient extends ClientContext implements ProvidesR
 	}
 
 	protected void onUnload() {
+		resourceInjector.destroyUI();
 	}
 
 	protected void handleOnKeyDown(KeyDownEvent event) {
