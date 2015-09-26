@@ -158,7 +158,7 @@ public abstract class BootstrapClient extends ClientContext implements ProvidesR
 		return false;
 	}
 
-	protected String getApplicationBrand() {
+	public String getApplicationBrand() {
 		return "jexpApplication";
 	}
 

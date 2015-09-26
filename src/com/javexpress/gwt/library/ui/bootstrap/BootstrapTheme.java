@@ -114,4 +114,8 @@ public abstract class BootstrapTheme extends BaseResourceInjector {
 		Dashboard.clearRegistry();
 	}
 
+	protected BootstrapClient getClient() {
+		return (BootstrapClient) BootstrapClient.instance;
+	}
+
 }
