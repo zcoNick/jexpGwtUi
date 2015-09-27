@@ -32,6 +32,11 @@ public class ApplicationSideBarAlte extends ApplicationSideBar {
 	@Override
 	protected void onLoad() {
 		super.onLoad();
+		initialize();
+	}
+
+	@Override
+	public void initialize() {
 		createByJs(this, area);
 	}
 

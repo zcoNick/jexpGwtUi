@@ -24,11 +24,13 @@ import com.javexpress.gwt.library.ui.bootstrap.BootstrapTheme;
 import com.javexpress.gwt.library.ui.bootstrap.INavBarHandler;
 import com.javexpress.gwt.library.ui.bootstrap.ISideBarHandler;
 import com.javexpress.gwt.library.ui.bootstrap.MainContentView;
+import com.javexpress.gwt.library.ui.bootstrap.SideBarItem;
 import com.javexpress.gwt.library.ui.container.dashboard.ProvidesDashboardConfig;
 import com.javexpress.gwt.library.ui.event.ApplicationReadyEvent;
 import com.javexpress.gwt.library.ui.event.FormOpenRequest;
 import com.javexpress.gwt.library.ui.event.handler.FormOpenRequestHandler;
 import com.javexpress.gwt.library.ui.form.DashboardForm;
+import com.javexpress.gwt.library.ui.form.IThemeNavigationHandler;
 import com.javexpress.gwt.library.ui.form.IUIComposite;
 import com.javexpress.gwt.library.ui.js.JexpCallback;
 import com.javexpress.gwt.library.ui.js.JsUtil;
@@ -41,6 +43,8 @@ public class AlteStdTheme extends BootstrapTheme implements ISideBarHandler, INa
 	protected MainContentView			dashView;
 	protected ApplicationSideBar		sideBar;
 	protected ApplicationNavBarAlte		navBar;
+	protected ApplicationFooter			footer;
+	protected IThemeNavigationHandler	navHandler;
 
 	@Override
 	public String getThemeName() {
@@ -128,7 +132,7 @@ public class AlteStdTheme extends BootstrapTheme implements ISideBarHandler, INa
 
 		mainContent = mainContainer.createMainContent();
 
-		ApplicationFooter footer = mainContainer.createFooter();
+		footer = mainContainer.createFooter();
 
 		createAndRegisterDashboard();
 
@@ -160,23 +164,17 @@ public class AlteStdTheme extends BootstrapTheme implements ISideBarHandler, INa
 		mainContent.addView(path, view);
 	}
 
+	protected SideBarItem addSideBarItem(String id, String path, String text, String icon) {
+		SideBarItem sbi = sideBar.createSideBarItem(id, path);
+		sbi.setText(text);
+		sbi.setIconClass(icon != null ? icon : FaIcon.puzzle_piece.getCssClass());
+		sideBar.addItem(sbi);
+		return sbi;
+	}
+
 	@Override
 	public void navLinkClicked(final String path) {
-		MainContentView cached = mainContent.findView(path);
-		if (cached != null) {
-			mainContent.showView(cached);
-			return;
-		}
-		if (path.equals("dashboard"))
-			mainContent.add(dashView);
-		JexpCallback<IUIComposite> callBack = new JexpCallback<IUIComposite>() {
-			@Override
-			protected void onResult(IUIComposite result) {
-				if (result == null)
-					return;
-				showInView(path, result);
-			}
-		};
+		sideLinkClicked(path);
 	}
 
 	@Override
@@ -196,6 +194,7 @@ public class AlteStdTheme extends BootstrapTheme implements ISideBarHandler, INa
 				showInView(path, result);
 			}
 		};
+		navHandler.handleNavigation(path, callBack);
 	}
 
 }

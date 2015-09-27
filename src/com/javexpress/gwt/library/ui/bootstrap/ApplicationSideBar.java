@@ -36,4 +36,6 @@ public abstract class ApplicationSideBar extends AbstractContainer {
 
 	public abstract SideBarItem createSideBarItem(String id, String path);
 
+	public abstract void initialize();
+
 }

@@ -13,10 +13,9 @@ public abstract class SideBarItem extends AbstractContainer {
 
 	protected Element		ul;
 	private IMenuHandler	handler;
-	protected String		text;
-	protected String		iconClass;
-	protected String		path;
-	protected String		bpmnCode;
+	protected Element		anchor;
+	protected Element		iconSpan;
+	protected Element		textSpan;
 
 	public IMenuHandler getHandler() {
 		return handler;
@@ -28,42 +27,45 @@ public abstract class SideBarItem extends AbstractContainer {
 
 	public SideBarItem(Widget sideBar, String id, String path) {
 		super(DOM.createElement("li"));
-		this.path = path;
 		JsUtil.ensureId(sideBar, this, WidgetConst.SIDEBARITEM, id);
+		anchor = DOM.createAnchor();
+		anchor.setAttribute("href", "#");
+		anchor.addClassName("sidebar-link");
+		if (path != null)
+			anchor.setAttribute("path", path);
+		iconSpan = DOM.createElement("i");
+		anchor.appendChild(iconSpan);
+		textSpan = DOM.createSpan();
+		anchor.appendChild(textSpan);
+		getElement().appendChild(anchor);
 	}
 
 	public String getText() {
-		return text;
+		return textSpan.getInnerText();
 	}
 
 	public void setText(String text) {
-		this.text = text;
+		textSpan.setInnerText(text);
 	}
 
 	public String getBpmnCode() {
-		return bpmnCode;
+		return anchor.getAttribute("bpmnCode");
 	}
 
 	public void setBpmnCode(String bpmnCode) {
-		this.bpmnCode = bpmnCode;
+		anchor.setAttribute("bpmnCode", bpmnCode);
 	}
 
 	public void setIcon(ICssIcon icon) {
-		this.iconClass = icon.getCssClass();
+		setIconClass(icon.getCssClass());
 	}
 
-	public void setIconClass(String iconClass) {
-		this.iconClass = iconClass;
-	}
+	public abstract void setIconClass(String iconClass);
 
 	@Override
 	protected void onUnload() {
 		ul = null;
 		handler = null;
-		text = null;
-		path = null;
-		bpmnCode = null;
-		iconClass = null;
 		super.onUnload();
 	}
 

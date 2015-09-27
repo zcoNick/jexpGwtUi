@@ -36,4 +36,6 @@ public abstract class ApplicationNavBar extends AbstractContainer {
 
 	public abstract NavBarItem createNavBarItem(String id, String path);
 
+	public abstract void initialize();
+
 }

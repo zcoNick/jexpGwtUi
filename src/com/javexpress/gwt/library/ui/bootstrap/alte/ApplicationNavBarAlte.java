@@ -20,6 +20,11 @@ public class ApplicationNavBarAlte extends ApplicationNavBar {
 	@Override
 	protected void onLoad() {
 		super.onLoad();
+		initialize();
+	}
+
+	@Override
+	public void initialize() {
 		createByJs(this, getElement());
 	}
 

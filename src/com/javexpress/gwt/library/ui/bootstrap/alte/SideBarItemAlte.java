@@ -20,32 +20,12 @@ public class SideBarItemAlte extends SideBarItem {
 		  <li><a href="#">Link in level 2</a></li>
 		</ul>
 		</li>*/
-
-		if (ul != null)
-			getElement().addClassName("treeview");
-		Element a = DOM.createAnchor();
-		a.setAttribute("href", "#");
-		if (ul == null) {
-			a.setAttribute("path", path);
-			if (bpmnCode != null)
-				a.setAttribute("bpmnCode", bpmnCode);
-			a.setClassName("sidebar-link");
-		}
-		Element i = DOM.createElement("i");
-		i.setClassName(iconClass != null ? iconClass : "fa fa-caret-right");
-		a.appendChild(i);
-		Element s = DOM.createSpan();
-		s.setInnerText(text);
-		a.appendChild(s);
-		getElement().appendChild(a);
-		if (ul != null) {
-			Element b1 = DOM.createElement("i");
-			b1.setClassName("fa fa-angle-left pull-right");
-			a.appendChild(b1);
-			getElement().appendChild(ul);
-		}
-
 		super.onLoad();
+	}
+
+	@Override
+	public void setIconClass(String iconClass) {
+		iconSpan.setClassName(iconClass != null ? iconClass : "fa fa-caret-right");
 	}
 
 	@Override
@@ -54,6 +34,12 @@ public class SideBarItemAlte extends SideBarItem {
 		if (ul == null) {
 			ul = DOM.createElement("ul");
 			ul.setClassName("treeview-menu");
+			getElement().appendChild(ul);
+			getElement().addClassName("treeview");
+			Element b1 = DOM.createElement("i");
+			b1.setClassName("fa fa-angle-left pull-right");
+			anchor.appendChild(b1);
+			anchor.removeClassName("sidebar-link");
 		}
 		add(sbi, ul);
 		return sbi;
