@@ -186,6 +186,8 @@ public class AlteStdTheme extends BootstrapTheme implements ISideBarHandler, INa
 		}
 		if (path.equals("dashboard"))
 			mainContent.add(dashView);
+		if (navHandler == null)
+			return;
 		JexpCallback<IUIComposite> callBack = new JexpCallback<IUIComposite>() {
 			@Override
 			protected void onResult(IUIComposite result) {
