@@ -76,7 +76,7 @@ public abstract class BootstrapTheme extends BaseResourceInjector {
 	}
 
 	@Override
-	public void injectUI(String applicationCss, Command onload) throws Exception {
+	public void injectUI(String applicationCss, Command onload) {
 		WidgetBundles jexp = createUIBundles();
 		jexp.addStyleSheet(applicationCss);
 		injectLibrary(jexp, onload);

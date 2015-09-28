@@ -5,6 +5,6 @@ import com.javexpress.gwt.library.ui.event.ApplicationReadyEvent;
 
 public interface ApplicationReadyEventHandler extends EventHandler {
 
-	void onApplicationReady(ApplicationReadyEvent helpRequest);
+	void onApplicationReady(ApplicationReadyEvent event);
 
 }

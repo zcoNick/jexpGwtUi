@@ -1,25 +1,17 @@
 package com.javexpress.gwt.library.ui.bootstrap.alte;
 
-import java.util.List;
-import java.util.Map;
-
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.i18n.client.LocaleInfo;
+import com.google.gwt.user.client.Command;
 import com.google.gwt.user.client.ui.RootPanel;
 import com.javexpress.common.model.item.FormDef;
-import com.javexpress.common.model.item.MenuNode;
-import com.javexpress.common.model.item.type.Pair;
-import com.javexpress.gwt.library.shared.model.JexpGwtUser;
 import com.javexpress.gwt.library.ui.ClientContext;
 import com.javexpress.gwt.library.ui.FaIcon;
 import com.javexpress.gwt.library.ui.ICssIcon;
 import com.javexpress.gwt.library.ui.bootstrap.ApplicationFooter;
 import com.javexpress.gwt.library.ui.bootstrap.ApplicationMainContainer;
 import com.javexpress.gwt.library.ui.bootstrap.ApplicationMainContent;
-import com.javexpress.gwt.library.ui.bootstrap.ApplicationNotificationDropdown;
 import com.javexpress.gwt.library.ui.bootstrap.ApplicationSideBar;
-import com.javexpress.gwt.library.ui.bootstrap.ApplicationUserInfoDropdown;
-import com.javexpress.gwt.library.ui.bootstrap.Bootstrap.WContext;
 import com.javexpress.gwt.library.ui.bootstrap.BootstrapTheme;
 import com.javexpress.gwt.library.ui.bootstrap.INavBarHandler;
 import com.javexpress.gwt.library.ui.bootstrap.ISideBarHandler;
@@ -38,13 +30,14 @@ import com.javexpress.gwt.library.ui.js.WidgetBundles;
 
 public class AlteStdTheme extends BootstrapTheme implements ISideBarHandler, INavBarHandler {
 
-	protected ApplicationMainContent	mainContent;
-	protected DashboardForm				dashForm;
-	protected MainContentView			dashView;
-	protected ApplicationSideBar		sideBar;
-	protected ApplicationNavBarAlte		navBar;
-	protected ApplicationFooter			footer;
-	protected IThemeNavigationHandler	navHandler;
+	protected ApplicationMainContent		mainContent;
+	protected DashboardForm					dashForm;
+	protected MainContentView				dashView;
+	protected ApplicationSideBar			sideBar;
+	protected ApplicationNavBarAlte			navBar;
+	protected ApplicationFooter				footer;
+	protected IThemeNavigationHandler		navHandler;
+	protected ApplicationHeaderPanelAlte	headerPanel;
 
 	@Override
 	public String getThemeName() {
@@ -99,25 +92,23 @@ public class AlteStdTheme extends BootstrapTheme implements ISideBarHandler, INa
 	@Override
 	public void prepareUI(ClientContext clientContext) {
 		prepareCommons(clientContext);
+		injectUI(getClient().getApplicationCssPath(), new Command() {
+			@Override
+			public void execute() {
+				buildGUI();
+				ClientContext.EVENT_BUS.fireEvent(new ApplicationReadyEvent());
+			}
+		});
 	}
 
-	protected void buildGUI(Map<Long, List<MenuNode>> menuNodes, Map<Long, List<Pair<Long, String>>> reportNodes, Map<Long, List<Pair<Long, String[]>>> processNodes) {
+	protected void buildGUI() {
 		RootPanel body = RootPanel.get();
 		body.setStyleName(getSkinName());
 
 		JsUtil.setNumeralLibLanguage(LocaleInfo.getCurrentLocale().getLocaleName());
 
-		ApplicationHeaderPanelAlte headerPanel = new ApplicationHeaderPanelAlte("headerbar");
+		headerPanel = new ApplicationHeaderPanelAlte("headerbar");
 		headerPanel.setBrand(getClient().getApplicationCssIcon(), getClient().getApplicationBrand());
-
-		ApplicationNotificationDropdown tasks = headerPanel.createNotificationDropdown("tasks", WContext.Grey, FaIcon.tasks);
-		tasks.setBadge(WContext.Grey, "4");
-		ApplicationNotificationDropdown notifications = headerPanel.createNotificationDropdown("notifications", WContext.Purple, FaIcon.bell);
-		notifications.setBadge(WContext.Important, "8");
-		ApplicationNotificationDropdown messages = headerPanel.createNotificationDropdown("messages", WContext.Green, FaIcon.envelope);
-		messages.setBadge(WContext.Success, "5");
-		ApplicationUserInfoDropdown userInfo = headerPanel.createUserInfoDropdown("userinfo", WContext.light_blue);
-		userInfo.setUser(JexpGwtUser.instance.getFullName());
 
 		ApplicationMainContainer mainContainer = new ApplicationMainContainerAlte(body, "maincontainer");
 
@@ -135,8 +126,6 @@ public class AlteStdTheme extends BootstrapTheme implements ISideBarHandler, INa
 		footer = mainContainer.createFooter();
 
 		createAndRegisterDashboard();
-
-		ClientContext.EVENT_BUS.fireEvent(new ApplicationReadyEvent());
 	}
 
 	protected void createAndRegisterDashboard() {

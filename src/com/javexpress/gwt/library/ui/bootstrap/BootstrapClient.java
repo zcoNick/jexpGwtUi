@@ -96,7 +96,7 @@ public abstract class BootstrapClient extends ClientContext implements ProvidesR
 						});
 					}
 				});
-				handleOnResourceInjectFinished();
+				handleOnCoreLibraryInjectFinished();
 			}
 		});
 		Window.addCloseHandler(new CloseHandler<Window>() {
@@ -114,7 +114,7 @@ public abstract class BootstrapClient extends ClientContext implements ProvidesR
 		RootPanel.get().addDomHandler(handler, KeyDownEvent.getType());
 	}
 
-	protected void handleOnResourceInjectFinished() {
+	protected void handleOnCoreLibraryInjectFinished() {
 		DOM.getElementById("appLoading").removeFromParent();
 	}
 
@@ -158,9 +158,7 @@ public abstract class BootstrapClient extends ClientContext implements ProvidesR
 		return false;
 	}
 
-	public String getApplicationBrand() {
-		return "jexpApplication";
-	}
+	public abstract String getApplicationBrand();
 
 	public void doLogout() {
 		JexpGwtUser.clear();
