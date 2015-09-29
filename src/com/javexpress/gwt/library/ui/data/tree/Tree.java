@@ -32,10 +32,8 @@ public class Tree extends SimplePanel {
 		JsUtil.ensureId(parent, this, WidgetConst.TREE_PREFIX, id);
 
 		tree = (com.google.gwt.user.client.ui.Tree) getWidget();
-		tree.setStyleName("jexpBorderBox jesTree", true);
+		tree.setStyleName("jexpTree", true);
 		tree.setAnimationEnabled(true);
-
-		tree.setWidth("100%");
 
 		if (fitToParent) {
 			setWidth("100%");
@@ -71,9 +69,8 @@ public class Tree extends SimplePanel {
 		return valMap.get(val);
 	}
 
-	@Override
-	public void clear() {
-		super.clear();
+	public void clearItems() {
+		tree.clear();
 		valMap.clear();
 	}
 
