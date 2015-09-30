@@ -161,7 +161,7 @@
 	color:#000000;
 }
 .jexpFilterPanelItem .jexpControlContainer { padding: 0 1px 1px; }
-.jexpFilterPanelItem .jexpControlContainer .input-group.jexpDateBox { width:6em; }
+.jexpFilterPanelItem .jexpControlContainer .input-group.jexpDateBox { width:8em; }
 .ui-jqgrid .ui-paging-info { font-size:12px;color:#393939;opacity:0.5; }
 .ui-jqgrid .ui-icon { background-image: none; }
 .totals-container { position: absolute; overflow: hidden;bottom: 0;background-color:#EFF3F8;color:gray; }

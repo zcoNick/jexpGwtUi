@@ -87,16 +87,21 @@ public class DateBox extends BaseWrappedInput<Date> {
 
 	private native void createByJs(DateBox x, Element element, Element bt, JavaScriptObject options) /*-{
 																										var el = $wnd.$(element).datepicker(options).on("clearDate", function(e){
-																										x.@com.javexpress.gwt.library.ui.bootstrap.DateBox::setRawValue(Ljava/lang/String;)(null);
-																										}).on("changeDate", function(e){
-																										x.@com.javexpress.gwt.library.ui.bootstrap.DateBox::setRawValue(Ljava/lang/String;)(e.format());
+																										x.@com.javexpress.gwt.library.ui.bootstrap.DateBox::setValue(Ljava/lang/String;Z)(null,true);
+																										});
+																										el.on("focus", function(e){
+																										x.@com.javexpress.gwt.library.ui.bootstrap.DateBox::onTogglePopup(Z)(true);
+																										});
+																										el.on("changeDate", function(e){
+																										if (el.val().indexOf(' ')==-1)
+																										x.@com.javexpress.gwt.library.ui.bootstrap.DateBox::setValue(Ljava/lang/String;Z)(e.format(),true);
 																										});
 																										el.inputmask("datetime",{
 																										mask : options.inputformat,
 																										separator : '.',
 																										placeholder : " ",
 																										oncomplete : function() {
-																										x.@com.javexpress.gwt.library.ui.bootstrap.DateBox::setRawValue(Ljava/lang/String;)(dateText);
+																										x.@com.javexpress.gwt.library.ui.bootstrap.DateBox::setValue(Ljava/lang/String;Z)(el.val(),true);
 																										}
 																										});
 																										$wnd.$(".jexpHandCursor", bt).click(function(e){
@@ -107,16 +112,20 @@ public class DateBox extends BaseWrappedInput<Date> {
 
 	@Override
 	protected void onUnload() {
+		btDate = null;
 		options = null;
 		destroyByJs(getElement(), input);
-		btDate = null;
 		super.onUnload();
+	}
+
+	private void onTogglePopup(boolean shown) {
+		input.setAttribute("c", ((InputElement) input).getValue());
 	}
 
 	//https://github.com/RobinHerbots/jquery.inputmask/issues/648
 	private native void destroyByJs(Element element, Element input) /*-{
-		$wnd.$(element).datepicker('destroy').empty().off();
-	}-*/;
+																	$wnd.$(element).datepicker('destroy').empty().off();
+																	}-*/;
 
 	public void setRawValue(final String cand) {
 		((InputElement) input).setValue(cand);
@@ -128,9 +137,9 @@ public class DateBox extends BaseWrappedInput<Date> {
 	}
 
 	public Date getDate() throws ParseException {
-		String s = input.getPropertyString("value");
+		String s = input.hasAttribute("c") ? input.getAttribute("c") : ((InputElement) input).getValue();
 		if (s != null && s.trim().length() > 6)
-			return JexpGwtUser.parseDate(input.getPropertyString("value"));
+			return JexpGwtUser.parseDate(s);
 		return null;
 	}
 
@@ -144,17 +153,21 @@ public class DateBox extends BaseWrappedInput<Date> {
 	}
 
 	public void setValue(String value) {
+		setValue(value, false);
+	}
+
+	public void setValue(String value, boolean fireEvents) {
 		if (value != null && value.startsWith("@")) {
 			if (value.equals("@now"))
-				setValue(new Date());
+				setValue(new Date(), fireEvents);
 			else if (value.startsWith("@now-"))
-				setValue(JsUtil.daysBefore(Integer.parseInt(value.substring(5))));
+				setValue(JsUtil.daysBefore(Integer.parseInt(value.substring(5))), fireEvents);
 			else if (value.startsWith("@now+"))
-				setValue(JsUtil.daysAfter(Integer.parseInt(value.substring(5))));
+				setValue(JsUtil.daysAfter(Integer.parseInt(value.substring(5))), fireEvents);
 			else if (value.equals("@monthStart"))
-				setValue(JsUtil.toMonthStart(new Date()));
+				setValue(JsUtil.toMonthStart(new Date()), fireEvents);
 		} else
-			((InputElement) input).setValue(value);
+			setValue(JexpGwtUser.parseDate(value), fireEvents);
 	}
 
 	@Override
@@ -170,6 +183,7 @@ public class DateBox extends BaseWrappedInput<Date> {
 	@Override
 	protected void setRawValue(Date value) {
 		((InputElement) input).setValue(JexpGwtUser.formatDate(value));
+		input.setAttribute("c", ((InputElement) input).getValue());
 	}
 
 	public void setValueDate(Date value) {

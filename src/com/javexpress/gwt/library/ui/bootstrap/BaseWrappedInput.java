@@ -51,8 +51,7 @@ public abstract class BaseWrappedInput<T extends Serializable> extends JexpSimpl
 		T oldValue = fireEvents ? getValue() : null;
 		setRawValue(value);
 		if (fireEvents) {
-			T newValue = getValue();
-			ValueChangeEvent.fireIfNotEqual(this, oldValue, newValue);
+			ValueChangeEvent.fireIfNotEqual(this, oldValue, value);
 		}
 	}
 
