@@ -8,13 +8,14 @@ import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.ui.Widget;
 import com.javexpress.gwt.library.ui.AbstractContainer;
+import com.javexpress.gwt.library.ui.js.JsUtil;
 
 public class ToolBar extends AbstractContainer {
 
 	/** Designer compatible constructor */
-	public ToolBar(boolean center) {
+	public ToolBar() {
 		super(DOM.createDiv());
-		addStyleName("ui-state-default jexpToolBar");
+		addStyleName((JsUtil.USE_BOOTSTRAP ? "" : "ui-state-default ") + "jexpToolBar");
 		getElement().getStyle().setBorderStyle(BorderStyle.NONE);
 	}
 

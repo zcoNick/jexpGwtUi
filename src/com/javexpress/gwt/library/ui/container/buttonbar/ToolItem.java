@@ -6,11 +6,11 @@ import com.javexpress.gwt.library.ui.bootstrap.Button;
 
 public class ToolItem extends Button {
 
-	/** Designer compatible constructor */
 	public ToolItem(Widget parent, String id, String toolTip) {
 		super(parent, id, toolTip != null ? toolTip : " ");
 	}
 
+	/** Designer compatible constructor */
 	public ToolItem(Widget parent, String id, ICssIcon icon, String toolTip) {
 		super(parent, id, toolTip != null ? toolTip : " ");
 		setIcon(icon);

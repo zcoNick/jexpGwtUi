@@ -8,6 +8,7 @@ import com.google.gwt.user.client.ui.HasVerticalAlignment;
 import com.google.gwt.user.client.ui.Widget;
 import com.javexpress.gwt.library.ui.js.JsUtil;
 
+@Deprecated
 public class ButtonBar extends FlexTable {
 
 	private FlowPanel	leftPanel;
