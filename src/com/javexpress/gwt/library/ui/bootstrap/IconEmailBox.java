@@ -23,8 +23,8 @@ public class IconEmailBox extends IconTextBox {
 	public boolean validate(boolean focusedBefore) {
 		boolean validated = JsUtil.validateWidget(this, focusedBefore);
 		if (validated) {
-			if (!JsUtil.isEmpty(getText()))
-				if (!validateEmail(getText().trim())) {
+			if (!JsUtil.isEmpty(getValue()))
+				if (!validateEmail(getValue().trim())) {
 					JsUtil.flagInvalid(this, ClientContext.nlsCommon.gecersizEposta(), focusedBefore);
 					validated = false;
 				}

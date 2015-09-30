@@ -75,9 +75,10 @@ import com.javexpress.gwt.library.ui.form.upload.FileUpload;
 
 public class JsUtil {
 
-	public static boolean			isIE7					= false;
-	public static boolean			isIE8					= false;
-	public static boolean			isIE9					= false;
+	public static boolean	isIE7	= false;
+	public static boolean	isIE8	= false;
+	public static boolean	isIE9	= false;
+
 	static {
 		if (Window.Navigator.getUserAgent().matches(".*MSIE 7.*"))
 			isIE7 = true;
@@ -87,10 +88,10 @@ public class JsUtil {
 			isIE9 = true;
 	}
 
-	public static final double[]	RESPONSIVE_COL_WIDTHS	= new double[] { 0, 8.33333333, 16.6667, 25, 33.3333, 41.6667, 50, 58.3333, 66.6667, 75, 83.3333, 91.6667, 100 };
+	public static final double[] RESPONSIVE_COL_WIDTHS = new double[] { 0, 8.33333333, 16.6667, 25, 33.3333, 41.6667, 50, 58.3333, 66.6667, 75, 83.3333, 91.6667, 100 };
 
-	public static boolean			testMode				= false;
-	private static int				scrollbarWidth			= 0;
+	public static boolean	testMode		= false;
+	private static int		scrollbarWidth	= 0;
 
 	public static boolean isBrowserIE() {
 		String name = getUserAgent();
@@ -131,8 +132,7 @@ public class JsUtil {
 	public static String ensureId(final Widget parent, final Widget widget, final String prefix, String preferredId) {
 		if ((!GWT.isProdMode() || testMode) && isNotEmpty(preferredId)) {
 			//Development Modu
-			preferredId = prefix + "_" + preferredId.replaceAll("\\.", "_") +
-					(parent != null && isNotEmpty(parent.getElement().getId()) ? "-" + parent.getElement().getId() : "");
+			preferredId = prefix + "_" + preferredId.replaceAll("\\.", "_") + (parent != null && isNotEmpty(parent.getElement().getId()) ? "-" + parent.getElement().getId() : "");
 			widget.getElement().setId(preferredId);
 			widget.ensureDebugId(preferredId);
 		} else if (isEmpty(widget.getElement().getId()))
@@ -143,8 +143,7 @@ public class JsUtil {
 	public static String ensureId(final Widget parent, final Element we, final String prefix, String preferredId) {
 		if ((!GWT.isProdMode() || testMode) && isNotEmpty(preferredId)) {
 			//Development Modu
-			preferredId = prefix + "_" + preferredId.replaceAll("\\.", "_") +
-					(parent != null && isNotEmpty(parent.getElement().getId()) ? "-" + parent.getElement().getId() : "");
+			preferredId = prefix + "_" + preferredId.replaceAll("\\.", "_") + (parent != null && isNotEmpty(parent.getElement().getId()) ? "-" + parent.getElement().getId() : "");
 			we.setId(preferredId);
 		} else if (isEmpty(we.getId()))
 			we.setId(prefix + "_" + DOM.createUniqueId());
@@ -540,8 +539,7 @@ public class JsUtil {
 							((CheckInlineBox) w).setItems(controlData, ";", ":");
 						else
 							((ListBox) w).setItems(useEmpty, controlData, ";", ":");
-					}
-					else if (useEmpty && !searchMode) {
+					} else if (useEmpty && !searchMode) {
 						((ListBox) w).addItem("", "");
 					}
 				}
@@ -671,7 +669,7 @@ public class JsUtil {
 	public static Serializable clearWidgetValue(final Widget w) throws ParseException {
 		Serializable val = null;
 		if (w instanceof DateBox)
-			((DateBox) w).setValueDate(null);
+			((DateBox) w).setValue((Date) null);
 		else if (w instanceof NumericBox)
 			((NumericBox) w).setValueLong(null);
 		else if (w instanceof DecimalBox)
@@ -721,8 +719,7 @@ public class JsUtil {
 		if (!vw.isRequired())
 			return true;
 		Serializable val = vw.getValue();
-		if (val == null ||
-				((val instanceof String) && JsUtil.isEmpty((String) val))) {
+		if (val == null || ((val instanceof String) && JsUtil.isEmpty((String) val))) {
 			flagInvalid(vw, ClientContext.nlsCommon.alanZorunlu(), focusedBefore);
 			return false;
 		} else {
@@ -749,7 +746,7 @@ public class JsUtil {
 		return full * (Integer.parseInt(percent.substring(0, percent.length() - 1))) / 100;
 	}
 
-	public static volatile int	lastDialogZIndex	= 3;
+	public static volatile int lastDialogZIndex = 3;
 
 	public static int calcDialogZIndex() {
 		lastDialogZIndex += 3;
@@ -1047,7 +1044,7 @@ public class JsUtil {
 		return null;
 	}
 
-	public static boolean	USE_BOOTSTRAP	= false;
+	public static boolean USE_BOOTSTRAP = false;
 
 	public static Integer nvl(Integer val, int i) {
 		if (val == null)

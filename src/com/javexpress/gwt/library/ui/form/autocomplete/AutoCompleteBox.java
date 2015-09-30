@@ -5,35 +5,23 @@ import java.io.Serializable;
 import com.google.gwt.core.client.JavaScriptObject;
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.dom.client.InputElement;
-import com.google.gwt.event.dom.client.BlurEvent;
-import com.google.gwt.event.dom.client.BlurHandler;
-import com.google.gwt.event.dom.client.ChangeHandler;
-import com.google.gwt.event.dom.client.FocusEvent;
-import com.google.gwt.event.dom.client.FocusHandler;
-import com.google.gwt.event.shared.HandlerRegistration;
 import com.google.gwt.user.client.Command;
 import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.ui.Widget;
 import com.javexpress.gwt.library.shared.model.IJsonServicePoint;
 import com.javexpress.gwt.library.shared.model.WidgetConst;
 import com.javexpress.gwt.library.ui.ClientContext;
-import com.javexpress.gwt.library.ui.bootstrap.LabelControlCell;
-import com.javexpress.gwt.library.ui.container.panel.JexpSimplePanel;
-import com.javexpress.gwt.library.ui.data.DataBindingHandler;
+import com.javexpress.gwt.library.ui.bootstrap.BaseWrappedInput;
 import com.javexpress.gwt.library.ui.facet.ProvidesModuleUtils;
-import com.javexpress.gwt.library.ui.form.IWrappedInput;
 import com.javexpress.gwt.library.ui.js.JsUtil;
 import com.javexpress.gwt.library.ui.js.JsonMap;
 
-public class AutoCompleteBox<V extends Serializable> extends JexpSimplePanel implements IWrappedInput<String> {
+public class AutoCompleteBox<V extends Serializable> extends BaseWrappedInput<String> {
 
-	private boolean					required;
 	private JsonMap					options;
 	private IAutoCompleteListener	listener;
 	private Command					newItemRequestCommand;
 	private String					newItemTitle;
-	private DataBindingHandler		dataBinding;
-	private InputElement			input;
 	private Element					indicator;
 
 	public IAutoCompleteListener getListener() {
@@ -51,9 +39,7 @@ public class AutoCompleteBox<V extends Serializable> extends JexpSimplePanel imp
 
 	@Deprecated
 	public AutoCompleteBox(final Widget parent, final String id, final IJsonServicePoint servicePoint) {
-		super(DOM.createDiv());
-		JsUtil.ensureId(parent, this, WidgetConst.AUTOCOMPLETE_PREFIX, id);
-		getElement().setClassName("input-group jexpAutoComplete");
+		super(parent, WidgetConst.AUTOCOMPLETE_PREFIX, id, "jexpAutoComplete");
 
 		input = DOM.createInputText().cast();
 		JsUtil.ensureSubId(getElement(), input, "inp");
@@ -166,10 +152,8 @@ public class AutoCompleteBox<V extends Serializable> extends JexpSimplePanel imp
 		listener = null;
 		newItemRequestCommand = null;
 		options = null;
-		dataBinding = null;
 		destroyByJs(input, indicator);
 		indicator = null;
-		input = null;
 		super.onUnload();
 	}
 
@@ -181,7 +165,7 @@ public class AutoCompleteBox<V extends Serializable> extends JexpSimplePanel imp
 	}-*/;
 
 	public void setValue(final V value, final String label) {
-		input.setValue(label);
+		((InputElement) input).setValue(label);
 		input.setAttribute("v", value.toString());
 	}
 
@@ -197,6 +181,10 @@ public class AutoCompleteBox<V extends Serializable> extends JexpSimplePanel imp
 		return JsUtil.asLong(getValue());
 	}
 
+	public String getText() {
+		return ((InputElement) input).getValue();
+	}
+
 	public void onNewItemRequest(String newItemTitle, final Command newItemRequestCommand) {
 		this.newItemTitle = newItemTitle;
 		this.newItemRequestCommand = newItemRequestCommand;
@@ -204,7 +192,7 @@ public class AutoCompleteBox<V extends Serializable> extends JexpSimplePanel imp
 
 	@Override
 	public void clear() {
-		input.setValue("");
+		((InputElement) input).setValue("");
 		String old = input.getAttribute("v");
 		input.setAttribute("v", "");
 		try {
@@ -223,6 +211,7 @@ public class AutoCompleteBox<V extends Serializable> extends JexpSimplePanel imp
 		setValue(value == null ? (String) null : value.toString());
 	}
 
+	@Override
 	public void setValue(final String value) {
 		if (value == null)
 			clear();
@@ -257,33 +246,6 @@ public class AutoCompleteBox<V extends Serializable> extends JexpSimplePanel imp
 		return o == null ? null : new JsonMap(o);
 	}
 
-	@Override
-	public boolean isRequired() {
-		return required;
-	}
-
-	@Override
-	public void setRequired(boolean required) {
-		this.required = required;
-	}
-
-	@Override
-	public boolean validate(boolean focusedBefore) {
-		return JsUtil.validateWidget(this, focusedBefore);
-	}
-
-	@Override
-	public void setValidationError(String validationError) {
-		if (JsUtil.USE_BOOTSTRAP) {
-			Widget nw = getParent() instanceof LabelControlCell ? getParent() : this;
-			if (validationError == null)
-				nw.removeStyleName("has-error");
-			else
-				nw.addStyleName("has-error");
-		}
-		setTitle(validationError);
-	}
-
 	// ---------- EVENTS
 	private void fireOnSearch(JavaScriptObject postData) {
 		if (listener != null)
@@ -306,78 +268,13 @@ public class AutoCompleteBox<V extends Serializable> extends JexpSimplePanel imp
 			newItemRequestCommand.execute();
 	}
 
-	@Override
-	public void setDataBindingHandler(DataBindingHandler handler) {
-		this.dataBinding = handler;
-		dataBinding.setControl(this);
-	}
-
-	@Override
-	public DataBindingHandler getDataBindingHandler() {
-		return dataBinding;
-	}
-
-	@Override
-	public void setEnabled(boolean enabled) {
-		input.setDisabled(!enabled);
-	}
-
-	@Override
-	public int getTabIndex() {
-		return input.getTabIndex();
-	}
-
-	@Override
-	public void setAccessKey(char key) {
-		input.setAccessKey(String.valueOf(key));
-	}
-
-	@Override
-	public void setFocus(boolean focused) {
-		if (focused)
-			input.focus();
-		else
-			input.blur();
-	}
-
-	@Override
-	public void setTabIndex(int index) {
-		input.setTabIndex(index);
-	}
-
-	@Override
-	public HandlerRegistration addChangeHandler(ChangeHandler handler) {
-		return null;
-	}
-
-	@Override
-	protected Element getSinkElement() {
-		return input;
-	}
-
-	@Override
-	public Element getInputElement() {
-		return input;
-	}
-
-	public String getText() {
-		return input.getValue();
-	}
-
 	public void setMaxLength(int maxLength) {
-		input.setMaxLength(maxLength);
+		((InputElement) input).setMaxLength(maxLength);
 	}
 
-	public void setPlaceholder(String value) {
-		input.setAttribute("placeholder", value);
-	}
-
-	public HandlerRegistration addFocusHandler(FocusHandler handler) {
-		return addDomHandler(handler, FocusEvent.getType());
-	}
-
-	public HandlerRegistration addBlurHandler(BlurHandler handler) {
-		return addDomHandler(handler, BlurEvent.getType());
+	@Override
+	protected void setRawValue(String value) {
+		((InputElement) input).setValue(value);
 	}
 
 }

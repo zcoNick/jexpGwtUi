@@ -23,6 +23,7 @@ public class WidgetConst {
 	public static final String	DECIMALBOX_PREFIX			= "dc";
 	public static final String	DIALOG_PREFIX				= "dl";
 	public static final String	DROPDOWN_PREFIX				= "dd";
+	public static final String	EDITCOMBOBOX_PREFIX			= "ec";
 	public static final String	EDITGRID_PREFIX				= "eg";
 	public static final String	EDITGRID_NEWROW				= EDITGRID_PREFIX + "NewRow";
 	public static final String	EMAIL_PREFIX				= "eb";
@@ -82,13 +83,13 @@ public class WidgetConst {
 	public static final String	WIZARDPAGE_PREFIX			= "wp";
 	public static final String	WORKFLOWDESIGNER_PREFIX		= "wfd";
 
-	public static final String	WIDTH_DEFAULT				= "10em";
-	public static final String	WIDTH_MIDDLE				= "16em";
-	public static final String	WIDTH_BIG					= "22em";
-	public static final String	WIDTH_WIDE					= "28em";
-	public static final String	WIDTH_ULTRA					= "36em";
+	public static final String	WIDTH_DEFAULT	= "10em";
+	public static final String	WIDTH_MIDDLE	= "16em";
+	public static final String	WIDTH_BIG		= "22em";
+	public static final String	WIDTH_WIDE		= "28em";
+	public static final String	WIDTH_ULTRA		= "36em";
 
-	public static final String	HEIGHT_BUTTONBAR			= "2.1em";
-	public static final String	HEIGHT_TOOLBAR				= "2.1em";
+	public static final String	HEIGHT_BUTTONBAR	= "2.1em";
+	public static final String	HEIGHT_TOOLBAR		= "2.1em";
 
 }

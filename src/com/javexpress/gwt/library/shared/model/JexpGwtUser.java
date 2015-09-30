@@ -11,7 +11,7 @@ import com.google.gwt.i18n.client.NumberFormat;
 
 public class JexpGwtUser implements Serializable {
 
-	public static transient JexpGwtUser	instance;
+	public static transient JexpGwtUser instance;
 
 	private Long						id;
 	private Long						orgUnitId;
@@ -147,27 +147,27 @@ public class JexpGwtUser implements Serializable {
 	}
 
 	public static String formatDate(final Date cand) {
-		return DateTimeFormat.getFormat(instance.dateFormat).format(cand);
+		return cand == null ? null : DateTimeFormat.getFormat(instance.dateFormat).format(cand);
 	}
 
 	public static String formatTimestamp(final Date cand) {
-		return DateTimeFormat.getFormat(instance.timeStampFormat).format(cand);
+		return cand == null ? null : DateTimeFormat.getFormat(instance.timeStampFormat).format(cand);
 	}
 
 	public static String formatTimestampLong(final Date cand) {
-		return DateTimeFormat.getFormat(instance.timeStampFormatLong).format(cand);
+		return cand == null ? null : DateTimeFormat.getFormat(instance.timeStampFormatLong).format(cand);
 	}
 
 	public static Date parseDate(final String text) {
-		return DateTimeFormat.getFormat(instance.dateFormat).parse(text);
+		return text == null ? null : DateTimeFormat.getFormat(instance.dateFormat).parse(text);
 	}
 
 	public static Date parseTimestamp(final String text) {
-		return DateTimeFormat.getFormat(instance.timeStampFormat).parse(text);
+		return text == null ? null : DateTimeFormat.getFormat(instance.timeStampFormat).parse(text);
 	}
 
 	public static BigDecimal parseDecimal(String text) {
-		if (getCurrencyDecimalChar() != '.')//TR ise
+		if (getCurrencyDecimalChar() != '.') //TR ise
 			text = text.replaceAll("\\.", "").replaceAll(",", ".");
 		else
 			text = text.replaceAll(",", ".");

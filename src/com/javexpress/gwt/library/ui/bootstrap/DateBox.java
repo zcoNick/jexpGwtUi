@@ -6,27 +6,17 @@ import java.util.Date;
 import com.google.gwt.core.client.JavaScriptObject;
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.dom.client.InputElement;
-import com.google.gwt.event.dom.client.BlurEvent;
-import com.google.gwt.event.dom.client.BlurHandler;
-import com.google.gwt.event.dom.client.ChangeEvent;
-import com.google.gwt.event.dom.client.ChangeHandler;
-import com.google.gwt.event.dom.client.FocusEvent;
-import com.google.gwt.event.dom.client.FocusHandler;
-import com.google.gwt.event.shared.HandlerRegistration;
 import com.google.gwt.i18n.client.LocaleInfo;
 import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.ui.Widget;
 import com.javexpress.gwt.library.shared.model.JexpGwtUser;
 import com.javexpress.gwt.library.shared.model.WidgetConst;
 import com.javexpress.gwt.library.ui.FaIcon;
-import com.javexpress.gwt.library.ui.container.panel.JexpSimplePanel;
-import com.javexpress.gwt.library.ui.data.DataBindingHandler;
-import com.javexpress.gwt.library.ui.form.IWrappedInput;
 import com.javexpress.gwt.library.ui.js.JsUtil;
 import com.javexpress.gwt.library.ui.js.JsonMap;
 import com.javexpress.gwt.library.ui.js.WidgetBundles;
 
-public class DateBox extends JexpSimplePanel implements IWrappedInput<Date> {
+public class DateBox extends BaseWrappedInput<Date> {
 
 	public static WidgetBundles fillResources(final WidgetBundles parent) {
 		WidgetBundles wb = new WidgetBundles("Date/Time Pickers", parent);
@@ -46,25 +36,11 @@ public class DateBox extends JexpSimplePanel implements IWrappedInput<Date> {
 		return lclz;
 	}
 
-	private JsonMap				options;
-	private boolean				required;
-	private DataBindingHandler	dataBinding;
-	private InputElement		input;
-
-	@Override
-	public boolean isRequired() {
-		return required;
-	}
-
-	@Override
-	public void setRequired(final boolean required) {
-		this.required = required;
-	}
+	private JsonMap	options;
+	private Element	btDate;
 
 	public DateBox(final Widget parent, final String id) {
-		super(DOM.createDiv());
-		JsUtil.ensureId(parent, this, WidgetConst.DATEBOX_PREFIX, id);
-		getElement().setClassName("input-group jexpDateBox");
+		super(parent, WidgetConst.DATEBOX_PREFIX, id, "jexpDateBox");
 
 		input = DOM.createInputText().cast();
 		JsUtil.ensureSubId(getElement(), input, "inp");
@@ -132,8 +108,8 @@ public class DateBox extends JexpSimplePanel implements IWrappedInput<Date> {
 	@Override
 	protected void onUnload() {
 		options = null;
-		dataBinding = null;
 		destroyByJs(getElement(), input);
+		btDate = null;
 		super.onUnload();
 	}
 
@@ -143,19 +119,12 @@ public class DateBox extends JexpSimplePanel implements IWrappedInput<Date> {
 	}-*/;
 
 	public void setRawValue(final String cand) {
-		input.setValue(cand);
+		((InputElement) input).setValue(cand);
 	}
 
+	@Override
 	public void setValue(final Date cand) {
-		setValueDate(cand);
-	}
-
-	public void setValueDate(final Date cand) {
-		if (cand == null) {
-			setValue("");
-			return;
-		}
-		setValue(JexpGwtUser.formatDate(cand));
+		setValue(cand, false);
 	}
 
 	public Date getDate() throws ParseException {
@@ -185,63 +154,7 @@ public class DateBox extends JexpSimplePanel implements IWrappedInput<Date> {
 			else if (value.equals("@monthStart"))
 				setValue(JsUtil.toMonthStart(new Date()));
 		} else
-			input.setPropertyString("value", value);
-	}
-
-	protected void updateLastValue() {
-		this.lastValue = getText();
-	}
-
-	private String getText() {
-		return input.getPropertyString("value");
-	}
-
-	@Override
-	public void setValidationError(String validationError) {
-		if (JsUtil.USE_BOOTSTRAP) {
-			Widget nw = getParent() instanceof FormGroupCell ? getParent() : this;
-			if (validationError == null)
-				nw.removeStyleName("has-error");
-			else
-				nw.addStyleName("has-error");
-		}
-		setTitle(validationError);
-	}
-
-	private String	lastValue	= null;
-	private Element	btDate;
-
-	// ---------- EVENTS
-
-	@Override
-	public void setDataBindingHandler(DataBindingHandler handler) {
-		this.dataBinding = handler;
-		dataBinding.setControl(this);
-	}
-
-	@Override
-	public DataBindingHandler getDataBindingHandler() {
-		return dataBinding;
-	}
-
-	@Override
-	public int getTabIndex() {
-		return input.getTabIndex();
-	}
-
-	@Override
-	public void setAccessKey(char key) {
-	}
-
-	@Override
-	public void setFocus(boolean focused) {
-		if (focused)
-			input.focus();
-	}
-
-	@Override
-	public void setTabIndex(int index) {
-		input.setTabIndex(index);
+			((InputElement) input).setValue(value);
 	}
 
 	@Override
@@ -255,31 +168,12 @@ public class DateBox extends JexpSimplePanel implements IWrappedInput<Date> {
 	}
 
 	@Override
-	public void setEnabled(boolean enabled) {
-		input.setPropertyBoolean("disabled", !enabled);
+	protected void setRawValue(Date value) {
+		((InputElement) input).setValue(JexpGwtUser.formatDate(value));
 	}
 
-	@Override
-	public Element getInputElement() {
-		return input;
-	}
-
-	@Override
-	protected Element getSinkElement() {
-		return input;
-	}
-
-	@Override
-	public HandlerRegistration addChangeHandler(ChangeHandler handler) {
-		return addDomHandler(handler, ChangeEvent.getType());
-	}
-
-	public HandlerRegistration addFocusHandler(FocusHandler handler) {
-		return addDomHandler(handler, FocusEvent.getType());
-	}
-
-	public HandlerRegistration addBlurHandler(BlurHandler handler) {
-		return addDomHandler(handler, BlurEvent.getType());
+	public void setValueDate(Date value) {
+		setValue(value);
 	}
 
 }
