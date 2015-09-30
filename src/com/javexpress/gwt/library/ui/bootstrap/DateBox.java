@@ -265,6 +265,11 @@ public class DateBox extends JexpSimplePanel implements IWrappedInput<Date> {
 	}
 
 	@Override
+	protected Element getSinkElement() {
+		return input;
+	}
+
+	@Override
 	public HandlerRegistration addChangeHandler(ChangeHandler handler) {
 		return addDomHandler(handler, ChangeEvent.getType());
 	}

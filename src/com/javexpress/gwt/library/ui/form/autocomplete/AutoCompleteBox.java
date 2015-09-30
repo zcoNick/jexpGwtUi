@@ -5,7 +5,11 @@ import java.io.Serializable;
 import com.google.gwt.core.client.JavaScriptObject;
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.dom.client.InputElement;
+import com.google.gwt.event.dom.client.BlurEvent;
+import com.google.gwt.event.dom.client.BlurHandler;
 import com.google.gwt.event.dom.client.ChangeHandler;
+import com.google.gwt.event.dom.client.FocusEvent;
+import com.google.gwt.event.dom.client.FocusHandler;
 import com.google.gwt.event.shared.HandlerRegistration;
 import com.google.gwt.user.client.Command;
 import com.google.gwt.user.client.DOM;
@@ -347,6 +351,11 @@ public class AutoCompleteBox<V extends Serializable> extends JexpSimplePanel imp
 	}
 
 	@Override
+	protected Element getSinkElement() {
+		return input;
+	}
+
+	@Override
 	public Element getInputElement() {
 		return input;
 	}
@@ -361,6 +370,14 @@ public class AutoCompleteBox<V extends Serializable> extends JexpSimplePanel imp
 
 	public void setPlaceholder(String value) {
 		input.setAttribute("placeholder", value);
+	}
+
+	public HandlerRegistration addFocusHandler(FocusHandler handler) {
+		return addDomHandler(handler, FocusEvent.getType());
+	}
+
+	public HandlerRegistration addBlurHandler(BlurHandler handler) {
+		return addDomHandler(handler, BlurEvent.getType());
 	}
 
 }
