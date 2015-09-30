@@ -34,7 +34,7 @@ public class EditComboBox extends BaseWrappedInput<String>implements IKeyValueLi
 	public EditComboBox(final Widget parent, final String id) {
 		super(parent, WidgetConst.EDITCOMBOBOX_PREFIX, id, "jexpEditComboBox");
 
-		input = DOM.createInputText().cast();
+		input = DOM.createInputText();
 		JsUtil.ensureSubId(getElement(), input, "inp");
 		input.addClassName("form-control");
 		getElement().appendChild(input);
@@ -83,8 +83,8 @@ public class EditComboBox extends BaseWrappedInput<String>implements IKeyValueLi
 	}
 
 	private native void destroyByJs(Element element) /*-{
-														$wnd.$("a.jexpLink", element).off();
-														}-*/;
+		$wnd.$("a.jexpLink", element).off();
+	}-*/;
 
 	@Override
 	protected void onUnload() {

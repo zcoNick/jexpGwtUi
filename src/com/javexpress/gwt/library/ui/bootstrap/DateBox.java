@@ -42,7 +42,7 @@ public class DateBox extends BaseWrappedInput<Date> {
 	public DateBox(final Widget parent, final String id) {
 		super(parent, WidgetConst.DATEBOX_PREFIX, id, "jexpDateBox");
 
-		input = DOM.createInputText().cast();
+		input = DOM.createInputText();
 		JsUtil.ensureSubId(getElement(), input, "inp");
 		input.addClassName("form-control");
 		getElement().appendChild(input);
