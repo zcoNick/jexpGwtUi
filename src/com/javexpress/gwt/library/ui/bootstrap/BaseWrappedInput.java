@@ -43,19 +43,20 @@ public abstract class BaseWrappedInput<T extends Serializable> extends JexpSimpl
 		getElement().setClassName("input-group " + (styleName != null ? styleName : ""));
 	}
 
-	public void setValue(T value) {
-		setValue(value, false);
+	public boolean setValue(T value) {
+		return setValue(value, false);
 	}
 
-	public void setValue(T value, boolean fireEvents) {
+	public boolean setValue(T value, boolean fireEvents) {
 		T oldValue = fireEvents ? getValue() : null;
-		setRawValue(value);
+		boolean changed = setRawValue(value);
 		if (fireEvents) {
 			ValueChangeEvent.fireIfNotEqual(this, oldValue, value);
 		}
+		return changed;
 	}
 
-	protected abstract void setRawValue(T value);
+	protected abstract boolean setRawValue(T value);
 
 	@Override
 	public void setValidationError(String validationError) {

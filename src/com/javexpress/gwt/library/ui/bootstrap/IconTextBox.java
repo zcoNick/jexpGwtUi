@@ -66,8 +66,9 @@ public class IconTextBox extends BaseWrappedInput<String> {
 	}
 
 	@Override
-	protected void setRawValue(String value) {
+	protected boolean setRawValue(String value) {
 		((InputElement) input).setValue(value);
+		return true;
 	}
 
 }

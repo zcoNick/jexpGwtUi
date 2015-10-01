@@ -124,16 +124,11 @@ public class DateBox extends BaseWrappedInput<Date> {
 
 	//https://github.com/RobinHerbots/jquery.inputmask/issues/648
 	private native void destroyByJs(Element element, Element input) /*-{
-																	$wnd.$(element).datepicker('destroy').empty().off();
-																	}-*/;
+		$wnd.$(element).datepicker('destroy').empty().off();
+	}-*/;
 
 	public void setRawValue(final String cand) {
 		((InputElement) input).setValue(cand);
-	}
-
-	@Override
-	public void setValue(final Date cand) {
-		setValue(cand, false);
 	}
 
 	public Date getDate() throws ParseException {
@@ -181,9 +176,10 @@ public class DateBox extends BaseWrappedInput<Date> {
 	}
 
 	@Override
-	protected void setRawValue(Date value) {
+	protected boolean setRawValue(Date value) {
 		((InputElement) input).setValue(JexpGwtUser.formatDate(value));
 		input.setAttribute("c", ((InputElement) input).getValue());
+		return true;
 	}
 
 	public void setValueDate(Date value) {

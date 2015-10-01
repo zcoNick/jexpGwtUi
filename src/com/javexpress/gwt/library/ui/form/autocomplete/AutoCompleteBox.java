@@ -212,12 +212,13 @@ public class AutoCompleteBox<V extends Serializable> extends BaseWrappedInput<St
 	}
 
 	@Override
-	public void setValue(final String value) {
+	public boolean setValue(final String value) {
 		if (value == null)
 			clear();
 		else {
 			_setValueById(this, input, options.getJavaScriptObject(), value);
 		}
+		return true;
 	}
 
 	private native void _setValueById(AutoCompleteBox<V> x, Element input, JavaScriptObject options, String value) /*-{
@@ -273,8 +274,9 @@ public class AutoCompleteBox<V extends Serializable> extends BaseWrappedInput<St
 	}
 
 	@Override
-	protected void setRawValue(String value) {
+	protected boolean setRawValue(String value) {
 		((InputElement) input).setValue(value);
+		return true;
 	}
 
 }

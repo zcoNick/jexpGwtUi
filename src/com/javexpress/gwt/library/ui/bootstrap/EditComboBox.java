@@ -112,21 +112,26 @@ public class EditComboBox extends BaseWrappedInput<String>implements IKeyValueLi
 	}
 
 	@Override
-	protected void setRawValue(String value) {
+	protected boolean setRawValue(String value) {
 		for (int i = 0; i < ul.getChildCount(); i++) {
 			Element anchor = (Element) ul.getChild(i).getFirstChild();
 			if (anchor.getAttribute("v").equals(value)) {
 				input.setAttribute("v", value);
 				((InputElement) input).setValue(anchor.getInnerHTML());
-				return;
+				return true;
 			}
 		}
 		input.setAttribute("v", "");
 		((InputElement) input).setValue("");
+		return false;
 	}
 
 	public String getText() {
 		return ((InputElement) input).getValue();
+	}
+
+	public void setText(String text) {
+		((InputElement) input).setValue(text);
 	}
 
 	public void setMaxLength(int maxlength) {
