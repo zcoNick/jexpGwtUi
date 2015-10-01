@@ -296,8 +296,6 @@ function getIFrameParentId(){
 }
 
 $.fn.centerInWindow = function () {
-	console.debug("a"+Math.max(0, (($(window).height() - $(this).outerHeight()) / 2) + $(window).scrollTop()) + "px");
-	console.debug(Math.max(0, (($(window).width() - $(this).outerWidth()) / 2) + $(window).scrollLeft()) + "px");
     this.css({position:"absolute",
     	top: Math.max(0, (($(window).height() - $(this).outerHeight()) / 2) + $(window).scrollTop()) + "px",
     	left: Math.max(0, (($(window).width() - $(this).outerWidth()) / 2) + $(window).scrollLeft()) + "px",

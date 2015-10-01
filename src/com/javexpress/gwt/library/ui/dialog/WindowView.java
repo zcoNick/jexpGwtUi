@@ -60,6 +60,8 @@ public class WindowView extends AbstractContainerFocusable implements IUIComposi
 
 	public WindowView(String id, boolean modal) {
 		super(DOM.createDiv());
+		int autoZIndex = JsUtil.calcDialogZIndex();
+		getElement().setAttribute("style", "display: block; padding-right: 17px; z-index:" + autoZIndex);
 		if (modal) {
 			setStyleName("jexp-ui-window-modal modal in");
 			Element backdrop = DOM.createDiv();
@@ -67,11 +69,13 @@ public class WindowView extends AbstractContainerFocusable implements IUIComposi
 			backdrop.getStyle().setHeight(com.google.gwt.user.client.Window.getClientHeight(), Unit.PX);
 			backdrop.getStyle().setZIndex(JsUtil.calcDialogZIndex());
 			getElement().appendChild(backdrop);
+		} else {
+			getElement().setAttribute("oz", String.valueOf(autoZIndex));
+			setStyleName("jexp-ui-window-nonmodal");
 		}
-		getElement().setAttribute("style", "display: block; padding-right: 17px; z-index:" + JsUtil.calcDialogZIndex());
 
 		windowDiv = DOM.createDiv();
-		windowDiv.setClassName("modal-dialog jexp-ui-window widget-box jexpShadow");
+		windowDiv.setClassName((modal ? "modal-dialog " : "") + "jexp-ui-window widget-box jexpShadow");
 		windowDiv.setTabIndex(-1);
 		windowDiv.setAttribute("role", "dialog");
 		windowDiv.setId(WidgetConst.WINDOWPREFIX + "_" + id);
@@ -188,10 +192,10 @@ public class WindowView extends AbstractContainerFocusable implements IUIComposi
 	}
 
 	private native void bindOnClick(Element el, Command command) /*-{
-		$wnd.$(el).click(function() {
-			command.@com.google.gwt.user.client.Command::execute()();
-		});
-	}-*/;
+																	$wnd.$(el).click(function() {
+																	command.@com.google.gwt.user.client.Command::execute()();
+																	});
+																	}-*/;
 
 	public void show() {
 		RootPanel.get().add(this);
@@ -219,19 +223,28 @@ public class WindowView extends AbstractContainerFocusable implements IUIComposi
 		if (isDraggable()) {
 			JsonMap opts = new JsonMap();
 			opts.set("handle", ".widget-header");
-			opts.set("opacity", 0.7);
+			opts.set("opacity", 0.8);
 			opts.set("cursor", "move");
-			JsUtil.draggable(windowDiv, opts.getJavaScriptObject());
+			JsUtil.draggable(getElement(), opts.getJavaScriptObject());
 		}
-		if (getElement().hasClassName("modal")) {
+		if (getElement().hasClassName("jexp-ui-window-nonmodal")) {
+			JsUtil.centerInWindow(getElement());
 			bindOnClick(headerDiv, new Command() {
 				@Override
 				public void execute() {
-					JsUtil.pulsate(getElement());
+					selectActiveWindow(getElement());
 				}
 			});
 		}
 	}
+
+	protected native void selectActiveWindow(Element el) /*-{
+															$wnd.$(".jexpActiveWindow").each(function(){
+															var that = $wnd.$(this);
+															that.css("z-index", that.attr("oz")).removeClass("jexpActiveWindow");			
+															}); 
+															$wnd.$(el).css("z-index",9999).addClass("jexpActiveWindow");
+															}-*/;
 
 	public void openHelp() {
 		Widget w = getWidget(0);
@@ -260,8 +273,8 @@ public class WindowView extends AbstractContainerFocusable implements IUIComposi
 	}
 
 	private native void _destroyByJs(Element el, String ubSel) /*-{
-		$wnd.$(ubSel, $wnd.$(el)).off();
-	}-*/;
+																$wnd.$(ubSel, $wnd.$(el)).off();
+																}-*/;
 
 	@Override
 	public void onResize() {

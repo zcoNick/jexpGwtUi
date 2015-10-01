@@ -769,12 +769,8 @@ public class JsUtil {
 		return parseInt(zmax) + 3;
 	}-*/;
 
-	public static void centerInWindow(final Element el) {
-		centerInWindow("#" + el.getId());
-	}
-
-	public static native void centerInWindow(String selector) /*-{
-		$wnd.$(selector).centerInWindow();
+	public static native void centerInWindow(Element el) /*-{
+		$wnd.$(el).centerInWindow();
 	}-*/;
 
 	public static void bindClick(final Element el, final Command execute) {
