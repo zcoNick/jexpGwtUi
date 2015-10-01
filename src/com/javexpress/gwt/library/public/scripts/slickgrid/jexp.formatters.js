@@ -79,7 +79,7 @@ function JexpLinkFormatter(row, cell, value, columnDef, data) {
 	if (columnDef.iconModifier)
 		icon = columnDef.iconModifier.call(this,columnDef,value,data);
 	if (!icon)
-		icon = columnDef.linkIconClass?"ui-icon "+columnDef.linkIconClass+" ":"";
+		icon = columnDef.linkIconClass?columnDef.linkIconClass+" ":"";
 	return "<span class=\""+icon+" ui-cursor-hand\" title=\""+(columnDef.linkTitle?columnDef.linkTitle:"")+"\" onclick=\"$('#"+columnDef.linkOwner+"').trigger('linkclicked'," +
 			"[$(this),"+row+","+cell+",'"+columnDef.field+"',"+columnDef.columnKey+",'"+value+"']);return false;\">"+(columnDef.linkText?columnDef.linkText:"")+"</span>";
 }
