@@ -13,6 +13,8 @@ import java.util.Map;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.core.client.JavaScriptObject;
 import com.google.gwt.core.client.JsArrayInteger;
+import com.google.gwt.core.client.JsArrayNumber;
+import com.google.gwt.core.client.JsArrayString;
 import com.google.gwt.core.client.Scheduler;
 import com.google.gwt.core.client.Scheduler.ScheduledCommand;
 import com.google.gwt.dom.client.Element;
@@ -109,12 +111,12 @@ public class JsUtil {
 	}
 
 	public static native String getBrowserName() /*-{
-		return $wnd.navigator.appName.toLowerCase();
-	}-*/;
+													return $wnd.navigator.appName.toLowerCase();
+													}-*/;
 
 	public static native String getUserAgent() /*-{
-		return $wnd.navigator.userAgent.toLowerCase();
-	}-*/;
+												return $wnd.navigator.userAgent.toLowerCase();
+												}-*/;
 
 	public static int[] jsArrayIntegerToIntArray(final JsArrayInteger values) {
 		int[] res = new int[values.length()];
@@ -361,12 +363,12 @@ public class JsUtil {
 	}
 
 	public static native void clearChilds(final Element el) /*-{
-		$wnd.$(el).empty();
-	}-*/;
+															$wnd.$(el).empty();
+															}-*/;
 
 	public static native void removeJQEvents(final Element el) /*-{
-		$wnd.$(el).off();
-	}-*/;
+																$wnd.$(el).off();
+																}-*/;
 
 	public static void alert(final String msg) {
 		Window.alert(resolveMessage(msg));
@@ -760,28 +762,28 @@ public class JsUtil {
 	}
 
 	public static native int calcZIndex(String selector) /*-{
-		var zmax = 0;
-		$wnd.$(selector).each(function() {
-			var cur = parseInt($wnd.$(this).css('z-index'));
-			if (cur != 9999)//jesmaxzindex for alerts
-				zmax = cur > zmax ? cur : zmax;
-		});
-		return parseInt(zmax) + 3;
-	}-*/;
+															var zmax = 0;
+															$wnd.$(selector).each(function() {
+															var cur = parseInt($wnd.$(this).css('z-index'));
+															if (cur != 9999)//jesmaxzindex for alerts
+															zmax = cur > zmax ? cur : zmax;
+															});
+															return parseInt(zmax) + 3;
+															}-*/;
 
 	public static native void centerInWindow(Element el) /*-{
-		$wnd.$(el).centerInWindow();
-	}-*/;
+															$wnd.$(el).centerInWindow();
+															}-*/;
 
 	public static void bindClick(final Element el, final Command execute) {
 		bindClick(JsUtil.ensureId(el), execute);
 	}
 
 	public static native void bindClick(String id, Command execute) /*-{
-		$wnd.$("#" + id).click(function() {
-			execute.@com.google.gwt.user.client.Command::execute()();
-		});
-	}-*/;
+																	$wnd.$("#" + id).click(function() {
+																	execute.@com.google.gwt.user.client.Command::execute()();
+																	});
+																	}-*/;
 
 	public static void disableInputs(final HasWidgets hasWidgets) {
 		toggleState((Widget) hasWidgets, false);
@@ -960,17 +962,17 @@ public class JsUtil {
 	}
 
 	public static native JsArrayInteger getParentWidthHeight(Element element) /*-{
-		var el = $wnd.$(element).parent();
-		return [ el.width(), el.height() ];
-	}-*/;
+																				var el = $wnd.$(element).parent();
+																				return [ el.width(), el.height() ];
+																				}-*/;
 
 	public static native void hoverStyle(Element element, String hoverState, String normalState) /*-{
-		$wnd.$(element).hover(function() {
-			$wnd.$(this).removeClass(normalState).addClass(hoverState);
-		}, function() {
-			$wnd.$(this).removeClass(hoverState).addClass(normalState);
-		});
-	}-*/;
+																									$wnd.$(element).hover(function() {
+																									$wnd.$(this).removeClass(normalState).addClass(hoverState);
+																									}, function() {
+																									$wnd.$(this).removeClass(hoverState).addClass(normalState);
+																									});
+																									}-*/;
 
 	public static void shakeWidget(Widget widget) {
 		applyEffect(widget.getElement(), JqEffect.shake);
@@ -985,26 +987,26 @@ public class JsUtil {
 	}
 
 	public static native void transfer(JavaScriptObject fromEl, JavaScriptObject toEl) /*-{
-		$wnd.$(fromEl).effect("transfer", {
-			to : toEl
-		}, 500);
-	}-*/;
+																						$wnd.$(fromEl).effect("transfer", {
+																						to : toEl
+																						}, 500);
+																						}-*/;
 
 	public static native void showElement(Element element, JqEffect effect) /*-{
-		$wnd.$(element).show(effect.toString());
-	}-*/;
+																			$wnd.$(element).show(effect.toString());
+																			}-*/;
 
 	public static native void applyEffect(Element element, JqEffect effect) /*-{
-		$wnd.$(element).effect(effect.toString());
-	}-*/;
+																			$wnd.$(element).effect(effect.toString());
+																			}-*/;
 
 	public static native void setElementData(Element element, String key, JavaScriptObject data) /*-{
-		$wnd.$.data(element, key, data);
-	}-*/;
+																									$wnd.$.data(element, key, data);
+																									}-*/;
 
 	public static native JavaScriptObject getElementData(Element element, String key) /*-{
-		return $wnd.$.data(element, key);
-	}-*/;
+																						return $wnd.$.data(element, key);
+																						}-*/;
 
 	public static String repeat(String s, int times) {
 		return times == 0 ? "" : new String(new char[times]).replace("\0", s);
@@ -1049,12 +1051,12 @@ public class JsUtil {
 	}
 
 	public static native void draggable(Element el, JavaScriptObject opts) /*-{
-		$wnd.$(el).draggable(opts);
-	}-*/;
+																			$wnd.$(el).draggable(opts);
+																			}-*/;
 
 	public static native void setNumeralLibLanguage(String cultureCode) /*-{
-		$wnd.numeral.language(cultureCode);
-	}-*/;
+																		$wnd.numeral.language(cultureCode);
+																		}-*/;
 
 	public static String createNumeralFormat(int decimals, boolean emptyDecimal, String currSymbol) {
 		String f = "0,0";
@@ -1075,6 +1077,20 @@ public class JsUtil {
 
 	public static String createNumeralFormat(int decimals, boolean emptyDecimal) {
 		return createNumeralFormat(decimals, emptyDecimal, null);
+	}
+
+	public static ArrayList<Long> asArrayListLong(JsArrayNumber jsarray) {
+		ArrayList<Long> list = new ArrayList<Long>();
+		for (int i = 0; i < jsarray.length(); i++)
+			list.add(Long.valueOf((long) jsarray.get(i)));
+		return list.isEmpty() ? null : list;
+	}
+
+	public static ArrayList<Long> asArrayListLong(JsArrayString jsarray) {
+		ArrayList<Long> list = new ArrayList<Long>();
+		for (int i = 0; i < jsarray.length(); i++)
+			list.add(Long.valueOf(jsarray.get(i)));
+		return list.isEmpty() ? null : list;
 	}
 
 }
