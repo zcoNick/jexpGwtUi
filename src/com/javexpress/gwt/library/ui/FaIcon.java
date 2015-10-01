@@ -594,7 +594,7 @@ public enum FaIcon implements ICssIcon {
 	yen("yen"),
 	youtube("youtube"),
 	youtube_play("youtube-play"),
-	youtube_square("youtube-square");
+	youtube_square("youtube-square"), clone("clone");
 
 	private String	icon;
 

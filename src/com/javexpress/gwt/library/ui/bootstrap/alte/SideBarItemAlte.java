@@ -29,7 +29,7 @@ public class SideBarItemAlte extends SideBarItem {
 	}
 
 	@Override
-	public SideBarItem createSubItem(String id, String path) {
+	public SideBarItem createAndAddSubItem(String id, String path) {
 		SideBarItem sbi = new SideBarItemAlte(this, id, path);
 		if (ul == null) {
 			ul = DOM.createElement("ul");

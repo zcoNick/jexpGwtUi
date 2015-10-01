@@ -69,6 +69,6 @@ public abstract class SideBarItem extends AbstractContainer {
 		super.onUnload();
 	}
 
-	public abstract SideBarItem createSubItem(String id, String path);
+	public abstract SideBarItem createAndAddSubItem(String id, String path);
 
 }
