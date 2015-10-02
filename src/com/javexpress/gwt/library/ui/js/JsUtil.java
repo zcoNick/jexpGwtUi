@@ -77,9 +77,9 @@ import com.javexpress.gwt.library.ui.form.upload.FileUpload;
 
 public class JsUtil {
 
-	public static boolean	isIE7	= false;
-	public static boolean	isIE8	= false;
-	public static boolean	isIE9	= false;
+	public static boolean			isIE7					= false;
+	public static boolean			isIE8					= false;
+	public static boolean			isIE9					= false;
 
 	static {
 		if (Window.Navigator.getUserAgent().matches(".*MSIE 7.*"))
@@ -90,10 +90,10 @@ public class JsUtil {
 			isIE9 = true;
 	}
 
-	public static final double[] RESPONSIVE_COL_WIDTHS = new double[] { 0, 8.33333333, 16.6667, 25, 33.3333, 41.6667, 50, 58.3333, 66.6667, 75, 83.3333, 91.6667, 100 };
+	public static final double[]	RESPONSIVE_COL_WIDTHS	= new double[] { 0, 8.33333333, 16.6667, 25, 33.3333, 41.6667, 50, 58.3333, 66.6667, 75, 83.3333, 91.6667, 100 };
 
-	public static boolean	testMode		= false;
-	private static int		scrollbarWidth	= 0;
+	public static boolean			testMode				= false;
+	private static int				scrollbarWidth			= 0;
 
 	public static boolean isBrowserIE() {
 		String name = getUserAgent();
@@ -111,12 +111,12 @@ public class JsUtil {
 	}
 
 	public static native String getBrowserName() /*-{
-													return $wnd.navigator.appName.toLowerCase();
-													}-*/;
+		return $wnd.navigator.appName.toLowerCase();
+	}-*/;
 
 	public static native String getUserAgent() /*-{
-												return $wnd.navigator.userAgent.toLowerCase();
-												}-*/;
+		return $wnd.navigator.userAgent.toLowerCase();
+	}-*/;
 
 	public static int[] jsArrayIntegerToIntArray(final JsArrayInteger values) {
 		int[] res = new int[values.length()];
@@ -363,12 +363,12 @@ public class JsUtil {
 	}
 
 	public static native void clearChilds(final Element el) /*-{
-															$wnd.$(el).empty();
-															}-*/;
+		$wnd.$(el).empty();
+	}-*/;
 
 	public static native void removeJQEvents(final Element el) /*-{
-																$wnd.$(el).off();
-																}-*/;
+		$wnd.$(el).off();
+	}-*/;
 
 	public static void alert(final String msg) {
 		Window.alert(resolveMessage(msg));
@@ -748,7 +748,7 @@ public class JsUtil {
 		return full * (Integer.parseInt(percent.substring(0, percent.length() - 1))) / 100;
 	}
 
-	public static volatile int lastDialogZIndex = 3;
+	public static volatile int	lastDialogZIndex	= 3;
 
 	public static int calcDialogZIndex() {
 		lastDialogZIndex += 3;
@@ -762,28 +762,28 @@ public class JsUtil {
 	}
 
 	public static native int calcZIndex(String selector) /*-{
-															var zmax = 0;
-															$wnd.$(selector).each(function() {
-															var cur = parseInt($wnd.$(this).css('z-index'));
-															if (cur != 9999)//jesmaxzindex for alerts
-															zmax = cur > zmax ? cur : zmax;
-															});
-															return parseInt(zmax) + 3;
-															}-*/;
+		var zmax = 0;
+		$wnd.$(selector).each(function() {
+			var cur = parseInt($wnd.$(this).css('z-index'));
+			if (cur != 9999)//jesmaxzindex for alerts
+				zmax = cur > zmax ? cur : zmax;
+		});
+		return parseInt(zmax) + 3;
+	}-*/;
 
 	public static native void centerInWindow(Element el) /*-{
-															$wnd.$(el).centerInWindow();
-															}-*/;
+		$wnd.$(el).centerInWindow();
+	}-*/;
 
 	public static void bindClick(final Element el, final Command execute) {
 		bindClick(JsUtil.ensureId(el), execute);
 	}
 
 	public static native void bindClick(String id, Command execute) /*-{
-																	$wnd.$("#" + id).click(function() {
-																	execute.@com.google.gwt.user.client.Command::execute()();
-																	});
-																	}-*/;
+		$wnd.$("#" + id).click(function() {
+			execute.@com.google.gwt.user.client.Command::execute()();
+		});
+	}-*/;
 
 	public static void disableInputs(final HasWidgets hasWidgets) {
 		toggleState((Widget) hasWidgets, false);
@@ -962,17 +962,17 @@ public class JsUtil {
 	}
 
 	public static native JsArrayInteger getParentWidthHeight(Element element) /*-{
-																				var el = $wnd.$(element).parent();
-																				return [ el.width(), el.height() ];
-																				}-*/;
+		var el = $wnd.$(element).parent();
+		return [ el.width(), el.height() ];
+	}-*/;
 
 	public static native void hoverStyle(Element element, String hoverState, String normalState) /*-{
-																									$wnd.$(element).hover(function() {
-																									$wnd.$(this).removeClass(normalState).addClass(hoverState);
-																									}, function() {
-																									$wnd.$(this).removeClass(hoverState).addClass(normalState);
-																									});
-																									}-*/;
+		$wnd.$(element).hover(function() {
+			$wnd.$(this).removeClass(normalState).addClass(hoverState);
+		}, function() {
+			$wnd.$(this).removeClass(hoverState).addClass(normalState);
+		});
+	}-*/;
 
 	public static void shakeWidget(Widget widget) {
 		applyEffect(widget.getElement(), JqEffect.shake);
@@ -987,26 +987,26 @@ public class JsUtil {
 	}
 
 	public static native void transfer(JavaScriptObject fromEl, JavaScriptObject toEl) /*-{
-																						$wnd.$(fromEl).effect("transfer", {
-																						to : toEl
-																						}, 500);
-																						}-*/;
+		$wnd.$(fromEl).effect("transfer", {
+			to : toEl
+		}, 500);
+	}-*/;
 
 	public static native void showElement(Element element, JqEffect effect) /*-{
-																			$wnd.$(element).show(effect.toString());
-																			}-*/;
+		$wnd.$(element).show(effect.toString());
+	}-*/;
 
 	public static native void applyEffect(Element element, JqEffect effect) /*-{
-																			$wnd.$(element).effect(effect.toString());
-																			}-*/;
+		$wnd.$(element).effect(effect.toString());
+	}-*/;
 
 	public static native void setElementData(Element element, String key, JavaScriptObject data) /*-{
-																									$wnd.$.data(element, key, data);
-																									}-*/;
+		$wnd.$.data(element, key, data);
+	}-*/;
 
 	public static native JavaScriptObject getElementData(Element element, String key) /*-{
-																						return $wnd.$.data(element, key);
-																						}-*/;
+		return $wnd.$.data(element, key);
+	}-*/;
 
 	public static String repeat(String s, int times) {
 		return times == 0 ? "" : new String(new char[times]).replace("\0", s);
@@ -1042,7 +1042,7 @@ public class JsUtil {
 		return null;
 	}
 
-	public static boolean USE_BOOTSTRAP = false;
+	public static boolean	USE_BOOTSTRAP	= false;
 
 	public static Integer nvl(Integer val, int i) {
 		if (val == null)
@@ -1051,12 +1051,12 @@ public class JsUtil {
 	}
 
 	public static native void draggable(Element el, JavaScriptObject opts) /*-{
-																			$wnd.$(el).draggable(opts);
-																			}-*/;
+		$wnd.$(el).draggable(opts);
+	}-*/;
 
 	public static native void setNumeralLibLanguage(String cultureCode) /*-{
-																		$wnd.numeral.language(cultureCode);
-																		}-*/;
+		$wnd.numeral.language(cultureCode);
+	}-*/;
 
 	public static String createNumeralFormat(int decimals, boolean emptyDecimal, String currSymbol) {
 		String f = "0,0";
@@ -1092,5 +1092,9 @@ public class JsUtil {
 			list.add(Long.valueOf(jsarray.get(i)));
 		return list.isEmpty() ? null : list;
 	}
+
+	public static native JavaScriptObject createJsArray() /*-{
+		return new Array();
+	}-*/;
 
 }

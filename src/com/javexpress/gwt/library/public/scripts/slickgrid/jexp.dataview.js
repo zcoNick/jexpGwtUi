@@ -231,7 +231,7 @@
       groups = [];
       toggledGroupsByLevel = [];
       groupingInfo = groupingInfo || [];
-      groupingInfos = (groupingInfo instanceof Array) ? groupingInfo : [groupingInfo];
+      groupingInfos = (groupingInfo instanceof Array||Object.prototype.toString.call(groupingInfo) === '[object Array]') ? groupingInfo : [groupingInfo];
 
       for (var i = 0; i < groupingInfos.length; i++) {
         var gi = groupingInfos[i] = $.extend(true, {}, groupingInfoDefaults, groupingInfos[i]);

@@ -97,6 +97,8 @@ public abstract class BootstrapTheme extends BaseResourceInjector {
 				w.setForm(form);
 				w.setPosition(formShowInWindowRequest.getPosX(), formShowInWindowRequest.getPosY());
 				w.show();
+				if (formShowInWindowRequest.getCallback() != null)
+					formShowInWindowRequest.getCallback().onSuccess(w);
 			}
 		});
 		ClientContext.EVENT_BUS.addHandler(ExceptionThrownEvent.TYPE, new ExceptionThrownEventHandler() {

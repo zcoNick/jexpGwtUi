@@ -24,9 +24,11 @@ import com.google.gwt.user.client.ui.Widget;
 import com.javexpress.gwt.library.shared.model.JexpGwtUser;
 import com.javexpress.gwt.library.ui.ClientContext;
 import com.javexpress.gwt.library.ui.dialog.NewJiraIssueDialog;
+import com.javexpress.gwt.library.ui.dialog.WindowView;
 import com.javexpress.gwt.library.ui.event.SessionExpiredEvent;
 import com.javexpress.gwt.library.ui.form.IJiraEnabledForm;
 import com.javexpress.gwt.library.ui.form.IUIComposite;
+import com.javexpress.gwt.library.ui.js.JexpCallback;
 import com.javexpress.gwt.library.ui.js.JsUtil;
 import com.javexpress.gwt.library.ui.js.JsonMap;
 
@@ -175,6 +177,10 @@ public abstract class BootstrapClient extends ClientContext implements ProvidesR
 
 	public static void showInWindow(IUIComposite form) {
 		instance.showInWindow(form, true);
+	}
+
+	public static void showInWindow(IUIComposite form, JexpCallback<WindowView> callback) {
+		instance.showInWindow(form, true, callback);
 	}
 
 }

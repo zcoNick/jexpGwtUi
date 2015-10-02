@@ -10,6 +10,7 @@ import java.util.TreeMap;
 import com.google.gwt.core.client.JavaScriptObject;
 import com.google.gwt.core.client.JsArray;
 import com.google.gwt.core.client.JsArrayInteger;
+import com.google.gwt.core.client.JsArrayUtils;
 import com.google.gwt.core.client.Scheduler;
 import com.google.gwt.core.client.Scheduler.RepeatingCommand;
 import com.google.gwt.dom.client.Element;
@@ -282,6 +283,8 @@ public class DataGrid<T extends Serializable> extends BaseSlickGrid<ListColumn>i
 
 		var dataView = null;
 		var groupItemMetadataProvider = null;
+		$wnd.console.debug("dataPaging || hasGroupable", dataPaging,
+				hasGroupable);
 		if (!dataPaging || hasGroupable) {
 			if (hasGroupable) {
 				groupItemMetadataProvider = new $wnd.Slick.Data.GroupItemMetadataProvider();
@@ -728,11 +731,12 @@ public class DataGrid<T extends Serializable> extends BaseSlickGrid<ListColumn>i
 		if (grouping == null)
 			grouping = new HashMap<Integer, String>();
 		grouping.put(order, col.getField());
+		col.setGroupable(true);
 	}
 
 	@Override
 	public void applyGrouping() {
-		JsArray<JavaScriptObject> groupDef = JsArray.createArray().cast();
+		JsArray<JavaScriptObject> groupDef = JsUtil.createJsArray().cast();
 		Map<Integer, String> ordered = new TreeMap<Integer, String>(grouping);
 		int i = 0;
 		for (Integer order : ordered.keySet()) {
@@ -744,18 +748,17 @@ public class DataGrid<T extends Serializable> extends BaseSlickGrid<ListColumn>i
 						if (colagg.getSummaryType() != null && colagg.getSummaryType() != SummaryType.count)
 							aggregators.push(_createAggregator(colagg.getSummaryType().toString(), colagg.getField()));
 					groupDef.push(_createGroupDef(f, col.getTitle(), col.getSummaryTemplate(), aggregators, i != 0));
-					col.setHidden(true);
+					col.setGroupable(true);
 					break;
 				}
 			i++;
 		}
 		currentGroupDef = groupDef;
 		if (isAttached())
-			_setGrouping(getDataView(), groupDef);
+			_setGrouping(getDataView(), currentGroupDef);
 	}
 
-	private native void _setGrouping(JavaScriptObject dataView, JsArray<JavaScriptObject> groupDef) /*-{
-		$wnd.console.debug(groupDef);
+	private native void _setGrouping(JavaScriptObject dataView, JavaScriptObject groupDef) /*-{
 		dataView.beginUpdate();
 		dataView.setGrouping(groupDef);
 		dataView.endUpdate();
