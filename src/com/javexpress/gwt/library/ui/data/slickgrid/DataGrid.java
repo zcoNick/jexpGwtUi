@@ -46,7 +46,7 @@ import com.javexpress.gwt.library.ui.js.JsUtil;
 import com.javexpress.gwt.library.ui.js.JsonMap;
 import com.javexpress.gwt.library.ui.menu.JqPopupMenu;
 
-public class DataGrid<T extends Serializable> extends BaseSlickGrid<ListColumn> implements IDataViewer {
+public class DataGrid<T extends Serializable> extends BaseSlickGrid<ListColumn>implements IDataViewer {
 
 	private boolean						autoLoad;
 	private int							maxHeight	= 0;
@@ -213,8 +213,7 @@ public class DataGrid<T extends Serializable> extends BaseSlickGrid<ListColumn> 
 	protected JavaScriptObject createJsObject(JSONArray colModel) {
 		if (currentGroupDef != null)
 			setPaging(false);
-		JavaScriptObject jso = createByJs(this, getContainer().getId(), getOptions().getJavaScriptObject(), colModel.getJavaScriptObject(), getKeyColumnName(),
-				"jexpDataGridLoadingPanel jexpDataGridLoadingIndicator", getData(), autoLoad, JsUtil.calcDialogZIndex(), loadingPanel, recInfo, ClientContext.nlsCommon.kayitBulunamadi(), ClientContext.nlsCommon.grupla(), styler, dataPaging, maxHeight, currentGroupDef);
+		JavaScriptObject jso = createByJs(this, getContainer().getId(), getOptions().getJavaScriptObject(), colModel.getJavaScriptObject(), getKeyColumnName(), "jexpDataGridLoadingPanel jexpDataGridLoadingIndicator", getData(), autoLoad, JsUtil.calcDialogZIndex(), loadingPanel, recInfo, ClientContext.nlsCommon.kayitBulunamadi(), ClientContext.nlsCommon.grupla(), styler, dataPaging, maxHeight, currentGroupDef);
 		autoLoad = false;
 		return jso;
 	}
@@ -733,11 +732,6 @@ public class DataGrid<T extends Serializable> extends BaseSlickGrid<ListColumn> 
 
 	@Override
 	public void applyGrouping() {
-		JsArray<JavaScriptObject> aggregators = JsArray.createArray().cast();
-		for (ListColumn col : getColumns())
-			if (col.getSummaryType() != null && col.getSummaryType() != SummaryType.count)
-				aggregators.push(_createAggregator(col.getSummaryType().toString(), col.getField()));
-
 		JsArray<JavaScriptObject> groupDef = JsArray.createArray().cast();
 		Map<Integer, String> ordered = new TreeMap<Integer, String>(grouping);
 		int i = 0;
@@ -745,6 +739,10 @@ public class DataGrid<T extends Serializable> extends BaseSlickGrid<ListColumn> 
 			String f = ordered.get(order);
 			for (ListColumn col : getColumns())
 				if (col.getField().equals(f)) {
+					JsArray<JavaScriptObject> aggregators = JsArray.createArray().cast();
+					for (ListColumn colagg : getColumns())
+						if (colagg.getSummaryType() != null && colagg.getSummaryType() != SummaryType.count)
+							aggregators.push(_createAggregator(colagg.getSummaryType().toString(), colagg.getField()));
 					groupDef.push(_createGroupDef(f, col.getTitle(), col.getSummaryTemplate(), aggregators, i != 0));
 					col.setHidden(true);
 					break;
@@ -757,8 +755,9 @@ public class DataGrid<T extends Serializable> extends BaseSlickGrid<ListColumn> 
 	}
 
 	private native void _setGrouping(JavaScriptObject dataView, JsArray<JavaScriptObject> groupDef) /*-{
+		$wnd.console.debug(groupDef);
 		dataView.beginUpdate();
-		dataView.setGrouping(groupDef.length > 1 ? groupDef : groupDef[0]);
+		dataView.setGrouping(groupDef);
 		dataView.endUpdate();
 	}-*/;
 
@@ -860,7 +859,7 @@ public class DataGrid<T extends Serializable> extends BaseSlickGrid<ListColumn> 
 		super.onAttach();
 	}
 
-	private int	lastCalculatedSize	= 0;
+	private int lastCalculatedSize = 0;
 
 	private void fireUpdateParentSize(int dataLength) {
 		int calculated = Math.min(maxHeight, Math.max(85, 18 + ((dataLength + 2) * (getOptions().getInt("rowHeight", 24) + 2))));
