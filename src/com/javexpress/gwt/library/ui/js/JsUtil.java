@@ -1093,8 +1093,4 @@ public class JsUtil {
 		return list.isEmpty() ? null : list;
 	}
 
-	public static native JavaScriptObject createJsArray() /*-{
-		return new Array();
-	}-*/;
-
 }

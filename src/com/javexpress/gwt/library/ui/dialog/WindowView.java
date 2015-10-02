@@ -32,6 +32,7 @@ public class WindowView extends AbstractContainerFocusable implements IUIComposi
 	private boolean	draggable;
 	private boolean	maximizable;
 	private boolean	helpVisible;
+	private boolean	hideOnClose	= false;
 	private boolean	showing;
 	private Element	helpSpan;
 	private Element	headerEl;
@@ -58,6 +59,14 @@ public class WindowView extends AbstractContainerFocusable implements IUIComposi
 
 	public void setHelpVisible(boolean helpVisible) {
 		this.helpVisible = helpVisible;
+	}
+
+	public boolean isHideOnClose() {
+		return hideOnClose;
+	}
+
+	public void setHideOnClose(boolean hideOnClose) {
+		this.hideOnClose = hideOnClose;
 	}
 
 	public WindowView(String id, boolean modal) {
@@ -232,7 +241,10 @@ public class WindowView extends AbstractContainerFocusable implements IUIComposi
 		bindOnClick(btClose, new Command() {
 			@Override
 			public void execute() {
-				close();
+				if (isHideOnClose())
+					hide();
+				else
+					close();
 			}
 		});
 		if (helpSpan != null)

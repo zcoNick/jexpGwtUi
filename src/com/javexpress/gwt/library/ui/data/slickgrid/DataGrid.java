@@ -10,7 +10,6 @@ import java.util.TreeMap;
 import com.google.gwt.core.client.JavaScriptObject;
 import com.google.gwt.core.client.JsArray;
 import com.google.gwt.core.client.JsArrayInteger;
-import com.google.gwt.core.client.JsArrayUtils;
 import com.google.gwt.core.client.Scheduler;
 import com.google.gwt.core.client.Scheduler.RepeatingCommand;
 import com.google.gwt.dom.client.Element;
@@ -47,7 +46,7 @@ import com.javexpress.gwt.library.ui.js.JsUtil;
 import com.javexpress.gwt.library.ui.js.JsonMap;
 import com.javexpress.gwt.library.ui.menu.JqPopupMenu;
 
-public class DataGrid<T extends Serializable> extends BaseSlickGrid<ListColumn>implements IDataViewer {
+public class DataGrid<T extends Serializable> extends BaseSlickGrid<ListColumn> implements IDataViewer {
 
 	private boolean						autoLoad;
 	private int							maxHeight	= 0;
@@ -736,7 +735,7 @@ public class DataGrid<T extends Serializable> extends BaseSlickGrid<ListColumn>i
 
 	@Override
 	public void applyGrouping() {
-		JsArray<JavaScriptObject> groupDef = JsUtil.createJsArray().cast();
+		JsArray<JavaScriptObject> groupDef = JsArray.createArray().cast();
 		Map<Integer, String> ordered = new TreeMap<Integer, String>(grouping);
 		int i = 0;
 		for (Integer order : ordered.keySet()) {
@@ -862,7 +861,7 @@ public class DataGrid<T extends Serializable> extends BaseSlickGrid<ListColumn>i
 		super.onAttach();
 	}
 
-	private int lastCalculatedSize = 0;
+	private int	lastCalculatedSize	= 0;
 
 	private void fireUpdateParentSize(int dataLength) {
 		int calculated = Math.min(maxHeight, Math.max(85, 18 + ((dataLength + 2) * (getOptions().getInt("rowHeight", 24) + 2))));
