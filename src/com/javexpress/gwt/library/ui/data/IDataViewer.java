@@ -7,6 +7,7 @@ import com.google.gwt.user.client.ui.Focusable;
 import com.google.gwt.user.client.ui.IsWidget;
 import com.javexpress.gwt.library.shared.model.IJsonServicePoint;
 import com.javexpress.gwt.library.ui.IJexpWidget;
+import com.javexpress.gwt.library.ui.data.slickgrid.GroupingDefinition;
 import com.javexpress.gwt.library.ui.form.ISizeAwareWidget;
 import com.javexpress.gwt.library.ui.js.JsonMap;
 import com.javexpress.gwt.library.ui.menu.IHasPopupMenu;
@@ -61,7 +62,7 @@ public interface IDataViewer extends IJexpWidget, ISizeAwareWidget, IDataChangeL
 
 	void setDataExportOptions(boolean useForeignKeysAsVariable);
 
-	void setGroupingOrder(int order, ListColumn col);
+	void addGrouping(GroupingDefinition groupingItem);
 
 	void applyGrouping();
 

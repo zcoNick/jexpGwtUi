@@ -2,10 +2,7 @@ package com.javexpress.gwt.library.ui.data.slickgrid;
 
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
-import java.util.TreeMap;
 
 import com.google.gwt.core.client.JavaScriptObject;
 import com.google.gwt.core.client.JsArray;
@@ -56,7 +53,7 @@ public class DataGrid<T extends Serializable> extends BaseSlickGrid<ListColumn> 
 	private Element						recInfo, loadingPanel;
 	private DataGridStyler				styler;
 	private JsArray<JavaScriptObject>	currentGroupDef;
-	private Map<Integer, String>		grouping	= null;
+	private List<GroupingDefinition>			grouping	= null;
 
 	private JavaScriptObject getLoader() {
 		return loader;
@@ -706,7 +703,7 @@ public class DataGrid<T extends Serializable> extends BaseSlickGrid<ListColumn> 
 			return new $wnd.Slick.Data.Aggregators.Max(field);
 	}-*/;
 
-	private native JavaScriptObject _createGroupDef(String field, String title, String template, JsArray<JavaScriptObject> aggregators, boolean collapsed) /*-{
+	private native JavaScriptObject _createGroupDef(String field, String title, String template, JsArray<JavaScriptObject> aggregators, boolean collapsed, boolean aggregateCollapsed, boolean lazyTotalsCalculation) /*-{
 		var gd = {
 			getter : field,
 			formatter : function(g) {
@@ -719,38 +716,33 @@ public class DataGrid<T extends Serializable> extends BaseSlickGrid<ListColumn> 
 		};
 		if (aggregators && aggregators.length > 0) {
 			gd.aggregators = aggregators;
-			gd.aggregateCollapsed = true;
-			gd.lazyTotalsCalculation = true;
+			gd.aggregateCollapsed = aggregateCollapsed;
+			gd.lazyTotalsCalculation = lazyTotalsCalculation;
 		}
 		return gd;
 	}-*/;
 
 	@Override
-	public void setGroupingOrder(int order, ListColumn col) {
+	public void addGrouping(GroupingDefinition groupingItem) {
 		if (grouping == null)
-			grouping = new HashMap<Integer, String>();
-		grouping.put(order, col.getField());
-		col.setGroupable(true);
+			grouping = new ArrayList<GroupingDefinition>();
+		grouping.add(groupingItem);
 	}
 
 	@Override
 	public void applyGrouping() {
 		JsArray<JavaScriptObject> groupDef = JsArray.createArray().cast();
-		Map<Integer, String> ordered = new TreeMap<Integer, String>(grouping);
-		int i = 0;
-		for (Integer order : ordered.keySet()) {
-			String f = ordered.get(order);
+		for (GroupingDefinition gi : grouping) {
 			for (ListColumn col : getColumns())
-				if (col.getField().equals(f)) {
+				if (col.getField().equals(gi.getField())) {
 					JsArray<JavaScriptObject> aggregators = JsArray.createArray().cast();
 					for (ListColumn colagg : getColumns())
 						if (colagg.getSummaryType() != null && colagg.getSummaryType() != SummaryType.count)
 							aggregators.push(_createAggregator(colagg.getSummaryType().toString(), colagg.getField()));
-					groupDef.push(_createGroupDef(f, col.getTitle(), col.getSummaryTemplate(), aggregators, i != 0));
+					groupDef.push(_createGroupDef(col.getField(), col.getTitle(), col.getSummaryTemplate(), aggregators, gi.isCollapsed(), gi.isAggregateCollapsed(), gi.isLazyCalculation()));
 					col.setGroupable(true);
 					break;
 				}
-			i++;
 		}
 		currentGroupDef = groupDef;
 		if (isAttached())
@@ -831,8 +823,9 @@ public class DataGrid<T extends Serializable> extends BaseSlickGrid<ListColumn> 
 			if (grouping != null)
 				grouping.clear();
 			else
-				grouping = new HashMap<Integer, String>();
-			grouping.put(0, field);
+				grouping = new ArrayList<GroupingDefinition>();
+			GroupingDefinition gi = new GroupingDefinition(field, false);
+			grouping.add(gi);
 			applyGrouping();
 		}
 	}

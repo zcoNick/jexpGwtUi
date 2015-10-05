@@ -2,10 +2,7 @@ package com.javexpress.gwt.library.ui.data.jqgrid;
 
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
-import java.util.TreeMap;
 
 import com.google.gwt.core.client.JavaScriptObject;
 import com.google.gwt.core.client.JsArrayString;
@@ -36,6 +33,7 @@ import com.javexpress.gwt.library.ui.data.IToolItemHandler;
 import com.javexpress.gwt.library.ui.data.LinkColumn;
 import com.javexpress.gwt.library.ui.data.ListColumn;
 import com.javexpress.gwt.library.ui.data.ListColumn.Formatter;
+import com.javexpress.gwt.library.ui.data.slickgrid.GroupingDefinition;
 import com.javexpress.gwt.library.ui.js.JsUtil;
 import com.javexpress.gwt.library.ui.js.JsonMap;
 import com.javexpress.gwt.library.ui.js.WidgetBundles;
@@ -71,7 +69,7 @@ public class JqGrid<T extends Serializable> extends JexpWidget implements IDataV
 	private boolean					useSmallFonts;
 	private String					keyColumnName;
 	private int						maxHeight		= 0;
-	private Map<Integer, String>	grouping		= null;
+	private List<GroupingDefinition>		grouping		= null;
 
 	public String getKeyColumnName() {
 		return keyColumnName;
@@ -513,10 +511,10 @@ public class JqGrid<T extends Serializable> extends JexpWidget implements IDataV
 	}
 
 	@Override
-	public void setGroupingOrder(int order, ListColumn col) {
+	public void addGrouping(GroupingDefinition groupingItem) {
 		if (grouping == null)
-			grouping = new HashMap<Integer, String>();
-		grouping.put(order, col.getField());
+			grouping = new ArrayList<GroupingDefinition>();
+		grouping.add(groupingItem);
 	}
 
 	@Override
@@ -536,16 +534,15 @@ public class JqGrid<T extends Serializable> extends JexpWidget implements IDataV
 			JSONArray names = new JSONArray();
 			JSONArray summaries = new JSONArray();
 			int i = 0;
-			Map<Integer, String> ordered = new TreeMap<Integer, String>(grouping);
-			for (Integer order : ordered.keySet()) {
-				names.set(i++, new JSONString(ordered.get(order)));
+			for (GroupingDefinition gi : grouping) {
+				names.set(i++, new JSONString(gi.getField()));
 				summaries.set(i, JSONBoolean.getInstance(true));
 			}
 			JSONArray arrBool = new JSONArray();
 			gd.put("groupField", names);
 			gd.put("groupSummary", summaries);
 			i = 0;
-			for (Integer order : ordered.keySet())
+			for (GroupingDefinition gi : grouping)
 				arrBool.set(i++, JSONBoolean.getInstance(true));
 			gd.put("groupColumnShow", arrBool);
 			gd.set("groupDataSorted", true);
@@ -555,9 +552,8 @@ public class JqGrid<T extends Serializable> extends JexpWidget implements IDataV
 			 */
 		} else {
 			JsArrayString arrField = JsArrayString.createArray().cast();
-			Map<Integer, String> ordered = new TreeMap<Integer, String>(grouping);
-			for (Integer order : ordered.keySet())
-				arrField.push(ordered.get(order));
+			for (GroupingDefinition gi : grouping)
+				arrField.push(gi.getField());
 			_groupBy(widget, arrField);
 		}
 	}
