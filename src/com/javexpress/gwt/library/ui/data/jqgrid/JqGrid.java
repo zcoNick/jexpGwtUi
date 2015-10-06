@@ -56,20 +56,20 @@ public class JqGrid<T extends Serializable> extends JexpWidget implements IDataV
 		return jexp;
 	}
 
-	protected JsonMap				options;
-	private boolean					keyNavigation	= true;
-	protected final Element			table;
-	private Element					pager;
-	private JavaScriptObject		widget;
-	private IGridListener			listener;
-	private List<ListColumn>		columns			= new ArrayList<ListColumn>();
-	protected List<GridToolItem>	tools			= new ArrayList<GridToolItem>();
-	private Serializable			widgetData;
-	private boolean					waitingFocus;
-	private boolean					useSmallFonts;
-	private String					keyColumnName;
-	private int						maxHeight		= 0;
-	private List<GroupingDefinition>		grouping		= null;
+	protected JsonMap					options;
+	private boolean						keyNavigation	= true;
+	protected final Element				table;
+	private Element						pager;
+	private JavaScriptObject			widget;
+	private IGridListener				listener;
+	private List<ListColumn>			columns			= new ArrayList<ListColumn>();
+	protected List<GridToolItem>		tools			= new ArrayList<GridToolItem>();
+	private Serializable				widgetData;
+	private boolean						waitingFocus;
+	private boolean						useSmallFonts;
+	private String						keyColumnName;
+	private int							maxHeight		= 0;
+	private List<GroupingDefinition>	grouping		= null;
 
 	public String getKeyColumnName() {
 		return keyColumnName;
@@ -381,7 +381,7 @@ public class JqGrid<T extends Serializable> extends JexpWidget implements IDataV
 		var el = $wnd.$(elm);
 		options.colModel=colModel;
 		if (maxHeight>0)
-			options.height='auto';
+			options.height=maxHeight;//'auto';
 		options.pager="#"+id+"_pager";
 		options.jsonReader={page:"page",total:"total",records:"count",root:"data",repeatitems:false,id:keyColumnName};
 		options.treeReader={page:"page",total:"total",records:"count",root:"data",repeatitems:false,id:keyColumnName,parent_id_field:"parent"};
