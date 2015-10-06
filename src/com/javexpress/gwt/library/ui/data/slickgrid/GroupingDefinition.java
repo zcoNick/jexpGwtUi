@@ -1,11 +1,17 @@
 package com.javexpress.gwt.library.ui.data.slickgrid;
 
+import java.util.LinkedHashMap;
+import java.util.Map;
+
+import com.javexpress.gwt.library.ui.data.ListColumn.SummaryType;
+
 public class GroupingDefinition {
 
-	private String	field;
-	private boolean	collapsed;
-	private boolean	aggregateCollapsed;
-	private boolean	lazyCalculation;
+	private String						field;
+	private boolean						collapsed;
+	private boolean						aggregateCollapsed;
+	private boolean						lazyCalculation;
+	private Map<String, SummaryType>	aggregators;
 
 	public String getField() {
 		return field;
@@ -42,6 +48,16 @@ public class GroupingDefinition {
 	public GroupingDefinition(String field, boolean collapsed) {
 		this.field = field;
 		this.collapsed = collapsed;
+	}
+
+	public Map<String, SummaryType> getAggregators() {
+		return aggregators;
+	}
+
+	public void addAggregator(String field, SummaryType sum) {
+		if (aggregators == null)
+			aggregators = new LinkedHashMap<String, SummaryType>();
+		aggregators.put(field, sum);
 	}
 
 }
