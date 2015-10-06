@@ -6,6 +6,7 @@ import java.util.Map;
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.dom.client.InputElement;
 import com.google.gwt.dom.client.Style.Overflow;
+import com.google.gwt.event.logical.shared.ValueChangeEvent;
 import com.google.gwt.i18n.client.ConstantsWithLookup;
 import com.google.gwt.json.client.JSONArray;
 import com.google.gwt.json.client.JSONObject;
@@ -17,7 +18,7 @@ import com.javexpress.gwt.library.ui.form.combobox.IItemsChangeHandler;
 import com.javexpress.gwt.library.ui.form.combobox.IKeyValueList;
 import com.javexpress.gwt.library.ui.js.JsUtil;
 
-public class EditComboBox extends BaseWrappedInput<String>implements IKeyValueList {
+public class EditComboBox extends BaseWrappedInput<String> implements IKeyValueList {
 
 	private Element				btChevron;
 	private Element				ul;
@@ -52,7 +53,8 @@ public class EditComboBox extends BaseWrappedInput<String>implements IKeyValueLi
 		getElement().appendChild(ul);
 	}
 
-	private boolean dropUp = false;
+	private boolean	dropUp		= false;
+	private boolean	needsRebind	= true;
 
 	public boolean isDropUp() {
 		return dropUp;
@@ -69,22 +71,51 @@ public class EditComboBox extends BaseWrappedInput<String>implements IKeyValueLi
 		else
 			getElement().addClassName("dropdown");
 		super.onLoad();
-		createByJs(this, ul);
+		createByJs(this, getElement(), input);
+		rebindItemEvents(this, ul);
 	}
 
-	private native void createByJs(EditComboBox x, Element element) /*-{
-																	var el = $wnd.$("a.jexpLink", element).click(function(e) {
-																	x.@com.javexpress.gwt.library.ui.bootstrap.EditComboBox::fireSelection(Ljava/lang/String;)($wnd.$(this).attr("v"));
-																	});
-																	}-*/;
+	private native void createByJs(EditComboBox x, Element el, Element input) /*-{
+																				$wnd
+																				.$(el)
+																				.on(
+																				"show.bs.dropdown",
+																				function() {
+																				x.@com.javexpress.gwt.library.ui.bootstrap.EditComboBox::fireShow()();
+																				});
+																				$wnd.$(input).keydown(function() {
+																				x.@com.javexpress.gwt.library.ui.bootstrap.EditComboBox::fireModifyText()();
+																				});
+																				}-*/;
+
+	private native void rebindItemEvents(EditComboBox x, Element element) /*-{
+																			$wnd.$("a.jexpLink", element).click(function(e) {
+																			x.@com.javexpress.gwt.library.ui.bootstrap.EditComboBox::fireSelection(Ljava/lang/String;)($wnd.$(this).attr("v"));
+																			});
+																			}-*/;
+
+	private void fireShow() {
+		if (needsRebind) {
+			rebindItemEvents(this, ul);
+			needsRebind = false;
+		}
+	}
 
 	private void fireSelection(String value) {
 		setValue(value, true);
 	}
 
+	private void fireModifyText() {
+		if (input.hasAttribute("v")) {
+			String old = input.getAttribute("v");
+			ValueChangeEvent.fireIfNotEqual(this, old, null);
+			input.removeAttribute("v");
+		}
+	}
+
 	private native void destroyByJs(Element element) /*-{
-		$wnd.$("a.jexpLink", element).off();
-	}-*/;
+														$wnd.$(element).empty();
+														}-*/;
 
 	@Override
 	protected void onUnload() {
@@ -104,6 +135,7 @@ public class EditComboBox extends BaseWrappedInput<String>implements IKeyValueLi
 			anchor.setAttribute("d", data.toString());
 		li.appendChild(anchor);
 		ul.appendChild(li);
+		needsRebind = true;
 	}
 
 	@Override
@@ -121,7 +153,7 @@ public class EditComboBox extends BaseWrappedInput<String>implements IKeyValueLi
 				return true;
 			}
 		}
-		input.setAttribute("v", "");
+		input.removeAttribute("v");
 		((InputElement) input).setValue("");
 		return false;
 	}
@@ -189,7 +221,10 @@ public class EditComboBox extends BaseWrappedInput<String>implements IKeyValueLi
 	}
 
 	protected void onItemListChanged() {
-		createByJs(this, ul);
+		if (isAttached()) {
+			rebindItemEvents(this, ul);
+			needsRebind = false;
+		}
 		if (itemsChangeHandler != null)
 			itemsChangeHandler.onItemsChanged();
 	}
