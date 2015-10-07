@@ -220,27 +220,41 @@ public class DropZone extends JexpSimplePanel {
 
 	//--EVENTS
 	private void fireOnDrop(Event event) {
+		if (listener != null)
+			listener.onDrop(event);
 	}
 
 	private void fireOnAddedFile(JavaScriptObject file) {
+		if (listener != null)
+			listener.addedFile(new JsonMap(file));
 	}
 
 	private void fireOnRemovedFile(JavaScriptObject file) {
+		if (listener != null)
+			listener.removedFile(new JsonMap(file));
 	}
 
 	private void fireOnThumbnail(JavaScriptObject file, String dataUrl) {
+		if (listener != null)
+			listener.onThumbnail(new JsonMap(file), dataUrl);
 	}
 
 	private void fireOnError(JavaScriptObject file) {
+		if (listener != null)
+			listener.onError(new JsonMap(file));
 	}
 
 	private void fireOnProcessing(JavaScriptObject file) {
+		if (listener != null)
+			listener.onProcessing(new JsonMap(file));
 	}
 
 	private void fireOnUploadProgress(JavaScriptObject file, int bytesSent) {
 	}
 
 	private void fireOnBeforeSend(JavaScriptObject file, JavaScriptObject xhr, JavaScriptObject formData) {
+		if (listener != null)
+			listener.beforeSend(new JsonMap(file), new JsonMap(formData));
 	}
 
 	private void fireOnSuccess(JavaScriptObject file, String response) {
