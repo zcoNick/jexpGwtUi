@@ -136,8 +136,8 @@ public class TabSet extends AbstractContainerFocusable implements ISizeAwareWidg
 	}
 
 	private native void destroyByJs(Element element) /*-{
-		$wnd.$(element).off().empty();
-	}-*/;
+														$wnd.$(element).off().empty();
+														}-*/;
 
 	public void addTab(final IUIComposite form, boolean closable) throws Exception {
 		addTab(form.getHeader(), (Widget) form, form.getId(), closable);
@@ -249,8 +249,8 @@ public class TabSet extends AbstractContainerFocusable implements ISizeAwareWidg
 																					}-*/;
 
 	private native void _select(Element navbar, int index) /*-{
-		$wnd.$("li:eq(" + index + ")", navbar).tab('show');
-	}-*/;
+															$wnd.$("li:eq(" + index + ")", navbar).tab('show');
+															}-*/;
 
 	public void hideItem(String id) {
 		toggleItem(id, false);
@@ -263,14 +263,17 @@ public class TabSet extends AbstractContainerFocusable implements ISizeAwareWidg
 	private void toggleItem(String id, boolean show) {
 		for (int i = 0; i < navBar.getChildCount(); i++) {
 			Element a = ((Element) navBar.getChild(i)).getFirstChildElement();
-			a.getStyle().setDisplay(a.getAttribute("tabid").equals(id) && !show ? Display.NONE : Display.BLOCK);
+			if (a.getAttribute("tabid").equals(id))
+				a.getStyle().setDisplay(!show ? Display.NONE : Display.BLOCK);
 		}
 		for (int i = 0; i < tabContents.getChildCount(); i++) {
 			Element div = ((Element) tabContents.getChild(i));
-			if (div.getAttribute("tabid").equals(id) && !show)
-				div.addClassName("hidden");
-			else
-				div.removeClassName("hidden");
+			if (div.getAttribute("tabid").equals(id)) {
+				if (!show)
+					div.addClassName("hidden");
+				else
+					div.removeClassName("hidden");
+			}
 		}
 	}
 
