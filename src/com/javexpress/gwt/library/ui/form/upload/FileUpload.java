@@ -96,11 +96,11 @@ public class FileUpload extends FormPanel implements ChangeHandler, SubmitComple
 		this(parent, id, false, null, null, null);
 	}
 
-	public FileUpload(final Widget parent, final String id, final boolean askName, final String title, final ServiceDefTarget defTarget, final Enum method) {
+	private FileUpload(final Widget parent, final String id, final boolean askName, final String title, final ServiceDefTarget defTarget, final Enum method) {
 		this(parent, id, askName, title, false, defTarget, method);
 	}
 
-	public FileUpload(final Widget parent, final String id, final boolean askName, final String title, final boolean multi, final ServiceDefTarget defTarget, final Enum method) {
+	private FileUpload(final Widget parent, final String id, final boolean askName, final String title, final boolean multi, final ServiceDefTarget defTarget, final Enum method) {
 		super();
 		JsUtil.ensureId(parent, this, WidgetConst.FILEUPLOAD_PREFIX, id);
 

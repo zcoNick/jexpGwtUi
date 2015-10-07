@@ -292,6 +292,33 @@ public interface CommonResources extends ConstantsWithLookup {
 	/** Dosya */
 	String dosya();
 
+	/** Yüklemeyi durdur */
+	String dpzCancelUpload();
+
+	/** Yüklemeyi durdurmak istediğinizden emin misiniz? */
+	String dpzCancelUploadConfirmation();
+
+	/** Yüklemek istediğiniz dosyaları buraya sürükleyin */
+	String dpzDefault();
+
+	/** Tarayıcı sürükle & bırak dosya yükleme desteklemiyor */
+	String dpzFallbackMessage();
+
+	/** Aşağıdaki formu eski günlerdeki gibi dosyaları yüklemek için kullanın. */
+	String dpzFallbackText();
+
+	/** Dosya boyutu izin verilenden fazla */
+	String dpzFileTooBig();
+
+	/** Geçersiz Dosya Türü */
+	String dpzInvalidFileType();
+
+	/** Maksimum dosya sayısı aşıldı */
+	String dpzMaxFilesExceeded();
+
+	/** Sunucu Hatası : {{statusCode}} */
+	String dpzResponseError();
+
 	/** Düzenle */
 	String duzenle();
 

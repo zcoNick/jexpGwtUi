@@ -14,6 +14,7 @@ import com.javexpress.gwt.library.ui.event.handler.FormShowInWindowRequestHandle
 import com.javexpress.gwt.library.ui.form.IUIComposite;
 import com.javexpress.gwt.library.ui.form.decimalbox.DecimalBox;
 import com.javexpress.gwt.library.ui.form.maskedit.MaskEditBox;
+import com.javexpress.gwt.library.ui.form.upload.DropZone;
 import com.javexpress.gwt.library.ui.js.JsUtil;
 import com.javexpress.gwt.library.ui.js.JsonMap;
 import com.javexpress.gwt.library.ui.js.WidgetBundles;
@@ -70,6 +71,7 @@ public abstract class BootstrapTheme extends BaseResourceInjector {
 
 		jexp = JqGrid.fillResources(jexp);
 		jexp = DataGrid.fillResources(jexp);
+		jexp = DropZone.fillResources(jexp);
 		addStyleSheets(jexp, 1000);
 		addJavaScripts(jexp, 1000);
 		return jexp;
