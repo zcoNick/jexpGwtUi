@@ -2,6 +2,7 @@ package com.javexpress.gwt.library.ui.form.combobox;
 
 import java.util.LinkedHashMap;
 import java.util.Map;
+import java.util.Set;
 
 import com.google.gwt.http.client.Request;
 import com.google.gwt.http.client.RequestBuilder;
@@ -71,8 +72,9 @@ public class KeyValueDataLoader implements Command {
 	public void execute() {
 		if (comboKey.isEmpty())
 			return;
+		final Set<IKeyValueList> set = comboKey.keySet();
 		if (listener != null)
-			listener.onStartLoadingKeys(comboKey.keySet());
+			listener.onStartLoadingKeys(set);
 		//Fired from Form.onLoad
 		StringBuilder rd = new StringBuilder();
 		for (String k : comboKey.values())
@@ -87,7 +89,7 @@ public class KeyValueDataLoader implements Command {
 						return;
 					JSONValue v = JSONParser.parseStrict(response.getText());
 					JSONObject json = v.isObject();
-					for (IKeyValueList combo : comboKey.keySet()) {
+					for (IKeyValueList combo : set) {
 						String k = comboKey.get(combo);
 						if (k.indexOf("?") > -1)
 							k = k.substring(0, k.indexOf("?"));
@@ -101,10 +103,10 @@ public class KeyValueDataLoader implements Command {
 						} else
 							combo.setKeyValueDataItems(null);
 						if (listener != null)
-							listener.onLoadedKey(k);
+							listener.onLoadedKeyValues(k, grp);
 					}
 					if (listener != null)
-						listener.onCompleted(comboKey.keySet());
+						listener.onKeysCompleted(set);
 					comboKey.clear();
 				}
 
