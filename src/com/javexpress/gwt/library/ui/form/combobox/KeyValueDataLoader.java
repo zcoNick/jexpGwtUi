@@ -20,6 +20,15 @@ public class KeyValueDataLoader implements Command {
 	private final long							moduleId;
 	private final ServiceDefTarget				serviceDefTarget;
 	protected final Map<IKeyValueList, String>	comboKey	= new LinkedHashMap<IKeyValueList, String>();
+	private IKeyValueDataLoaderListener			listener;
+
+	public IKeyValueDataLoaderListener getListener() {
+		return listener;
+	}
+
+	public void setListener(IKeyValueDataLoaderListener listener) {
+		this.listener = listener;
+	}
 
 	public KeyValueDataLoader(long moduleId, ServiceDefTarget serviceDefTarget) {
 		this.moduleId = moduleId;
@@ -62,6 +71,8 @@ public class KeyValueDataLoader implements Command {
 	public void execute() {
 		if (comboKey.isEmpty())
 			return;
+		if (listener != null)
+			listener.onStartLoadingKeys(comboKey.keySet());
 		//Fired from Form.onLoad
 		StringBuilder rd = new StringBuilder();
 		for (String k : comboKey.values())
@@ -89,7 +100,11 @@ public class KeyValueDataLoader implements Command {
 							}
 						} else
 							combo.setKeyValueDataItems(null);
+						if (listener != null)
+							listener.onLoadedKey(k);
 					}
+					if (listener != null)
+						listener.onCompleted(comboKey.keySet());
 					comboKey.clear();
 				}
 
