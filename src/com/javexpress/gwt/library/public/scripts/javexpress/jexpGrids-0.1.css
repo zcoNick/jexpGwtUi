@@ -145,23 +145,15 @@
 .jexpFilterPanel .widget-header > .widget-title{ line-height: 24px; } 
 .jexpFilterPanelItem { margin-left: 0;margin-right: 0;padding: 0; }
 .jexpFilterPanelItem .jexpFilterLabel{
-    overflow: hidden;
-    text-align: right;
-    text-overflow: ellipsis;
-    white-space: nowrap;
-	font-size: 0.85em;
-    padding-left: 0;
-    padding-right: 1px;
-    padding-top: 3px;
+    overflow: hidden;text-align: right;text-overflow: ellipsis;white-space: nowrap;font-size: 0.85em;padding-left: 0;padding-right: 1px;padding-top: 3px;
 }
-.jexpFilterPanelItem .jexpTextBox,.jexpFilterPanelItem .jexpComboBox,.jexpFilterPanelItem .jexpNumericBox,.jexpFilterPanelItem .jexpDateBox {
-	font-size:0.9em;
-	padding: 0 1px 1px;
-	height:22px;
-	color:#000000;
+.jexpFilterPanelItem .jexpTextBox,.jexpFilterPanelItem .jexpComboBox,.jexpFilterPanelItem .jexpNumericBox,.jexpFilterPanelItem .jexpDateBox,.jexpFilterPanelItem .jexpAutoComplete {
+	font-size:0.9em;height:22px;color:#000000;/*padding: 0 1px 1px;*/
 }
 .jexpFilterPanelItem .jexpControlContainer { padding: 0 1px 1px; }
 .jexpFilterPanelItem .jexpControlContainer .input-group.jexpDateBox { width:8em; }
+.jexpFilterPanelItem .jexpControlContainer .input-group.jexpAutoComplete > input.ui-autocomplete-input { width:100%;padding:0; }
+.jexpFilterPanelItem .jexpControlContainer .input-group.jexpAutoComplete > span.input-group-addon { font-size: 12px;padding: 0;width: 1.7em; }
 .ui-jqgrid .ui-paging-info { font-size:12px;color:#393939;opacity:0.5; }
 .ui-jqgrid .ui-icon { background-image: none; }
 .totals-container { position: absolute; overflow: hidden;bottom: 0;background-color:#EFF3F8;color:gray; }
