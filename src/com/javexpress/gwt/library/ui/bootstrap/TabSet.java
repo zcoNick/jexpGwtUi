@@ -248,9 +248,8 @@ public class TabSet extends AbstractContainerFocusable implements ISizeAwareWidg
 																					});
 																					}-*/;
 
-	//**https://github.com/twbs/bootstrap/issues/17894
 	private native void _select(Element navbar, int index) /*-{
-		$wnd.$("li:eq(" + index + ")", $wnd.$(navbar)).tab('show');
+		$wnd.$("li:eq(" + index + ") a", navbar).tab('show');
 	}-*/;
 
 	public void hideItem(String id) {
