@@ -152,7 +152,7 @@
 }
 .jexpFilterPanelItem .jexpControlContainer { padding: 0 1px 1px; }
 .jexpFilterPanelItem .jexpControlContainer .input-group.jexpDateBox { width:8em; }
-.jexpFilterPanelItem .jexpControlContainer .input-group.jexpAutoComplete > input.ui-autocomplete-input { width:100%;padding:0; }
+.jexpFilterPanelItem .jexpControlContainer .input-group.jexpAutoComplete > input.ui-autocomplete-input { width:100%;padding:0;font-size:12px;height:24px; }
 .jexpFilterPanelItem .jexpControlContainer .input-group.jexpAutoComplete > span.input-group-addon { font-size: 12px;padding: 0;width: 1.7em; }
 .ui-jqgrid .ui-paging-info { font-size:12px;color:#393939;opacity:0.5; }
 .ui-jqgrid .ui-icon { background-image: none; }

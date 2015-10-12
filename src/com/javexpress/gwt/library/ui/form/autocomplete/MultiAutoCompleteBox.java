@@ -155,7 +155,7 @@ public class MultiAutoCompleteBox extends AbstractContainer implements IUserInpu
 			options.source = options.url;
 		options.id = el.attr("id") + "_menu";
 		options.select = function(event, ui) {
-			var r = x.@com.javexpress.gwt.library.ui.form.autocomplete.MultiAutoCompleteBox::fireOnSelect(Ljava/lang/String;Ljava/lang/String;Lcom/google/gwt/core/client/JavaScriptObject;)(ui.item.id,ui.item.label,ui.item.data);
+			var r = x.@com.javexpress.gwt.library.ui.form.autocomplete.MultiAutoCompleteBox::fireCanSelect(Ljava/lang/String;Ljava/lang/String;Lcom/google/gwt/core/client/JavaScriptObject;)(ui.item.id,ui.item.label,ui.item.data);
 			if (r) {
 				el.val(null);
 				x.@com.javexpress.gwt.library.ui.form.autocomplete.MultiAutoCompleteBox::fireAddToSelection(Ljava/lang/String;Ljava/lang/String;Lcom/google/gwt/core/client/JavaScriptObject;Z)(ui.item.id,ui.item.label,ui.item.data, true);
@@ -266,11 +266,11 @@ public class MultiAutoCompleteBox extends AbstractContainer implements IUserInpu
 	public void setTabIndex(int index) {
 	}
 
-	public boolean addItem(Serializable val, String label) {
+	public boolean addItem(Serializable val, String label) throws Exception {
 		return addItem(val, label, null);
 	}
 
-	public boolean addItem(Serializable val, String label, JsonMap data) {
+	public boolean addItem(Serializable val, String label, JsonMap data) throws Exception {
 		Element existing = findElement(val.toString());
 		if (existing != null)
 			return false;
@@ -312,14 +312,14 @@ public class MultiAutoCompleteBox extends AbstractContainer implements IUserInpu
 	}-*/;
 
 	// ---------- EVENTS
-	private boolean fireOnSelect(final String id, final String label, JavaScriptObject data) throws Exception {
+	private boolean fireCanSelect(final String id, final String label, JavaScriptObject data) throws Exception {
 		Element existing = findElement(id);
 		if (existing != null) {
 			JsUtil.pulsate(existing);
 			return false;
 		}
 		if (listener != null)
-			return listener.itemSelected(id, label, data == null ? null : new JsonMap(data));
+			return listener.canSelectItem(id, label, data == null ? null : new JsonMap(data));
 		return true;
 	}
 
@@ -333,7 +333,9 @@ public class MultiAutoCompleteBox extends AbstractContainer implements IUserInpu
 			listener.itemAdded(id, data, userSelected);
 	}
 
-	private void fireAddToSelection(final String id, final String label, JavaScriptObject data, boolean userAction) {
+	private void fireAddToSelection(final String id, final String label, JavaScriptObject data, boolean userAction) throws Exception {
+		if (listener != null)
+			listener.itemSelected(id, label, data == null ? null : new JsonMap(data));
 		TableRowElement tr = DOM.createTR().cast();
 		tr.getStyle().setDisplay(Display.NONE);
 		tr.addClassName("jexpMultiAutoCompleteListItem");
@@ -383,7 +385,7 @@ public class MultiAutoCompleteBox extends AbstractContainer implements IUserInpu
 		}
 	}
 
-	public void setValues(Map<? extends Serializable, String> values) {
+	public void setValues(Map<? extends Serializable, String> values) throws Exception {
 		removeItems();
 		if (values == null || values.isEmpty())
 			return;

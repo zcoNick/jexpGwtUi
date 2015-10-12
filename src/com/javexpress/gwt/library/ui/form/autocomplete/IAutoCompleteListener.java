@@ -6,7 +6,9 @@ public interface IAutoCompleteListener {
 
 	public void onAutoCompleteBeforeDataRequest(final JsonMap postData);
 
-	public boolean itemSelected(final String id, final String label, final JsonMap data) throws Exception;
+	public boolean canSelectItem(String id, String label, JsonMap data);
+
+	public void itemSelected(final String id, final String label, final JsonMap data) throws Exception;
 
 	public void buttonClicked();
 

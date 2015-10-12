@@ -99,11 +99,12 @@ public class AutoCompleteBox<V extends Serializable> extends BaseWrappedInput<St
 			options.source = options.url;
 		options.id = el.attr("id") + "_menu";
 		options.select = function(event, ui) {
-			var r = x.@com.javexpress.gwt.library.ui.form.autocomplete.AutoCompleteBox::fireOnSelect(Ljava/lang/String;Ljava/lang/String;Lcom/google/gwt/core/client/JavaScriptObject;)(ui.item.id,ui.item.label,ui.item.data);
+			var r = x.@com.javexpress.gwt.library.ui.form.autocomplete.AutoCompleteBox::fireCanSelect(Ljava/lang/String;Ljava/lang/String;Lcom/google/gwt/core/client/JavaScriptObject;)(ui.item.id,ui.item.label,ui.item.data);
 			if (r) {
 				el.attr("v", ui.item.id);
 				el.val(ui.item.label);
 				$wnd.$.data(el, "acdata", ui.item.data);
+				x.@com.javexpress.gwt.library.ui.form.autocomplete.AutoCompleteBox::fireOnSelect(Ljava/lang/String;Ljava/lang/String;Lcom/google/gwt/core/client/JavaScriptObject;)(ui.item.id,ui.item.label,ui.item.data);
 			}
 			return r;
 		};
@@ -253,10 +254,15 @@ public class AutoCompleteBox<V extends Serializable> extends BaseWrappedInput<St
 			listener.onAutoCompleteBeforeDataRequest(new JsonMap(postData));
 	}
 
-	private boolean fireOnSelect(final String id, final String label, JavaScriptObject data) throws Exception {
+	private boolean fireCanSelect(final String id, final String label, JavaScriptObject data) throws Exception {
 		if (listener != null)
-			return listener.itemSelected(id, label, data != null ? new JsonMap(data) : null);
+			return listener.canSelectItem(id, label, data != null ? new JsonMap(data) : null);
 		return true;
+	}
+
+	private void fireOnSelect(final String id, final String label, JavaScriptObject data) throws Exception {
+		if (listener != null)
+			listener.itemSelected(id, label, data != null ? new JsonMap(data) : null);
 	}
 
 	private void fireOnButtonClick() throws Exception {
