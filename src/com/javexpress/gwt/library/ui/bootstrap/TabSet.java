@@ -248,8 +248,9 @@ public class TabSet extends AbstractContainerFocusable implements ISizeAwareWidg
 																					});
 																					}-*/;
 
+	//**https://github.com/twbs/bootstrap/issues/17894
 	private native void _select(Element navbar, int index) /*-{
-															$wnd.$("li:eq(" + index + ")", navbar).tab('show');
+															$wnd.$("li:eq(" + index + ")", $wnd.$(navbar)).tab('show');
 															}-*/;
 
 	public void hideItem(String id) {
@@ -302,6 +303,10 @@ public class TabSet extends AbstractContainerFocusable implements ISizeAwareWidg
 
 	public Widget getActiveWidget() {
 		return widgets.get(activeWidgetId);
+	}
+
+	public String getActiveTabItemId() {
+		return activeWidgetId;
 	}
 
 	public void setTabWidget(String id, Widget widget) {
