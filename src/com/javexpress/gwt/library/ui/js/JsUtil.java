@@ -752,8 +752,8 @@ public class JsUtil {
 
 	public static int calcDialogZIndex() {
 		lastDialogZIndex += 3;
-		if (lastDialogZIndex > 503)
-			lastDialogZIndex = calcZIndex(".ui-dialog .jexpErrorDialog .jexp-ui-window .jexp-ui-window-modal");
+		if (lastDialogZIndex > 703)
+			lastDialogZIndex = calcZIndex(".ui-dialog,.jexpErrorDialog,.jexp-ui-window,.modal-backdrop");
 		return lastDialogZIndex;
 	}
 

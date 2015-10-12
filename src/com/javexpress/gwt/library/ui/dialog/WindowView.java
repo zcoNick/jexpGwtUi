@@ -73,6 +73,7 @@ public class WindowView extends AbstractContainerFocusable implements IUIComposi
 		super(DOM.createDiv());
 		int autoZIndex = JsUtil.calcDialogZIndex();
 		getElement().setAttribute("style", "display: block; padding-right: 17px; z-index:" + autoZIndex);
+		getElement().setAttribute("oz", String.valueOf(autoZIndex));
 		if (modal) {
 			setStyleName("jexp-ui-window-modal modal in");
 			Element backdrop = DOM.createDiv();
@@ -81,7 +82,6 @@ public class WindowView extends AbstractContainerFocusable implements IUIComposi
 			backdrop.getStyle().setZIndex(JsUtil.calcDialogZIndex());
 			getElement().appendChild(backdrop);
 		} else {
-			getElement().setAttribute("oz", String.valueOf(autoZIndex));
 			setStyleName("jexp-ui-window-nonmodal");
 		}
 
@@ -203,10 +203,10 @@ public class WindowView extends AbstractContainerFocusable implements IUIComposi
 	}
 
 	private native void bindOnClick(Element el, Command command) /*-{
-		$wnd.$(el).click(function() {
-			command.@com.google.gwt.user.client.Command::execute()();
-		});
-	}-*/;
+																	$wnd.$(el).click(function() {
+																	command.@com.google.gwt.user.client.Command::execute()();
+																	});
+																	}-*/;
 
 	public void show() {
 		if (!isAttached()) {
@@ -273,14 +273,14 @@ public class WindowView extends AbstractContainerFocusable implements IUIComposi
 	}
 
 	protected native void selectActiveWindow(Element el) /*-{
-		$wnd.$(".jexpActiveWindow").each(
-				function() {
-					var that = $wnd.$(this);
-					that.css("z-index", that.attr("oz")).removeClass(
-							"jexpActiveWindow");
-				});
-		$wnd.$(el).css("z-index", 9999).addClass("jexpActiveWindow");
-	}-*/;
+															$wnd.$(".jexpActiveWindow").each(
+															function() {
+															var that = $wnd.$(this);
+															that.css("z-index", that.attr("oz")).removeClass(
+															"jexpActiveWindow");
+															});
+															$wnd.$(el).css("z-index", 9999).addClass("jexpActiveWindow");
+															}-*/;
 
 	public void openHelp() {
 		Widget w = getWidget(0);
@@ -309,8 +309,8 @@ public class WindowView extends AbstractContainerFocusable implements IUIComposi
 	}
 
 	private native void _destroyByJs(Element el, String ubSel) /*-{
-		$wnd.$(ubSel, $wnd.$(el)).off();
-	}-*/;
+																$wnd.$(ubSel, $wnd.$(el)).off();
+																}-*/;
 
 	@Override
 	public void onResize() {
@@ -332,6 +332,10 @@ public class WindowView extends AbstractContainerFocusable implements IUIComposi
 			windowDiv.getStyle().setLeft(posX, Unit.PX);
 		if (posY != null)
 			windowDiv.getStyle().setTop(posY, Unit.PX);
+	}
+
+	public void setBaseZIndex(int zindex) {
+		getElement().setAttribute("oz", String.valueOf(zindex));
 	}
 
 }
