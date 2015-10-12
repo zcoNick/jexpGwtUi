@@ -105,7 +105,7 @@ public class TabSet extends AbstractContainerFocusable implements ISizeAwareWidg
 			getElement().addClassName("tabs-right");
 		jsObject = createByJs(this, getElement());
 		if (widgets != null) {
-			performOnShow(widgets.keySet().iterator().next());
+			performOnShow(activeWidgetId = widgets.keySet().iterator().next());
 		}
 	}
 
@@ -136,8 +136,8 @@ public class TabSet extends AbstractContainerFocusable implements ISizeAwareWidg
 	}
 
 	private native void destroyByJs(Element element) /*-{
-														$wnd.$(element).off().empty();
-														}-*/;
+		$wnd.$(element).off().empty();
+	}-*/;
 
 	public void addTab(final IUIComposite form, boolean closable) throws Exception {
 		addTab(form.getHeader(), (Widget) form, form.getId(), closable);
@@ -250,8 +250,8 @@ public class TabSet extends AbstractContainerFocusable implements ISizeAwareWidg
 
 	//**https://github.com/twbs/bootstrap/issues/17894
 	private native void _select(Element navbar, int index) /*-{
-															$wnd.$("li:eq(" + index + ")", $wnd.$(navbar)).tab('show');
-															}-*/;
+		$wnd.$("li:eq(" + index + ")", $wnd.$(navbar)).tab('show');
+	}-*/;
 
 	public void hideItem(String id) {
 		toggleItem(id, false);
