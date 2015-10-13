@@ -131,8 +131,7 @@ public abstract class ListBoxBase extends ListBox implements IUserInputWidget<St
 		if (dataMap != null)
 			dataMap.clear();
 		dataMap = null;
-		if (!required)
-			addItem("", "");
+		addItem("", "");
 	}
 
 	public void addItem(final Serializable label, final Serializable value) {
