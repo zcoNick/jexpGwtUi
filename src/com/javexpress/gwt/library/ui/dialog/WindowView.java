@@ -2,6 +2,7 @@ package com.javexpress.gwt.library.ui.dialog;
 
 import com.google.gwt.core.client.Scheduler;
 import com.google.gwt.core.client.Scheduler.ScheduledCommand;
+import com.google.gwt.core.shared.GWT;
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.dom.client.Style.Display;
 import com.google.gwt.dom.client.Style.Unit;
@@ -110,6 +111,8 @@ public class WindowView extends AbstractContainerFocusable implements IUIComposi
 		setDraggable(form.isDraggable());
 		setMaximizable(form.isMaximizable());
 		setHelpVisible(form.getHelpIndex() != null);
+		if (!GWT.isProdMode())
+			windowDiv.setTitle(form.getClass().getName());
 		form.setCloseHandler(new Command() {
 			@Override
 			public void execute() {
@@ -203,10 +206,10 @@ public class WindowView extends AbstractContainerFocusable implements IUIComposi
 	}
 
 	private native void bindOnClick(Element el, Command command) /*-{
-																	$wnd.$(el).click(function() {
-																	command.@com.google.gwt.user.client.Command::execute()();
-																	});
-																	}-*/;
+		$wnd.$(el).click(function() {
+			command.@com.google.gwt.user.client.Command::execute()();
+		});
+	}-*/;
 
 	public void show() {
 		if (!isAttached()) {
@@ -273,14 +276,14 @@ public class WindowView extends AbstractContainerFocusable implements IUIComposi
 	}
 
 	protected native void selectActiveWindow(Element el) /*-{
-															$wnd.$(".jexpActiveWindow").each(
-															function() {
-															var that = $wnd.$(this);
-															that.css("z-index", that.attr("oz")).removeClass(
-															"jexpActiveWindow");
-															});
-															$wnd.$(el).css("z-index", 9999).addClass("jexpActiveWindow");
-															}-*/;
+		$wnd.$(".jexpActiveWindow").each(
+				function() {
+					var that = $wnd.$(this);
+					that.css("z-index", that.attr("oz")).removeClass(
+							"jexpActiveWindow");
+				});
+		$wnd.$(el).css("z-index", 9999).addClass("jexpActiveWindow");
+	}-*/;
 
 	public void openHelp() {
 		Widget w = getWidget(0);
@@ -309,8 +312,8 @@ public class WindowView extends AbstractContainerFocusable implements IUIComposi
 	}
 
 	private native void _destroyByJs(Element el, String ubSel) /*-{
-																$wnd.$(ubSel, $wnd.$(el)).off();
-																}-*/;
+		$wnd.$(ubSel, $wnd.$(el)).off();
+	}-*/;
 
 	@Override
 	public void onResize() {

@@ -234,11 +234,12 @@ public class AutoCompleteBox<V extends Serializable> extends BaseWrappedInput<St
 							if (!data)
 								return;
 							data = data[0];
-							var r = x.@com.javexpress.gwt.library.ui.form.autocomplete.AutoCompleteBox::fireOnSelect(Ljava/lang/String;Ljava/lang/String;Lcom/google/gwt/core/client/JavaScriptObject;)(data.id,data.label,data.data);
+							var r = x.@com.javexpress.gwt.library.ui.form.autocomplete.AutoCompleteBox::fireCanSelect(Ljava/lang/String;Ljava/lang/String;Lcom/google/gwt/core/client/JavaScriptObject;)(data.id,data.label,data.data);
 							if (r) {
 								lb.val(data.label);
 								$wnd.$.data(lb, "acdata", data.data);
 								lb.attr("v", data.id);
+								x.@com.javexpress.gwt.library.ui.form.autocomplete.AutoCompleteBox::fireOnSelect(Ljava/lang/String;Ljava/lang/String;Lcom/google/gwt/core/client/JavaScriptObject;)(data.id,data.label,data.data);
 							}
 						}, "json");
 	}-*/;
