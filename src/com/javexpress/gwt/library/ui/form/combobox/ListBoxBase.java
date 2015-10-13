@@ -58,7 +58,7 @@ public abstract class ListBoxBase extends ListBox implements IUserInputWidget<St
 	}
 
 	private <T extends ListBoxBase> T setItems(KeyValueDataLoader comboDataLoader, Enum key, String params) {
-		removeItems();
+		clear();
 		comboDataLoader.add(this, key, params);
 		return (T) this;
 	}
@@ -68,13 +68,13 @@ public abstract class ListBoxBase extends ListBox implements IUserInputWidget<St
 	}
 
 	public <T extends ListBoxBase> T setItems(KeyValueDataLoader comboDataLoader, Long moduleId, Enum key, String params) {
-		removeItems();
+		clear();
 		comboDataLoader.add(this, moduleId, key, params);
 		return (T) this;
 	}
 
 	public <T extends ListBoxBase> T setItems(final Map<? extends Serializable, ? extends Serializable> map, ConstantsWithLookup nls) {
-		removeItems();
+		clear();
 		if (map == null)
 			return (T) this;
 		for (Serializable key : map.keySet()) {
@@ -120,17 +120,19 @@ public abstract class ListBoxBase extends ListBox implements IUserInputWidget<St
 	}
 
 	public <T extends ListBoxBase> T setItems(final boolean useEmptyItem, final ComboDataSupplier<? extends Serializable, ? extends Serializable, ? extends Serializable> mapSupplier, boolean enableOnComplete) {
-		removeItems();
+		clear();
 		mapSupplier.fillItems(enableOnComplete, this);
 		return (T) this;
 	}
 
-	protected void removeItems() {
-		clear();
+	@Override
+	public void clear() {
+		super.clear();
 		if (dataMap != null)
 			dataMap.clear();
 		dataMap = null;
-		addItem("", "");
+		if (!required)
+			addItem("", "");
 	}
 
 	public void addItem(final Serializable label, final Serializable value) {
@@ -184,7 +186,7 @@ public abstract class ListBoxBase extends ListBox implements IUserInputWidget<St
 	}
 
 	public void setItems(final boolean useEmpty, final String items, final String itemSep, final String keyValueSep) {
-		removeItems();
+		clear();
 		if (JsUtil.isNotEmpty(items)) {
 			for (String s : items.split(itemSep)) {
 				String[] kv = s.split(keyValueSep);

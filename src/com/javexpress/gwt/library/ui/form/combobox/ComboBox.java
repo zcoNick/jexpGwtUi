@@ -174,7 +174,7 @@ public class ComboBox extends ListBoxBase implements AsyncCallback<List<? extend
 
 	@Override
 	public void onSuccess(List<? extends IComboItem<Serializable>> result) {
-		removeItems();
+		clear();
 		if (result == null)
 			return;
 		for (IComboItem item : result)
