@@ -52,8 +52,24 @@ public class TextField extends Label implements IDataBindable, IKeyValueList {
 	}
 
 	@Override
+	public String getValue() {
+		String v = getElement().getAttribute("v");
+		return JsUtil.isEmpty(v) ? null : v;
+	}
+
+	@Override
+	public void setText(String text) {
+		getElement().removeAttribute("v");
+		super.setText(text);
+	}
+
+	@Override
 	public void setValue(String value) {
 		String t = optionsMap != null ? optionsMap.get(value) : value;
+		if (value == null)
+			getElement().removeAttribute("v");
+		else
+			getElement().setAttribute("v", value);
 		super.setValue(t);
 	}
 
