@@ -112,7 +112,7 @@ public class WindowView extends AbstractContainerFocusable implements IUIComposi
 		setMaximizable(form.isMaximizable());
 		setHelpVisible(form.getHelpIndex() != null);
 		if (!GWT.isProdMode())
-			windowDiv.setTitle(form.getClass().getName());
+			headerDiv.setTitle(form.getClass().getName());
 		form.setCloseHandler(new Command() {
 			@Override
 			public void execute() {
