@@ -12,6 +12,7 @@ import com.javexpress.gwt.library.shared.model.IJsonServicePoint;
 import com.javexpress.gwt.library.shared.model.WidgetConst;
 import com.javexpress.gwt.library.ui.ClientContext;
 import com.javexpress.gwt.library.ui.bootstrap.BaseWrappedInput;
+import com.javexpress.gwt.library.ui.bootstrap.Bootstrap;
 import com.javexpress.gwt.library.ui.facet.ProvidesModuleUtils;
 import com.javexpress.gwt.library.ui.js.JsUtil;
 import com.javexpress.gwt.library.ui.js.JsonMap;
@@ -82,7 +83,10 @@ public class AutoCompleteBox<V extends Serializable> extends BaseWrappedInput<St
 	@Override
 	protected void onLoad() {
 		super.onLoad();
-		createByJs(this, input, indicator, options.getJavaScriptObject(), newItemTitle, listener != null);
+		if (listener != null || options.containsKey("url"))
+			createByJs(this, input, indicator, options.getJavaScriptObject(), newItemTitle, listener != null);
+		else
+			Bootstrap.setTooltip(input, "Has no url defined");
 	}
 
 	private native void createByJs(AutoCompleteBox<V> x, Element input, Element indicator, JavaScriptObject options, String newItemTitle, boolean hasListener) /*-{

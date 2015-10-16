@@ -203,4 +203,12 @@ public class WidgetBox extends AbstractContainerFocusable implements ISizeAwareW
 		$wnd.$(el).widget_box(func);
 	}-*/;
 
+	public void setMinHeight(String value) {
+		getElement().getStyle().setProperty("minHeight", value);
+	}
+
+	public void setMaxHeight(String value) {
+		getElement().getStyle().setProperty("maxHeight", value);
+	}
+
 }

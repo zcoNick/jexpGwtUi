@@ -77,4 +77,12 @@ public class FormGroupCell extends AbstractContainer implements IResponsiveCell 
 		super.onUnload();
 	}
 
+	public void setMinHeight(String value) {
+		getElement().getStyle().setProperty("minHeight", value);
+	}
+
+	public void setMaxHeight(String value) {
+		getElement().getStyle().setProperty("maxHeight", value);
+	}
+
 }
