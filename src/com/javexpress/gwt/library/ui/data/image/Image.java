@@ -53,7 +53,8 @@ public class Image extends JexpSimplePanel {
 		if (fitToParent) {
 			setWidth("100%");
 			setHeight("100%");
-			setStyleName("ui-widget ui-widget-content ui-corner-all");
+			if (!JsUtil.USE_BOOTSTRAP)
+				setStyleName("ui-widget ui-widget-content ui-corner-all");
 		}
 		JsUtil.ensureId(parent, this, WidgetConst.IMAGE_PREFIX, id);
 		getElement().getStyle().setOverflow(Overflow.AUTO);
