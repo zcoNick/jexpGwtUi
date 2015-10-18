@@ -8,6 +8,10 @@ import com.javexpress.gwt.library.ui.ICssIcon;
 
 public class Bootstrap {
 
+	public static enum HeadingSize {
+		h1, h2, h3, h4, h5, h6
+	}
+
 	public static enum WSize {
 		Small, Normal, Large
 	}
@@ -104,5 +108,23 @@ public class Bootstrap {
 			}, duration);
 		}).tooltip('show');
 	}-*/;
+
+	public static Element createHeading(HeadingSize headingSize) {
+		switch (headingSize) {
+			case h1:
+				return DOM.createElement("h1");
+			case h2:
+				return DOM.createElement("h2");
+			case h3:
+				return DOM.createElement("h3");
+			case h4:
+				return DOM.createElement("h4");
+			case h5:
+				return DOM.createElement("h5");
+			case h6:
+				return DOM.createElement("h6");
+		}
+		return null;
+	}
 
 }

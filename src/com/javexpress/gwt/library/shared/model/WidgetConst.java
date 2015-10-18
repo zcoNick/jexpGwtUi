@@ -45,6 +45,8 @@ public class WidgetConst {
 	public static final String	KEYBOARD_PREFIX				= "vkb";
 	public static final String	LABEL_PREFIX				= "lb";
 	public static final String	LISTBOX_PREFIX				= "li";
+	public static final String	LISTGROUP_PREFIX			= "lg";
+	public static final String	LISTGROUPITEM_PREFIX		= "lgi";
 	public static final String	MAPPANEL_PREFIX				= "map";
 	public static final String	MASKEDITBOX_PREFIX			= "ms";
 	public static final String	MENUBAR_PREFIX				= "mb";
