@@ -36,7 +36,7 @@ public abstract class BootstrapClient extends ClientContext implements ProvidesR
 
 	@Override
 	public void onModuleLoad() {
-		ClientContext.instance = this;
+		super.onModuleLoad();
 		JsUtil.testMode = "true".equalsIgnoreCase(Window.Location.getParameter("javexpress.test_mode"));
 		GWT.setUncaughtExceptionHandler(new GWT.UncaughtExceptionHandler() {
 			@Override
@@ -90,12 +90,6 @@ public abstract class BootstrapClient extends ClientContext implements ProvidesR
 							if (widget instanceof RequiresResize)
 								((RequiresResize) widget).onResize();
 						}
-						History.addValueChangeHandler(new ValueChangeHandler<String>() {
-							@Override
-							public void onValueChange(ValueChangeEvent<String> event) {
-								handleHistoryValueChanged(event.getValue());
-							}
-						});
 					}
 				});
 				handleOnCoreLibraryInjectFinished();
@@ -118,6 +112,12 @@ public abstract class BootstrapClient extends ClientContext implements ProvidesR
 
 	protected void handleOnCoreLibraryInjectFinished() {
 		DOM.getElementById("appLoading").removeFromParent();
+		History.addValueChangeHandler(new ValueChangeHandler<String>() {
+			@Override
+			public void onValueChange(ValueChangeEvent<String> event) {
+				handleHistoryValueChanged(event.getValue());
+			}
+		});
 	}
 
 	protected void onUnload() {
@@ -173,6 +173,8 @@ public abstract class BootstrapClient extends ClientContext implements ProvidesR
 	}
 
 	protected void handleHistoryValueChanged(String value) {
+		BootstrapTheme bsTheme = (BootstrapTheme) resourceInjector;
+		bsTheme.handleHistoryValueChanged(value);
 	}
 
 	public static void showInWindow(IUIComposite form) {

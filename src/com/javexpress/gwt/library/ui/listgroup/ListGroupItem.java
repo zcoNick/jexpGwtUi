@@ -84,4 +84,8 @@ public class ListGroupItem extends AbstractContainer {
 		super.onUnload();
 	}
 
+	public void setHref(String href) {
+		getElement().setAttribute("href", "#" + href);
+	}
+
 }

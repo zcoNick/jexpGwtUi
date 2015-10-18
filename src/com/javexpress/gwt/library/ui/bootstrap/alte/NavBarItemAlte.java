@@ -14,7 +14,7 @@ public class NavBarItemAlte extends NavBarItem {
 		super(navBar, id, path);
 		addStyleName("jexpNavBarItem");
 		anchor = DOM.createAnchor();
-		anchor.setAttribute("href", "#");
+		anchor.setAttribute("href", "#" + path);
 		getElement().appendChild(anchor);
 	}
 

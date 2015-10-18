@@ -29,7 +29,7 @@ public abstract class SideBarItem extends AbstractContainer {
 		super(DOM.createElement("li"));
 		JsUtil.ensureId(sideBar, this, WidgetConst.SIDEBARITEM, id);
 		anchor = DOM.createAnchor();
-		anchor.setAttribute("href", "#");
+		anchor.setAttribute("href", "#" + path);
 		anchor.addClassName("sidebar-link");
 		if (path != null)
 			anchor.setAttribute("path", path);

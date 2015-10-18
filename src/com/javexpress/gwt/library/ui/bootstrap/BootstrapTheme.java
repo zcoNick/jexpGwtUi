@@ -11,6 +11,7 @@ import com.javexpress.gwt.library.ui.event.ExceptionThrownEvent;
 import com.javexpress.gwt.library.ui.event.FormShowInWindowRequest;
 import com.javexpress.gwt.library.ui.event.handler.ExceptionThrownEventHandler;
 import com.javexpress.gwt.library.ui.event.handler.FormShowInWindowRequestHandler;
+import com.javexpress.gwt.library.ui.form.IThemeNavigationHandler;
 import com.javexpress.gwt.library.ui.form.IUIComposite;
 import com.javexpress.gwt.library.ui.form.decimalbox.DecimalBox;
 import com.javexpress.gwt.library.ui.form.maskedit.MaskEditBox;
@@ -20,6 +21,16 @@ import com.javexpress.gwt.library.ui.js.JsonMap;
 import com.javexpress.gwt.library.ui.js.WidgetBundles;
 
 public abstract class BootstrapTheme extends BaseResourceInjector {
+
+	private IThemeNavigationHandler	navHandler;
+
+	public IThemeNavigationHandler getNavHandler() {
+		return navHandler;
+	}
+
+	public void setNavHandler(IThemeNavigationHandler iThemeNavigationHandler) {
+		this.navHandler = iThemeNavigationHandler;
+	}
 
 	@Override
 	public void injectCore(JsonMap requireConfig, final Command onload) {
@@ -121,5 +132,7 @@ public abstract class BootstrapTheme extends BaseResourceInjector {
 	protected BootstrapClient getClient() {
 		return (BootstrapClient) BootstrapClient.instance;
 	}
+
+	public abstract void handleHistoryValueChanged(String value);
 
 }

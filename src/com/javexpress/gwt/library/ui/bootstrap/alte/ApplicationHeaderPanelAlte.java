@@ -76,8 +76,4 @@ public class ApplicationHeaderPanelAlte extends ApplicationHeaderPanel {
 		return navbar;
 	}
 
-	public void addNavBar(ApplicationNavBarAlte navbar) {
-		add(navbar, navDiv);
-	}
-
 }

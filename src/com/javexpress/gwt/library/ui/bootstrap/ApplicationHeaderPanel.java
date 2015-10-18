@@ -7,6 +7,8 @@ import com.javexpress.gwt.library.ui.bootstrap.Bootstrap.WContext;
 
 public abstract class ApplicationHeaderPanel extends AbstractContainer {
 
+	protected Element	navDiv;
+
 	public ApplicationHeaderPanel(Element element, String id) {
 		super(element);
 		getElement().setId(id);
@@ -23,5 +25,9 @@ public abstract class ApplicationHeaderPanel extends AbstractContainer {
 	public abstract ApplicationNotificationDropdown createNotificationDropdown(String id, WContext styleName, ICssIcon iconClass);
 
 	public abstract ApplicationUserInfoDropdown createUserInfoDropdown(String id, WContext styleName);
+
+	public void addNavBar(ApplicationNavBar navbar) {
+		add(navbar, navDiv);
+	}
 
 }

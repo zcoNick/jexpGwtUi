@@ -23,6 +23,11 @@ public abstract class ClientContext implements EntryPoint {
 	public static final EventBus			EVENT_BUS			= GWT.create(SimpleEventBus.class);
 	public static final IResourceInjector	resourceInjector	= GWT.create(IResourceInjector.class);
 
+	@Override
+	public void onModuleLoad() {
+		ClientContext.instance = this;
+	}
+
 	public void openHelp(IUIComposite form) {
 		EVENT_BUS.fireEvent(new HelpRequest(form));
 	}
