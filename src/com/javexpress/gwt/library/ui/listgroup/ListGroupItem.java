@@ -19,7 +19,9 @@ public class ListGroupItem extends AbstractContainer {
 	public ListGroupItem(Widget parent, String id) {
 		super(DOM.createAnchor());
 		JsUtil.ensureId(parent, getElement(), WidgetConst.LISTGROUPITEM_PREFIX, id);
-		addStyleName("list-group-item");
+		addStyleName("list-group-item jexpLink");
+		getElement().setAttribute("href", "#");
+		getElement().setAttribute("v", id);
 	}
 
 	public boolean isActive() {
