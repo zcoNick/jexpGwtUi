@@ -279,8 +279,6 @@ public class DataGrid<T extends Serializable> extends BaseSlickGrid<ListColumn> 
 
 																																																																																																									var dataView = null;
 																																																																																																									var groupItemMetadataProvider = null;
-																																																																																																									$wnd.console.debug("dataPaging || hasGroupable", dataPaging,
-																																																																																																									hasGroupable);
 																																																																																																									if (!dataPaging || hasGroupable) {
 																																																																																																									if (hasGroupable) {
 																																																																																																									groupItemMetadataProvider = new $wnd.Slick.Data.GroupItemMetadataProvider();

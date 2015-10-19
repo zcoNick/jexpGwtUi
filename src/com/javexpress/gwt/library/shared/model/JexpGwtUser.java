@@ -7,11 +7,12 @@ import java.util.HashMap;
 import java.util.Map;
 
 import com.google.gwt.i18n.client.DateTimeFormat;
+import com.google.gwt.i18n.client.LocaleInfo;
 import com.google.gwt.i18n.client.NumberFormat;
 
 public class JexpGwtUser implements Serializable {
 
-	public static transient JexpGwtUser instance;
+	public static transient JexpGwtUser	instance;
 
 	private Long						id;
 	private Long						orgUnitId;
@@ -105,7 +106,7 @@ public class JexpGwtUser implements Serializable {
 	}
 
 	public static String getDateFormat() {
-		return instance.dateFormat;
+		return instance != null ? instance.dateFormat : LocaleInfo.getCurrentLocale().getDateTimeConstants().dateFormats()[0];
 	}
 
 	public static String getTimeStampFormat() {
