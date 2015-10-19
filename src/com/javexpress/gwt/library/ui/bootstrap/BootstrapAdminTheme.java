@@ -8,6 +8,7 @@ import com.javexpress.gwt.library.ui.ClientContext;
 import com.javexpress.gwt.library.ui.container.dashboard.ProvidesDashboardConfig;
 import com.javexpress.gwt.library.ui.event.ApplicationReadyEvent;
 import com.javexpress.gwt.library.ui.event.FormOpenRequest;
+import com.javexpress.gwt.library.ui.event.NavigationItemClicked;
 import com.javexpress.gwt.library.ui.event.handler.FormOpenRequestHandler;
 import com.javexpress.gwt.library.ui.form.DashboardForm;
 import com.javexpress.gwt.library.ui.form.IUIComposite;
@@ -30,11 +31,34 @@ public abstract class BootstrapAdminTheme extends BootstrapTheme implements ISid
 		ClientContext.EVENT_BUS.addHandler(FormOpenRequest.TYPE, new FormOpenRequestHandler() {
 			@Override
 			public void onFormOpenRequested(FormOpenRequest formOpenRequest) {
+				final String path = formOpenRequest.getCode();
+				MainContentView cached = mainContent.findView(path);
+				if (cached != null) {
+					mainContent.showView(cached);
+					return;
+				}
+				if (path.equals("dashboard"))
+					mainContent.add(dashView);
+				if (getNavHandler() == null)
+					return;
 				FormDef fd = formOpenRequest.getFormDef();
-				if (fd.isInWorkpane())
-					showInView(formOpenRequest.getCode(), formOpenRequest.getForm());
-				else
-					ClientContext.instance.showInWindow(formOpenRequest.getForm(), true);
+				if (fd != null) {
+					if (fd.isInWorkpane())
+						showInView(formOpenRequest.getCode(), formOpenRequest.getForm());
+					else
+						ClientContext.instance.showInWindow(formOpenRequest.getForm(), true);
+					return;
+				} else {
+					JexpCallback<IUIComposite> callBack = new JexpCallback<IUIComposite>() {
+						@Override
+						protected void onResult(IUIComposite result) {
+							if (result == null)
+								return;
+							showInView(path, result);
+						}
+					};
+					getNavHandler().handleNavigation(path, callBack);
+				}
 			}
 		});
 	}
@@ -46,31 +70,14 @@ public abstract class BootstrapAdminTheme extends BootstrapTheme implements ISid
 			@Override
 			public void execute() {
 				buildGUI();
-				ClientContext.EVENT_BUS.fireEvent(new ApplicationReadyEvent());
 			}
 		});
 	}
 
 	@Override
 	public void handleHistoryValueChanged(final String path) {
-		MainContentView cached = mainContent.findView(path);
-		if (cached != null) {
-			mainContent.showView(cached);
-			return;
-		}
-		if (path.equals("dashboard"))
-			mainContent.add(dashView);
-		if (getNavHandler() == null)
-			return;
-		JexpCallback<IUIComposite> callBack = new JexpCallback<IUIComposite>() {
-			@Override
-			protected void onResult(IUIComposite result) {
-				if (result == null)
-					return;
-				showInView(path, result);
-			}
-		};
-		getNavHandler().handleNavigation(path, callBack);
+		FormOpenRequest req = new FormOpenRequest(null, path, null);
+		ClientContext.EVENT_BUS.fireEvent(req);
 	}
 
 	public void showInView(String path, IUIComposite result) {
@@ -83,15 +90,23 @@ public abstract class BootstrapAdminTheme extends BootstrapTheme implements ISid
 		if (!(ClientContext.instance instanceof ProvidesDashboardConfig))
 			return;
 		ProvidesDashboardConfig pdc = (ProvidesDashboardConfig) ClientContext.instance;
-		dashForm = new DashboardForm("dashboard", pdc.getDashboardColumns());
+		dashForm = new DashboardForm("dashboard", pdc.getDashboardColumns()) {
+			@Override
+			protected void onLoad() {
+				super.onLoad();
+				ClientContext.EVENT_BUS.fireEvent(new ApplicationReadyEvent());
+			}
+		};
 	}
 
 	@Override
 	public void navLinkClicked(String path) {
+		ClientContext.EVENT_BUS.fireEvent(new NavigationItemClicked(path, 0));
 	}
 
 	@Override
 	public void sideLinkClicked(final String path) {
+		ClientContext.EVENT_BUS.fireEvent(new NavigationItemClicked(path, 1));
 	}
 
 	protected void buildGUI() {

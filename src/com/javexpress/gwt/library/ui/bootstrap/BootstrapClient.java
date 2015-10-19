@@ -4,6 +4,8 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import com.google.gwt.core.client.GWT;
+import com.google.gwt.core.client.Scheduler;
+import com.google.gwt.core.client.Scheduler.ScheduledCommand;
 import com.google.gwt.event.dom.client.KeyDownEvent;
 import com.google.gwt.event.dom.client.KeyDownHandler;
 import com.google.gwt.event.logical.shared.CloseEvent;
@@ -25,14 +27,16 @@ import com.javexpress.gwt.library.shared.model.JexpGwtUser;
 import com.javexpress.gwt.library.ui.ClientContext;
 import com.javexpress.gwt.library.ui.dialog.NewJiraIssueDialog;
 import com.javexpress.gwt.library.ui.dialog.WindowView;
+import com.javexpress.gwt.library.ui.event.ApplicationReadyEvent;
 import com.javexpress.gwt.library.ui.event.SessionExpiredEvent;
+import com.javexpress.gwt.library.ui.event.handler.ApplicationReadyEventHandler;
 import com.javexpress.gwt.library.ui.form.IJiraEnabledForm;
 import com.javexpress.gwt.library.ui.form.IUIComposite;
 import com.javexpress.gwt.library.ui.js.JexpCallback;
 import com.javexpress.gwt.library.ui.js.JsUtil;
 import com.javexpress.gwt.library.ui.js.JsonMap;
 
-public abstract class BootstrapClient extends ClientContext implements ProvidesResize {
+public abstract class BootstrapClient extends ClientContext implements ProvidesResize, ApplicationReadyEventHandler {
 
 	@Override
 	public void onModuleLoad() {
@@ -108,6 +112,7 @@ public abstract class BootstrapClient extends ClientContext implements ProvidesR
 			}
 		};
 		RootPanel.get().addDomHandler(handler, KeyDownEvent.getType());
+		ClientContext.EVENT_BUS.addHandler(ApplicationReadyEvent.TYPE, this);
 	}
 
 	protected void handleOnCoreLibraryInjectFinished() {
@@ -183,6 +188,23 @@ public abstract class BootstrapClient extends ClientContext implements ProvidesR
 
 	public static void showInWindow(IUIComposite form, JexpCallback<WindowView> callback) {
 		instance.showInWindow(form, true, callback);
+	}
+
+	@Override
+	public void onApplicationReady(ApplicationReadyEvent event) {
+		final String href = Window.Location.getHref();
+		if (href.indexOf("#") > -1) {
+			Scheduler.get().scheduleDeferred(new ScheduledCommand() {
+				@Override
+				public void execute() {
+					String path = href.substring(href.indexOf("#") + 1);
+					int qs = path.indexOf("?");
+					if (qs > -1)
+						path = path.substring(0, qs);
+					handleHistoryValueChanged(path);
+				}
+			});
+		}
 	}
 
 }

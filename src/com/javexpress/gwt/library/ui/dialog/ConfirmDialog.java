@@ -22,6 +22,24 @@ public class ConfirmDialog extends JexpSimplePanel {
 	private ConfirmationListener	listener;
 	private String					title;
 	private Map<String, String>		options;
+	private String					okText;
+	private String					cancelText;
+
+	public String getOkText() {
+		return okText;
+	}
+
+	public void setOkText(String okText) {
+		this.okText = okText;
+	}
+
+	public String getCancelText() {
+		return cancelText;
+	}
+
+	public void setCancelText(String cancelText) {
+		this.cancelText = cancelText;
+	}
 
 	public ConfirmDialog(final Widget parent, final String id, final String title, final String message) {
 		this(parent, id, title, message, null);
@@ -30,9 +48,12 @@ public class ConfirmDialog extends JexpSimplePanel {
 	public ConfirmDialog(final Widget parent, final String id, final String title, final String message, final ConfirmationListener listener) {
 		super();
 		JsUtil.ensureId(parent, this, WidgetConst.CONFIRMDIALOG_PREFIX, id);
+		getElement().getStyle().setZIndex(9999);
 		this.title = title;
 		this.message = message;
 		this.listener = listener;
+		this.okText = ClientContext.nlsCommon.tamam();
+		this.cancelText = ClientContext.nlsCommon.vazgec();
 	}
 
 	public void addOption(String id, String title) {
@@ -71,8 +92,8 @@ public class ConfirmDialog extends JexpSimplePanel {
 			}
 			html.append("</div>");
 			html.append("<div class='modal-footer'>");
-			html.append("<button type='button' id='").append(getElement().getId()).append("_ok' class='btn btn-danger' data-dismiss='modal'><i class='ace-icon ").append(FaIcon.check.getCssClass()).append("'></i><span>").append(ClientContext.nlsCommon.tamam()).append("</span></button>");
-			html.append("<button type='button' id='").append(getElement().getId()).append("_cancel' class='btn btn-primary' data-dismiss='modal'><i class='ace-icon ").append(FaIcon.close.getCssClass()).append("'></i><span>").append(ClientContext.nlsCommon.vazgec()).append("</span></button>");
+			html.append("<button type='button' id='").append(getElement().getId()).append("_ok' class='btn btn-danger' data-dismiss='modal'><i class='ace-icon ").append(FaIcon.check.getCssClass()).append("'></i><span>").append(okText).append("</span></button>");
+			html.append("<button type='button' id='").append(getElement().getId()).append("_cancel' class='btn btn-primary' data-dismiss='modal'><i class='ace-icon ").append(FaIcon.close.getCssClass()).append("'></i><span>").append(cancelText).append("</span></button>");
 			html.append("</div></div></div>");
 			getElement().setInnerHTML(html.toString());
 			createByJsBs(this, getElement(), getElement().getId());
