@@ -108,7 +108,7 @@ public class AutoCompleteBox<V extends Serializable> extends BaseWrappedInput<St
 				el.attr("v", ui.item.id);
 				el.val(ui.item.label);
 				$wnd.$.data(el, "acdata", ui.item.data);
-				x.@com.javexpress.gwt.library.ui.form.autocomplete.AutoCompleteBox::fireOnSelect(Ljava/lang/String;Ljava/lang/String;Lcom/google/gwt/core/client/JavaScriptObject;)(ui.item.id,ui.item.label,ui.item.data);
+				x.@com.javexpress.gwt.library.ui.form.autocomplete.AutoCompleteBox::fireOnSelect(Ljava/lang/String;Ljava/lang/String;Lcom/google/gwt/core/client/JavaScriptObject;Z)(ui.item.id,ui.item.label,ui.item.data,true);
 			}
 			return r;
 		};
@@ -129,7 +129,7 @@ public class AutoCompleteBox<V extends Serializable> extends BaseWrappedInput<St
 							if (el.attr("v") != "" && el.val().trim() == "") {
 								el.attr("v", "");
 								$wnd.$.data(el, "acdata", null);
-								x.@com.javexpress.gwt.library.ui.form.autocomplete.AutoCompleteBox::fireOnSelect(Ljava/lang/String;Ljava/lang/String;Lcom/google/gwt/core/client/JavaScriptObject;)(null,null,null);
+								x.@com.javexpress.gwt.library.ui.form.autocomplete.AutoCompleteBox::fireOnSelect(Ljava/lang/String;Ljava/lang/String;Lcom/google/gwt/core/client/JavaScriptObject;Z)(null,null,null,false);
 							}
 						});
 		if (newItemTitle) {
@@ -202,7 +202,7 @@ public class AutoCompleteBox<V extends Serializable> extends BaseWrappedInput<St
 		input.setAttribute("v", "");
 		try {
 			if (JsUtil.isNotEmpty(old))
-				fireOnSelect(null, null, null);
+				fireOnSelect(null, null, null, false);
 		} catch (Exception e) {
 			JsUtil.handleError(getParent(), e);
 		}
@@ -243,7 +243,7 @@ public class AutoCompleteBox<V extends Serializable> extends BaseWrappedInput<St
 								lb.val(data.label);
 								$wnd.$.data(lb, "acdata", data.data);
 								lb.attr("v", data.id);
-								x.@com.javexpress.gwt.library.ui.form.autocomplete.AutoCompleteBox::fireOnSelect(Ljava/lang/String;Ljava/lang/String;Lcom/google/gwt/core/client/JavaScriptObject;)(data.id,data.label,data.data);
+								x.@com.javexpress.gwt.library.ui.form.autocomplete.AutoCompleteBox::fireOnSelect(Ljava/lang/String;Ljava/lang/String;Lcom/google/gwt/core/client/JavaScriptObject;Z)(data.id,data.label,data.data,false);
 							}
 						}, "json");
 	}-*/;
@@ -265,9 +265,9 @@ public class AutoCompleteBox<V extends Serializable> extends BaseWrappedInput<St
 		return true;
 	}
 
-	private void fireOnSelect(final String id, final String label, JavaScriptObject data) throws Exception {
+	private void fireOnSelect(final String id, final String label, JavaScriptObject data, boolean userAction) throws Exception {
 		if (listener != null)
-			listener.itemSelected(id, label, data != null ? new JsonMap(data) : null);
+			listener.itemSelected(id, label, data != null ? new JsonMap(data) : null, userAction);
 	}
 
 	private void fireOnButtonClick() throws Exception {

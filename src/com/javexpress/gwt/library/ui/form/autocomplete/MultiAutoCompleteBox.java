@@ -335,7 +335,7 @@ public class MultiAutoCompleteBox extends AbstractContainer implements IUserInpu
 
 	private void fireAddToSelection(final String id, final String label, JavaScriptObject data, boolean userAction) throws Exception {
 		if (listener != null)
-			listener.itemSelected(id, label, data == null ? null : new JsonMap(data));
+			listener.itemSelected(id, label, data == null ? null : new JsonMap(data), userAction);
 		TableRowElement tr = DOM.createTR().cast();
 		tr.getStyle().setDisplay(Display.NONE);
 		tr.addClassName("jexpMultiAutoCompleteListItem");

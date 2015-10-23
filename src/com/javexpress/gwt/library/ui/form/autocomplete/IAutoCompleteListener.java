@@ -8,7 +8,7 @@ public interface IAutoCompleteListener {
 
 	public boolean canSelectItem(String id, String label, JsonMap data);
 
-	public void itemSelected(final String id, final String label, final JsonMap data) throws Exception;
+	public void itemSelected(final String id, final String label, final JsonMap data, boolean userAction) throws Exception;
 
 	public void buttonClicked();
 
