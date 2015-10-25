@@ -27,6 +27,7 @@ import com.javexpress.gwt.library.ui.js.WidgetBundles;
 public abstract class BaseSlickGrid<CT extends Column> extends ContainerWithBar {
 
 	public static WidgetBundles fillResources(WidgetBundles parent) {
+		//https://raw.githubusercontent.com/manju-reddys/SlickGrid/master/slick.grid.js
 		WidgetBundles wb = new WidgetBundles("EditGrid", parent);
 		wb.addStyleSheet("scripts/slickgrid/slick.grid.css");
 		wb.addStyleSheet("scripts/slickgrid/slick.columnpicker.css");

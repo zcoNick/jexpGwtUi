@@ -1,4 +1,3 @@
-//https://raw.githubusercontent.com/manju-reddys/SlickGrid/master/slick.grid.js
 /**
  * @license
  * (c) 2009-2013 Michael Leibman
