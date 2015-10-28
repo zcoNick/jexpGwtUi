@@ -106,7 +106,14 @@ public class JexpGwtUser implements Serializable {
 	}
 
 	public static String getDateFormat() {
-		return instance != null ? instance.dateFormat : LocaleInfo.getCurrentLocale().getDateTimeConstants().dateFormats()[0];
+		if (instance != null)
+			return instance.dateFormat;
+		String fmt = LocaleInfo.getCurrentLocale().getDateTimeConstants().dateFormats()[0].toUpperCase();
+		if (fmt.indexOf("M") < fmt.indexOf("D"))
+			fmt = "MM.dd.yyyy";
+		else
+			fmt = "dd.MM.yyyy";
+		return fmt;
 	}
 
 	public static String getTimeStampFormat() {
