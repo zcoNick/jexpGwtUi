@@ -91,8 +91,8 @@ public class KeyValueDataLoader implements Command {
 					JSONObject json = v.isObject();
 					for (IKeyValueList combo : set) {
 						String k = comboKey.get(combo);
-						if (k.indexOf("?") > -1)
-							k = k.substring(0, k.indexOf("?"));
+						/*if (k.indexOf("?") > -1)
+							k = k.substring(0, k.indexOf("?"));//FisEdit de CariSecince*/
 						JSONValue va = json.get(k);
 						JSONObject grp = va != null ? va.isObject() : null;
 						if (grp != null && grp.size() > 0) {

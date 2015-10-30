@@ -581,9 +581,10 @@ public class JsUtil {
 		else if (w instanceof ComboBox) {
 			ComboBox cmb = (ComboBox) w;
 			val = forceNumeric ? cmb.getValueLong() : cmb.getValue();
-		} else if (w instanceof CheckInlineBox)
-			val = ((CheckInlineBox) w).getValueList();
-		else if (w instanceof ListBox)
+		} else if (w instanceof CheckInlineBox) {
+			CheckInlineBox cilb = (CheckInlineBox) w;
+			val = forceNumeric ? cilb.getValueListLong() : cilb.getValueList();
+		} else if (w instanceof ListBox)
 			val = ((ListBox) w).getValue();
 		else if (w instanceof TextBox)
 			val = ((TextBox) w).getValue();

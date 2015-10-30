@@ -403,4 +403,16 @@ public class CheckInlineBox extends TextArea implements IUserInputWidget<String>
 		return dataBinding;
 	}
 
+	public ArrayList<Long> getValueListLong() {
+		if (items == null || items.isEmpty())
+			return null;
+		ArrayList<Long> sels = new ArrayList<Long>();
+		for (String l : items.keySet()) {
+			Pair<String, Boolean> pair = items.get(l);
+			if (pair.getRight())
+				sels.add(Long.valueOf(pair.getLeft()));
+		}
+		return sels.isEmpty() ? null : sels;
+	}
+
 }
