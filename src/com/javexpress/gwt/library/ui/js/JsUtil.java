@@ -77,6 +77,7 @@ import com.javexpress.gwt.library.ui.form.upload.FileUpload;
 
 public class JsUtil {
 
+	public static final BigDecimal	ZERO					= new BigDecimal(0);
 	public static boolean			isIE7					= false;
 	public static boolean			isIE8					= false;
 	public static boolean			isIE9					= false;
