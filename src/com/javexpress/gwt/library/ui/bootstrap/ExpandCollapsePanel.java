@@ -66,7 +66,7 @@ public class ExpandCollapsePanel extends AbstractContainerFocusable implements I
 		elCollapse = DOM.createAnchor();
 		elCollapse.setAttribute("data-toggle", "collapse");
 		elCollapse.setAttribute("data-target", "#" + contentDiv.getId());
-		elCollapse.setAttribute("href", "#" + contentDiv.getId());
+		//elCollapse.setAttribute("href", "#" + contentDiv.getId());
 		elCollapse.setClassName("jexpHandCursor");
 		toolDiv.appendChild(elCollapse);
 		headerDiv.appendChild(toolDiv);

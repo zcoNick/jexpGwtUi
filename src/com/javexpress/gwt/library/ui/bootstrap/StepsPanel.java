@@ -2,6 +2,7 @@ package com.javexpress.gwt.library.ui.bootstrap;
 
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.user.client.DOM;
+import com.javexpress.gwt.library.ui.js.JsUtil;
 
 public class StepsPanel extends BaseResponsivePanel {
 
@@ -78,15 +79,20 @@ public class StepsPanel extends BaseResponsivePanel {
 		}
 	}
 
-	public void setActiveStep(String step) {
+	public Element activateStep(String step, boolean back) {
 		boolean asCompleted = true;
+		Element activeEl = null;
 		for (int i = 0; i < getElement().getChildCount(); i++) {
 			Element el = (Element) getElement().getChild(i);
 			String cand = el.getAttribute("step");
 			if (cand.equals(step)) {
 				el.setClassName("active");
+				if (!back && activeStep != null)
+					el.setAttribute("bs", activeStep);
 				activeStep = step;
 				asCompleted = false;
+				activeEl = el;
+				JsUtil.pulsate(el);
 			} else if (asCompleted) {
 				el.setClassName("complete");
 			} else {
@@ -94,6 +100,7 @@ public class StepsPanel extends BaseResponsivePanel {
 				el.removeClassName("complete");
 			}
 		}
+		return activeEl;
 	}
 
 	public String getActiveStep() {
@@ -129,16 +136,15 @@ public class StepsPanel extends BaseResponsivePanel {
 	}
 
 	public String getPriorStep() {
-		String prior = null;
 		for (int i = 0; i < getElement().getChildCount(); i++) {
 			Element el = (Element) getElement().getChild(i);
 			String cand = el.getAttribute("step");
-			if (cand.equals(activeStep))
-				return prior;
-			else
-				prior = cand;
+			if (cand.equals(activeStep)) {
+				cand = el.getAttribute("bs");
+				return JsUtil.isEmpty(cand) ? null : cand;
+			}
 		}
-		return prior;
+		return null;
 	}
 
 }
