@@ -409,7 +409,12 @@ public class DataGrid<T extends Serializable> extends BaseSlickGrid<ListColumn> 
 		grid.onSelectedRowsChanged
 				.subscribe(function(e, args) {
 					if (!loader.disableSelectEventFire && !options.multiSelect) {
-						var rowData = data[args.rows[0]];
+						var rowData = dataView ? dataView.getItem(args.rows[0])
+								: data[args.rows[0]];
+						if (!rowData || rowData.__group
+								|| rowData.__groupTotals
+								|| rowData.__nonDataRow)
+							return;
 						var rowId = rowData ? rowData[keyColumnName] : null;
 						x.@com.javexpress.gwt.library.ui.data.slickgrid.DataGrid::fireOnRowSelect(Ljava/lang/String;ZLcom/google/gwt/core/client/JavaScriptObject;)(rowId?rowId+"":null,true,rowData);
 						return;
@@ -427,7 +432,12 @@ public class DataGrid<T extends Serializable> extends BaseSlickGrid<ListColumn> 
 								}
 							}
 							if (!exists) {
-								var rowData = data[sels[i]];
+								var rowData = dataView ? dataView
+										.getItem(sels[i]) : data[sels[i]];
+								if (!rowData || rowData.__group
+										|| rowData.__groupTotals
+										|| rowData.__nonDataRow)
+									continue;
 								var rowId = rowData ? rowData[keyColumnName]
 										: null;
 								x.@com.javexpress.gwt.library.ui.data.slickgrid.DataGrid::fireOnRowSelect(Ljava/lang/String;ZLcom/google/gwt/core/client/JavaScriptObject;)(rowId?rowId+"":null,true,rowData);
@@ -443,7 +453,14 @@ public class DataGrid<T extends Serializable> extends BaseSlickGrid<ListColumn> 
 									}
 								}
 								if (!found) {
-									var rowData = data[loader.lastSelectedRows[l]];
+									var rowData = dataView ? dataView
+											.getItem(loader.lastSelectedRows[l])
+											: data[loader.lastSelectedRows[l]];
+									if (!rowData || rowData.__group
+											|| rowData.__groupTotals
+											|| rowData.__nonDataRow)
+										continue;
+
 									var rowId = rowData ? rowData[keyColumnName]
 											: null;
 									x.@com.javexpress.gwt.library.ui.data.slickgrid.DataGrid::fireOnRowSelect(Ljava/lang/String;ZLcom/google/gwt/core/client/JavaScriptObject;)(rowId?rowId+"":null,false,rowData);
