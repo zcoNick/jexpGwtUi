@@ -140,6 +140,7 @@ public abstract class ListBoxBase extends ListBox implements IUserInputWidget<St
 
 	@Override
 	public void setKeyValueDataItems(JSONObject itm) {
+		clear();
 		if (itm != null) {
 			for (String lb : itm.keySet()) {
 				JSONArray arr = itm.get(lb).isArray();//0-Value,1-Data,2-Path
