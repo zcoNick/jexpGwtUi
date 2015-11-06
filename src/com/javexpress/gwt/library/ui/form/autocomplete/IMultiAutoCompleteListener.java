@@ -3,12 +3,18 @@ package com.javexpress.gwt.library.ui.form.autocomplete;
 import com.google.gwt.dom.client.Element;
 import com.javexpress.gwt.library.ui.js.JsonMap;
 
-public interface IMultiAutoCompleteListener extends IAutoCompleteListener {
+public interface IMultiAutoCompleteListener {
 
-	public Element createListItem(final String id, final String label, final JsonMap data, final boolean userAction);
+	void onAutoCompleteBeforeDataRequest(final JsonMap postData);
 
-	public void itemAdded(final String id, final JsonMap data, final boolean userAction);
+	boolean canSelectItem(String id, String label, JsonMap jsonMap);
 
-	public void itemRemoved(final String id, final boolean userAction);
+	void itemSelected(String id, String label, JsonMap jsonMap, boolean userAction);
+
+	void itemAdded(String id, JsonMap data, boolean userSelected);
+
+	Element createListItem(String id, String label, JsonMap jsonmapdata, boolean userAction);
+
+	void itemRemoved(String id, boolean userAction);
 
 }
