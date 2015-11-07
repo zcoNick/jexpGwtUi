@@ -92,7 +92,6 @@ public class StepsPanel extends BaseResponsivePanel {
 				activeStep = step;
 				asCompleted = false;
 				activeEl = el;
-				JsUtil.pulsate(el);
 			} else if (asCompleted) {
 				el.setClassName("complete");
 			} else {

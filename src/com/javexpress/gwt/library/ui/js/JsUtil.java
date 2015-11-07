@@ -988,6 +988,14 @@ public class JsUtil {
 		applyEffect(elm, JqEffect.pulsate);
 	}
 
+	public static void slide(Element elm) {
+		applyEffect(elm, JqEffect.slide);
+	}
+
+	public static void highlight(Element elm) {
+		applyEffect(elm, JqEffect.highlight);
+	}
+
 	public static native void transfer(JavaScriptObject fromEl, JavaScriptObject toEl) /*-{
 		$wnd.$(fromEl).effect("transfer", {
 			to : toEl
