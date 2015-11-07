@@ -87,16 +87,32 @@ public class ComboBox extends ListBoxBase implements AsyncCallback<List<? extend
 		setValue(selectedValue == null ? null : String.valueOf(selectedValue));
 	}
 
+	public void setValueInt(final Integer selectedValue, boolean fireChanged) {
+		setValue(selectedValue == null ? null : String.valueOf(selectedValue), fireChanged);
+	}
+
 	public void setValueByte(final Byte selectedValue) {
 		setValue(selectedValue == null ? null : String.valueOf(selectedValue));
+	}
+
+	public void setValueByte(final Byte selectedValue, boolean fireChanged) {
+		setValue(selectedValue == null ? null : String.valueOf(selectedValue), fireChanged);
 	}
 
 	public void setValueLong(final Long selectedValue) {
 		setValue(selectedValue == null ? null : String.valueOf(selectedValue));
 	}
 
+	public void setValueLong(final Long selectedValue, boolean fireChanged) {
+		setValue(selectedValue == null ? null : String.valueOf(selectedValue), fireChanged);
+	}
+
 	public void setValueShort(final Short selectedValue) {
 		setValue(selectedValue == null ? null : String.valueOf(selectedValue));
+	}
+
+	public void setValueShort(final Short selectedValue, boolean fireChanged) {
+		setValue(selectedValue == null ? null : String.valueOf(selectedValue), fireChanged);
 	}
 
 	public boolean setValue(final String selectedValue) {
@@ -105,18 +121,21 @@ public class ComboBox extends ListBoxBase implements AsyncCallback<List<? extend
 
 	public boolean setValue(final String selectedValue, boolean fireChanged) {
 		lazyValue = null;
-		setSelectedIndex(-1);
+		int old = getSelectedIndex();
 		if (JsUtil.isEmpty(selectedValue)) {
-			return false;
-		}
-		for (int i = 0; i < getItemCount(); i++) {
-			if (getValue(i).equals(selectedValue)) {
-				setSelectedIndex(i);
-				return true;
+			if (old != -1)
+				setSelectedIndex(-1);
+		} else {
+			setSelectedIndex(-1);
+			for (int i = 0; i < getItemCount(); i++) {
+				if (getValue(i).equals(selectedValue)) {
+					setSelectedIndex(i);
+					break;
+				}
 			}
 		}
 		lazyValue = selectedValue;
-		if (fireChanged) {
+		if (old != getSelectedIndex() && fireChanged) {
 			NativeEvent event = Document.get().createChangeEvent();
 			DomEvent.fireNativeEvent(event, this);
 		}
