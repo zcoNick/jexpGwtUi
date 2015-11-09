@@ -565,6 +565,8 @@ public class DataGrid<T extends Serializable> extends BaseSlickGrid<ListColumn> 
 
 	@Override
 	public void refresh(final Serializable result) {
+		if (getJsObject() == null)
+			return;
 		_refresh(getJsObject(), loader, getDataView());
 		if (result != null)
 			Scheduler.get().scheduleFixedDelay(new RepeatingCommand() {
@@ -582,7 +584,8 @@ public class DataGrid<T extends Serializable> extends BaseSlickGrid<ListColumn> 
 	}
 
 	private native void _refresh(JavaScriptObject grid, JavaScriptObject loader, JavaScriptObject dataView) /*-{
-		loader.clear();
+		if (loader)
+			loader.clear();
 		if (dataView)
 			dataView.setItems([]);
 		grid.invalidateAllRows();

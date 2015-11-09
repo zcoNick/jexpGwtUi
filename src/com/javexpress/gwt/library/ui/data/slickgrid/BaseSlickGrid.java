@@ -248,20 +248,20 @@ public abstract class BaseSlickGrid<CT extends Column> extends ContainerWithBar 
 	}
 
 	private native void _bindToolElement(GridToolItem gi, Element el) /*-{
-		$wnd
-				.$(el)
-				.click(
-						function(e) {
-							if ($wnd.$(this).attr("disabled") == "disabled")
-								return;
-							gi.@com.javexpress.gwt.library.ui.data.GridToolItem::executeHandler(Lcom/google/gwt/user/client/Event;)(e);
-						});
-	}-*/;
+																		$wnd
+																		.$(el)
+																		.click(
+																		function(e) {
+																		if ($wnd.$(this).attr("disabled") == "disabled")
+																		return;
+																		gi.@com.javexpress.gwt.library.ui.data.GridToolItem::executeHandler(Lcom/google/gwt/user/client/Event;)(e);
+																		});
+																		}-*/;
 
 	private native void _unbindToolElement(GridToolItem gi, Element el) /*-{
-		gi.@com.javexpress.gwt.library.ui.data.GridToolItem::unload()();
-		$wnd.$(el).off();
-	}-*/;
+																		gi.@com.javexpress.gwt.library.ui.data.GridToolItem::unload()();
+																		$wnd.$(el).off();
+																		}-*/;
 
 	protected JsonMap createColumnModel(final CT column, final int index) {
 		if (column.isHidden())
@@ -298,12 +298,12 @@ public abstract class BaseSlickGrid<CT extends Column> extends ContainerWithBar 
 	}
 
 	private native void _redraw(JavaScriptObject grid) /*-{
-		grid.invalidate();
-	}-*/;
+														grid.invalidate();
+														}-*/;
 
 	private native void _autosizeColumns(JavaScriptObject grid) /*-{
-		grid.autosizeColumns();
-	}-*/;
+																grid.autosizeColumns();
+																}-*/;
 
 	public void performAutoSizeColumns() {
 		_autosizeColumns(jsObject);
@@ -311,23 +311,24 @@ public abstract class BaseSlickGrid<CT extends Column> extends ContainerWithBar 
 
 	@Override
 	public void onResize() {
-		_updateSize(jsObject, getContainer());
+		if (isAttached())
+			_updateSize(jsObject, getContainer());
 	}
 
 	private native void _updateSize(JavaScriptObject slick, Element element) /*-{
-		slick.resizeCanvas();
-	}-*/;
+																				slick.resizeCanvas();
+																				}-*/;
 
 	protected native void _updateOptionBool(JavaScriptObject slick, String poption, boolean pvalue) /*-{
-		var opt = {};
-		opt[poption] = pvalue;
-		slick.setOptions(opt);
-		slick.invalidate();
-	}-*/;
+																									var opt = {};
+																									opt[poption] = pvalue;
+																									slick.setOptions(opt);
+																									slick.invalidate();
+																									}-*/;
 
 	protected native JavaScriptObject _getSelectedRows(JavaScriptObject grid) /*-{
-		return grid.getSelectedRows();
-	}-*/;
+																				return grid.getSelectedRows();
+																				}-*/;
 
 	public JsArrayInteger getSelectedRowIndexes() {
 		if (!isAttached())
@@ -340,13 +341,13 @@ public abstract class BaseSlickGrid<CT extends Column> extends ContainerWithBar 
 	}
 
 	private native void _destroyByJs(JavaScriptObject slick, Element elGrid, Element topPanel) /*-{
-		$wnd.$(".slick-viewport", $wnd.$(elGrid)).off();
-		$wnd.$(elGrid).unbind("linkclicked");
-		slick.destroy();
-		delete slick;
-		if (topPanel)
-			$wnd.$(topPanel).empty().off();
-	}-*/;
+																								$wnd.$(".slick-viewport", $wnd.$(elGrid)).off();
+																								$wnd.$(elGrid).unbind("linkclicked");
+																								slick.destroy();
+																								delete slick;
+																								if (topPanel)
+																								$wnd.$(topPanel).empty().off();
+																								}-*/;
 
 	protected JsArray getData() {
 		return data;
