@@ -6,6 +6,9 @@ import com.google.gwt.core.shared.GWT;
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.dom.client.Style.Display;
 import com.google.gwt.dom.client.Style.Unit;
+import com.google.gwt.event.dom.client.KeyCodes;
+import com.google.gwt.event.dom.client.KeyDownEvent;
+import com.google.gwt.event.dom.client.KeyDownHandler;
 import com.google.gwt.user.client.Command;
 import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.Window;
@@ -134,9 +137,17 @@ public class WindowView extends AbstractContainerFocusable implements IUIComposi
 		windowDiv.setAttribute("aria-describedby", "dialog-confirm");
 		windowDiv.setAttribute("aria-labelledby", getId() + "_title");
 
-		IUIComposite form = (IUIComposite) getWidget(0);
+		final IUIComposite form = (IUIComposite) getWidget(0);
 		fillHeader(form.getIcon(), form.getHeader());
 		form.setAttachedTo(this);
+		addKeyDownHandler(new KeyDownHandler() {
+			@Override
+			public void onKeyDown(KeyDownEvent event) {
+				KeyDownHandler kdh = form.getKeyDownHandler();
+				if (kdh != null)
+					kdh.onKeyDown(event);
+			}
+		});
 
 		super.doAttachChildren();
 	}
@@ -148,11 +159,11 @@ public class WindowView extends AbstractContainerFocusable implements IUIComposi
 		if (width == null && form instanceof UIComposite) {
 			UIComposite uic = (UIComposite) form;
 			int screenW = Window.getClientWidth();
-			double pct = 50;
 			Integer xs = JsUtil.nvl(uic.getXsSize(), 0);
 			Integer sm = JsUtil.nvl(uic.getSmSize(), xs);
 			Integer md = JsUtil.nvl(uic.getMdSize(), sm);
 			Integer lg = JsUtil.nvl(uic.getLgSize(), md);
+			double pct = 50;
 			if (xs > 0 && screenW < 768)
 				pct = JsUtil.RESPONSIVE_COL_WIDTHS[xs];
 			else if (sm > 0 && screenW >= 768 && screenW < 992)
@@ -273,6 +284,13 @@ public class WindowView extends AbstractContainerFocusable implements IUIComposi
 				}
 			});
 		}
+		addKeyDownHandler(new KeyDownHandler() {
+			@Override
+			public void onKeyDown(KeyDownEvent event) {
+				if (event.getNativeKeyCode() == KeyCodes.KEY_ESCAPE)
+					close();
+			}
+		});
 	}
 
 	protected native void selectActiveWindow(Element el) /*-{

@@ -1,6 +1,9 @@
 package com.javexpress.gwt.library.ui;
 
 import com.google.gwt.dom.client.Element;
+import com.google.gwt.event.dom.client.KeyDownEvent;
+import com.google.gwt.event.dom.client.KeyDownHandler;
+import com.google.gwt.event.shared.HandlerRegistration;
 import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.Event;
 import com.google.gwt.user.client.ui.Focusable;
@@ -34,6 +37,10 @@ public abstract class AbstractContainerFocusable extends AbstractContainer imple
 
 	protected Element getSinkElement() {
 		return getElement();
+	}
+
+	public HandlerRegistration addKeyDownHandler(KeyDownHandler handler) {
+		return addDomHandler(handler, KeyDownEvent.getType());
 	}
 
 	@Override

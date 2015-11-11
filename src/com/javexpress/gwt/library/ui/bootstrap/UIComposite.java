@@ -3,6 +3,7 @@ package com.javexpress.gwt.library.ui.bootstrap;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.google.gwt.event.dom.client.KeyCodes;
 import com.google.gwt.event.dom.client.KeyDownEvent;
 import com.google.gwt.event.dom.client.KeyDownHandler;
 import com.google.gwt.event.shared.HandlerRegistration;
@@ -16,6 +17,7 @@ import com.javexpress.gwt.library.ui.AbstractContainerFocusable;
 import com.javexpress.gwt.library.ui.ClientContext;
 import com.javexpress.gwt.library.ui.ICssIcon;
 import com.javexpress.gwt.library.ui.facet.ProvidesAuthorization;
+import com.javexpress.gwt.library.ui.form.IJiraEnabledForm;
 import com.javexpress.gwt.library.ui.form.IUIComposite;
 import com.javexpress.gwt.library.ui.form.IUICompositeView;
 import com.javexpress.gwt.library.ui.form.keyboard.KeyCode;
@@ -53,6 +55,8 @@ public abstract class UIComposite extends AbstractContainerFocusable implements 
 	private boolean								maximizable	= true;
 	private FormDef								formDef;
 	private Focusable							initialWidget;
+
+	private KeyDownHandler						keyDownHandler;
 
 	public UIComposite(String id) {
 		super(DOM.createDiv());
@@ -122,10 +126,6 @@ public abstract class UIComposite extends AbstractContainerFocusable implements 
 	@Override
 	public void setCloseHandler(Command command) {
 		this.closeCommand = command;
-	}
-
-	public HandlerRegistration addKeyDownHandler(KeyDownHandler handler) {
-		return addDomHandler(handler, KeyDownEvent.getType());
 	}
 
 	@Override
@@ -276,7 +276,7 @@ public abstract class UIComposite extends AbstractContainerFocusable implements 
 		if (onLoadCommands != null)
 			for (Command cmd : onLoadCommands)
 				cmd.execute();
-		keyDownHandlerRegistration = addKeyDownHandler(new KeyDownHandler() {
+		keyDownHandler = new KeyDownHandler() {
 			@Override
 			public void onKeyDown(final KeyDownEvent event) {
 				if (event.isAltKeyDown()) {
@@ -289,10 +289,21 @@ public abstract class UIComposite extends AbstractContainerFocusable implements 
 						event.preventDefault();
 						event.stopPropagation();
 					}
-				} else if (event.getNativeKeyCode() == 27)
-					close();
+				} else if (event.isShiftKeyDown() && event.getNativeKeyCode() == KeyCodes.KEY_F12) {
+					if (that instanceof IJiraEnabledForm) {
+						event.preventDefault();
+						event.stopPropagation();
+						((IJiraEnabledForm) that).openJiraIssue();
+					}
+				}
 			}
-		});
+		};
+		keyDownHandlerRegistration = addKeyDownHandler(keyDownHandler);
+	}
+
+	@Override
+	public KeyDownHandler getKeyDownHandler() {
+		return keyDownHandler;
 	}
 
 	protected void applyFormRights(final String rights) {
@@ -332,7 +343,7 @@ public abstract class UIComposite extends AbstractContainerFocusable implements 
 	}
 
 	public void close() {
-		if (closeCommand != null)
+		if (closeCommand != null && canClose())
 			closeCommand.execute();
 	}
 
@@ -362,6 +373,10 @@ public abstract class UIComposite extends AbstractContainerFocusable implements 
 	@Override
 	public BpmAction getBpmAction() {
 		return null;
+	}
+
+	protected boolean canClose() {
+		return true;
 	}
 
 }

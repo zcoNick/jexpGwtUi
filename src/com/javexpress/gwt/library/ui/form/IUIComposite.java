@@ -1,5 +1,6 @@
 package com.javexpress.gwt.library.ui.form;
 
+import com.google.gwt.event.dom.client.KeyDownHandler;
 import com.google.gwt.user.client.Command;
 import com.google.gwt.user.client.ui.Focusable;
 import com.google.gwt.user.client.ui.HasWidgets;
@@ -51,5 +52,7 @@ public interface IUIComposite extends IsWidget, HasWidgets, ISizeAwareWidget, Fo
 	void performAction(byte action) throws Exception;
 
 	BpmAction getBpmAction();
+
+	KeyDownHandler getKeyDownHandler();
 
 }

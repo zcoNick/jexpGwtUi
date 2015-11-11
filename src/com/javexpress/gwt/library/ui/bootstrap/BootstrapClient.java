@@ -6,6 +6,7 @@ import java.util.logging.Logger;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.core.client.Scheduler;
 import com.google.gwt.core.client.Scheduler.ScheduledCommand;
+import com.google.gwt.event.dom.client.KeyCodes;
 import com.google.gwt.event.dom.client.KeyDownEvent;
 import com.google.gwt.event.dom.client.KeyDownHandler;
 import com.google.gwt.event.logical.shared.CloseEvent;
@@ -25,7 +26,6 @@ import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.Widget;
 import com.javexpress.gwt.library.shared.model.JexpGwtUser;
 import com.javexpress.gwt.library.ui.ClientContext;
-import com.javexpress.gwt.library.ui.dialog.NewJiraIssueDialog;
 import com.javexpress.gwt.library.ui.dialog.WindowView;
 import com.javexpress.gwt.library.ui.event.ApplicationReadyEvent;
 import com.javexpress.gwt.library.ui.event.SessionExpiredEvent;
@@ -130,21 +130,21 @@ public abstract class BootstrapClient extends ClientContext implements ProvidesR
 	}
 
 	protected void handleOnKeyDown(KeyDownEvent event) {
-		if (event.isControlKeyDown() && event.getNativeKeyCode() == 170) {// Ctrl + ?
+		if (event.isControlKeyDown() && event.getNativeKeyCode() == ClientContext.HELP_KEYCODE) {
 			event.preventDefault();
 			event.stopPropagation();
 		}
-		if (event.isShiftKeyDown() && event.getNativeKeyCode() == 123) {// Shift + F12
+		if (event.isShiftKeyDown() && event.getNativeKeyCode() == KeyCodes.KEY_F12) {
 			event.preventDefault();
 			event.stopPropagation();
-			NewJiraIssueDialog.open(new IJiraEnabledForm() {
+			ClientContext.instance.openJiraForm(new IJiraEnabledForm() {
 				@Override
 				public void openJiraIssue() {
 				}
 
 				@Override
-				public long getModuleId() {
-					return getModuleId();
+				public Long getModuleId() {
+					return null;
 				}
 
 				@Override
@@ -153,7 +153,7 @@ public abstract class BootstrapClient extends ClientContext implements ProvidesR
 				}
 			});
 		}
-		if (event.getNativeKeyCode() == 116) {// F5
+		if (event.getNativeKeyCode() == KeyCodes.KEY_F5) {
 			if (disableF5Key()) {
 				event.preventDefault();
 				event.stopPropagation();

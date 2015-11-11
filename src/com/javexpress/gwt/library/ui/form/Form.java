@@ -18,7 +18,6 @@ import com.javexpress.gwt.library.shared.model.WidgetConst;
 import com.javexpress.gwt.library.ui.ClientContext;
 import com.javexpress.gwt.library.ui.ICssIcon;
 import com.javexpress.gwt.library.ui.container.panel.SimplePanelFocusable;
-import com.javexpress.gwt.library.ui.dialog.NewJiraIssueDialog;
 import com.javexpress.gwt.library.ui.facet.ProvidesAuthorization;
 import com.javexpress.gwt.library.ui.form.keyboard.KeyCode;
 import com.javexpress.gwt.library.ui.js.JexpCallback;
@@ -211,10 +210,6 @@ public abstract class Form extends SimplePanelFocusable implements IWindow, IUIC
 	public void openHelp() {
 		String url = GWT.getHostPageBaseURL() + "showHelp?i=" + getHelpIndex();
 		JsUtil.openWindow(url, null);
-	}
-
-	protected void openJiraIssue(IJiraEnabledForm form) {
-		NewJiraIssueDialog.open(form);
 	}
 
 	protected Pair<Long, String> getAuthKey() {

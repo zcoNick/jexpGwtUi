@@ -10,6 +10,7 @@ import com.javexpress.gwt.library.ui.dialog.WindowView;
 import com.javexpress.gwt.library.ui.event.ExceptionThrownEvent;
 import com.javexpress.gwt.library.ui.event.FormShowInWindowRequest;
 import com.javexpress.gwt.library.ui.event.HelpRequest;
+import com.javexpress.gwt.library.ui.form.IJiraEnabledForm;
 import com.javexpress.gwt.library.ui.form.IUIComposite;
 import com.javexpress.gwt.library.ui.js.JexpCallback;
 
@@ -22,6 +23,7 @@ public abstract class ClientContext implements EntryPoint {
 	public static final CommonResources		nlsCommon			= GWT.create(CommonResources.class);
 	public static final EventBus			EVENT_BUS			= GWT.create(SimpleEventBus.class);
 	public static final IResourceInjector	resourceInjector	= GWT.create(IResourceInjector.class);
+	public static final int					HELP_KEYCODE		= 170;
 
 	@Override
 	public void onModuleLoad() {
@@ -46,6 +48,9 @@ public abstract class ClientContext implements EntryPoint {
 
 	public void showInWindow(IUIComposite form, boolean modal, Integer x, Integer y, JexpCallback<WindowView> callback) {
 		EVENT_BUS.fireEvent(new FormShowInWindowRequest(form, modal, x, y, callback));
+	}
+
+	public void openJiraForm(IJiraEnabledForm iJiraEnabledForm) {
 	}
 
 }

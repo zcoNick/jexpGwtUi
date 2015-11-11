@@ -138,9 +138,9 @@ public class MenuButton extends ComplexPanel {
 	@Override
 	protected void onLoad() {
 		if (isDropUp())
-			getElement().addClassName("dropup");
+			getElement().addClassName("dropup jexpMenuButton");
 		else
-			getElement().addClassName("dropdown");
+			getElement().addClassName("dropdown jexpMenuButton");
 		updateStyleContext();
 		ClientContext.resourceInjector.applyIconStyles(iconSpan, iconClass);
 		super.onLoad();
