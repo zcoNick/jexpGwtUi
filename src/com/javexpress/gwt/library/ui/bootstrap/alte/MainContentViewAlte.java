@@ -51,6 +51,7 @@ public class MainContentViewAlte extends MainContentView {
 			JsUtil.clearChilds(h1);
 		else {
 			h1 = DOM.createElement("h1");
+			h1.addClassName("jexpMainContentViewHeader");
 			header.appendChild(h1);
 		}
 		if (icon != null)
