@@ -6,7 +6,6 @@ import com.google.gwt.core.shared.GWT;
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.dom.client.Style.Display;
 import com.google.gwt.dom.client.Style.Unit;
-import com.google.gwt.event.dom.client.KeyCodes;
 import com.google.gwt.event.dom.client.KeyDownEvent;
 import com.google.gwt.event.dom.client.KeyDownHandler;
 import com.google.gwt.user.client.Command;
@@ -146,6 +145,18 @@ public class WindowView extends AbstractContainerFocusable implements IUIComposi
 				KeyDownHandler kdh = form.getKeyDownHandler();
 				if (kdh != null)
 					kdh.onKeyDown(event);
+				/*
+				 * textboxlarda backspace yapınca history den onceki sayfaya gidiyordu onlemek için aşağıyı açınca textbox da silme yapmıyor
+				 * if (event.getNativeKeyCode() == KeyCodes.KEY_ESCAPE) {
+					event.preventDefault();
+					event.stopPropagation();
+					close();
+					return;
+				}
+				if (event.isLive()&&event.getNativeKeyCode() == KeyCodes.KEY_BACKSPACE) {
+					event.preventDefault();
+					event.stopPropagation();
+				}*/
 			}
 		});
 
@@ -284,13 +295,6 @@ public class WindowView extends AbstractContainerFocusable implements IUIComposi
 				}
 			});
 		}
-		addKeyDownHandler(new KeyDownHandler() {
-			@Override
-			public void onKeyDown(KeyDownEvent event) {
-				if (event.getNativeKeyCode() == KeyCodes.KEY_ESCAPE)
-					close();
-			}
-		});
 	}
 
 	protected native void selectActiveWindow(Element el) /*-{
@@ -311,12 +315,16 @@ public class WindowView extends AbstractContainerFocusable implements IUIComposi
 	}
 
 	public void close() {
-		Scheduler.get().scheduleDeferred(new ScheduledCommand() {
-			@Override
-			public void execute() {
-				removeFromParent();
-			}
-		});
+		boolean cc = true;
+		if (getWidgetCount() > 0 && getWidget(0) instanceof IUIComposite)
+			cc = ((IUIComposite) getWidget(0)).canClose();
+		if (cc)
+			Scheduler.get().scheduleDeferred(new ScheduledCommand() {
+				@Override
+				public void execute() {
+					removeFromParent();
+				}
+			});
 	}
 
 	@Override

@@ -343,7 +343,7 @@ public abstract class UIComposite extends AbstractContainerFocusable implements 
 	}
 
 	public void close() {
-		if (closeCommand != null && canClose())
+		if (closeCommand != null)
 			closeCommand.execute();
 	}
 
@@ -375,7 +375,8 @@ public abstract class UIComposite extends AbstractContainerFocusable implements 
 		return null;
 	}
 
-	protected boolean canClose() {
+	@Override
+	public boolean canClose() {
 		return true;
 	}
 

@@ -283,4 +283,9 @@ public abstract class Form extends SimplePanelFocusable implements IWindow, IUIC
 		return null;
 	}
 
+	@Override
+	public boolean canClose() {
+		return true;
+	}
+
 }

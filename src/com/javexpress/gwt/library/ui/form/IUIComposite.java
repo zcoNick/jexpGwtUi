@@ -55,4 +55,6 @@ public interface IUIComposite extends IsWidget, HasWidgets, ISizeAwareWidget, Fo
 
 	KeyDownHandler getKeyDownHandler();
 
+	boolean canClose();
+
 }
