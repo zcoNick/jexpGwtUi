@@ -1,5 +1,6 @@
 package com.javexpress.gwt.library.ui.form.numericbox;
 
+import com.google.gwt.core.client.JavaScriptObject;
 import com.google.gwt.dom.client.ButtonElement;
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.dom.client.InputElement;
@@ -19,6 +20,7 @@ import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.ui.Widget;
 import com.javexpress.gwt.library.shared.model.WidgetConst;
 import com.javexpress.gwt.library.ui.bootstrap.Bootstrap;
+import com.javexpress.gwt.library.ui.bootstrap.DateBox;
 import com.javexpress.gwt.library.ui.bootstrap.FormGroupCell;
 import com.javexpress.gwt.library.ui.container.panel.JexpSimplePanel;
 import com.javexpress.gwt.library.ui.data.DataBindingHandler;
@@ -50,6 +52,7 @@ public class SpinnerBox extends JexpSimplePanel implements IUserInputWidget<Long
 	private DataBindingHandler	dataBinding;
 	private boolean				valueChangeHandlerInitialized;
 	private Integer				minValue, maxValue;
+	private int step=1;
 
 	public SpinnerBox(final Widget parent, final String id) {
 		super();
@@ -204,21 +207,26 @@ public class SpinnerBox extends JexpSimplePanel implements IUserInputWidget<Long
 			addChangeHandler(new ChangeHandler() {
 				@Override
 				public void onChange(ChangeEvent event) {
-					Long v = getValue();
-					if (v != null) {
-						if (maxValue != null && v.longValue() > maxValue.longValue()) {
-							input.setValue(maxValue.toString());
-							v = maxValue.longValue();
-						} else if (minValue != null && v.longValue() < minValue.longValue()) {
-							input.setValue(minValue.toString());
-							v = minValue.longValue();
-						}
-					}
+					Long v = applyMinMaxCheck();
 					ValueChangeEvent.fire(SpinnerBox.this, v);
 				}
 			});
 		}
 		return addHandler(handler, ValueChangeEvent.getType());
+	}
+
+	protected Long applyMinMaxCheck() {
+		Long v = getValue();
+		if (v != null) {
+			if (maxValue != null && v.longValue() > maxValue.longValue()) {
+				input.setValue(maxValue.toString());
+				v = maxValue.longValue();
+			} else if (minValue != null && v.longValue() < minValue.longValue()) {
+				input.setValue(minValue.toString());
+				v = minValue.longValue();
+			}
+		}
+		return v;
 	}
 
 	@Override
@@ -304,6 +312,48 @@ public class SpinnerBox extends JexpSimplePanel implements IUserInputWidget<Long
 
 	public void setMaxValue(Integer maxValue) {
 		this.maxValue = maxValue;
+	}
+	
+	public int getStep() {
+		return step;
+	}
+
+	public void setStep(int step) {
+		this.step = step;
+	}
+
+	@Override
+	protected void onLoad() {
+		super.onLoad();
+		createByJs(this, btMinus, btPlus);
+	}
+
+	private native void createByJs(SpinnerBox x, Element btMinus, Element btPlus) /*-{
+		$wnd.$(btMinus).click(function(e){
+			x.@com.javexpress.gwt.library.ui.form.numericbox.SpinnerBox::fireMinusPlus(I)(-1);
+		});
+		$wnd.$(btPlus).click(function(e){
+			x.@com.javexpress.gwt.library.ui.form.numericbox.SpinnerBox::fireMinusPlus(I)(1);
+		});
+	}-*/;
+	
+	public void increment() {
+		fireMinusPlus(1);
+	}
+
+	public void decrement() {
+		fireMinusPlus(-1);
+	}
+	
+	private void fireMinusPlus(int direction){
+		Long l = getValue();
+		if (l==null)
+			l = Long.valueOf(direction*step);
+		else
+			l = l+(direction*step);
+		l = applyMinMaxCheck();
+		input.setValue(l.toString());
+		ValueChangeEvent.fire(SpinnerBox.this, l);
 	}
 
 }
