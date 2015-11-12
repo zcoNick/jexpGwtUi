@@ -272,4 +272,8 @@ public class PickList<V extends Serializable> extends FlexTable {
 		_bindSelects(getElement(), nonSelected, selected);
 	}
 
+	public void refresh() {
+		load();
+	}
+
 }

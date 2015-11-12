@@ -72,6 +72,7 @@ public class WidgetConst {
 	public static final String	SIDEBARITEM					= "sdbi";
 	public static final String	SLICKGRID_PREFIX			= "sg";
 	public static final String	SLIDER_PREFIX				= "sl";
+	public static final String	SPINNERBOX_PREFIX			= "spn";
 	public static final String	SPLITBUTTON_PREFIX			= "spb";
 	public static final String	SPLITPANEL_PREFIX			= "spl";
 	public static final String	TABSET_PREFIX				= "ts";

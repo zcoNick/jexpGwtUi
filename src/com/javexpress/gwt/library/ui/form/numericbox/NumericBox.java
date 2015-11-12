@@ -42,7 +42,6 @@ public class NumericBox extends TextBox implements IUserInputWidget {
 		JsUtil.ensureId(parent, this, WidgetConst.NUMERICBOX_PREFIX, id);
 		if (!JsUtil.USE_BOOTSTRAP)
 			setWidth("4em");
-		createDefaultOptions();
 		setStyleName("gwt-TextBox jexpNumericBox");
 		if (alignRight)
 			setAlignment(TextAlignment.RIGHT);
@@ -61,23 +60,16 @@ public class NumericBox extends TextBox implements IUserInputWidget {
 		});
 	}
 
-	protected JsonMap createDefaultOptions() {
-		options = new JsonMap();
-		return options;
-	}
-
 	@Override
 	protected void onLoad() {
 		super.onLoad();
-		widget = createByJs(this, getElement(), options.getJavaScriptObject());
+		widget = createByJs(this, getElement());
 	}
 
-	private native JavaScriptObject createByJs(NumericBox x, Element element, JavaScriptObject options) /*-{
-																										var el = $wnd.$(element);
-																										if (options.spinnerOptions)
-																										el.spinner(options.spinnerOptions);
-																										return el;
-																										}-*/;
+	private native JavaScriptObject createByJs(NumericBox x, Element element) /*-{
+		var el = $wnd.$(element);
+		return el;
+	}-*/;
 
 	@Override
 	protected void onUnload() {
@@ -89,9 +81,9 @@ public class NumericBox extends TextBox implements IUserInputWidget {
 	}
 
 	private native void destroyByJs(Element element, JavaScriptObject options) /*-{
-																				if (options.spinnerOptions)
-																				$wnd.$(element).spinner("destroy");
-																				}-*/;
+		if (options.spinnerOptions)
+			$wnd.$(element).spinner("destroy");
+	}-*/;
 
 	public Long getValueLong() {
 		return JsUtil.asLong(getText());
