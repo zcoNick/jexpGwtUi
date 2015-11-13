@@ -166,7 +166,9 @@ public class JexpGwtUser implements Serializable {
 		return cand == null ? null : DateTimeFormat.getFormat(instance.timeStampFormatLong).format(cand);
 	}
 
-	public static Date parseDate(final String text) {
+	public static Date parseDate(String text) {
+		if (text != null && text.length() > instance.dateFormat.length())
+			text = text.substring(0, instance.dateFormat.length());
 		return text == null ? null : DateTimeFormat.getFormat(instance.dateFormat).parse(text);
 	}
 

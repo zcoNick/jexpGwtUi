@@ -9,6 +9,7 @@ import com.google.gwt.event.dom.client.DomEvent;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Widget;
 import com.javexpress.common.model.item.IComboItem;
+import com.javexpress.common.model.item.IComboItemWithHint;
 import com.javexpress.gwt.library.shared.model.WidgetConst;
 import com.javexpress.gwt.library.ui.bootstrap.LabelControlCell;
 import com.javexpress.gwt.library.ui.data.DataBindingHandler;
@@ -147,8 +148,8 @@ public class ComboBox extends ListBoxBase implements AsyncCallback<List<? extend
 	}
 
 	@Override
-	public void addItem(Serializable label, Serializable value, Serializable data) {
-		super.addItem(label, value, data);
+	public void addItem(Serializable label, Serializable value, Serializable data, String hint) {
+		super.addItem(label, value, data, hint);
 		if (lazyValue != null && lazyValue.equals(value.toString())) {
 			setSelectedIndex(getItemCount() - 1);
 			lazyValue = null;
@@ -197,7 +198,7 @@ public class ComboBox extends ListBoxBase implements AsyncCallback<List<? extend
 		if (result == null)
 			return;
 		for (IComboItem item : result)
-			addItem(item.getL(), item.getV(), item.getD());
+			addItem(item.getL(), item.getV(), item.getD(), item instanceof IComboItemWithHint ? ((IComboItemWithHint) item).getH() : null);
 	}
 
 }

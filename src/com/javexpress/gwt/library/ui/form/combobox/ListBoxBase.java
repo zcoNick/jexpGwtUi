@@ -135,7 +135,7 @@ public abstract class ListBoxBase extends ListBox implements IUserInputWidget<St
 	}
 
 	public void addItem(final Serializable label, final Serializable value) {
-		addItem(label, value, null);
+		addItem(label, value, null, null);
 	}
 
 	@Override
@@ -146,10 +146,11 @@ public abstract class ListBoxBase extends ListBox implements IUserInputWidget<St
 				JSONArray arr = itm.get(lb).isArray();//0-Value,1-Data,2-Path
 				String data = JsUtil.asString(arr.get(1));
 				String path = JsUtil.asString(arr.get(2));
+				String hint = JsUtil.asString(arr.get(3));
 				if (path != null) {
-					addItem(JsUtil.repeat("-", (path.split("\\.").length - 1) * 2) + lb, JsUtil.asString(arr.get(0)), data);
+					addItem(JsUtil.repeat("-", (path.split("\\.").length - 1) * 2) + lb, JsUtil.asString(arr.get(0)), data, hint);
 				} else
-					addItem(lb, JsUtil.asString(arr.get(0)), data);
+					addItem(lb, JsUtil.asString(arr.get(0)), data, hint);
 			}
 		}
 		onItemListChanged();
@@ -160,8 +161,10 @@ public abstract class ListBoxBase extends ListBox implements IUserInputWidget<St
 			itemsChangeHandler.onItemsChanged();
 	}
 
-	public void addItem(final Serializable label, final Serializable value, final Serializable data) {
+	public void addItem(final Serializable label, final Serializable value, final Serializable data, String hint) {
 		addItem(label != null ? label.toString() : "", value != null ? value.toString() : "");
+		if (hint != null)
+			getOptionElement(value).setAttribute("title", hint);
 		if (data != null) {
 			if (dataMap == null)
 				dataMap = new HashMap<Serializable, Serializable>();

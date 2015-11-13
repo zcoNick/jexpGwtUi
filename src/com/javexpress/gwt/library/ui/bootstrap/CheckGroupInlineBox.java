@@ -121,8 +121,8 @@ public class CheckGroupInlineBox extends ListBoxBase {
 																								}-*/;
 
 	@Override
-	public void addItem(Serializable label, Serializable value, Serializable data) {
-		super.addItem(label, value, data);
+	public void addItem(Serializable label, Serializable value, Serializable data, String hint) {
+		super.addItem(label, value, data, hint);
 		if (lazyValues != null && lazyValues.contains(value.toString())) {
 			setSelectedIndex(getItemCount() - 1);
 			lazyValues.remove(value.toString());
@@ -187,12 +187,12 @@ public class CheckGroupInlineBox extends ListBoxBase {
 	}
 
 	private native void rebuild(Element el) /*-{
-											$wnd.$(el).multiselect('rebuild');
-											}-*/;
+		$wnd.$(el).multiselect('rebuild');
+	}-*/;
 
 	private native void syncSelections(Element el) /*-{
-													$wnd.$(el).multiselect('refresh');
-													}-*/;
+		$wnd.$(el).multiselect('refresh');
+	}-*/;
 
 	public List<String> getValues() {
 		List<String> vals = new ArrayList<String>();

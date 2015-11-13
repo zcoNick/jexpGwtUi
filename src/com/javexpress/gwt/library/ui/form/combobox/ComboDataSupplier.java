@@ -14,7 +14,7 @@ public abstract class ComboDataSupplier<T, V extends Serializable, L extends Ser
 			if (!cmb.isRequired())
 				cmb.addItem("", "");
 			for (T t : result)
-				cmb.addItem(getLabel(t), getValue(t), getData(t));
+				cmb.addItem(getLabel(t), getValue(t), getData(t), getHint(t));
 			if (enableOnComplete)
 				cmb.setEnabled(true);
 		}

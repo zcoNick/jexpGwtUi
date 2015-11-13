@@ -110,8 +110,8 @@ public class Select2Single extends BaseSelect2 {
 	}
 
 	@Override
-	public void addItem(Serializable label, Serializable value, Serializable data) {
-		super.addItem(label, value, data);
+	public void addItem(Serializable label, Serializable value, Serializable data, String hint) {
+		super.addItem(label, value, data, hint);
 		if (lazyValue != null && lazyValue.equals(value.toString())) {
 			setSelectedIndex(getItemCount() - 1);
 			lazyValue = null;

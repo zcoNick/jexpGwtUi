@@ -24,8 +24,8 @@ public class Select2Multi extends BaseSelect2 {
 	}
 
 	@Override
-	public void addItem(Serializable label, Serializable value, Serializable data) {
-		super.addItem(label, value, data);
+	public void addItem(Serializable label, Serializable value, Serializable data, String hint) {
+		super.addItem(label, value, data, hint);
 		if (lazyValues != null && lazyValues.contains(value.toString())) {
 			setSelectedIndex(getItemCount() - 1);
 			lazyValues.remove(value.toString());
