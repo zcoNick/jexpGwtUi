@@ -1,11 +1,10 @@
 package com.javexpress.gwt.library.ui.form.numericbox;
 
-import com.google.gwt.core.client.JavaScriptObject;
-import com.google.gwt.dom.client.Element;
+import com.google.gwt.event.dom.client.ChangeEvent;
+import com.google.gwt.event.dom.client.ChangeHandler;
 import com.google.gwt.event.dom.client.KeyDownEvent;
 import com.google.gwt.event.dom.client.KeyDownHandler;
-import com.google.gwt.user.client.DOM;
-import com.google.gwt.user.client.ui.TextBox;
+import com.google.gwt.user.client.ui.LongBox;
 import com.google.gwt.user.client.ui.Widget;
 import com.javexpress.gwt.library.shared.model.WidgetConst;
 import com.javexpress.gwt.library.ui.bootstrap.LabelControlCell;
@@ -13,11 +12,11 @@ import com.javexpress.gwt.library.ui.data.DataBindingHandler;
 import com.javexpress.gwt.library.ui.form.IUserInputWidget;
 import com.javexpress.gwt.library.ui.js.JsUtil;
 
-public class NumericBox extends TextBox implements IUserInputWidget {
+public class NumericBox extends LongBox implements IUserInputWidget {
 
 	private boolean				required;
-	protected JavaScriptObject	widget;
 	private DataBindingHandler	dataBinding;
+	private Integer				minValue, maxValue;
 
 	@Override
 	public boolean isRequired() {
@@ -36,7 +35,7 @@ public class NumericBox extends TextBox implements IUserInputWidget {
 
 	@Deprecated
 	public NumericBox(final Widget parent, final String id, final boolean alignRight) {
-		super(DOM.createInputText());
+		super();
 		JsUtil.ensureId(parent, this, WidgetConst.NUMERICBOX_PREFIX, id);
 		if (!JsUtil.USE_BOOTSTRAP)
 			setWidth("4em");
@@ -56,22 +55,21 @@ public class NumericBox extends TextBox implements IUserInputWidget {
 					event.getNativeEvent().preventDefault();
 			}
 		});
+		addChangeHandler(new ChangeHandler() {
+			@Override
+			public void onChange(ChangeEvent event) {
+				applyMinMaxCheck();
+			}
+		});
 	}
 
 	@Override
 	protected void onLoad() {
 		super.onLoad();
-		widget = createByJs(this, getElement());
 	}
-
-	private native JavaScriptObject createByJs(NumericBox x, Element element) /*-{
-		var el = $wnd.$(element);
-		return el;
-	}-*/;
 
 	@Override
 	protected void onUnload() {
-		widget = null;
 		dataBinding = null;
 		super.onUnload();
 	}
@@ -106,6 +104,10 @@ public class NumericBox extends TextBox implements IUserInputWidget {
 		setWidth(JsUtil.calcSizeForMaxLength(length));
 	}
 
+	public void setValue(final String val) {
+		setText(val == null ? null : val);
+	}
+
 	public void setValue(final Byte val) {
 		setText(val == null ? null : String.valueOf(val));
 	}
@@ -114,6 +116,7 @@ public class NumericBox extends TextBox implements IUserInputWidget {
 		setText(val == null ? null : String.valueOf(val));
 	}
 
+	@Override
 	public void setValue(final Long val) {
 		setText(val == null ? null : String.valueOf(val));
 	}
@@ -162,4 +165,35 @@ public class NumericBox extends TextBox implements IUserInputWidget {
 	public void setPlaceholder(String value) {
 		getElement().setAttribute("placeholder", value);
 	}
+
+	public Integer getMinValue() {
+		return minValue;
+	}
+
+	public void setMinValue(Integer minValue) {
+		this.minValue = minValue;
+	}
+
+	public Integer getMaxValue() {
+		return maxValue;
+	}
+
+	public void setMaxValue(Integer maxValue) {
+		this.maxValue = maxValue;
+	}
+
+	protected Long applyMinMaxCheck() {
+		Long v = getValueLong();
+		if (v != null) {
+			if (maxValue != null && v.longValue() > maxValue.longValue()) {
+				setText(maxValue.toString());
+				v = maxValue.longValue();
+			} else if (minValue != null && v.longValue() < minValue.longValue()) {
+				setText(minValue.toString());
+				v = minValue.longValue();
+			}
+		}
+		return v;
+	}
+
 }

@@ -50,4 +50,8 @@ public class TCIdBox extends NumericBox {
 		return validated;
 	}
 
+	public String getValueString() {
+		return getText();
+	}
+
 }

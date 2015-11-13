@@ -1,6 +1,5 @@
 package com.javexpress.gwt.library.ui.form.numericbox;
 
-import com.google.gwt.core.client.JavaScriptObject;
 import com.google.gwt.dom.client.ButtonElement;
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.dom.client.InputElement;
@@ -20,7 +19,6 @@ import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.ui.Widget;
 import com.javexpress.gwt.library.shared.model.WidgetConst;
 import com.javexpress.gwt.library.ui.bootstrap.Bootstrap;
-import com.javexpress.gwt.library.ui.bootstrap.DateBox;
 import com.javexpress.gwt.library.ui.bootstrap.FormGroupCell;
 import com.javexpress.gwt.library.ui.container.panel.JexpSimplePanel;
 import com.javexpress.gwt.library.ui.data.DataBindingHandler;
@@ -29,22 +27,6 @@ import com.javexpress.gwt.library.ui.js.JsUtil;
 
 public class SpinnerBox extends JexpSimplePanel implements IUserInputWidget<Long>, HasValueChangeHandlers<Long> {
 
-	/*	<div class="ace-spinner middle touch-spinner" style="width: 125px;">
-			<div class="input-group">
-				<div class="spinbox-buttons input-group-btn">					
-					<button class="btn spinbox-down btn-sm btn-danger" type="button">						
-						<i class="icon-only  ace-icon ace-icon fa fa-minus bigger-110"></i>					
-					</button>				
-				</div>
-				<input type="text" id="spinner3" class="spinbox-input form-control text-center">
-				<div class="spinbox-buttons input-group-btn">					
-					<button class="btn spinbox-up btn-sm btn-success" type="button">						
-						<i class="icon-only  ace-icon ace-icon fa fa-plus bigger-110"></i>					
-					</button>
-				</div>
-			</div>
-		</div>*/
-
 	private ButtonElement		btMinus;
 	private ButtonElement		btPlus;
 	private InputElement		input;
@@ -52,7 +34,7 @@ public class SpinnerBox extends JexpSimplePanel implements IUserInputWidget<Long
 	private DataBindingHandler	dataBinding;
 	private boolean				valueChangeHandlerInitialized;
 	private Integer				minValue, maxValue;
-	private int step=1;
+	private int					step	= 1;
 
 	public SpinnerBox(final Widget parent, final String id) {
 		super();
@@ -235,8 +217,14 @@ public class SpinnerBox extends JexpSimplePanel implements IUserInputWidget<Long
 		input = null;
 		btMinus = null;
 		btPlus = null;
+		destroyByJs(btMinus, btPlus);
 		super.onUnload();
 	}
+
+	private native void destroyByJs(Element btMinus, Element btPlus) /*-{
+		$wnd.$(btMinus).off();
+		$wnd.$(btPlus).off();
+	}-*/;
 
 	@Override
 	public boolean validate(final boolean focusedBefore) {
@@ -313,7 +301,7 @@ public class SpinnerBox extends JexpSimplePanel implements IUserInputWidget<Long
 	public void setMaxValue(Integer maxValue) {
 		this.maxValue = maxValue;
 	}
-	
+
 	public int getStep() {
 		return step;
 	}
@@ -329,14 +317,20 @@ public class SpinnerBox extends JexpSimplePanel implements IUserInputWidget<Long
 	}
 
 	private native void createByJs(SpinnerBox x, Element btMinus, Element btPlus) /*-{
-		$wnd.$(btMinus).click(function(e){
-			x.@com.javexpress.gwt.library.ui.form.numericbox.SpinnerBox::fireMinusPlus(I)(-1);
-		});
-		$wnd.$(btPlus).click(function(e){
-			x.@com.javexpress.gwt.library.ui.form.numericbox.SpinnerBox::fireMinusPlus(I)(1);
-		});
+		$wnd
+				.$(btMinus)
+				.click(
+						function(e) {
+							x.@com.javexpress.gwt.library.ui.form.numericbox.SpinnerBox::fireMinusPlus(I)(-1);
+						});
+		$wnd
+				.$(btPlus)
+				.click(
+						function(e) {
+							x.@com.javexpress.gwt.library.ui.form.numericbox.SpinnerBox::fireMinusPlus(I)(1);
+						});
 	}-*/;
-	
+
 	public void increment() {
 		fireMinusPlus(1);
 	}
@@ -344,13 +338,13 @@ public class SpinnerBox extends JexpSimplePanel implements IUserInputWidget<Long
 	public void decrement() {
 		fireMinusPlus(-1);
 	}
-	
-	private void fireMinusPlus(int direction){
+
+	private void fireMinusPlus(int direction) {
 		Long l = getValue();
-		if (l==null)
-			l = Long.valueOf(direction*step);
+		if (l == null)
+			l = Long.valueOf(direction * step);
 		else
-			l = l+(direction*step);
+			l = l + (direction * step);
 		l = applyMinMaxCheck();
 		input.setValue(l.toString());
 		ValueChangeEvent.fire(SpinnerBox.this, l);
