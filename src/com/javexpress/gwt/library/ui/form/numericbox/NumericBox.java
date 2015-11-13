@@ -12,11 +12,9 @@ import com.javexpress.gwt.library.ui.bootstrap.LabelControlCell;
 import com.javexpress.gwt.library.ui.data.DataBindingHandler;
 import com.javexpress.gwt.library.ui.form.IUserInputWidget;
 import com.javexpress.gwt.library.ui.js.JsUtil;
-import com.javexpress.gwt.library.ui.js.JsonMap;
 
 public class NumericBox extends TextBox implements IUserInputWidget {
 
-	protected JsonMap			options;
 	private boolean				required;
 	protected JavaScriptObject	widget;
 	private DataBindingHandler	dataBinding;
@@ -75,15 +73,8 @@ public class NumericBox extends TextBox implements IUserInputWidget {
 	protected void onUnload() {
 		widget = null;
 		dataBinding = null;
-		destroyByJs(getElement(), options.getJavaScriptObject());
-		options = null;
 		super.onUnload();
 	}
-
-	private native void destroyByJs(Element element, JavaScriptObject options) /*-{
-		if (options.spinnerOptions)
-			$wnd.$(element).spinner("destroy");
-	}-*/;
 
 	public Long getValueLong() {
 		return JsUtil.asLong(getText());
