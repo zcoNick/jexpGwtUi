@@ -169,7 +169,7 @@ public abstract class ListBoxBase extends ListBox implements IUserInputWidget<St
 
 	public void addItem(final Serializable label, final Serializable value, final Serializable data, String hint) {
 		addItem(label != null ? label.toString() : "", value != null ? value.toString() : "");
-		if (hint != null)
+		if (JsUtil.isNotEmpty(hint))
 			getOptionElement(value).setAttribute("title", hint);
 		if (data != null) {
 			if (dataMap == null)
