@@ -103,7 +103,7 @@ public class DecimalBox extends JexpWidget implements ISingleValueWidget<BigDeci
 
 	@Override
 	public void setRequired(boolean required) {
-		this.setRequired(required);
+		this.required = required;
 		if (required && !options.containsKey("wEmpty") && zeroDefault)
 			options.set("wEmpty", "zero");
 	}
