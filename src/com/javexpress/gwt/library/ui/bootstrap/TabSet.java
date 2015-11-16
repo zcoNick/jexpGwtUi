@@ -105,7 +105,22 @@ public class TabSet extends AbstractContainerFocusable implements ISizeAwareWidg
 			getElement().addClassName("tabs-right");
 		jsObject = createByJs(this, getElement());
 		if (widgets != null) {
-			performOnShow(activeWidgetId = widgets.keySet().iterator().next());
+			activeWidgetId = null;
+			int index = -1;
+			for (int i = 0; i < tabContents.getChildCount(); i++) {
+				Element div = ((Element) tabContents.getChild(i));
+				if (!div.hasClassName("hidden")) {
+					activeWidgetId = div.getAttribute("tabid");
+					index = i;
+					break;
+				}
+			}
+			if (index > -1) {
+				if (index == 0)
+					performOnShow(activeWidgetId);
+				else
+					select(index);
+			}
 		}
 	}
 
