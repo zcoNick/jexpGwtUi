@@ -12,7 +12,7 @@ import com.javexpress.gwt.library.ui.data.DataBindingHandler;
 import com.javexpress.gwt.library.ui.form.IUserInputWidget;
 import com.javexpress.gwt.library.ui.js.JsUtil;
 
-public class NumericBox extends LongBox implements IUserInputWidget {
+public class NumericBox extends LongBox implements IUserInputWidget<Long> {
 
 	private boolean				required;
 	private DataBindingHandler	dataBinding;
@@ -90,43 +90,22 @@ public class NumericBox extends LongBox implements IUserInputWidget {
 		return JsUtil.asByte(getText());
 	}
 
-	public void setValueLong(final Long val) {
-		setText(val == null ? null : val.toString());
+	public void setValueInt(final Integer val) {
+		setValue(val == null ? null : val.longValue());
 	}
 
-	public void setValueInt(final Integer val) {
-		setText(val == null ? null : val.toString());
+	public void setValueShort(final Short val) {
+		setValue(val == null ? null : val.longValue());
+	}
+
+	public void setValueByte(final Byte val) {
+		setValue(val == null ? null : val.longValue());
 	}
 
 	@Override
 	public void setMaxLength(final int length) {
 		getElement().setAttribute("maxlength", String.valueOf(length));
 		setWidth(JsUtil.calcSizeForMaxLength(length));
-	}
-
-	public void setValue(final String val) {
-		setText(val == null ? null : val);
-	}
-
-	public void setValue(final Byte val) {
-		setText(val == null ? null : String.valueOf(val));
-	}
-
-	public void setValue(final Integer val) {
-		setText(val == null ? null : String.valueOf(val));
-	}
-
-	@Override
-	public void setValue(final Long val) {
-		setText(val == null ? null : String.valueOf(val));
-	}
-
-	public void setValueShort(final Short val) {
-		setText(val == null ? null : String.valueOf(val));
-	}
-
-	public void setValueByte(final Byte val) {
-		setText(val == null ? null : val.toString());
 	}
 
 	public int getValueIntDef(final int i) {
@@ -188,9 +167,11 @@ public class NumericBox extends LongBox implements IUserInputWidget {
 			if (maxValue != null && v.longValue() > maxValue.longValue()) {
 				setText(maxValue.toString());
 				v = maxValue.longValue();
+				JsUtil.highlight(getElement());
 			} else if (minValue != null && v.longValue() < minValue.longValue()) {
 				setText(minValue.toString());
 				v = minValue.longValue();
+				JsUtil.highlight(getElement());
 			}
 		}
 		return v;

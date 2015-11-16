@@ -8,7 +8,8 @@ import com.google.gwt.event.shared.HandlerRegistration;
 import com.google.gwt.user.client.ui.Widget;
 import com.javexpress.gwt.library.shared.model.WidgetConst;
 import com.javexpress.gwt.library.ui.ClientContext;
-import com.javexpress.gwt.library.ui.bootstrap.LabelControlCell;
+import com.javexpress.gwt.library.ui.bootstrap.Bootstrap;
+import com.javexpress.gwt.library.ui.bootstrap.FormGroupCell;
 import com.javexpress.gwt.library.ui.data.DataBindingHandler;
 import com.javexpress.gwt.library.ui.form.IUserInputWidget;
 import com.javexpress.gwt.library.ui.js.JsUtil;
@@ -114,13 +115,13 @@ public class TextBox extends com.google.gwt.user.client.ui.TextBox implements IU
 	@Override
 	public void setValidationError(String validationError) {
 		if (JsUtil.USE_BOOTSTRAP) {
-			Widget nw = getParent() instanceof LabelControlCell ? getParent() : this;
+			Widget nw = getParent() instanceof FormGroupCell ? getParent() : this;
 			if (validationError == null)
 				nw.removeStyleName("has-error");
 			else
 				nw.addStyleName("has-error");
 		}
-		setTitle(validationError);
+		Bootstrap.setTooltip(getElement(), validationError);
 	}
 
 	@Override

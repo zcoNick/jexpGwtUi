@@ -9,6 +9,8 @@ import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.dom.client.HasKeyDownHandlers;
 import com.google.gwt.event.dom.client.KeyDownEvent;
 import com.google.gwt.event.dom.client.KeyDownHandler;
+import com.google.gwt.event.logical.shared.ValueChangeEvent;
+import com.google.gwt.event.logical.shared.ValueChangeHandler;
 import com.google.gwt.event.shared.HandlerRegistration;
 import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.ui.SimplePanel;
@@ -24,6 +26,7 @@ public class CheckBox extends SimplePanel implements IJexpWidget, HasKeyDownHand
 	private Element				label;
 	private InputElement		check;
 	private DataBindingHandler	dataBinding;
+	private boolean				valueChangeHandlerInitialized;
 
 	public CheckBox(Widget parent, String id, String text) {
 		super(DOM.createDiv());
@@ -69,28 +72,45 @@ public class CheckBox extends SimplePanel implements IJexpWidget, HasKeyDownHand
 		return check.isChecked();
 	}
 
+	@Override
 	public void setValue(Boolean checked) {
-		check.setChecked(checked != null && checked);
+		setValue(checked, false);
+	}
+
+	@Override
+	public void setValue(Boolean value, boolean fireEvents) {
+		Boolean oldValue = fireEvents ? getValue() : null;
+		getElement().removeClassName("jexpCheckSelected");
+		check.setChecked(value != null && value.booleanValue());
+		if (check.isChecked())
+			getElement().addClassName("jexpCheckSelected");
+		if (fireEvents) {
+			Boolean newValue = getValue();
+			ValueChangeEvent.fireIfNotEqual(this, oldValue, newValue);
+		}
 	}
 
 	@Override
 	public int getTabIndex() {
-		return 0;
+		return check.getTabIndex();
 	}
 
 	@Override
 	public void setAccessKey(char key) {
+		check.setAccessKey(String.valueOf(key));
 	}
 
 	@Override
 	public void setFocus(boolean focused) {
 		if (focused)
-			getElement().focus();
+			check.focus();
+		else
+			check.blur();
 	}
 
 	@Override
 	public void setTabIndex(int index) {
-		getElement().setTabIndex(index);
+		check.setTabIndex(index);
 	}
 
 	@Override
@@ -108,8 +128,8 @@ public class CheckBox extends SimplePanel implements IJexpWidget, HasKeyDownHand
 	}
 
 	@Override
-	public void setEnabled(boolean locked) {
-		check.setPropertyBoolean("disabled", !locked);
+	public void setEnabled(boolean enabled) {
+		check.setDisabled(!enabled);
 	}
 
 	@Override
@@ -135,6 +155,20 @@ public class CheckBox extends SimplePanel implements IJexpWidget, HasKeyDownHand
 
 	public HandlerRegistration addClickHandler(ClickHandler handler) {
 		return addDomHandler(handler, ClickEvent.getType());
+	}
+
+	@Override
+	public HandlerRegistration addValueChangeHandler(ValueChangeHandler<Boolean> handler) {
+		if (!valueChangeHandlerInitialized) {
+			valueChangeHandlerInitialized = true;
+			addChangeHandler(new ChangeHandler() {
+				@Override
+				public void onChange(ChangeEvent event) {
+					ValueChangeEvent.fire(CheckBox.this, getValue());
+				}
+			});
+		}
+		return addHandler(handler, ValueChangeEvent.getType());
 	}
 
 }

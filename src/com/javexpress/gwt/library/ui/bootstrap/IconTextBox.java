@@ -7,7 +7,7 @@ import com.google.gwt.user.client.ui.Widget;
 import com.javexpress.gwt.library.shared.model.WidgetConst;
 import com.javexpress.gwt.library.ui.ICssIcon;
 
-public class IconTextBox extends BaseWrappedInput<String> {
+public class IconTextBox extends BaseWrappedInput<String, InputElement> {
 
 	private ICssIcon	icon;
 	private boolean		rightIcon;
@@ -29,10 +29,9 @@ public class IconTextBox extends BaseWrappedInput<String> {
 	}
 
 	public IconTextBox(Widget parent, String id, ICssIcon icon) {
-		super(parent, WidgetConst.TEXTBOX_PREFIX, id, null);
-		getElement().setClassName("input-group");
+		super(parent, WidgetConst.TEXTBOX_PREFIX, id, "input-group");
 
-		input = createInputText();
+		input = createInputText().cast();
 		getElement().appendChild(input);
 
 		this.icon = icon;
@@ -58,7 +57,7 @@ public class IconTextBox extends BaseWrappedInput<String> {
 
 	@Override
 	public String getValue() {
-		return ((InputElement) input).getValue();
+		return input.getValue();
 	}
 
 	public void setMaxLength(int maxlength) {
@@ -66,9 +65,13 @@ public class IconTextBox extends BaseWrappedInput<String> {
 	}
 
 	@Override
-	protected boolean setRawValue(String value) {
-		((InputElement) input).setValue(value);
-		return true;
+	public String getText() {
+		return input.getValue();
+	}
+
+	@Override
+	public void setText(String text) {
+		input.setValue(text);
 	}
 
 }

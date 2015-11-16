@@ -18,11 +18,13 @@ import com.javexpress.gwt.library.ui.form.combobox.IItemsChangeHandler;
 import com.javexpress.gwt.library.ui.form.combobox.IKeyValueList;
 import com.javexpress.gwt.library.ui.js.JsUtil;
 
-public class EditComboBox extends BaseWrappedInput<String> implements IKeyValueList {
+public class EditComboBox extends BaseWrappedInput<String, InputElement> implements IKeyValueList {
 
 	private Element				btChevron;
 	private Element				ul;
 	private IItemsChangeHandler	itemsChangeHandler;
+	private boolean				dropUp		= false;
+	private boolean				needsRebind	= true;
 
 	public IItemsChangeHandler getItemsChangeHandler() {
 		return itemsChangeHandler;
@@ -33,9 +35,9 @@ public class EditComboBox extends BaseWrappedInput<String> implements IKeyValueL
 	}
 
 	public EditComboBox(final Widget parent, final String id) {
-		super(parent, WidgetConst.EDITCOMBOBOX_PREFIX, id, "jexpEditComboBox");
+		super(parent, WidgetConst.EDITCOMBOBOX_PREFIX, id, "input-group jexpEditComboBox");
 
-		input = DOM.createInputText();
+		input = DOM.createInputText().cast();
 		JsUtil.ensureSubId(getElement(), input, "inp");
 		input.addClassName("form-control");
 		getElement().appendChild(input);
@@ -52,9 +54,6 @@ public class EditComboBox extends BaseWrappedInput<String> implements IKeyValueL
 		ul.getStyle().setOverflow(Overflow.AUTO);
 		getElement().appendChild(ul);
 	}
-
-	private boolean	dropUp		= false;
-	private boolean	needsRebind	= true;
 
 	public boolean isDropUp() {
 		return dropUp;
@@ -76,17 +75,20 @@ public class EditComboBox extends BaseWrappedInput<String> implements IKeyValueL
 	}
 
 	private native void createByJs(EditComboBox x, Element el, Element input) /*-{
-																				$wnd
-																				.$(el)
-																				.on(
-																				"show.bs.dropdown",
-																				function() {
-																				x.@com.javexpress.gwt.library.ui.bootstrap.EditComboBox::fireShow()();
-																				});
-																				$wnd.$(input).keydown(function() {
-																				x.@com.javexpress.gwt.library.ui.bootstrap.EditComboBox::fireModifyText()();
-																				});
-																				}-*/;
+		$wnd
+				.$(el)
+				.on(
+						"show.bs.dropdown",
+						function() {
+							x.@com.javexpress.gwt.library.ui.bootstrap.EditComboBox::fireShow()();
+						});
+		$wnd
+				.$(input)
+				.keydown(
+						function() {
+							x.@com.javexpress.gwt.library.ui.bootstrap.EditComboBox::fireModifyText()();
+						});
+	}-*/;
 
 	private native void rebindItemEvents(EditComboBox x, Element element) /*-{
 																			$wnd.$("a.jexpLink", element).click(function(e) {
@@ -114,12 +116,14 @@ public class EditComboBox extends BaseWrappedInput<String> implements IKeyValueL
 	}
 
 	private native void destroyByJs(Element element) /*-{
-														$wnd.$(element).empty();
-														}-*/;
+		$wnd.$(element).empty();
+	}-*/;
 
 	@Override
 	protected void onUnload() {
 		btChevron = null;
+		ul = null;
+		itemsChangeHandler = null;
 		destroyByJs(getElement());
 		super.onUnload();
 	}
@@ -144,30 +148,34 @@ public class EditComboBox extends BaseWrappedInput<String> implements IKeyValueL
 	}
 
 	@Override
-	protected boolean setRawValue(String value) {
+	public void setText(String text) {
+		input.removeAttribute("v");
+		input.setValue(text);
+	}
+
+	@Override
+	public String getText() {
+		return input.getValue();
+	}
+
+	@Override
+	public void setValue(String value, boolean fireEvents) {
+		String oldValue = fireEvents ? getValue() : null;
+		setText(null);
 		for (int i = 0; i < ul.getChildCount(); i++) {
 			Element anchor = (Element) ul.getChild(i).getFirstChild();
 			if (anchor.getAttribute("v").equals(value)) {
 				input.setAttribute("v", value);
-				((InputElement) input).setValue(anchor.getInnerHTML());
-				return true;
+				input.setValue(anchor.getInnerHTML());
+				break;
 			}
 		}
-		input.removeAttribute("v");
-		((InputElement) input).setValue("");
-		return false;
-	}
-
-	public String getText() {
-		return ((InputElement) input).getValue();
-	}
-
-	public void setText(String text) {
-		((InputElement) input).setValue(text);
+		if (fireEvents)
+			fireValueChanged(oldValue, getValue());
 	}
 
 	public void setMaxLength(int maxlength) {
-		((InputElement) input).setMaxLength(maxlength);
+		input.setMaxLength(maxlength);
 	}
 
 	public void removeItems() {

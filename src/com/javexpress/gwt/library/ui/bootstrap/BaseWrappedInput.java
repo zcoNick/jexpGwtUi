@@ -2,14 +2,17 @@ package com.javexpress.gwt.library.ui.bootstrap;
 
 import java.io.Serializable;
 
+import com.google.gwt.dom.client.Document;
 import com.google.gwt.dom.client.Element;
+import com.google.gwt.dom.client.NativeEvent;
 import com.google.gwt.event.dom.client.BlurEvent;
 import com.google.gwt.event.dom.client.BlurHandler;
 import com.google.gwt.event.dom.client.ChangeEvent;
 import com.google.gwt.event.dom.client.ChangeHandler;
 import com.google.gwt.event.dom.client.FocusEvent;
 import com.google.gwt.event.dom.client.FocusHandler;
-import com.google.gwt.event.logical.shared.HasValueChangeHandlers;
+import com.google.gwt.event.dom.client.KeyDownEvent;
+import com.google.gwt.event.dom.client.KeyDownHandler;
 import com.google.gwt.event.logical.shared.ValueChangeEvent;
 import com.google.gwt.event.logical.shared.ValueChangeHandler;
 import com.google.gwt.event.shared.HandlerRegistration;
@@ -20,12 +23,12 @@ import com.javexpress.gwt.library.ui.data.DataBindingHandler;
 import com.javexpress.gwt.library.ui.form.IWrappedInput;
 import com.javexpress.gwt.library.ui.js.JsUtil;
 
-public abstract class BaseWrappedInput<T extends Serializable> extends JexpSimplePanel implements IWrappedInput<T>, HasValueChangeHandlers<T> {
+public abstract class BaseWrappedInput<T extends Serializable, W extends Element> extends JexpSimplePanel implements IWrappedInput<T> {
 
 	private boolean				required;
 	private DataBindingHandler	dataBinding;
 	private boolean				valueChangeHandlerInitialized;
-	protected Element			input;
+	protected W					input;
 
 	@Override
 	public boolean isRequired() {
@@ -40,23 +43,31 @@ public abstract class BaseWrappedInput<T extends Serializable> extends JexpSimpl
 	public BaseWrappedInput(Widget parent, String prefix, String id, String styleName) {
 		super(DOM.createDiv());
 		JsUtil.ensureId(parent, this, prefix, id);
-		getElement().setClassName("input-group " + (styleName != null ? styleName : ""));
+		if (styleName != null)
+			getElement().setClassName(styleName);
 	}
 
-	public boolean setValue(T value) {
-		return setValue(value, false);
+	@Override
+	public void setValue(T value) {
+		setValue(value, false);
 	}
 
-	public boolean setValue(T value, boolean fireEvents) {
+	@Override
+	public void setValue(T value, boolean fireEvents) {
 		T oldValue = fireEvents ? getValue() : null;
-		boolean changed = setRawValue(value);
-		if (fireEvents) {
-			ValueChangeEvent.fireIfNotEqual(this, oldValue, value);
-		}
-		return changed;
+		setText(JsUtil.asString(value));
+		if (fireEvents)
+			fireValueChanged(oldValue, getValue());
 	}
 
-	protected abstract boolean setRawValue(T value);
+	protected void fireValueChanged(T oldValue, T newValue) {
+		if (valueChangeHandlerInitialized)
+			ValueChangeEvent.fireIfNotEqual(this, oldValue, newValue);
+		else if (oldValue != newValue && (oldValue == null || !oldValue.equals(newValue))) {
+			NativeEvent event = Document.get().createChangeEvent();
+			ChangeEvent.fireNativeEvent(event, this);
+		}
+	}
 
 	@Override
 	public void setValidationError(String validationError) {
@@ -96,6 +107,8 @@ public abstract class BaseWrappedInput<T extends Serializable> extends JexpSimpl
 	public void setFocus(boolean focused) {
 		if (focused)
 			input.focus();
+		else
+			input.blur();
 	}
 
 	@Override
@@ -132,6 +145,10 @@ public abstract class BaseWrappedInput<T extends Serializable> extends JexpSimpl
 
 	public HandlerRegistration addBlurHandler(BlurHandler handler) {
 		return addDomHandler(handler, BlurEvent.getType());
+	}
+
+	public HandlerRegistration addKeyDownHandler(KeyDownHandler handler) {
+		return addDomHandler(handler, KeyDownEvent.getType());
 	}
 
 	@Override

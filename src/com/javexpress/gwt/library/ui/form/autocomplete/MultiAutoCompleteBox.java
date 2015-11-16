@@ -14,9 +14,12 @@ import com.google.gwt.dom.client.Style.Overflow;
 import com.google.gwt.dom.client.Style.TextAlign;
 import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.dom.client.TableRowElement;
+import com.google.gwt.event.dom.client.ChangeEvent;
 import com.google.gwt.event.dom.client.ChangeHandler;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.event.logical.shared.ValueChangeEvent;
+import com.google.gwt.event.logical.shared.ValueChangeHandler;
 import com.google.gwt.event.shared.HandlerRegistration;
 import com.google.gwt.user.client.Command;
 import com.google.gwt.user.client.DOM;
@@ -25,6 +28,8 @@ import com.javexpress.gwt.library.shared.model.IJsonServicePoint;
 import com.javexpress.gwt.library.shared.model.WidgetConst;
 import com.javexpress.gwt.library.ui.AbstractContainer;
 import com.javexpress.gwt.library.ui.ICssIcon;
+import com.javexpress.gwt.library.ui.bootstrap.Bootstrap;
+import com.javexpress.gwt.library.ui.bootstrap.FormGroupCell;
 import com.javexpress.gwt.library.ui.data.DataBindingHandler;
 import com.javexpress.gwt.library.ui.form.IUserInputWidget;
 import com.javexpress.gwt.library.ui.form.label.Label;
@@ -32,7 +37,7 @@ import com.javexpress.gwt.library.ui.js.JqEffect;
 import com.javexpress.gwt.library.ui.js.JsUtil;
 import com.javexpress.gwt.library.ui.js.JsonMap;
 
-public class MultiAutoCompleteBox extends AbstractContainer implements IUserInputWidget<ArrayList<String>> {
+public class MultiAutoCompleteBox extends AbstractContainer implements IUserInputWidget<ArrayList<? extends Serializable>> {
 
 	private boolean						required;
 	private Element						input;
@@ -43,6 +48,7 @@ public class MultiAutoCompleteBox extends AbstractContainer implements IUserInpu
 	private Element						tdOpen;
 	private Label						btOpen;
 	private DataBindingHandler			dataBinding;
+	private boolean						valueChangeHandlerInitialized;
 
 	public IMultiAutoCompleteListener getListener() {
 		return listener;
@@ -197,22 +203,6 @@ public class MultiAutoCompleteBox extends AbstractContainer implements IUserInpu
 			list.add(t.getAttribute("value"));
 		}
 		return list.isEmpty() ? null : list;
-	}
-
-	public void setValue(ArrayList<? extends Serializable> ids) {
-		removeItems();
-		if (ids == null || ids.isEmpty())
-			return;
-		StringBuilder values = new StringBuilder();
-		boolean first = true;
-		for (Serializable id : ids) {
-			if (!first)
-				values.append(";");
-			else
-				first = false;
-			values.append(id.toString());
-		}
-		_setValueByIds(this, options.getJavaScriptObject(), values.toString());
 	}
 
 	private Element findElement(String id) {
@@ -430,6 +420,50 @@ public class MultiAutoCompleteBox extends AbstractContainer implements IUserInpu
 
 	@Override
 	public void setValidationError(String validationError) {
+		if (JsUtil.USE_BOOTSTRAP) {
+			Widget nw = getParent() instanceof FormGroupCell ? getParent() : this;
+			if (validationError == null)
+				nw.removeStyleName("has-error");
+			else
+				nw.addStyleName("has-error");
+		}
+		Bootstrap.setTooltip(getElement(), validationError);
+	}
+
+	@Override
+	public void setValue(ArrayList<? extends Serializable> value) {
+		setValue(value, false);
+	}
+
+	@Override
+	public void setValue(ArrayList<? extends Serializable> ids, boolean fireEvents) {
+		removeItems();
+		if (ids == null || ids.isEmpty())
+			return;
+		StringBuilder values = new StringBuilder();
+		boolean first = true;
+		for (Serializable id : ids) {
+			if (!first)
+				values.append(";");
+			else
+				first = false;
+			values.append(id.toString());
+		}
+		_setValueByIds(this, options.getJavaScriptObject(), values.toString());
+	}
+
+	@Override
+	public HandlerRegistration addValueChangeHandler(ValueChangeHandler<ArrayList<? extends Serializable>> handler) {
+		if (!valueChangeHandlerInitialized) {
+			valueChangeHandlerInitialized = true;
+			addChangeHandler(new ChangeHandler() {
+				@Override
+				public void onChange(ChangeEvent event) {
+					ValueChangeEvent.fire(MultiAutoCompleteBox.this, getValue());
+				}
+			});
+		}
+		return addHandler(handler, ValueChangeEvent.getType());
 	}
 
 }

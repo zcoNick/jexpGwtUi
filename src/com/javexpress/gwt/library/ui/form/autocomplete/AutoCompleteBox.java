@@ -17,7 +17,7 @@ import com.javexpress.gwt.library.ui.facet.ProvidesModuleUtils;
 import com.javexpress.gwt.library.ui.js.JsUtil;
 import com.javexpress.gwt.library.ui.js.JsonMap;
 
-public class AutoCompleteBox<V extends Serializable> extends BaseWrappedInput<String> {
+public class AutoCompleteBox<V extends Serializable> extends BaseWrappedInput<String, InputElement> {
 
 	private JsonMap					options;
 	private IAutoCompleteListener	listener;
@@ -40,7 +40,7 @@ public class AutoCompleteBox<V extends Serializable> extends BaseWrappedInput<St
 
 	@Deprecated
 	public AutoCompleteBox(final Widget parent, final String id, final IJsonServicePoint servicePoint) {
-		super(parent, WidgetConst.AUTOCOMPLETE_PREFIX, id, "jexpAutoComplete");
+		super(parent, WidgetConst.AUTOCOMPLETE_PREFIX, id, "input-group jexpAutoComplete");
 
 		input = DOM.createInputText().cast();
 		JsUtil.ensureSubId(getElement(), input, "inp");
@@ -90,67 +90,70 @@ public class AutoCompleteBox<V extends Serializable> extends BaseWrappedInput<St
 	}
 
 	private native void createByJs(AutoCompleteBox<V> x, Element input, Element indicator, JavaScriptObject options, String newItemTitle, boolean hasListener) /*-{
-																																								var el = $wnd.$(input);
-																																								el.attr("v", "");
-																																								if (hasListener) {
-																																								options.source = function(request, response) {
-																																								x.@com.javexpress.gwt.library.ui.form.autocomplete.AutoCompleteBox::fireOnSearch(Lcom/google/gwt/core/client/JavaScriptObject;)(request);
-																																								$wnd.$.post(options.url, request, function(data) {
-																																								response(data);
-																																								}, "json");
-																																								}
-																																								} else
-																																								options.source = options.url;
-																																								options.id = el.attr("id") + "_menu";
-																																								options.select = function(event, ui) {
-																																								var r = x.@com.javexpress.gwt.library.ui.form.autocomplete.AutoCompleteBox::fireCanSelect(Ljava/lang/String;Ljava/lang/String;Lcom/google/gwt/core/client/JavaScriptObject;)(ui.item.id,ui.item.label,ui.item.data);
-																																								if (r) {
-																																								el.attr("v", ui.item.id);
-																																								el.val(ui.item.label);
-																																								$wnd.$.data(el, "acdata", ui.item.data);
-																																								x.@com.javexpress.gwt.library.ui.form.autocomplete.AutoCompleteBox::fireOnSelect(Ljava/lang/String;Ljava/lang/String;Lcom/google/gwt/core/client/JavaScriptObject;Z)(ui.item.id,ui.item.label,ui.item.data,true);
-																																								}
-																																								return r;
-																																								};
-																																								options.search = function(event, ui) {
-																																								el.attr("v", "");
-																																								$wnd.$(".fa", $wnd.$(indicator)).removeClass("fa-search").addClass(
-																																								"fa-spin").addClass("fa-spinner");
-																																								};
-																																								options.response = function(event, ui) {
-																																								$wnd.$(".fa", $wnd.$(indicator)).removeClass("fa-spin")
-																																								.removeClass("fa-spinner").addClass("fa-search");
-																																								};
-																																								el = el
-																																								.jexpautocomplete(options)
-																																								.on(
-																																								"blur",
-																																								function() {
-																																								if (el.attr("v") != "" && el.val().trim() == "") {
-																																								el.attr("v", "");
-																																								$wnd.$.data(el, "acdata", null);
-																																								x.@com.javexpress.gwt.library.ui.form.autocomplete.AutoCompleteBox::fireOnSelect(Ljava/lang/String;Ljava/lang/String;Lcom/google/gwt/core/client/JavaScriptObject;Z)(null,null,null,false);
-																																								}
-																																								});
-																																								if (newItemTitle) {
-																																								var btn = $wnd
-																																								.$("<span class='ui-icon ui-icon-plus ui-cursor-hand' style='display:inline-block' tabindex='500' title='"
-																																								+ newItemTitle + "'></span>");
-																																								parent.append(btn);
-																																								btn
-																																								.click(function() {
-																																								x.@com.javexpress.gwt.library.ui.form.autocomplete.AutoCompleteBox::fireOnNewItemRequest()();
-																																								});
-																																								}
-																																								if (indicator) {
-																																								$wnd
-																																								.$(indicator)
-																																								.click(
-																																								function() {
-																																								x.@com.javexpress.gwt.library.ui.form.autocomplete.AutoCompleteBox::fireOnButtonClick()();
-																																								});
-																																								}
-																																								}-*/;
+		var el = $wnd.$(input);
+		el.attr("v", "");
+		if (hasListener) {
+			options.source = function(request, response) {
+				x.@com.javexpress.gwt.library.ui.form.autocomplete.AutoCompleteBox::fireOnSearch(Lcom/google/gwt/core/client/JavaScriptObject;)(request);
+				$wnd.$.post(options.url, request, function(data) {
+					response(data);
+				}, "json");
+			}
+		} else
+			options.source = options.url;
+		options.id = el.attr("id") + "_menu";
+		options.select = function(event, ui) {
+			var r = x.@com.javexpress.gwt.library.ui.form.autocomplete.AutoCompleteBox::fireCanSelect(Ljava/lang/String;Ljava/lang/String;Lcom/google/gwt/core/client/JavaScriptObject;)(ui.item.id,ui.item.label,ui.item.data);
+			if (r) {
+				el.attr("v", ui.item.id);
+				el.val(ui.item.label);
+				$wnd.$.data(el, "acdata", ui.item.data);
+				x.@com.javexpress.gwt.library.ui.form.autocomplete.AutoCompleteBox::fireOnSelect(Ljava/lang/String;Ljava/lang/String;Lcom/google/gwt/core/client/JavaScriptObject;Z)(ui.item.id,ui.item.label,ui.item.data,true);
+			}
+			return r;
+		};
+		options.search = function(event, ui) {
+			el.attr("v", "''");
+			$wnd.$(".fa", $wnd.$(indicator)).removeClass("fa-search").addClass(
+					"fa-spin").addClass("fa-spinner");
+		};
+		options.response = function(event, ui) {
+			$wnd.$(".fa", $wnd.$(indicator)).removeClass("fa-spin")
+					.removeClass("fa-spinner").addClass("fa-search");
+		};
+		el = el
+				.jexpautocomplete(options)
+				.on(
+						"blur",
+						function() {
+							$wnd.console.debug("blur...",el.attr("v"),"a"+el.val().trim()+"b");
+							if (el.attr("v") == "''") {
+								el.attr("v", "");
+								el.val(null);
+								el.effect("highlight");
+								$wnd.$.data(el, "acdata", null);
+								x.@com.javexpress.gwt.library.ui.form.autocomplete.AutoCompleteBox::fireOnSelect(Ljava/lang/String;Ljava/lang/String;Lcom/google/gwt/core/client/JavaScriptObject;Z)(null,null,null,false);
+							}
+						});
+		if (newItemTitle) {
+			var btn = $wnd
+					.$("<span class='ui-icon ui-icon-plus ui-cursor-hand' style='display:inline-block' tabindex='500' title='"
+							+ newItemTitle + "'></span>");
+			parent.append(btn);
+			btn
+					.click(function() {
+						x.@com.javexpress.gwt.library.ui.form.autocomplete.AutoCompleteBox::fireOnNewItemRequest()();
+					});
+		}
+		if (indicator) {
+			$wnd
+					.$(indicator)
+					.click(
+							function() {
+								x.@com.javexpress.gwt.library.ui.form.autocomplete.AutoCompleteBox::fireOnButtonClick()();
+							});
+		}
+	}-*/;
 
 	@Override
 	protected void onUnload() {
@@ -163,16 +166,11 @@ public class AutoCompleteBox<V extends Serializable> extends BaseWrappedInput<St
 	}
 
 	private native void destroyByJs(Element elm, Element btn) /*-{
-																$wnd.$(btn).off();
-																var el = $wnd.$(elm);
-																if (el)
-																el.jexpautocomplete('destroy');
-																}-*/;
-
-	public void setValue(final V value, final String label) {
-		((InputElement) input).setValue(label);
-		input.setAttribute("v", value.toString());
-	}
+		$wnd.$(btn).off();
+		var el = $wnd.$(elm);
+		if (el)
+			el.jexpautocomplete('destroy');
+	}-*/;
 
 	@Override
 	public String getValue() {
@@ -186,26 +184,14 @@ public class AutoCompleteBox<V extends Serializable> extends BaseWrappedInput<St
 		return JsUtil.asLong(getValue());
 	}
 
+	@Override
 	public String getText() {
-		return ((InputElement) input).getValue();
+		return input.getValue();
 	}
 
 	public void onNewItemRequest(String newItemTitle, final Command newItemRequestCommand) {
 		this.newItemTitle = newItemTitle;
 		this.newItemRequestCommand = newItemRequestCommand;
-	}
-
-	@Override
-	public void clear() {
-		((InputElement) input).setValue("");
-		String old = input.getAttribute("v");
-		input.setAttribute("v", "");
-		try {
-			if (JsUtil.isNotEmpty(old))
-				fireOnSelect(null, null, null, false);
-		} catch (Exception e) {
-			JsUtil.handleError(getParent(), e);
-		}
 	}
 
 	public void setValue(final Long value) {
@@ -217,36 +203,45 @@ public class AutoCompleteBox<V extends Serializable> extends BaseWrappedInput<St
 	}
 
 	@Override
-	public boolean setValue(final String value) {
-		if (value == null)
-			clear();
-		else {
-			_setValueById(this, input, options.getJavaScriptObject(), value);
-		}
-		return true;
+	public void setValue(String value) {
+		setValue(value, false);
 	}
 
-	private native void _setValueById(AutoCompleteBox<V> x, Element input, JavaScriptObject options, String value) /*-{
-																													var lb = $wnd.$(input).val("...");
-																													$wnd.$
-																													.post(
-																													options.url,
-																													{
-																													"term" : "@" + value
-																													},
-																													function(data) {
-																													if (!data)
-																													return;
-																													data = data[0];
-																													var r = x.@com.javexpress.gwt.library.ui.form.autocomplete.AutoCompleteBox::fireCanSelect(Ljava/lang/String;Ljava/lang/String;Lcom/google/gwt/core/client/JavaScriptObject;)(data.id,data.label,data.data);
-																													if (r) {
-																													lb.val(data.label);
-																													$wnd.$.data(lb, "acdata", data.data);
-																													lb.attr("v", data.id);
-																													x.@com.javexpress.gwt.library.ui.form.autocomplete.AutoCompleteBox::fireOnSelect(Ljava/lang/String;Ljava/lang/String;Lcom/google/gwt/core/client/JavaScriptObject;Z)(data.id,data.label,data.data,false);
-																													}
-																													}, "json");
-																													}-*/;
+	@Override
+	public void setValue(String value, boolean fireEvents) {
+		if (value == null) {
+			String old = fireEvents ? input.getAttribute("v") : null;
+			setText(null);
+			if (fireEvents && JsUtil.isNotEmpty(old))
+				fireOnSelect(null, null, null, false);
+		} else {
+			_setValueById(this, input, options.getJavaScriptObject(), value, fireEvents);
+		}
+	}
+
+	private native void _setValueById(AutoCompleteBox<V> x, Element input, JavaScriptObject options, String value, boolean fireEvents) /*-{
+		var lb = $wnd.$(input).val("...");
+		$wnd.$
+				.post(
+						options.url,
+						{
+							"term" : "@" + value
+						},
+						function(data) {
+							if (!data)
+								return;
+							data = data[0];
+							var r = !fireEvents
+									|| x.@com.javexpress.gwt.library.ui.form.autocomplete.AutoCompleteBox::fireCanSelect(Ljava/lang/String;Ljava/lang/String;Lcom/google/gwt/core/client/JavaScriptObject;)(data.id,data.label,data.data);
+							if (r) {
+								lb.attr("v", data.id);
+								lb.val(data.label);
+								$wnd.$.data(lb, "acdata", data.data);
+								if (fireEvents)
+									x.@com.javexpress.gwt.library.ui.form.autocomplete.AutoCompleteBox::fireOnSelect(Ljava/lang/String;Ljava/lang/String;Lcom/google/gwt/core/client/JavaScriptObject;Z)(data.id,data.label,data.data,false);
+							}
+						}, "json");
+	}-*/;
 
 	public JsonMap getData() {
 		JavaScriptObject o = JsUtil.getElementData(getElement(), "acdata");
@@ -285,13 +280,13 @@ public class AutoCompleteBox<V extends Serializable> extends BaseWrappedInput<St
 	}
 
 	public void setMaxLength(int maxLength) {
-		((InputElement) input).setMaxLength(maxLength);
+		input.setMaxLength(maxLength);
 	}
 
 	@Override
-	protected boolean setRawValue(String value) {
-		((InputElement) input).setValue(value);
-		return true;
+	public void setText(String text) {
+		input.setValue(text);
+		input.removeAttribute("v");
 	}
 
 }

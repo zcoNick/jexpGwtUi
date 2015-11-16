@@ -155,7 +155,7 @@ public class JexpGwtUser implements Serializable {
 	}
 
 	public static String formatDate(final Date cand) {
-		return cand == null ? null : DateTimeFormat.getFormat(instance.dateFormat).format(cand);
+		return cand == null ? null : DateTimeFormat.getFormat(getDateFormat()).format(cand);
 	}
 
 	public static String formatTimestamp(final Date cand) {
@@ -167,9 +167,10 @@ public class JexpGwtUser implements Serializable {
 	}
 
 	public static Date parseDate(String text) {
-		if (text != null && text.length() > instance.dateFormat.length())
-			text = text.substring(0, instance.dateFormat.length());
-		return text == null ? null : DateTimeFormat.getFormat(instance.dateFormat).parse(text);
+		String fmt = getDateFormat();
+		if (text != null && text.length() > fmt.length())
+			text = text.substring(0, fmt.length());
+		return text == null ? null : DateTimeFormat.getFormat(fmt).parse(text);
 	}
 
 	public static Date parseTimestamp(final String text) {

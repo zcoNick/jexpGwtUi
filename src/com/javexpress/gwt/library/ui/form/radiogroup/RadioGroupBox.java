@@ -9,6 +9,8 @@ import com.google.gwt.event.dom.client.ChangeEvent;
 import com.google.gwt.event.dom.client.ChangeHandler;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.event.logical.shared.ValueChangeEvent;
+import com.google.gwt.event.logical.shared.ValueChangeHandler;
 import com.google.gwt.event.shared.HandlerRegistration;
 import com.google.gwt.i18n.client.ConstantsWithLookup;
 import com.google.gwt.user.client.ui.FlexTable;
@@ -21,7 +23,7 @@ import com.javexpress.gwt.library.ui.data.DataBindingHandler;
 import com.javexpress.gwt.library.ui.form.IUserInputWidget;
 import com.javexpress.gwt.library.ui.js.JsUtil;
 
-public class RadioGroupBox extends FlexTable implements Focusable, IUserInputWidget<Serializable> {
+public class RadioGroupBox extends FlexTable implements Focusable, IUserInputWidget<String> {
 
 	private boolean				required;
 	private DataBindingHandler	dataBinding;
@@ -29,6 +31,7 @@ public class RadioGroupBox extends FlexTable implements Focusable, IUserInputWid
 	private List<RadioButton>	radios				= new ArrayList<RadioButton>();
 	private ClickHandler		itemClickHandler	= null;
 	private ChangeHandler		handler;
+	private boolean				valueChangeHandlerInitialized;
 
 	@Override
 	public boolean isRequired() {
@@ -126,9 +129,15 @@ public class RadioGroupBox extends FlexTable implements Focusable, IUserInputWid
 		setValue(String.valueOf(selectedValue));
 	}
 
+	@Override
 	public void setValue(final String selectedValue) {
+		setValue(selectedValue, false);
+	}
+
+	@Override
+	public void setValue(String value, boolean fireEvents) {
 		for (RadioButton rb : radios)
-			rb.setValue(selectedValue != null && selectedValue.equals(rb.getFormValue()));
+			rb.setValue(value != null && value.equals(rb.getFormValue()));
 	}
 
 	@Override
@@ -220,6 +229,22 @@ public class RadioGroupBox extends FlexTable implements Focusable, IUserInputWid
 
 	@Override
 	public void setEnabled(boolean enabled) {
+		for (RadioButton rb : radios)
+			rb.setEnabled(enabled);
+	}
+
+	@Override
+	public HandlerRegistration addValueChangeHandler(ValueChangeHandler<String> handler) {
+		if (!valueChangeHandlerInitialized) {
+			valueChangeHandlerInitialized = true;
+			addChangeHandler(new ChangeHandler() {
+				@Override
+				public void onChange(ChangeEvent event) {
+					ValueChangeEvent.fire(RadioGroupBox.this, getValue());
+				}
+			});
+		}
+		return addHandler(handler, ValueChangeEvent.getType());
 	}
 
 }

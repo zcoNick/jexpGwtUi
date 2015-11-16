@@ -79,4 +79,14 @@ public class TextAreaBox extends com.google.gwt.user.client.ui.TextArea implemen
 		dataBinding = null;
 		super.onUnload();
 	}
+
+	public void addLine(String value) {
+		addLine(value, false);
+	}
+
+	public void addLine(String value, boolean fireEvents) {
+		String v = getValue();
+		setValue((v != null ? v + "\n" : "") + value, fireEvents);
+	}
+
 }

@@ -8,6 +8,8 @@ import java.util.Map;
 import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.event.dom.client.ChangeEvent;
 import com.google.gwt.event.dom.client.ChangeHandler;
+import com.google.gwt.event.logical.shared.ValueChangeEvent;
+import com.google.gwt.event.logical.shared.ValueChangeHandler;
 import com.google.gwt.event.shared.HandlerRegistration;
 import com.google.gwt.i18n.client.ConstantsWithLookup;
 import com.google.gwt.json.client.JSONArray;
@@ -31,6 +33,7 @@ public class CheckGroupBox extends FlexTable implements IUserInputWidget<String>
 	private List<CheckBox>		items;
 	private char				seperator;
 	private DataBindingHandler	dataBinding;
+	private boolean				valueChangeHandlerInitialized;
 
 	public CheckGroupBox(Widget parent, String id, int mod) {
 		this(parent, id, mod, true);
@@ -184,23 +187,28 @@ public class CheckGroupBox extends FlexTable implements IUserInputWidget<String>
 		return sb.length() == 0 ? null : sb.toString();
 	}
 
-	public boolean setValue(String value) {
+	@Override
+	public void setValue(String value) {
+		setValue(value, false);
+	}
+
+	@Override
+	public void setValue(String value, boolean fireEvents) {
 		lazyValue = null;
 		if (items == null || items.isEmpty()) {
 			lazyValue = value;
-			return false;
+			return;
 		}
 		String t = seperator + value + seperator;
 		for (CheckBox ch : items) {
 			String v = seperator + ch.getElement().getAttribute("v") + seperator;
 			ch.setValue(t.indexOf(v) > -1);
 		}
-		return true;
 	}
 
 	public void addSelection(String value) {
 		for (CheckBox ch : items) {
-			if (ch.getElement().getAttribute("v").equals(value)){
+			if (ch.getElement().getAttribute("v").equals(value)) {
 				ch.setValue(true);
 				break;
 			}
@@ -209,13 +217,13 @@ public class CheckGroupBox extends FlexTable implements IUserInputWidget<String>
 
 	public void removeSelection(String value) {
 		for (CheckBox ch : items) {
-			if (ch.getElement().getAttribute("v").equals(value)){
+			if (ch.getElement().getAttribute("v").equals(value)) {
 				ch.setValue(false);
 				break;
 			}
 		}
 	}
-	
+
 	@Override
 	public void setEnabled(boolean enabled) {
 		if (items == null)
@@ -257,6 +265,20 @@ public class CheckGroupBox extends FlexTable implements IUserInputWidget<String>
 	@Override
 	public HandlerRegistration addChangeHandler(ChangeHandler handler) {
 		return addDomHandler(handler, ChangeEvent.getType());
+	}
+
+	@Override
+	public HandlerRegistration addValueChangeHandler(ValueChangeHandler<String> handler) {
+		if (!valueChangeHandlerInitialized) {
+			valueChangeHandlerInitialized = true;
+			addChangeHandler(new ChangeHandler() {
+				@Override
+				public void onChange(ChangeEvent event) {
+					ValueChangeEvent.fire(CheckGroupBox.this, getValue());
+				}
+			});
+		}
+		return addHandler(handler, ValueChangeEvent.getType());
 	}
 
 }

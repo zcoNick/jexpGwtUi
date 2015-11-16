@@ -232,8 +232,8 @@ public class PickList<V extends Serializable> extends FlexTable {
 		return vals;
 	}
 
-	public List<String> getSelectionValues() {
-		List<String> vals = new ArrayList<String>();
+	public ArrayList<String> getSelectionValues() {
+		ArrayList<String> vals = new ArrayList<String>();
 		for (int i = 0; i < selected.getChildCount(); i++) {
 			InputElement in = selected.getChild(i).getChild(1).cast();
 			vals.add(in.getValue());

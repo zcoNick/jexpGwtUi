@@ -3,43 +3,24 @@ package com.javexpress.gwt.library.ui.form.numericbox;
 import com.google.gwt.dom.client.ButtonElement;
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.dom.client.InputElement;
-import com.google.gwt.event.dom.client.BlurEvent;
-import com.google.gwt.event.dom.client.BlurHandler;
-import com.google.gwt.event.dom.client.ChangeEvent;
-import com.google.gwt.event.dom.client.ChangeHandler;
-import com.google.gwt.event.dom.client.FocusEvent;
-import com.google.gwt.event.dom.client.FocusHandler;
 import com.google.gwt.event.dom.client.KeyDownEvent;
 import com.google.gwt.event.dom.client.KeyDownHandler;
-import com.google.gwt.event.logical.shared.HasValueChangeHandlers;
 import com.google.gwt.event.logical.shared.ValueChangeEvent;
-import com.google.gwt.event.logical.shared.ValueChangeHandler;
-import com.google.gwt.event.shared.HandlerRegistration;
 import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.ui.Widget;
 import com.javexpress.gwt.library.shared.model.WidgetConst;
-import com.javexpress.gwt.library.ui.bootstrap.Bootstrap;
-import com.javexpress.gwt.library.ui.bootstrap.FormGroupCell;
-import com.javexpress.gwt.library.ui.container.panel.JexpSimplePanel;
-import com.javexpress.gwt.library.ui.data.DataBindingHandler;
-import com.javexpress.gwt.library.ui.form.IUserInputWidget;
+import com.javexpress.gwt.library.ui.bootstrap.BaseWrappedInput;
 import com.javexpress.gwt.library.ui.js.JsUtil;
 
-public class SpinnerBox extends JexpSimplePanel implements IUserInputWidget<Long>, HasValueChangeHandlers<Long> {
+public class SpinnerBox extends BaseWrappedInput<Long, InputElement> {
 
-	private ButtonElement		btMinus;
-	private ButtonElement		btPlus;
-	private InputElement		input;
-	private boolean				required;
-	private DataBindingHandler	dataBinding;
-	private boolean				valueChangeHandlerInitialized;
-	private Integer				minValue, maxValue;
-	private int					step	= 1;
+	private ButtonElement	btMinus;
+	private ButtonElement	btPlus;
+	private Integer			minValue, maxValue;
+	private int				step	= 1;
 
 	public SpinnerBox(final Widget parent, final String id) {
-		super();
-		getElement().addClassName("ace-spinner middle touch-spinner jexpSpinner");
-		JsUtil.ensureId(parent, getElement(), WidgetConst.SPINNERBOX_PREFIX, id);
+		super(parent, WidgetConst.SPINNERBOX_PREFIX, id, "ace-spinner middle touch-spinner jexpSpinner");
 
 		Element main = DOM.createDiv();
 		main.setClassName("input-group");
@@ -68,44 +49,13 @@ public class SpinnerBox extends JexpSimplePanel implements IUserInputWidget<Long
 	}
 
 	@Override
-	public boolean isRequired() {
-		return required;
-	}
-
-	@Override
-	public void setRequired(boolean required) {
-		this.required = required;
-	}
-
-	@Override
-	public int getTabIndex() {
-		return input.getTabIndex();
-	}
-
-	@Override
-	public void setAccessKey(char key) {
-		input.setAccessKey(String.valueOf(key));
-	}
-
-	@Override
-	public void setFocus(boolean focused) {
-		if (focused)
-			input.focus();
-		else
-			input.blur();
-	}
-
-	@Override
-	public void setTabIndex(int index) {
-		input.setTabIndex(index);
-	}
-
-	public Long getValueLong() {
-		return JsUtil.asLong(getText());
-	}
-
 	public String getText() {
 		return input.getValue();
+	}
+
+	@Override
+	public void setText(String text) {
+		input.setValue(text);
 	}
 
 	public Short getValueShort() {
@@ -120,12 +70,16 @@ public class SpinnerBox extends JexpSimplePanel implements IUserInputWidget<Long
 		return JsUtil.asByte(getText());
 	}
 
-	public void setValueLong(final Long val) {
-		setText(val == null ? null : val.toString());
+	public void setValueInt(final Integer val) {
+		setValue(val == null ? null : val.longValue());
 	}
 
-	public void setValueInt(final Integer val) {
-		setText(val == null ? null : val.toString());
+	public void setValueShort(final Short val) {
+		setValue(val == null ? null : val.longValue());
+	}
+
+	public void setValueByte(final Byte val) {
+		setValue(val == null ? null : val.longValue());
 	}
 
 	public void setMaxLength(final int length) {
@@ -133,79 +87,28 @@ public class SpinnerBox extends JexpSimplePanel implements IUserInputWidget<Long
 		setWidth(JsUtil.calcSizeForMaxLength(length));
 	}
 
-	public void setValue(final Byte val) {
-		setText(val == null ? null : String.valueOf(val));
-	}
-
-	public void setValue(final Integer val) {
-		setText(val == null ? null : String.valueOf(val));
-	}
-
-	public void setValue(final Long val) {
-		setText(val == null ? null : String.valueOf(val));
-	}
-
-	public void setValueShort(final Short val) {
-		setText(val == null ? null : String.valueOf(val));
-	}
-
-	public void setValueByte(final Byte val) {
-		setText(val == null ? null : val.toString());
+	@Override
+	public Long getValue() {
+		return JsUtil.asLong(getText());
 	}
 
 	@Override
 	public void setEnabled(boolean enabled) {
-		input.setDisabled(!enabled);
+		super.setEnabled(enabled);
 		btMinus.setDisabled(!enabled);
 		btPlus.setDisabled(!enabled);
 	}
 
-	@Override
-	protected Element getSinkElement() {
-		return input;
-	}
-
-	@Override
-	public HandlerRegistration addChangeHandler(ChangeHandler handler) {
-		return addDomHandler(handler, ChangeEvent.getType());
-	}
-
-	public HandlerRegistration addFocusHandler(FocusHandler handler) {
-		return addDomHandler(handler, FocusEvent.getType());
-	}
-
-	public HandlerRegistration addBlurHandler(BlurHandler handler) {
-		return addDomHandler(handler, BlurEvent.getType());
-	}
-
-	public HandlerRegistration addKeyDownHandler(KeyDownHandler handler) {
-		return addDomHandler(handler, KeyDownEvent.getType());
-	}
-
-	@Override
-	public HandlerRegistration addValueChangeHandler(ValueChangeHandler<Long> handler) {
-		if (!valueChangeHandlerInitialized) {
-			valueChangeHandlerInitialized = true;
-			addChangeHandler(new ChangeHandler() {
-				@Override
-				public void onChange(ChangeEvent event) {
-					Long v = applyMinMaxCheck();
-					ValueChangeEvent.fire(SpinnerBox.this, v);
-				}
-			});
-		}
-		return addHandler(handler, ValueChangeEvent.getType());
-	}
-
-	protected Long applyMinMaxCheck() {
-		Long v = getValue();
+	protected Long applyMinMaxCheck(Long v) {
 		if (v != null) {
 			if (maxValue != null && v.longValue() > maxValue.longValue()) {
 				input.setValue(maxValue.toString());
 				v = maxValue.longValue();
+				JsUtil.highlight(input);
 			} else if (minValue != null && v.longValue() < minValue.longValue()) {
 				input.setValue(minValue.toString());
 				v = minValue.longValue();
+				JsUtil.highlight(input);
 			}
 		}
 		return v;
@@ -213,8 +116,6 @@ public class SpinnerBox extends JexpSimplePanel implements IUserInputWidget<Long
 
 	@Override
 	protected void onUnload() {
-		dataBinding = null;
-		input = null;
 		btMinus = null;
 		btPlus = null;
 		destroyByJs(btMinus, btPlus);
@@ -225,39 +126,6 @@ public class SpinnerBox extends JexpSimplePanel implements IUserInputWidget<Long
 		$wnd.$(btMinus).off();
 		$wnd.$(btPlus).off();
 	}-*/;
-
-	@Override
-	public boolean validate(final boolean focusedBefore) {
-		return JsUtil.validateWidget(this, focusedBefore);
-	}
-
-	public void setPlaceholder(String value) {
-		input.setAttribute("placeholder", value);
-	}
-
-	@Override
-	public void setValidationError(String validationError) {
-		if (JsUtil.USE_BOOTSTRAP) {
-			Widget nw = getParent() instanceof FormGroupCell ? getParent() : this;
-			if (validationError == null)
-				nw.removeStyleName("has-error");
-			else
-				nw.addStyleName("has-error");
-		}
-		Bootstrap.setTooltip(getElement(), validationError);
-		//setTitle(validationError);
-	}
-
-	@Override
-	public void setDataBindingHandler(DataBindingHandler handler) {
-		this.dataBinding = handler;
-		dataBinding.setControl(this);
-	}
-
-	@Override
-	public DataBindingHandler getDataBindingHandler() {
-		return dataBinding;
-	}
 
 	@Override
 	protected void doAttachChildren() {
@@ -275,15 +143,6 @@ public class SpinnerBox extends JexpSimplePanel implements IUserInputWidget<Long
 					event.getNativeEvent().preventDefault();
 			}
 		});
-	}
-
-	public void setText(String value) {
-		input.setValue(value);
-	}
-
-	@Override
-	public Long getValue() {
-		return getValueLong();
 	}
 
 	public Integer getMinValue() {
@@ -313,6 +172,8 @@ public class SpinnerBox extends JexpSimplePanel implements IUserInputWidget<Long
 	@Override
 	protected void onLoad() {
 		super.onLoad();
+		if (minValue != null)
+			setText(minValue.toString());
 		createByJs(this, btMinus, btPlus);
 	}
 
@@ -345,7 +206,7 @@ public class SpinnerBox extends JexpSimplePanel implements IUserInputWidget<Long
 			l = Long.valueOf(direction * step);
 		else
 			l = l + (direction * step);
-		l = applyMinMaxCheck();
+		l = applyMinMaxCheck(l);
 		input.setValue(l.toString());
 		ValueChangeEvent.fire(SpinnerBox.this, l);
 	}

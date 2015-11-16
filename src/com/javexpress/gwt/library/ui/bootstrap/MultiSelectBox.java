@@ -22,7 +22,7 @@ import com.javexpress.gwt.library.ui.form.combobox.ListBoxBase;
 import com.javexpress.gwt.library.ui.js.JsUtil;
 import com.javexpress.gwt.library.ui.js.JsonMap;
 
-public class CheckGroupInlineBox extends ListBoxBase {
+public class MultiSelectBox extends ListBoxBase {
 
 	public static void fillResources(final List<String> styleSheets, final List<String> javaScripts) {
 		styleSheets.add("scripts/multiselect/bootstrap-multiselect.css");
@@ -33,7 +33,7 @@ public class CheckGroupInlineBox extends ListBoxBase {
 	private JsonMap				options;
 	private DataBindingHandler	dataBinding;
 
-	public CheckGroupInlineBox(Widget parent, String id) {
+	public MultiSelectBox(Widget parent, String id) {
 		super(true);
 		JsUtil.ensureId(parent, this, WidgetConst.CHECKCOMBOBOX_PREFIX, id);
 		options = createDefaultOptions();
@@ -89,15 +89,15 @@ public class CheckGroupInlineBox extends ListBoxBase {
 		createByJs(this, getElement(), options.getJavaScriptObject());
 	}
 
-	private native void createByJs(CheckGroupInlineBox x, Element el, JavaScriptObject options) /*-{
+	private native void createByJs(MultiSelectBox x, Element el, JavaScriptObject options) /*-{
 																								options.onChange=function(option, checked, select) {
-																								x.@com.javexpress.gwt.library.ui.bootstrap.CheckGroupInlineBox::fireOnChanged(Ljava/lang/String;Z)($wnd.$(option).val(),checked);
+																								x.@com.javexpress.gwt.library.ui.bootstrap.MultiSelectBox::fireOnChanged(Ljava/lang/String;Z)($wnd.$(option).val(),checked);
 																								};
 																								options.onDropdownShown=function(event) {
-																								x.@com.javexpress.gwt.library.ui.bootstrap.CheckGroupInlineBox::fireOnOpened()();
+																								x.@com.javexpress.gwt.library.ui.bootstrap.MultiSelectBox::fireOnOpened()();
 																								};
 																								options.onDropdownHidden=function(event) {
-																								x.@com.javexpress.gwt.library.ui.bootstrap.CheckGroupInlineBox::fireOnClosed()();
+																								x.@com.javexpress.gwt.library.ui.bootstrap.MultiSelectBox::fireOnClosed()();
 																								};
 																								options.buttonText=function(seloptions, select) {
 																								if (seloptions.length === 0) {
@@ -148,29 +148,6 @@ public class CheckGroupInlineBox extends ListBoxBase {
 			return false;
 		}
 		lazyValues = new ArrayList<String>(values);
-		SelectElement se = getElement().cast();
-		NodeList<OptionElement> items = se.getOptions();
-		for (int i = 0; i < items.getLength(); i++) {
-			String v = getValue(i);
-			if (lazyValues.contains(v)) {
-				items.getItem(i).setSelected(true);
-				lazyValues.remove(v);
-			}
-		}
-		if (lazyValues.isEmpty())
-			lazyValues = null;
-		syncSelections(getElement());
-		return true;
-	}
-
-	public boolean setValueArray(String[] values) {
-		lazyValues = new ArrayList<String>();
-		setSelectedIndex(-1);
-		if (values == null || values.length == 0) {
-			return false;
-		}
-		for (String v : values)
-			lazyValues.add(v);
 		SelectElement se = getElement().cast();
 		NodeList<OptionElement> items = se.getOptions();
 		for (int i = 0; i < items.getLength(); i++) {
@@ -255,6 +232,18 @@ public class CheckGroupInlineBox extends ListBoxBase {
 	}
 
 	private void fireOnClosed() {
+	}
+
+	@Override
+	public void setValue(String value) {
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	public void setValue(String value, boolean fireEvents) {
+		// TODO Auto-generated method stub
+
 	}
 
 }

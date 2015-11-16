@@ -483,12 +483,12 @@ public class JsUtil {
 			case Decimal:
 				w = new DecimalBox(parent, property + "_");
 				if (value != null)
-					((DecimalBox) w).setValue(value);
+					((DecimalBox) w).setValue(JsUtil.asDecimal(value));
 				break;
 			case Date:
 				w = new DateBox(parent, property + "_");
 				if (value != null)
-					((DateBox) w).setValue(value);
+					((DateBox) w).setValueString(value);
 				break;
 			case Check:
 				w = new CheckBoxJq(parent, property + "_");
@@ -574,7 +574,7 @@ public class JsUtil {
 		if (w instanceof LabelControlCell)
 			w = ((LabelControlCell) w).getWidget(0);
 		else if (w instanceof DateBox)
-			val = ((DateBox) w).getDate();
+			val = ((DateBox) w).getValue();
 		else if (w instanceof NumericBox)
 			val = ((NumericBox) w).getValueLong();
 		else if (w instanceof DecimalBox)
@@ -602,7 +602,7 @@ public class JsUtil {
 		if (w instanceof DateBox)
 			((DateBox) w).setValue((Date) value);
 		else if (w instanceof NumericBox)
-			((NumericBox) w).setValue(value != null ? value.toString() : null);
+			((NumericBox) w).setValue(value != null ? (value instanceof Number ? ((Number) value).longValue() : Long.valueOf(value.toString())) : null);
 		else if (w instanceof DecimalBox)
 			((DecimalBox) w).setValue((BigDecimal) value);
 		else if (w instanceof ComboBox) {
@@ -670,20 +670,20 @@ public class JsUtil {
 		return val;
 	}
 
-	public static Serializable clearWidgetValue(final Widget w) throws ParseException {
+	public static Serializable clearWidgetValue(final Widget w, boolean fireEvents) throws ParseException {
 		Serializable val = null;
 		if (w instanceof DateBox)
-			((DateBox) w).setValue((Date) null);
+			((DateBox) w).setValue((Date) null, fireEvents);
 		else if (w instanceof NumericBox)
-			((NumericBox) w).setValueLong(null);
+			((NumericBox) w).setValue(null, fireEvents);
 		else if (w instanceof DecimalBox)
-			((DecimalBox) w).setValue((String) null);
+			((DecimalBox) w).setValue((BigDecimal) null, fireEvents);
 		else if (w instanceof ComboBox)
-			((ComboBox) w).setSelectedIndex(-1);
+			((ComboBox) w).setValue(null, fireEvents);
 		else if (w instanceof TextBox)
-			((TextBox) w).setValue(null);
+			((TextBox) w).setValue(null, fireEvents);
 		else if (w instanceof CheckBoxJq)
-			((CheckBoxJq) w).setValue(false);
+			((CheckBoxJq) w).setValue(false, fireEvents);
 		return val;
 	}
 
@@ -692,11 +692,11 @@ public class JsUtil {
 		if (isEmpty(val))
 			val = null;
 		if (w instanceof DateBox)
-			((DateBox) w).setValue(val);
+			((DateBox) w).setValueString(val);
 		else if (w instanceof NumericBox)
-			((NumericBox) w).setValue(val);
+			((NumericBox) w).setValue(JsUtil.asLong(val));
 		else if (w instanceof DecimalBox)
-			((DecimalBox) w).setValue(val);
+			((DecimalBox) w).setValue(JsUtil.asDecimal(val));
 		else if (w instanceof ComboBox)
 			((ComboBox) w).setValue(val);
 		else if (w instanceof TextBox)
@@ -719,7 +719,7 @@ public class JsUtil {
 		return s;
 	}
 
-	public static boolean validateWidget(final IUserInputWidget vw, final boolean focusedBefore) {
+	public static boolean validateWidget(final IUserInputWidget<? extends Serializable> vw, final boolean focusedBefore) {
 		if (!vw.isRequired())
 			return true;
 		Serializable val = vw.getValue();

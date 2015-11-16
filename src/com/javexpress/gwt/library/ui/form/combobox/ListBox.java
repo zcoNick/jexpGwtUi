@@ -145,4 +145,15 @@ public class ListBox extends ListBoxBase {
 		return dataBinding;
 	}
 
+	@Override
+	@Deprecated
+	public void setValue(String value) {
+		setValue(value, false);
+	}
+
+	@Override
+	@Deprecated
+	public void setValue(String value, boolean fireEvents) {
+	}
+
 }

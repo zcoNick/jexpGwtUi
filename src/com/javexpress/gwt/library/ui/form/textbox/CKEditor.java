@@ -3,6 +3,8 @@ package com.javexpress.gwt.library.ui.form.textbox;
 import com.google.gwt.core.client.JavaScriptObject;
 import com.google.gwt.event.dom.client.ChangeEvent;
 import com.google.gwt.event.dom.client.ChangeHandler;
+import com.google.gwt.event.logical.shared.ValueChangeEvent;
+import com.google.gwt.event.logical.shared.ValueChangeHandler;
 import com.google.gwt.event.shared.HandlerRegistration;
 import com.google.gwt.i18n.client.LocaleInfo;
 import com.google.gwt.user.client.DOM;
@@ -26,6 +28,7 @@ public class CKEditor extends SimplePanel implements IUserInputWidget<String> {
 	private boolean				required;
 	private Integer				maxLength;
 	private DataBindingHandler	dataBinding;
+	private boolean				valueChangeHandlerInitialized;
 
 	@Override
 	public boolean isRequired() {
@@ -56,21 +59,21 @@ public class CKEditor extends SimplePanel implements IUserInputWidget<String> {
 	}
 
 	private native JavaScriptObject createByJs(CKEditor x, String id, String lang) /*-{
-																					var config = {
-																					language : lang,
-																					maximize : false,
-																					tabSpaces : 8,
-																					uiColor : '#A1CFF3',
-																					height : $wnd.$("#" + id).parent().height() - 45,
-																					startupFocus : true,
-																					enterMode : $wnd.CKEDITOR.ENTER_BR,
-																					removePlugins : 'elementspath',
-																					resize_enabled : false
-																					//scayt_autoStartup:true,
-																					//scayt_sLang:'tr_TR'
-																					}
-																					return $wnd.CKEDITOR.replace(id, config);
-																					}-*/;
+		var config = {
+			language : lang,
+			maximize : false,
+			tabSpaces : 8,
+			uiColor : '#A1CFF3',
+			height : $wnd.$("#" + id).parent().height() - 45,
+			startupFocus : true,
+			enterMode : $wnd.CKEDITOR.ENTER_BR,
+			removePlugins : 'elementspath',
+			resize_enabled : false
+		//scayt_autoStartup:true,
+		//scayt_sLang:'tr_TR'
+		}
+		return $wnd.CKEDITOR.replace(id, config);
+	}-*/;
 
 	@Override
 	public String getValue() {
@@ -78,17 +81,18 @@ public class CKEditor extends SimplePanel implements IUserInputWidget<String> {
 		return JsUtil.isEmpty(s) ? null : s;
 	}
 
+	@Override
 	public void setValue(String value) {
-		_setValue(jsObject, value);
+		setValue(value, false);
 	}
 
 	private native String _getValue(JavaScriptObject cke) /*-{
-															return cke.getData();
-															}-*/;
+		return cke.getData();
+	}-*/;
 
 	private native void _setValue(JavaScriptObject cke, String data) /*-{
-																		cke.setData(data);
-																		}-*/;
+		cke.setData(data);
+	}-*/;
 
 	@Override
 	public boolean validate(final boolean focusedBefore) {
@@ -118,8 +122,8 @@ public class CKEditor extends SimplePanel implements IUserInputWidget<String> {
 	}
 
 	private native void _setFocus(JavaScriptObject cke) /*-{
-														cke.focus();
-														}-*/;
+		cke.focus();
+	}-*/;
 
 	@Override
 	public void setTabIndex(int index) {
@@ -131,8 +135,8 @@ public class CKEditor extends SimplePanel implements IUserInputWidget<String> {
 	}
 
 	private native void _setReadOnly(JavaScriptObject cke, boolean readOnly) /*-{
-																				cke.setReadOnly(readOnly);
-																				}-*/;
+		cke.setReadOnly(readOnly);
+	}-*/;
 
 	public void setMaxLength(Integer maxLength) {
 		this.maxLength = maxLength;
@@ -167,4 +171,27 @@ public class CKEditor extends SimplePanel implements IUserInputWidget<String> {
 		return dataBinding;
 	}
 
+	@Override
+	public void setValue(String value, boolean fireEvents) {
+		String oldValue = fireEvents ? getValue() : null;
+		_setValue(jsObject, value);
+		if (fireEvents) {
+			String newValue = getValue();
+			ValueChangeEvent.fireIfNotEqual(this, oldValue, newValue);
+		}
+	}
+
+	@Override
+	public HandlerRegistration addValueChangeHandler(ValueChangeHandler<String> handler) {
+		if (!valueChangeHandlerInitialized) {
+			valueChangeHandlerInitialized = true;
+			addChangeHandler(new ChangeHandler() {
+				@Override
+				public void onChange(ChangeEvent event) {
+					ValueChangeEvent.fire(CKEditor.this, getValue());
+				}
+			});
+		}
+		return addHandler(handler, ValueChangeEvent.getType());
+	}
 }
