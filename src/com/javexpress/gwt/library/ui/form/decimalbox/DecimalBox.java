@@ -292,4 +292,9 @@ public class DecimalBox extends JexpWidget implements ISingleValueWidget<BigDeci
 		input.setValue(text);
 	}
 
+	public void setMaxLength(final int length) {
+		getElement().setAttribute("maxlength", String.valueOf(length));
+		setWidth(JsUtil.calcSizeForMaxLength(length));
+	}
+
 }
