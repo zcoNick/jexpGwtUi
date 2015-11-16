@@ -11,4 +11,6 @@ public interface IKeyValueDataLoaderListener {
 	void onLoadedKeyValues(String k, JSONObject data);
 
 	void onKeysCompleted(Set<IKeyValueList> keySet);
+
+	void onKeysLoadingError(String text);
 }

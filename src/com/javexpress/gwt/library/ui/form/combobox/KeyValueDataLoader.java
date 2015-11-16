@@ -87,6 +87,10 @@ public class KeyValueDataLoader implements Command {
 				public void onResponseReceived(Request request, Response response) {
 					if (response.getStatusCode() == 901)
 						return;
+					if (response.getStatusCode() == 500) {
+						listener.onKeysLoadingError(response.getText());
+						return;
+					}
 					JSONValue v = JSONParser.parseStrict(response.getText());
 					JSONObject json = v.isObject();
 					for (IKeyValueList combo : set) {
