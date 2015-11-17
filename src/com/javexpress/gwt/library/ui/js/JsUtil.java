@@ -570,10 +570,10 @@ public class JsUtil {
 	}
 
 	public static Serializable getWidgetValue(Widget w, boolean forceNumeric) throws ParseException {
-		Serializable val = null;
 		if (w instanceof LabelControlCell)
 			w = ((LabelControlCell) w).getWidget(0);
-		else if (w instanceof DateBox)
+		Serializable val = null;
+		if (w instanceof DateBox)
 			val = ((DateBox) w).getValue();
 		else if (w instanceof NumericBox)
 			val = ((NumericBox) w).getValueLong();

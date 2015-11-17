@@ -32,7 +32,8 @@ public class IconMaskBox extends IconTextBox {
 		options.set("clearIncomplete", clearIncomplete);
 	}
 
-	public void setPlaceHolder(String placeHolder) {
+	@Override
+	public void setPlaceholder(String placeHolder) {
 		options.set("placeholder", placeHolder);
 	}
 

@@ -16,7 +16,7 @@ public class CaptionPanel extends com.google.gwt.user.client.ui.CaptionPanel imp
 	public CaptionPanel(final Widget parent, final String id) {
 		super();
 		JsUtil.ensureId(parent, this, WidgetConst.CAPTIONPANEL_PREFIX, id);
-		addStyleName("ui-corner-all jexpBorderBox jexpCaptionPanel");
+		addStyleName((!JsUtil.USE_BOOTSTRAP ? "ui-corner-all " : "") + "jexpCaptionPanel");
 	}
 
 	/** Designer compatible constructor */
