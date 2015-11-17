@@ -140,6 +140,14 @@ public class DateBox extends BaseWrappedInput<Date, InputElement> {
 		return JsUtil.validateWidget(this, focusedBefore);
 	}
 
+	@Override
+	public void setValue(Date value, boolean fireEvents) {
+		Date oldValue = fireEvents ? getValue() : null;
+		setText(JsUtil.asString(value));
+		if (fireEvents)
+			fireValueChanged(oldValue, getValue());
+	}
+
 	public void setValueString(String value) {
 		setValueString(value, false);
 	}

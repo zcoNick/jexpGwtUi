@@ -182,12 +182,16 @@ public class SpinnerBox extends BaseWrappedInput<Long, InputElement> {
 				.$(btMinus)
 				.click(
 						function(e) {
+							e.preventDefault();
+							e.stopPropagation();
 							x.@com.javexpress.gwt.library.ui.form.numericbox.SpinnerBox::fireMinusPlus(I)(-1);
 						});
 		$wnd
 				.$(btPlus)
 				.click(
 						function(e) {
+							e.preventDefault();
+							e.stopPropagation();
 							x.@com.javexpress.gwt.library.ui.form.numericbox.SpinnerBox::fireMinusPlus(I)(1);
 						});
 	}-*/;

@@ -53,7 +53,7 @@ public abstract class BaseWrappedInput<T extends Serializable, W extends Element
 	}
 
 	@Override
-	public void setValue(T value, boolean fireEvents) {
+	public void setValue(T value, boolean fireEvents) {//JsUtil.asString Timestamp gönderebiliyordu
 		T oldValue = fireEvents ? getValue() : null;
 		setText(JsUtil.asString(value));
 		if (fireEvents)
