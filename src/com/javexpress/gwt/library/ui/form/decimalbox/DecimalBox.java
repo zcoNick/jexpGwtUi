@@ -162,7 +162,7 @@ public class DecimalBox extends JexpWidget implements ISingleValueWidget<BigDeci
 	@Override
 	public void setValue(final BigDecimal value, boolean fireEvents) {
 		BigDecimal oldValue = fireEvents ? getValue() : null;
-		if (isAttached())
+		if (isAttached() && value != null)
 			_setValue(getElement(), value.doubleValue());
 		else
 			setText(JsUtil.asString(value));
