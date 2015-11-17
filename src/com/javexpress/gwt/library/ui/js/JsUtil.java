@@ -636,7 +636,7 @@ public class JsUtil {
 			if (value instanceof String)
 				((AutoCompleteBox) w).setValue((String) value);
 			else if (value instanceof Long)
-				((AutoCompleteBox) w).setValue((Long) value);
+				((AutoCompleteBox) w).setValueLong((Long) value);
 		}
 	}
 

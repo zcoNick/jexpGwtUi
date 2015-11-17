@@ -126,7 +126,8 @@ public class AutoCompleteBox<V extends Serializable> extends BaseWrappedInput<St
 				.on(
 						"blur",
 						function() {
-							$wnd.console.debug("blur...",el.attr("v"),"a"+el.val().trim()+"b");
+							$wnd.console.debug("blur...", el.attr("v"), "a"
+									+ el.val().trim() + "b");
 							if (el.attr("v") == "''") {
 								el.attr("v", "");
 								el.val(null);
@@ -194,12 +195,20 @@ public class AutoCompleteBox<V extends Serializable> extends BaseWrappedInput<St
 		this.newItemRequestCommand = newItemRequestCommand;
 	}
 
-	public void setValue(final Long value) {
-		setValueLong(value);
+	public void setValueLong(final Long value) {
+		setValueLong(value, false);
 	}
 
-	public void setValueLong(final Long value) {
-		setValue(value == null ? (String) null : value.toString());
+	public void setValueLong(final Long value, boolean fireEvents) {
+		setValue(value == null ? (String) null : value.toString(), fireEvents);
+	}
+
+	public void setValueInt(final Integer value) {
+		setValueInt(value, false);
+	}
+
+	public void setValueInt(final Integer value, boolean fireEvents) {
+		setValue(value == null ? (String) null : value.toString(), fireEvents);
 	}
 
 	@Override
