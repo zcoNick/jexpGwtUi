@@ -91,19 +91,21 @@ public class Bootstrap {
 	}
 
 	public static void setTooltip(Element elm, String tooltip) {
-		setTooltip(elm, tooltip, 3500);
+		setTooltip(elm, tooltip, 2500);
 	}
 
 	public static native void setTooltip(Element elm, String tooltip, int duration) /*-{
+		if (!tooltip) {
+			$wnd.$(elm).tooltip('destroy');
+			return;
+		}
 		var options = {
-			placement : "auto bottom",
+			placement : "auto right",
 			title : tooltip,
-			//container : "#" + elm,
-			//viewport : "#" + elm,
 			trigger : "manual"
 		};
-		$wnd.$(elm).tooltip(options).on("hidden.bs.tooltip", function() {
-			setTimeout(function() {
+		$wnd.$(elm).tooltip(options).on("shown.bs.tooltip", function() {
+			$wnd.setTimeout(function() {
 				$wnd.$(elm).tooltip('destroy');
 			}, duration);
 		}).tooltip('show');

@@ -9,6 +9,7 @@ import com.google.gwt.user.client.ui.Widget;
 import com.javexpress.common.model.item.IComboItem;
 import com.javexpress.common.model.item.IComboItemWithHint;
 import com.javexpress.gwt.library.shared.model.WidgetConst;
+import com.javexpress.gwt.library.ui.bootstrap.Bootstrap;
 import com.javexpress.gwt.library.ui.bootstrap.LabelControlCell;
 import com.javexpress.gwt.library.ui.data.DataBindingHandler;
 import com.javexpress.gwt.library.ui.js.JsUtil;
@@ -166,7 +167,7 @@ public class ComboBox extends ListBoxBase implements AsyncCallback<List<? extend
 			else
 				nw.addStyleName("has-error");
 		}
-		setTitle(validationError);
+		Bootstrap.setTooltip(getElement(), validationError);
 	}
 
 	@Override

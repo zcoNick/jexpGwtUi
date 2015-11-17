@@ -4,44 +4,21 @@ import com.google.gwt.event.dom.client.ChangeEvent;
 import com.google.gwt.event.dom.client.ChangeHandler;
 import com.google.gwt.event.dom.client.KeyDownEvent;
 import com.google.gwt.event.dom.client.KeyDownHandler;
-import com.google.gwt.user.client.ui.LongBox;
 import com.google.gwt.user.client.ui.Widget;
 import com.javexpress.gwt.library.shared.model.WidgetConst;
-import com.javexpress.gwt.library.ui.bootstrap.LabelControlCell;
-import com.javexpress.gwt.library.ui.data.DataBindingHandler;
-import com.javexpress.gwt.library.ui.form.IUserInputWidget;
+import com.javexpress.gwt.library.ui.form.textbox.JexpValueBox;
 import com.javexpress.gwt.library.ui.js.JsUtil;
 
-public class NumericBox extends LongBox implements IUserInputWidget<Long> {
+public class NumericBox extends JexpValueBox<Long> {
 
-	private boolean				required;
-	private DataBindingHandler	dataBinding;
-	private Integer				minValue, maxValue;
-
-	@Override
-	public boolean isRequired() {
-		return required;
-	}
-
-	@Override
-	public void setRequired(final boolean required) {
-		this.required = required;
-	}
+	private Integer	minValue, maxValue;
 
 	/** Designer compatible constructor */
 	public NumericBox(final Widget parent, final String id) {
-		this(parent, id, true);
-	}
-
-	@Deprecated
-	public NumericBox(final Widget parent, final String id, final boolean alignRight) {
-		super();
-		JsUtil.ensureId(parent, this, WidgetConst.NUMERICBOX_PREFIX, id);
+		super(parent, id, WidgetConst.NUMERICBOX_PREFIX);
 		if (!JsUtil.USE_BOOTSTRAP)
 			setWidth("4em");
-		setStyleName("gwt-TextBox jexpNumericBox");
-		if (alignRight)
-			setAlignment(TextAlignment.RIGHT);
+		addStyleName("jexpNumericBox jexpRightAlign");
 		addKeyDownHandler(new KeyDownHandler() {
 			@Override
 			public void onKeyDown(KeyDownEvent event) {
@@ -61,17 +38,6 @@ public class NumericBox extends LongBox implements IUserInputWidget<Long> {
 				applyMinMaxCheck();
 			}
 		});
-	}
-
-	@Override
-	protected void onLoad() {
-		super.onLoad();
-	}
-
-	@Override
-	protected void onUnload() {
-		dataBinding = null;
-		super.onUnload();
 	}
 
 	public Long getValueLong() {
@@ -102,47 +68,8 @@ public class NumericBox extends LongBox implements IUserInputWidget<Long> {
 		setValue(val == null ? null : val.longValue());
 	}
 
-	@Override
-	public void setMaxLength(final int length) {
-		getElement().setAttribute("maxlength", String.valueOf(length));
-		setWidth(JsUtil.calcSizeForMaxLength(length));
-	}
-
 	public int getValueIntDef(final int i) {
 		return JsUtil.isEmpty(getText()) ? i : getValueInt();
-	}
-
-	@Override
-	public boolean validate(final boolean focusedBefore) {
-		return JsUtil.validateWidget(this, focusedBefore);
-	}
-
-	@Override
-	public void setValidationError(String validationError) {
-		if (JsUtil.USE_BOOTSTRAP) {
-			Widget nw = getParent() instanceof LabelControlCell ? getParent() : this;
-			if (validationError == null)
-				nw.removeStyleName("has-error");
-			else
-				nw.addStyleName("has-error");
-		}
-		setTitle(validationError);
-	}
-
-	@Override
-	public void setDataBindingHandler(DataBindingHandler handler) {
-		this.dataBinding = handler;
-		dataBinding.setControl(this);
-
-	}
-
-	@Override
-	public DataBindingHandler getDataBindingHandler() {
-		return dataBinding;
-	}
-
-	public void setPlaceholder(String value) {
-		getElement().setAttribute("placeholder", value);
 	}
 
 	public Integer getMinValue() {
@@ -175,6 +102,28 @@ public class NumericBox extends LongBox implements IUserInputWidget<Long> {
 			}
 		}
 		return v;
+	}
+
+	@Override
+	public void setValue(final Long val) {
+		setValue(val, false);
+	}
+
+	@Override
+	public void setValue(final Long value, boolean fireEvents) {
+		Long oldValue = fireEvents ? getValue() : null;
+		setText(JsUtil.asString(value));
+		if (fireEvents)
+			fireValueChanged(oldValue, value);
+	}
+
+	@Override
+	public Long getValue() {
+		return JsUtil.asLong(getText());
+	}
+
+	public void setValueString(String value) {
+		setValue(Long.valueOf(value));
 	}
 
 }

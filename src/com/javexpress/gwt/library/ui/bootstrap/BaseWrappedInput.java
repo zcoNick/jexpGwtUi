@@ -78,8 +78,7 @@ public abstract class BaseWrappedInput<T extends Serializable, W extends Element
 			else
 				nw.addStyleName("has-error");
 		}
-		Bootstrap.setTooltip(getElement(), validationError);
-		//setTitle(validationError);
+		Bootstrap.setTooltip(input, validationError);
 	}
 
 	@Override
