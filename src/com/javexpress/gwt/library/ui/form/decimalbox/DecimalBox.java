@@ -89,10 +89,14 @@ public class DecimalBox extends JexpValueBox<BigDecimal> {
 	}
 
 	private native void createByJs(DecimalBox x, Element element, JavaScriptObject options, String value) /*-{
-		var el = $wnd.$(element).autoNumeric('init', options);
-		if (value && value != '')
-			el.autoNumeric('set', parseFloat(value));
-	}-*/;
+																											var el = $wnd.$(element).autoNumeric('init', options);
+																											if (value && value != '')
+																											el.autoNumeric('set', parseFloat(value));
+																											el.on("change",
+																											function(e) {
+																											//Just to attach onchange
+																											});
+																											}-*/;
 
 	@Override
 	protected void onUnload() {
@@ -102,8 +106,8 @@ public class DecimalBox extends JexpValueBox<BigDecimal> {
 	}
 
 	private native void destroyByJs(Element element) /*-{
-		$wnd.$(element).autoNumeric('destroy').off();
-	}-*/;
+														$wnd.$(element).autoNumeric('destroy').off();
+														}-*/;
 
 	public BigDecimal getValueDecimal() {
 		if (JsUtil.isEmpty(getText()))
@@ -113,12 +117,12 @@ public class DecimalBox extends JexpValueBox<BigDecimal> {
 	}
 
 	private native double _getValue(Element element) /*-{
-		return parseFloat($wnd.$(element).autoNumeric('get'));
-	}-*/;
+														return parseFloat($wnd.$(element).autoNumeric('get'));
+														}-*/;
 
 	private native void _setValue(Element element, double d) /*-{
-		$wnd.$(element).autoNumeric('set', d);
-	}-*/;
+																$wnd.$(element).autoNumeric('set', d);
+																}-*/;
 
 	@Override
 	public void setValue(final BigDecimal val) {

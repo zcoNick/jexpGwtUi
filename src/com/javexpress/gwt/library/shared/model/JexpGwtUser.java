@@ -98,11 +98,17 @@ public class JexpGwtUser implements Serializable {
 	}
 
 	public static char getCurrencyGroupChar() {
-		return instance.currencyGroupChar;
+		if (instance != null)
+			return instance.currencyGroupChar;
+		String fmt = LocaleInfo.getCurrentLocale().getNumberConstants().groupingSeparator();
+		return fmt.charAt(0);
 	}
 
 	public static char getCurrencyDecimalChar() {
-		return instance.currencyDecimalChar;
+		if (instance != null)
+			return instance.currencyDecimalChar;
+		String fmt = LocaleInfo.getCurrentLocale().getNumberConstants().decimalSeparator();
+		return fmt.charAt(0);
 	}
 
 	public static String getDateFormat() {
@@ -117,7 +123,10 @@ public class JexpGwtUser implements Serializable {
 	}
 
 	public static String getTimeStampFormat() {
-		return instance.timeStampFormat;
+		if (instance != null)
+			return instance.timeStampFormat;
+		String fmt = getDateFormat() + " " + LocaleInfo.getCurrentLocale().getDateTimeConstants().timeFormats()[2].toUpperCase();
+		return fmt;
 	}
 
 	public Long getOrgUnitId() {
@@ -159,7 +168,7 @@ public class JexpGwtUser implements Serializable {
 	}
 
 	public static String formatTimestamp(final Date cand) {
-		return cand == null ? null : DateTimeFormat.getFormat(instance.timeStampFormat).format(cand);
+		return cand == null ? null : DateTimeFormat.getFormat(getTimeStampFormat()).format(cand);
 	}
 
 	public static String formatTimestampLong(final Date cand) {
