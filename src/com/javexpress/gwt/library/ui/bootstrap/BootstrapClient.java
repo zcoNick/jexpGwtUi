@@ -6,6 +6,7 @@ import java.util.logging.Logger;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.core.client.Scheduler;
 import com.google.gwt.core.client.Scheduler.ScheduledCommand;
+import com.google.gwt.dom.client.Element;
 import com.google.gwt.event.dom.client.KeyCodes;
 import com.google.gwt.event.dom.client.KeyDownEvent;
 import com.google.gwt.event.dom.client.KeyDownHandler;
@@ -116,7 +117,9 @@ public abstract class BootstrapClient extends ClientContext implements ProvidesR
 	}
 
 	protected void handleOnCoreLibraryInjectFinished() {
-		DOM.getElementById("appLoading").removeFromParent();
+		Element appLoading = DOM.getElementById("appLoading");
+		if (appLoading != null)
+			appLoading.removeFromParent();
 		History.addValueChangeHandler(new ValueChangeHandler<String>() {
 			@Override
 			public void onValueChange(ValueChangeEvent<String> event) {
