@@ -24,7 +24,7 @@ public abstract class BootstrapDelegatingTheme extends BootstrapTheme {
 			@Override
 			public void onFormOpenRequested(FormOpenRequest formOpenRequest) {
 				final String path = formOpenRequest.getCode();
-				MainContentView cached = mainContent.findView(path);
+				MainContentView cached = mainContent != null ? mainContent.findView(path) : null;
 				if (cached != null) {
 					mainContent.showView(cached);
 					return;
@@ -89,9 +89,13 @@ public abstract class BootstrapDelegatingTheme extends BootstrapTheme {
 	}
 
 	public void showInView(String path, IUIComposite result) {
-		MainContentView view = mainContent.createView(result.getId());
-		view.setContents(result);
-		mainContent.addView(path, view);
+		if (mainContent != null) {
+			MainContentView view = mainContent.createView(result.getId());
+			view.setContents(result);
+			mainContent.addView(path, view);
+		} else {
+			BootstrapClient.showInWindow(result);
+		}
 	}
 
 	protected void buildGUI() {

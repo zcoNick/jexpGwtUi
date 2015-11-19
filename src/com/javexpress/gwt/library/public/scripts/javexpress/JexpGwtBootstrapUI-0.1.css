@@ -15,8 +15,8 @@
 .jexp-ui-window > .widget-body { background-color:#ffffff;background:-moz-radial-gradient(50% 75%,circle,#ffffff,#EFF3F8);background:-webkit-radial-gradient(50% 75%,circle,#ffffff,#EFF3F8);background:-o-radial-gradient(50% 75%,circle,#ffffff,#EFF3F8);background:-ms-radial-gradient(50% 75%,circle,#ffffff,#EFF3F8);background:radial-gradient(50% 75%,circle,#ffffff,#EFF3F8);}
 .widget-box > .widget-header, .jexp-ui-window > .widget-header { padding-left: 8px; min-height: 28px }
 .jexp-ui-window-nonmodal { position:absolute;top:20%;left:40%; }
-.jexp-ui-window > .widget-header > .widget-title { line-height:28px;text-shadow: 1px 2px 2px rgba(150, 150, 150, 1); }
-.jexp-ui-window > .widget-header > .widget-toolbar { line-height: 28px }
+.jexp-ui-window > .widget-header > .widget-title { line-height:28px;text-shadow: 1px 2px 2px rgba(150, 150, 150, 1);display: inline-block;padding-bottom: 0; }
+.jexp-ui-window > .widget-header > .widget-toolbar { line-height: 28px;display: inline-block;float: right;padding-right: 1em; }
 .jexp-ui-window > .widget-body > .widget-main { padding: 4px 3px 3px; }
 .jexp-ui-window .modal-footer { padding-bottom: 2px;padding-top: 2px;padding-right: 6px; }
 .jexp-ui-window > .widget-header > .widget-toolbar a { cursor: pointer }
