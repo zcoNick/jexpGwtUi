@@ -606,6 +606,9 @@ public interface CommonResources extends ConstantsWithLookup {
 	/** Oto. */
 	String oto();
 
+	/** Giriş */
+	String oturumAc();
+
 	/** Oturum Kilitli */
 	String oturumZamaniAsilmis();
 
@@ -665,6 +668,9 @@ public interface CommonResources extends ConstantsWithLookup {
 
 	/** Seviye */
 	String seviye();
+
+	/** Şifre */
+	String sifre();
 
 	/** Şifremi unuttum */
 	String sifremiUnuttum();
