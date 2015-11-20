@@ -103,12 +103,12 @@ public class AutoCompleteBox<V extends Serializable> extends BaseWrappedInput<St
 			options.source = options.url;
 		options.id = el.attr("id") + "_menu";
 		options.select = function(event, ui) {
-			var r = x.@com.javexpress.gwt.library.ui.form.autocomplete.AutoCompleteBox::fireCanSelect(Ljava/lang/String;Ljava/lang/String;Lcom/google/gwt/core/client/JavaScriptObject;)(ui.item.id,ui.item.label,ui.item.data);
+			var r = x.@com.javexpress.gwt.library.ui.form.autocomplete.AutoCompleteBox::fireCanSelect(Ljava/lang/String;Ljava/lang/String;Lcom/google/gwt/core/client/JavaScriptObject;)(ui.item.id+"",ui.item.label,ui.item.data);
 			if (r) {
 				el.attr("v", ui.item.id);
 				el.val(ui.item.label);
 				$wnd.$.data(el, "acdata", ui.item.data);
-				x.@com.javexpress.gwt.library.ui.form.autocomplete.AutoCompleteBox::fireOnSelect(Ljava/lang/String;Ljava/lang/String;Lcom/google/gwt/core/client/JavaScriptObject;Z)(ui.item.id,ui.item.label,ui.item.data,true);
+				x.@com.javexpress.gwt.library.ui.form.autocomplete.AutoCompleteBox::fireOnSelect(Ljava/lang/String;Ljava/lang/String;Lcom/google/gwt/core/client/JavaScriptObject;Z)(ui.item.id+"",ui.item.label,ui.item.data,true);
 			}
 			return r;
 		};
@@ -126,8 +126,6 @@ public class AutoCompleteBox<V extends Serializable> extends BaseWrappedInput<St
 				.on(
 						"blur",
 						function() {
-							$wnd.console.debug("blur...", el.attr("v"), "a"
-									+ el.val().trim() + "b");
 							if (el.attr("v") == "''") {
 								el.attr("v", "");
 								el.val(null);
