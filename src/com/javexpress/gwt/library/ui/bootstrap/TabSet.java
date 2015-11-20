@@ -94,6 +94,14 @@ public class TabSet extends AbstractContainerFocusable implements ISizeAwareWidg
 		getElement().appendChild(tabContents);
 	}
 
+	public TabSet(Element element) {
+		super(element);
+		getElement().addClassName("jexpTabSet");
+		navBar = getElement().getFirstChildElement();
+		tabContents = navBar.getNextSiblingElement();
+		jsObject = createByJs(this, getElement());
+	}
+
 	@Override
 	protected void onLoad() {
 		super.onLoad();
@@ -345,4 +353,5 @@ public class TabSet extends AbstractContainerFocusable implements ISizeAwareWidg
 	public void setMaxHeight(int maxHeight) {
 		getElement().getStyle().setProperty("maxHeight", maxHeight + "px");
 	}
+
 }
