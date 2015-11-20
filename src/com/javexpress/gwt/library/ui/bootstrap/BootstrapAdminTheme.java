@@ -31,7 +31,7 @@ public abstract class BootstrapAdminTheme extends BootstrapTheme implements ISid
 		ClientContext.EVENT_BUS.addHandler(FormOpenRequest.TYPE, new FormOpenRequestHandler() {
 			@Override
 			public void onFormOpenRequested(FormOpenRequest formOpenRequest) {
-				final String path = formOpenRequest.getCode();
+				final String path = formOpenRequest.getPath();
 				MainContentView cached = mainContent.findView(path);
 				if (cached != null) {
 					mainContent.showView(cached);
@@ -44,7 +44,7 @@ public abstract class BootstrapAdminTheme extends BootstrapTheme implements ISid
 				FormDef fd = formOpenRequest.getFormDef();
 				if (fd != null) {
 					if (fd.isInWorkpane())
-						showInView(formOpenRequest.getCode(), formOpenRequest.getForm());
+						showInView(formOpenRequest.getPath(), formOpenRequest.getForm());
 					else
 						ClientContext.instance.showInWindow(formOpenRequest.getForm(), true);
 					return;

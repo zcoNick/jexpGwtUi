@@ -6,10 +6,12 @@ import java.util.List;
 import java.util.Map;
 
 import com.google.gwt.core.client.JavaScriptObject;
+import com.google.gwt.dom.client.Document;
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.dom.client.Style.Display;
 import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.ui.RequiresResize;
+import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.Widget;
 import com.javexpress.gwt.library.shared.model.WidgetConst;
 import com.javexpress.gwt.library.ui.AbstractContainerFocusable;
@@ -94,12 +96,25 @@ public class TabSet extends AbstractContainerFocusable implements ISizeAwareWidg
 		getElement().appendChild(tabContents);
 	}
 
-	public TabSet(Element element) {
+	private TabSet(Element element) {
 		super(element);
 		getElement().addClassName("jexpTabSet");
 		navBar = getElement().getFirstChildElement();
 		tabContents = navBar.getNextSiblingElement();
 		jsObject = createByJs(this, getElement());
+	}
+
+	public static TabSet wrap(Element element) {
+		// Assert that the element is attached.
+		assert Document.get().getBody().isOrHasChild(element);
+
+		TabSet tabset = new TabSet(element);
+
+		// Mark it attached and remember it for cleanup.
+		tabset.onAttach();
+		RootPanel.detachOnWindowClose(tabset);
+
+		return tabset;
 	}
 
 	@Override

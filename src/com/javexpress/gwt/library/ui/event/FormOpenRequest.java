@@ -11,11 +11,22 @@ public class FormOpenRequest extends GwtEvent<FormOpenRequestHandler> {
 	private FormDef								formDef;
 	private String								code;
 	private IUIComposite						form;
+	private boolean								inWorkPane;
 
 	public FormOpenRequest(FormDef formDef, String code, IUIComposite form) {
 		this.formDef = formDef;
+		if (formDef != null)
+			inWorkPane = formDef.isInWorkpane();
 		this.code = code;
 		this.form = form;
+	}
+
+	public boolean isInWorkPane() {
+		return inWorkPane;
+	}
+
+	public void setInWorkPane(boolean inWorkPane) {
+		this.inWorkPane = inWorkPane;
 	}
 
 	public FormDef getFormDef() {
@@ -26,7 +37,7 @@ public class FormOpenRequest extends GwtEvent<FormOpenRequestHandler> {
 		this.formDef = formDef;
 	}
 
-	public String getCode() {
+	public String getPath() {
 		return code;
 	}
 
