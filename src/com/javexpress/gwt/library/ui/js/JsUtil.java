@@ -79,7 +79,7 @@ import com.javexpress.gwt.library.ui.form.upload.FileUpload;
 public class JsUtil {
 
 	public static interface JqTriggerHandler {
-		void eventTriggered(Event event, String type, JavaScriptObject args);
+		void eventTriggered(Event event, String type, String args);
 	}
 
 	public static final BigDecimal	ZERO					= new BigDecimal(0);
@@ -1114,7 +1114,7 @@ public class JsUtil {
 				.bind(
 						eventsToBind,
 						function(e, args) {
-							handler.@com.javexpress.gwt.library.ui.js.JsUtil.JqTriggerHandler::eventTriggered(Lcom/google/gwt/user/client/Event;Ljava/lang/String;Lcom/google/gwt/core/client/JavaScriptObject;)(e,e.type,args);
+							handler.@com.javexpress.gwt.library.ui.js.JsUtil.JqTriggerHandler::eventTriggered(Lcom/google/gwt/user/client/Event;Ljava/lang/String;Ljava/lang/String;)(e,e.type,args);
 						});
 	}-*/;
 }

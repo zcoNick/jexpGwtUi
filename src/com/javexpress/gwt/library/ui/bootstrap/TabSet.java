@@ -163,8 +163,9 @@ public class TabSet extends AbstractContainerFocusable implements ISizeAwareWidg
 		jsObject = null;
 		navBar = null;
 		listener = null;
-		for (Widget w : widgets.values())
-			remove(w);
+		if (widgets != null)
+			for (Widget w : widgets.values())
+				remove(w);
 		widgets = null;
 		sizeWaitingWidgets = null;
 		activeWidgetId = null;
