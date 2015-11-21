@@ -29,6 +29,7 @@ import com.google.gwt.json.client.JSONString;
 import com.google.gwt.json.client.JSONValue;
 import com.google.gwt.user.client.Command;
 import com.google.gwt.user.client.DOM;
+import com.google.gwt.user.client.Event;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.ServiceDefTarget;
 import com.google.gwt.user.client.ui.Focusable;
@@ -77,6 +78,10 @@ import com.javexpress.gwt.library.ui.form.upload.FileUpload;
 
 public class JsUtil {
 
+	public static interface JqTriggerHandler {
+		void eventTriggered(Event event, String type, JavaScriptObject args);
+	}
+
 	public static final BigDecimal	ZERO					= new BigDecimal(0);
 	public static boolean			isIE7					= false;
 	public static boolean			isIE8					= false;
@@ -111,7 +116,7 @@ public class JsUtil {
 		return name.indexOf("chrome") > -1 || name.indexOf("chromium") > -1 || name.indexOf("safari") > -1;
 	}
 
-	public static native String getBrowserName() /*-{
+	public static native String getBrowserName()/*-{
 		return $wnd.navigator.appName.toLowerCase();
 	}-*/;
 
@@ -1103,4 +1108,13 @@ public class JsUtil {
 		return list.isEmpty() ? null : list;
 	}
 
+	public static native void bind(Element element, String eventsToBind, JqTriggerHandler handler) /*-{
+		$wnd
+				.$(element)
+				.bind(
+						eventsToBind,
+						function(e, args) {
+							handler.@com.javexpress.gwt.library.ui.js.JsUtil.JqTriggerHandler::eventTriggered(Lcom/google/gwt/user/client/Event;Ljava/lang/String;Lcom/google/gwt/core/client/JavaScriptObject;)(e,e.type,args);
+						});
+	}-*/;
 }
