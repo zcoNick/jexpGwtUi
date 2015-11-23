@@ -18,6 +18,8 @@ public class WidgetConst {
 	public static final String	CONFIRMDIALOG_PREFIX		= "cd";
 	public static final String	DASHBOARDWIDGET_PREFIX		= "dw";
 	public static final String	DATAGRID_PREFIX				= "dg";
+	public static final String	DATALIST_PREFIX				= "dtls";
+	public static final String	DATATABLE					= "dtbl";
 	public static final String	DATEBOX_PREFIX				= "dt";
 	public static final String	DATETIMEBOX_PREFIX			= "dtm";
 	public static final String	DECIMALBOX_PREFIX			= "dc";
