@@ -46,16 +46,22 @@ public abstract class BootstrapTheme extends BaseResourceInjector {
 		jq = new WidgetBundles("jQuery UI 1.11.4", jq);
 		jq.addJavaScript("scripts/jquery/jquery-ui-1.11.4.min.js");
 
-		WidgetBundles wb = new WidgetBundles("Bootstrap 3.3.5", jq);
-		wb.addStyleSheet("scripts/bootstrap/bootstrap-3.3.5.min.css");
-		wb.addStyleSheet("fonts/fontawesome/font-awesome-4.4.0.min.css");
+		WidgetBundles wb = new WidgetBundles("Bootstrap 3.3.6", jq);
+		wb.addStyleSheet("fonts/fontawesome/font-awesome-4.5.0.min.css");
+
+		addBootstrapStyleSheet(wb);
+
 		addStyleSheets(wb, 0);
 		addJavaScripts(wb, 0);
 
 		wb.addStyleSheet("scripts/javexpress/JexpGwtBootstrapBase-0.1.css");
-		wb.addJavaScript("scripts/bootstrap/bootstrap-3.3.5.min.js");
+		wb.addJavaScript("scripts/bootstrap/bootstrap-3.3.6.min.js");
 		wb.addJavaScript("scripts/javexpress/jexpUICore-0.1.js");
 		injectLibrary(wb, onload);
+	}
+
+	protected void addBootstrapStyleSheet(WidgetBundles wb) {
+		wb.addStyleSheet("scripts/bootstrap/bootstrap-3.3.6.min.css");
 	}
 
 	protected WidgetBundles createUIBundles() {
