@@ -80,7 +80,7 @@ function JexpLinkFormatter(row, cell, value, columnDef, data) {
 		icon = columnDef.iconModifier.call(this,columnDef,value,data);
 	if (!icon)
 		icon = columnDef.linkIconClass?columnDef.linkIconClass+" ":"";
-	return "<span class=\""+icon+" ui-cursor-hand\" title=\""+(columnDef.linkTitle?columnDef.linkTitle:"")+"\" onclick=\"$('#"+columnDef.linkOwner+"').trigger('linkclicked'," +
+	return "<span class=\""+icon+" ui-cursor-hand jexpDataGridLinkItem\" title=\""+(columnDef.linkTitle?columnDef.linkTitle:"")+"\" onclick=\"$('#"+columnDef.linkOwner+"').trigger('linkclicked'," +
 			"[$(this),"+row+","+cell+",'"+columnDef.field+"',"+columnDef.columnKey+",'"+value+"']);return false;\">"+(columnDef.linkText?columnDef.linkText:"")+"</span>";
 }
 //--AGGREGATE FORMATTERS

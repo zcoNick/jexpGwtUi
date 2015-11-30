@@ -2,6 +2,8 @@
 .slick-header-column.ui-state-default{ color: #777777 }
 .slick-viewport .grid-canvas > .odd { background-color: #FDFDFD;opacity: 0.8; }
 .slick-viewport .grid-canvas > .even { opacity: 0.99; }
+.jexpSlickGridContainer .jexpDataGridLinkItem { color: #00CED1; }
+.jexpSlickGridContainer .jexpDataGridLinkItem:hover { color: #8470ff; }
 .jexpSlickGridContainer div{
 	-webkit-box-sizing: content-box;
 	-moz-box-sizing: content-box;

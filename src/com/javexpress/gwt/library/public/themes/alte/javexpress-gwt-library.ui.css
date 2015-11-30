@@ -1,10 +1,9 @@
-body {
-	font-family: Helvetica,Arial,sans-serif;
-	font-size:13px;
-}
+body { font-family: Helvetica,Arial,sans-serif; font-size:13px; }
+.no-padding-right { padding-right: 0 !important; }
 .login-logo, .register-logo { font-size: 35px;font-weight: 400; }
 .login-box-body { border-bottom: 1px solid rgba(50, 50, 50, 0.33);box-shadow: 0 0 8px 3px rgba(0, 0, 0, 0.17);padding-bottom:6px; }
 .login-borderTop { border-top:1px solid #D2D6DE;padding-top:6px; }
+.light-login { background: none repeat scroll 0 0 #DFE0E2 }
 .content-wrapper, .right-side { background-color: #FDFDFD; }
 .main-header { z-index: 1; }
 .main-header .logo { font-weight:400; }
@@ -39,3 +38,32 @@ label { font-weight: 400; }
 .jexp-ui-window { font-size: 0.9em; }
 .widget-header > .widget-title > .alte-icon { display: inline-block; font-weight: 400; margin-right: 5px; }
 .btn { font-size:1em; }
+.gritter-light .gritter-item { background-color:#ffffff;background:-moz-radial-gradient(50% 75%,circle,#ffffff,#EFF3F8);background:-webkit-radial-gradient(50% 75%,circle,#ffffff,#EFF3F8);background:-o-radial-gradient(50% 75%,circle,#ffffff,#EFF3F8);background:-ms-radial-gradient(50% 75%,circle,#ffffff,#EFF3F8);background:radial-gradient(50% 75%,circle,#ffffff,#EFF3F8);
+	-moz-box-shadow: 0 0 12px 4px #888;-webkit-box-shadow: 0 0 10px 4px #888;box-shadow: 0 0 10px 4px #888;
+}
+.ui-autocomplete { background-color: #FFFFFF;
+    border: 1px solid rgba(0, 0, 0, 0.2);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2); }
+.ui-menu {
+    -moz-box-sizing: content-box;
+    background-color: #FFFFFF;
+    border: 1px solid rgba(0, 0, 0, 0.2);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+    padding: 0px;
+    width: 150px;
+}
+.ui-menu .ui-menu-item {
+    -moz-box-sizing: inherit;
+    color: #444444;
+    cursor: pointer;
+    display: block;
+    padding: 3px 5px 3px;
+    font-size:0.9em;
+}    
+.ui-menu .ui-menu-item:hover, .ui-menu .ui-state-focus, .ui-menu .ui-state-active, .ui-menu .ui-menu-item:hover > .ui-menu-icon, .ui-menu .ui-state-focus > .ui-menu-icon, .ui-menu .ui-state-active > .ui-menu-icon {
+    background-color: #4F99C6;
+    color: #FFFFFF;
+    font-weight: 500;
+    margin: auto;
+    text-decoration: none;
+}

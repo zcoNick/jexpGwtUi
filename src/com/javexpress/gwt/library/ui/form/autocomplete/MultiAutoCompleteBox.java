@@ -316,6 +316,7 @@ public class MultiAutoCompleteBox extends AbstractContainer implements IUserInpu
 	private void fireOnRemove(final String id, boolean userAction) throws Exception {
 		if (listener != null)
 			listener.itemRemoved(id, userAction);
+		input.focus();
 	}
 
 	private void fireOnAdd(final String id, JsonMap data, boolean userSelected) {
