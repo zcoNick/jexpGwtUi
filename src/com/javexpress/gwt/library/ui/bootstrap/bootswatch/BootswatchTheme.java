@@ -9,6 +9,11 @@ import com.javexpress.gwt.library.ui.js.WidgetBundles;
 public abstract class BootswatchTheme extends BootstrapTheme {
 
 	@Override
+	public String getFontIconPrefixClass() {
+		return "bootswatch-icon";
+	}
+
+	@Override
 	public void applyIconInputGroupStyles(Element element, Element input, Element icon, ICssIcon iconClass) {
 	}
 

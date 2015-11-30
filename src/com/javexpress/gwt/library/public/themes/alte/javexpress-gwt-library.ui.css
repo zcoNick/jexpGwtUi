@@ -1,6 +1,11 @@
+body {
+	font-family: Helvetica,Arial,sans-serif;
+	font-size:13px;
+}
 .login-logo, .register-logo { font-size: 35px;font-weight: 400; }
-.login-box-body { border-bottom: 1px solid rgba(50, 50, 50, 0.33);box-shadow: 0 0 8px 3px rgba(0, 0, 0, 0.17); }
-.login-borderTop { border-top:1px solid #D2D6DE; }
+.login-box-body { border-bottom: 1px solid rgba(50, 50, 50, 0.33);box-shadow: 0 0 8px 3px rgba(0, 0, 0, 0.17);padding-bottom:6px; }
+.login-borderTop { border-top:1px solid #D2D6DE;padding-top:6px; }
+.content-wrapper, .right-side { background-color: #FDFDFD; }
 .main-header { z-index: 1; }
 .main-header .logo { font-weight:400; }
 .user.user-menu > a { padding: 2px 20px 2px 20px; }
@@ -26,7 +31,6 @@
 .content-header > .breadcrumb { top:0;right:23px;font-size:11px; }
 .widget-header>.widget-title { line-height: 36px;padding: 0;margin: 0;display: inline; font-size: 1.2em; }
 .widget-toolbar { display: inline-block;float: right;line-height: 37px;padding: 0 10px;position: relative; }
-.form-control-feedback { top:9px; }
 .btn {padding: 5px 4px;}
 .btn-sm > .alte-icon { margin-right: 3px; }
 .btn > .alte-icon { margin-right: 4px; }
@@ -34,3 +38,4 @@
 label { font-weight: 400; }
 .jexp-ui-window { font-size: 0.9em; }
 .widget-header > .widget-title > .alte-icon { display: inline-block; font-weight: 400; margin-right: 5px; }
+.btn { font-size:1em; }

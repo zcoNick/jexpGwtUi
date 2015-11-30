@@ -29,7 +29,7 @@ public class ApplicationNavBarAlte extends ApplicationNavBar {
 	}
 
 	private native void createByJs(ApplicationNavBarAlte x, Element element) /*-{
-		$wnd.$("a.navbar-link", $wnd.$(element)).click(
+		$wnd.$("a.navbar-link", $wnd.$(element)).off().click(
 				function(e) {
 					var a = $wnd.$(this);
 					x.@com.javexpress.gwt.library.ui.bootstrap.alte.ApplicationNavBarAlte::fireLinkClicked(Ljava/lang/String;)(a.attr("path"));
@@ -38,7 +38,7 @@ public class ApplicationNavBarAlte extends ApplicationNavBar {
 
 	@Override
 	public NavBarItem createNavBarItem(String id, String path) {
-		return new NavBarItemAlte(this, id, path);
+		return new NavBarItemAlte(this, id, path, false);
 	}
 
 }

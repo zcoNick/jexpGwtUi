@@ -74,15 +74,20 @@ public class AlteStdTheme extends BootstrapAdminTheme {
 	}
 
 	@Override
+	public String getFontIconPrefixClass() {
+		return "alte-icon";
+	}
+
+	@Override
 	public void applyIconInputGroupStyles(Element element, Element input, Element icon, ICssIcon iconClass) {
 		element.setClassName("form-group has-feedback");
 		input.setClassName("form-control");
-		icon.setClassName("alte-icon " + (iconClass != null ? iconClass.getCssClass() : "") + " form-control-feedback");
+		icon.setClassName(getFontIconPrefixClass() + " " + (iconClass != null ? iconClass.getCssClass() : "") + " form-control-feedback");
 	}
 
 	@Override
 	public void applyIconStyles(Element iconSpan, ICssIcon iconClass) {
-		iconSpan.addClassName("alte-icon " + (iconClass != null ? iconClass.getCssClass() : ""));
+		iconSpan.addClassName(getFontIconPrefixClass() + " " + (iconClass != null ? iconClass.getCssClass() : ""));
 	}
 
 	protected SideBarItem addSideBarItem(String id, String path, String text, String icon) {

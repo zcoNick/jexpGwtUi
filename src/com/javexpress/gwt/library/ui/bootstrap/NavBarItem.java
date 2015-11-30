@@ -17,6 +17,7 @@ public abstract class NavBarItem extends AbstractContainer {
 	protected String		iconClass;
 	protected String		path;
 	protected String		bpmnCode;
+	private boolean			subItem;
 
 	public IMenuHandler getHandler() {
 		return handler;
@@ -26,9 +27,14 @@ public abstract class NavBarItem extends AbstractContainer {
 		this.handler = handler;
 	}
 
-	public NavBarItem(Widget navBar, String id, String path) {
+	public boolean isSubItem() {
+		return subItem;
+	}
+
+	public NavBarItem(Widget navBar, String id, String path, boolean subItem) {
 		super(DOM.createElement("li"));
 		this.path = path;
+		this.subItem = subItem;
 		JsUtil.ensureId(navBar, this, WidgetConst.NAVBARITEM, id);
 	}
 

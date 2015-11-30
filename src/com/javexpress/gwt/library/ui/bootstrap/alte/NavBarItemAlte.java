@@ -10,11 +10,11 @@ public class NavBarItemAlte extends NavBarItem {
 	private Element	anchor;
 	private Element	textEl;
 
-	public NavBarItemAlte(Widget navBar, String id, String path) {
-		super(navBar, id, path);
+	public NavBarItemAlte(Widget navBar, String id, String path, boolean subItem) {
+		super(navBar, id, path, subItem);
 		addStyleName("jexpNavBarItem");
 		anchor = DOM.createAnchor();
-		anchor.setAttribute("href", "#" + path);
+		anchor.setAttribute("href", "#" + (path != null ? path : ""));
 		getElement().appendChild(anchor);
 	}
 
@@ -35,6 +35,8 @@ public class NavBarItemAlte extends NavBarItem {
 			Element b1 = DOM.createElement("span");
 			b1.setClassName("caret");
 			anchor.appendChild(b1);
+			if (isSubItem())
+				getElement().addClassName(isSubItem() ? "dropdown-submenu" : "dropdown-menu");
 		} else {
 			anchor.setClassName("navbar-link");
 			if (path != null)
@@ -47,11 +49,12 @@ public class NavBarItemAlte extends NavBarItem {
 
 	@Override
 	public NavBarItem createSubItem(String id, String path) {
-		NavBarItem nbi = new NavBarItemAlte(this, id, path);
+		NavBarItem nbi = new NavBarItemAlte(this, id, path, true);
 		if (ul == null) {
 			ul = DOM.createElement("ul");
 			ul.setClassName("dropdown-menu");
 			ul.setAttribute("role", "menu");
+			getElement().addClassName("dropdown");
 			getElement().appendChild(ul);
 		}
 		add(nbi, ul);

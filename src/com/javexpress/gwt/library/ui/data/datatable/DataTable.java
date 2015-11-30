@@ -2,6 +2,7 @@ package com.javexpress.gwt.library.ui.data.datatable;
 
 import java.io.Serializable;
 
+import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.user.cellview.client.Column;
 import com.google.gwt.user.cellview.client.DataGrid;
 import com.google.gwt.user.cellview.client.HasKeyboardSelectionPolicy.KeyboardSelectionPolicy;
@@ -82,6 +83,18 @@ public class DataTable<T extends Serializable> extends JexpSimplePanel implement
 		grid = null;
 		keyProvider = null;
 		super.onUnload();
+	}
+
+	public void setColumnWidth(Column<T, ?> col, String width) {
+		if (width == null)
+			return;
+		if (width.endsWith("px"))
+			grid.setColumnWidth(col, Double.valueOf(width.replaceFirst("px", "")), Unit.PX);
+		if (width.endsWith("em"))
+			grid.setColumnWidth(col, Double.valueOf(width.replaceFirst("em", "")), Unit.EM);
+		if (width.endsWith("%"))
+			grid.setColumnWidth(col, Double.valueOf(width.replaceFirst("%", "")), Unit.PCT);
+
 	}
 
 }

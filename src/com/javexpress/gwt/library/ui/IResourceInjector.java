@@ -14,6 +14,8 @@ public interface IResourceInjector {
 
 	void injectUI(String applicationCss, Command onload) throws Exception;
 
+	String getFontIconPrefixClass();
+
 	void applyIconInputGroupStyles(Element element, Element input, Element icon, ICssIcon iconClass);
 
 	void applyIconStyles(Element iconSpan, ICssIcon iconClass);

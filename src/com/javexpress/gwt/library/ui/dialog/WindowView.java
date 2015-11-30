@@ -200,7 +200,7 @@ public class WindowView extends AbstractContainerFocusable implements IUIComposi
 			helpSpan = DOM.createAnchor();
 			helpSpan.setId(windowDiv.getId() + "_help");
 			helpSpan.addClassName("jexpWindowToolItem ub_" + windowDiv.getId());
-			helpSpan.setInnerHTML("<i class='ace-icon fa fa-question'></i>");
+			helpSpan.setInnerHTML("<i class='" + ClientContext.resourceInjector.getFontIconPrefixClass() + " fa fa-question'></i>");
 			helpSpan.setTitle(ClientContext.nlsCommon.yardim());
 			tools.appendChild(helpSpan);
 		}
@@ -208,7 +208,7 @@ public class WindowView extends AbstractContainerFocusable implements IUIComposi
 		btClose = DOM.createAnchor();
 		btClose.setId(windowDiv.getId() + "_close");
 		btClose.addClassName("ub_" + windowDiv.getId());
-		btClose.setInnerHTML("<i class='ace-icon fa fa-times'></i>");
+		btClose.setInnerHTML("<i class='" + ClientContext.resourceInjector.getFontIconPrefixClass() + " fa fa-times'></i>");
 		btClose.setTitle(ClientContext.nlsCommon.kapat());
 		tools.appendChild(btClose);
 
@@ -223,7 +223,7 @@ public class WindowView extends AbstractContainerFocusable implements IUIComposi
 			headerDiv.appendChild(headerEl);
 		}
 		if (icon != null)
-			header = "<i class='ace-icon " + icon.getCssClass() + "'></i>" + header;
+			header = "<i class='" + ClientContext.resourceInjector.getFontIconPrefixClass() + " " + icon.getCssClass() + "'></i>" + header;
 		headerEl.setInnerHTML(header);
 	}
 

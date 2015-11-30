@@ -14,7 +14,6 @@ public class ApplicationHeaderPanelAlte extends ApplicationHeaderPanel {
 	private Element					brand;
 	private Element					navRightUl;
 	private ApplicationNavBarAlte	navbar;
-	private Element					navDiv;
 
 	public ApplicationHeaderPanelAlte(String id) {
 		super(DOM.createElement("header"), id);
@@ -74,6 +73,14 @@ public class ApplicationHeaderPanelAlte extends ApplicationHeaderPanel {
 	public ApplicationNavBarAlte createNavBar() {
 		navbar = new ApplicationNavBarAlte("navbar");
 		return navbar;
+	}
+
+	@Override
+	protected void onUnload() {
+		brand = null;
+		navRightUl = null;
+		navbar = null;
+		super.onUnload();
 	}
 
 }

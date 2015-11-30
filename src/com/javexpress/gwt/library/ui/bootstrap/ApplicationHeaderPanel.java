@@ -30,4 +30,10 @@ public abstract class ApplicationHeaderPanel extends AbstractContainer {
 		add(navbar, navDiv);
 	}
 
+	@Override
+	protected void onUnload() {
+		navDiv = null;
+		super.onUnload();
+	}
+
 }
