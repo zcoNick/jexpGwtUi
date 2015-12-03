@@ -42,7 +42,7 @@ public class ApplicationHeaderPanelAlte extends ApplicationHeaderPanel {
 		navDiv.setId("navbar-collapse");
 
 		navRightUl = DOM.createElement("ul");
-		navRightUl.setClassName("nav navbar-nav navbar-right");
+		navRightUl.setClassName("nav navbar-nav navbar-right jexpNavbarNotifications");
 		navRightUl.getStyle().setCursor(Cursor.POINTER);
 		navDiv.appendChild(navRightUl);
 

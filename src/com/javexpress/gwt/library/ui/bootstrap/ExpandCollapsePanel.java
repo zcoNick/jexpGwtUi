@@ -105,14 +105,8 @@ public class ExpandCollapsePanel extends AbstractContainerFocusable implements I
 			toolDiv.insertBefore(a, elCollapse);
 		else
 			toolDiv.appendChild(a);
-		bindOnClick(a, command);
+		JsUtil.bindClick(a, command);
 	}
-
-	private native void bindOnClick(Element el, Command command) /*-{
-		$wnd.$(el).click(function() {
-			command.@com.google.gwt.user.client.Command::execute()();
-		});
-	}-*/;
 
 	@Override
 	protected void onLoad() {

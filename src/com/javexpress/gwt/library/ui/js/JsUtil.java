@@ -782,9 +782,11 @@ public class JsUtil {
 		$wnd.$(el).centerInWindow();
 	}-*/;
 
-	public static void bindClick(final Element el, final Command execute) {
-		bindClick(JsUtil.ensureId(el), execute);
-	}
+	public static native void bindClick(final Element el, final Command execute) /*-{
+		$wnd.$(el).click(function() {
+			execute.@com.google.gwt.user.client.Command::execute()();
+		});
+	}-*/;
 
 	public static native void bindClick(String id, Command execute) /*-{
 		$wnd.$("#" + id).click(function() {

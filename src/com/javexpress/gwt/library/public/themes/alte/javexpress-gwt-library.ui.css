@@ -20,6 +20,10 @@ body { font-family: Helvetica,Arial,sans-serif; font-size:13px; }
 .content-wrapper, .right-side { background-color: #FDFDFD; }
 .main-header { z-index: 1; }
 .main-header .logo { font-weight:400; }
+.jexpNavbarNotifications > li { border-left: 1px solid #E1E1E1; }
+.jexpNavbarNotifications > li:first-child { border-left-width: 0; }
+.jexpNavbarNotifications > li > a { background-color: #2E6589;color: #FFFFFF; }
+.jexpNavbarNotifications > li.grey > a { background-color: #555555; }
 .user.user-menu > a { padding: 2px 20px 2px 20px; }
 .breadcrumb { background-color:transparent;margin-bottom:0; }
 .sidebar { font-size:13px; }

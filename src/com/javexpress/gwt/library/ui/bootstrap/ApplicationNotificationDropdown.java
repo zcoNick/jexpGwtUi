@@ -12,6 +12,7 @@ public abstract class ApplicationNotificationDropdown extends AbstractContainer 
 	protected Element	icon;
 	protected Element	badge;
 	private Element		dropdown;
+	protected Element	header, footer;
 	private String		badgeClass;
 
 	public ApplicationNotificationDropdown(String id, WContext styleName, ICssIcon iconClass, String ulClass, String badgeClass) {
@@ -60,7 +61,13 @@ public abstract class ApplicationNotificationDropdown extends AbstractContainer 
 		icon = null;
 		badge = null;
 		dropdown = null;
+		header = null;
+		footer = null;
 		super.onUnload();
 	}
+
+	public abstract void setHeader(ICssIcon icon, String text);
+
+	public abstract void setFooter(ICssIcon icon, String text);
 
 }

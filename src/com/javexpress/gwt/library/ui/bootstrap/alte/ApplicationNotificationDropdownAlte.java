@@ -1,5 +1,6 @@
 package com.javexpress.gwt.library.ui.bootstrap.alte;
 
+import com.google.gwt.user.client.DOM;
 import com.javexpress.gwt.library.ui.ICssIcon;
 import com.javexpress.gwt.library.ui.bootstrap.ApplicationNotificationDropdown;
 import com.javexpress.gwt.library.ui.bootstrap.Bootstrap.WContext;
@@ -8,7 +9,8 @@ public class ApplicationNotificationDropdownAlte extends ApplicationNotification
 
 	public ApplicationNotificationDropdownAlte(String id, WContext styleName, ICssIcon iconClass) {
 		super(id, styleName, iconClass, "dropdown-menu", "label");
-		/*<li class="dropdown messages-menu">
+		/*
+		<li class="dropdown messages-menu">
 		<a href="#" class="dropdown-toggle" data-toggle="dropdown">
 		  <i class="fa fa-envelope-o"></i>
 		  <span class="label label-success">4</span>
@@ -35,12 +37,33 @@ public class ApplicationNotificationDropdownAlte extends ApplicationNotification
 		  </li>
 		  <li class="footer"><a href="#">See All Messages</a></li>
 		</ul>
-		</li>*/
+		</li>
+		*/
 	}
 
 	@Override
 	public void setIcon(ICssIcon iconClass) {
 		icon.setClassName(iconClass.getCssClass());
+	}
+
+	@Override
+	public void setHeader(ICssIcon icon, String text) {
+		if (header == null) {
+			header = DOM.createElement("li");
+			header.setClassName("header");
+			getElement().appendChild(header);
+		}
+		header.setInnerHTML(text);
+	}
+
+	@Override
+	public void setFooter(ICssIcon icon, String text) {
+		if (footer == null) {
+			footer = DOM.createElement("li");
+			footer.setClassName("footer");
+			getElement().appendChild(footer);
+		}
+		footer.setInnerHTML("<a href=\"#messages\">" + text + "</a>");
 	}
 
 }
