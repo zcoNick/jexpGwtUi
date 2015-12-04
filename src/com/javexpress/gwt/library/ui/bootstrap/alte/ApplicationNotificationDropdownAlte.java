@@ -5,40 +5,26 @@ import com.javexpress.gwt.library.ui.ICssIcon;
 import com.javexpress.gwt.library.ui.bootstrap.ApplicationNotificationDropdown;
 import com.javexpress.gwt.library.ui.bootstrap.Bootstrap.WContext;
 
-public class ApplicationNotificationDropdownAlte extends ApplicationNotificationDropdown {
+public class ApplicationNotificationDropdownAlte extends
+		ApplicationNotificationDropdown {
 
-	public ApplicationNotificationDropdownAlte(String id, WContext styleName, ICssIcon iconClass) {
+	public ApplicationNotificationDropdownAlte(String id, WContext styleName,
+			ICssIcon iconClass) {
 		super(id, styleName, iconClass, "dropdown-menu", "label");
 		/*
-		<li class="dropdown messages-menu">
-		<a href="#" class="dropdown-toggle" data-toggle="dropdown">
-		  <i class="fa fa-envelope-o"></i>
-		  <span class="label label-success">4</span>
-		</a>
-		<ul class="dropdown-menu">
-		  <li class="header">You have 4 messages</li>
-		  <li>
-		    <!-- inner menu: contains the actual data -->
-		    <ul class="menu">
-		      <li><!-- start message -->
-		        <a href="#">
-		          <div class="pull-left">
-		            <img src="dist/img/user2-160x160.jpg" class="img-circle" alt="User Image"/>
-		          </div>
-		          <h4>
-		            Sender Name
-		            <small><i class="fa fa-clock-o"></i> 5 mins</small>
-		          </h4>
-		          <p>Message Excerpt</p>
-		        </a>
-		      </li><!-- end message -->
-		      ...
-		    </ul>
-		  </li>
-		  <li class="footer"><a href="#">See All Messages</a></li>
-		</ul>
-		</li>
-		*/
+		 * <li class="dropdown messages-menu"> <a href="#"
+		 * class="dropdown-toggle" data-toggle="dropdown"> <i
+		 * class="fa fa-envelope-o"></i> <span
+		 * class="label label-success">4</span> </a> <ul class="dropdown-menu">
+		 * <li class="header">You have 4 messages</li> <li> <!-- inner menu:
+		 * contains the actual data --> <ul class="menu"> <li><!-- start message
+		 * --> <a href="#"> <div class="pull-left"> <img
+		 * src="dist/img/user2-160x160.jpg" class="img-circle"
+		 * alt="User Image"/> </div> <h4> Sender Name <small><i
+		 * class="fa fa-clock-o"></i> 5 mins</small> </h4> <p>Message
+		 * Excerpt</p> </a> </li><!-- end message --> ... </ul> </li> <li
+		 * class="footer"><a href="#">See All Messages</a></li> </ul> </li>
+		 */
 	}
 
 	@Override
@@ -51,7 +37,7 @@ public class ApplicationNotificationDropdownAlte extends ApplicationNotification
 		if (header == null) {
 			header = DOM.createElement("li");
 			header.setClassName("header");
-			getElement().appendChild(header);
+			dropdown.appendChild(header);
 		}
 		header.setInnerHTML(text);
 	}
@@ -61,7 +47,7 @@ public class ApplicationNotificationDropdownAlte extends ApplicationNotification
 		if (footer == null) {
 			footer = DOM.createElement("li");
 			footer.setClassName("footer");
-			getElement().appendChild(footer);
+			dropdown.appendChild(footer);
 		}
 		footer.setInnerHTML("<a href=\"#messages\">" + text + "</a>");
 	}

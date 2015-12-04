@@ -8,14 +8,15 @@ import com.javexpress.gwt.library.ui.bootstrap.Bootstrap.WContext;
 
 public abstract class ApplicationNotificationDropdown extends AbstractContainer {
 
-	protected Element	anchor;
-	protected Element	icon;
-	protected Element	badge;
-	private Element		dropdown;
-	protected Element	header, footer;
-	private String		badgeClass;
+	protected Element anchor;
+	protected Element icon;
+	protected Element badge;
+	protected Element dropdown;
+	protected Element header, footer;
+	private String badgeClass;
 
-	public ApplicationNotificationDropdown(String id, WContext styleName, ICssIcon iconClass, String ulClass, String badgeClass) {
+	public ApplicationNotificationDropdown(String id, WContext styleName,
+			ICssIcon iconClass, String ulClass, String badgeClass) {
 		super(DOM.createElement("li"));
 		if (styleName != null)
 			getElement().setClassName(styleName.getValue());
@@ -50,7 +51,8 @@ public abstract class ApplicationNotificationDropdown extends AbstractContainer 
 		if (value == null)
 			return;
 		badge = DOM.createSpan();
-		badge.setClassName(badgeClass + " " + badgeClass + "-" + context.getValue());
+		badge.setClassName(badgeClass + " " + badgeClass + "-"
+				+ context.getValue());
 		badge.setInnerHTML(value);
 		anchor.appendChild(badge);
 	}
