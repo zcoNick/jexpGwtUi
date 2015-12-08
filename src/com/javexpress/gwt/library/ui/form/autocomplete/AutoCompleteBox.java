@@ -126,7 +126,7 @@ public class AutoCompleteBox<V extends Serializable> extends BaseWrappedInput<St
 				.on(
 						"blur",
 						function() {
-							if (el.attr("v") == "''") {
+							if (el.attr("v") == "''" || el.val().trim() == "") {
 								el.attr("v", "");
 								el.val(null);
 								el.effect("highlight");
