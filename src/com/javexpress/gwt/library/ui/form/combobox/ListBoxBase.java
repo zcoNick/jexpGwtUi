@@ -28,6 +28,7 @@ public abstract class ListBoxBase extends ListBox implements IUserInputWidget<St
 	private boolean								required;
 	private IItemsChangeHandler					itemsChangeHandler;
 	private boolean								valueChangeHandlerInitialized;
+	private boolean								useEmptyItem	= true;
 
 	public IItemsChangeHandler getItemsChangeHandler() {
 		return itemsChangeHandler;
@@ -35,6 +36,14 @@ public abstract class ListBoxBase extends ListBox implements IUserInputWidget<St
 
 	public void setItemsChangeHandler(IItemsChangeHandler itemsChangeHandler) {
 		this.itemsChangeHandler = itemsChangeHandler;
+	}
+
+	public boolean isUseEmptyItem() {
+		return useEmptyItem;
+	}
+
+	public void setUseEmptyItem(boolean useEmptyItem) {
+		this.useEmptyItem = useEmptyItem;
 	}
 
 	@Override
@@ -137,7 +146,8 @@ public abstract class ListBoxBase extends ListBox implements IUserInputWidget<St
 		if (dataMap != null)
 			dataMap.clear();
 		dataMap = null;
-		addItem("", "");
+		if (useEmptyItem)
+			addItem("", "");
 	}
 
 	public void addItem(final Serializable label, final Serializable value) {
