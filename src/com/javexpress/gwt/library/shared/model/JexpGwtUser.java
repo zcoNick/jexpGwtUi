@@ -194,6 +194,12 @@ public class JexpGwtUser implements Serializable {
 		return new BigDecimal(text);
 	}
 
+	public static String formatNumber(final Number cand) {
+		NumberFormat nf = NumberFormat.getFormat("###,##0");
+		String s = nf.format(cand);
+		return s;
+	}
+
 	public static String formatDecimal(final BigDecimal cand) {
 		NumberFormat nf = NumberFormat.getFormat("###,##0.00");
 		String s = nf.format(cand);
