@@ -2,6 +2,7 @@ package com.javexpress.gwt.library.ui.bootstrap;
 
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.dom.client.Style.Display;
+import com.google.gwt.dom.client.Style.Overflow;
 import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.user.client.Command;
 import com.google.gwt.user.client.DOM;
@@ -204,11 +205,20 @@ public class WidgetBox extends AbstractContainerFocusable implements ISizeAwareW
 	}-*/;
 
 	public void setMinHeight(String value) {
-		getElement().getStyle().setProperty("minHeight", value);
+		bodyDiv.getStyle().setProperty("minHeight", value);
+	}
+
+	@Override
+	public void setHeight(String value) {
+		bodyDiv.getStyle().setProperty("height", value);
 	}
 
 	public void setMaxHeight(String value) {
-		getElement().getStyle().setProperty("maxHeight", value);
+		bodyDiv.getStyle().setProperty("maxHeight", value);
+	}
+
+	public void setOverflow(Overflow value) {
+		bodyDiv.getStyle().setOverflow(value);
 	}
 
 }
