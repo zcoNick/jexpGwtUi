@@ -7,14 +7,8 @@ import com.google.gwt.core.client.JsArray;
 import com.google.gwt.user.client.ui.Widget;
 import com.javexpress.gwt.library.shared.model.WidgetConst;
 import com.javexpress.gwt.library.ui.js.JsUtil;
-import com.javexpress.gwt.library.ui.js.WidgetBundles;
 
 public class PieChart extends JqPlotPanel {
-
-	public static void fillResources(WidgetBundles wb) {
-		wb.addJavaScript("scripts/jqplot/jqplot.pieRenderer.min.js");
-		wb.addJavaScript("scripts/jqplot/jqplot.categoryAxisRenderer.min.js");
-	}
 
 	private JavaScriptObject		widget;
 	private IJqPlotMapDataSupplier	dataSupplier;

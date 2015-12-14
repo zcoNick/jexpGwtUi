@@ -7,15 +7,8 @@ import com.google.gwt.core.client.JsArray;
 import com.google.gwt.user.client.ui.Widget;
 import com.javexpress.gwt.library.shared.model.WidgetConst;
 import com.javexpress.gwt.library.ui.js.JsUtil;
-import com.javexpress.gwt.library.ui.js.WidgetBundles;
 
 public class BarChart extends JqPlotPanel {
-
-	public static void fillResources(WidgetBundles wb) {
-		wb.addStyleSheet("scripts/jqplot/jquery.jqplot.min.css");
-		wb.addJavaScript("scripts/jqplot/jquery.jqplot.min.js");
-		wb.addJavaScript("scripts/jqplot/jqplot.barRenderer.min.js");
-	}
 
 	private JavaScriptObject		widget;
 	private IJqPlotMapDataSupplier	dataSupplier;
