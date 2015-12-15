@@ -195,4 +195,8 @@ public class LabelControlCell extends FormGroupCell {
 		super.onUnload();
 	}
 
+	public void setLabelStyleNames(String styleNames) {
+		labelEl.setClassName(styleNames);
+	}
+
 }

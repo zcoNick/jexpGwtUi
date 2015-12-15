@@ -38,6 +38,7 @@ public class WidgetConst {
 	public static final String	FILTERPANELITEM_PREFIX		= "fpi";
 	public static final String	GLASSPANEL_PREFIX			= "gp";
 	public static final String	GRITTER_PREFIX				= "gr";
+	public static final String	HEADING_PREFIX				= "hd";
 	public static final String	IMAGE_PREFIX				= "im";
 	public static final String	IMAGEWITHWEBCAM_PREFIX		= "imw";
 	public static final String	JIRADIALOG_PREFIX			= "jira";
@@ -85,6 +86,7 @@ public class WidgetConst {
 	public static final String	TREE_PREFIX					= "tr";
 	public static final String	TREETABLE_PREFIX			= "tt";
 	public static final String	WEBCAM_PREFIX				= "wc";
+	public static final String	WELL_PREFIX					= "wl";
 	public static final String	WINDOWPREFIX				= "wnd";
 	public static final String	WIZARDPAGE_PREFIX			= "wp";
 	public static final String	WORKFLOWDESIGNER_PREFIX		= "wfd";
