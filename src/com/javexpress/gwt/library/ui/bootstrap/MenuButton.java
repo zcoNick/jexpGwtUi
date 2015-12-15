@@ -156,10 +156,10 @@ public class MenuButton extends ComplexPanel {
 		clazz += " btn";
 		if (wsize != null) {
 			switch (wsize) {
-				case Small:
+				case small:
 					clazz += " btn-sm";
 					break;
-				case Large:
+				case large:
 					clazz += " btn-lg";
 					break;
 			}

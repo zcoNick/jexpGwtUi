@@ -9,7 +9,7 @@ import com.javexpress.gwt.library.ui.js.JsUtil;
 
 public class WellPanel extends AbstractContainer {
 
-	private WSize	size	= WSize.Normal;
+	private WSize	size	= WSize.normal;
 
 	public WellPanel(Widget parent, String id) {
 		super(DOM.createDiv());
@@ -28,10 +28,10 @@ public class WellPanel extends AbstractContainer {
 	@Override
 	protected void onLoad() {
 		switch (size) {
-			case Small:
+			case small:
 				addStyleName("well-small");
 				break;
-			case Large:
+			case large:
 				addStyleName("well-large");
 				break;
 		}

@@ -13,7 +13,7 @@ public class Bootstrap {
 	}
 
 	public static enum WSize {
-		Small, Normal, Large
+		small, normal, large
 	}
 
 	public static enum WPull {
