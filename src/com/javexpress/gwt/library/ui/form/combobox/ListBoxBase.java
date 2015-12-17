@@ -157,18 +157,22 @@ public abstract class ListBoxBase extends ListBox implements IUserInputWidget<St
 	@Override
 	public void setKeyValueDataItems(JSONObject itm) {
 		clear();
+		String currentValue = getValue();
 		if (itm != null) {
 			for (String lb : itm.keySet()) {
 				JSONArray arr = itm.get(lb).isArray();//0-Value,1-Data,2-Path
 				String data = JsUtil.asString(arr.get(1));
 				String path = JsUtil.asString(arr.get(2));
 				String hint = JsUtil.asString(arr.get(3));
+				String itemVal = JsUtil.asString(arr.get(0));
 				if (path != null) {
-					addItem(JsUtil.repeat("-", (path.split("\\.").length - 1) * 2) + lb, JsUtil.asString(arr.get(0)), data, hint);
+					addItem((JsUtil.isNotEmpty(path) ? JsUtil.repeat("-", (path.split("\\.").length - 1) * 2) : "") + lb, itemVal, data, hint);
 				} else
-					addItem(lb, JsUtil.asString(arr.get(0)), data, hint);
+					addItem(lb, itemVal, data, hint);
 			}
 		}
+		if (JsUtil.isNotEmpty(currentValue))
+			setValue(currentValue, false);
 		onItemListChanged();
 	}
 
