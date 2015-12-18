@@ -3,6 +3,7 @@ package com.javexpress.gwt.library.ui.form.combobox;
 import java.io.Serializable;
 import java.util.List;
 
+import com.google.gwt.core.shared.GWT;
 import com.google.gwt.event.logical.shared.ValueChangeEvent;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Widget;
@@ -132,6 +133,7 @@ public class ComboBox extends ListBoxBase implements AsyncCallback<List<? extend
 				setSelectedIndex(i);
 				lazyValue = null;
 				lazyFire = false;
+				GWT.log(getElement().getId() + " lazy cleared " + i + " : " + value);
 				break;
 			}
 		}
