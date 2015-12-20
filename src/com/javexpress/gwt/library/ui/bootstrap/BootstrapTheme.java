@@ -22,7 +22,7 @@ import com.javexpress.gwt.library.ui.js.WidgetBundles;
 
 public abstract class BootstrapTheme extends BaseResourceInjector {
 
-	private IThemeNavigationHandler	navHandler;
+	private IThemeNavigationHandler navHandler;
 
 	public IThemeNavigationHandler getNavHandler() {
 		return navHandler;
@@ -86,6 +86,7 @@ public abstract class BootstrapTheme extends BaseResourceInjector {
 		MaskEditBox.fillResources(jexp);
 		DecimalBox.fillResources(jexp);
 
+		jexp = MultiSelectBox.fillResources(jexp);
 		jexp = JqGrid.fillResources(jexp);
 		jexp = DataGrid.fillResources(jexp);
 		jexp = DropZone.fillResources(jexp);

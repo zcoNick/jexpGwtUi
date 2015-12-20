@@ -304,7 +304,8 @@ public interface CommonResources extends ConstantsWithLookup {
 	/** Tarayıcı sürükle & bırak dosya yükleme desteklemiyor */
 	String dpzFallbackMessage();
 
-	/** Aşağıdaki formu eski günlerdeki gibi dosyaları yüklemek için kullanın. */
+	/** Aşağıdaki formu eski günlerdeki gibi dosyaları yüklemek için
+	 * kullanın. */
 	String dpzFallbackText();
 
 	/** Dosya boyutu izin verilenden fazla */
@@ -662,6 +663,9 @@ public interface CommonResources extends ConstantsWithLookup {
 
 	/** Seçenekler */
 	String secenekler();
+
+	/** seçili */
+	String secili();
 
 	/** Seçiniz... */
 	String seciniz();

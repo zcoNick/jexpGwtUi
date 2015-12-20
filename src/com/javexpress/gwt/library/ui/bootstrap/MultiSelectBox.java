@@ -21,12 +21,15 @@ import com.javexpress.gwt.library.ui.data.DataBindingHandler;
 import com.javexpress.gwt.library.ui.form.combobox.ListBoxBase;
 import com.javexpress.gwt.library.ui.js.JsUtil;
 import com.javexpress.gwt.library.ui.js.JsonMap;
+import com.javexpress.gwt.library.ui.js.WidgetBundles;
 
 public class MultiSelectBox extends ListBoxBase {
 
-	public static void fillResources(final List<String> styleSheets, final List<String> javaScripts) {
-		styleSheets.add("scripts/multiselect/bootstrap-multiselect.css");
-		javaScripts.add("scripts/multiselect/bootstrap-multiselect.js");
+	public static WidgetBundles fillResources(WidgetBundles parent) {
+		WidgetBundles jexp = new WidgetBundles("Bootstrap MultiSelect", parent);
+		jexp.addStyleSheet("scripts/multiselect/bootstrap-multiselect.min.css");
+		jexp.addJavaScript("scripts/multiselect/bootstrap-multiselect.min.js");
+		return jexp;
 	}
 
 	private List<String>		lazyValues;
@@ -35,6 +38,7 @@ public class MultiSelectBox extends ListBoxBase {
 
 	public MultiSelectBox(Widget parent, String id) {
 		super(true);
+		setUseEmptyItem(false);
 		JsUtil.ensureId(parent, this, WidgetConst.CHECKCOMBOBOX_PREFIX, id);
 		options = createDefaultOptions();
 	}
@@ -86,39 +90,37 @@ public class MultiSelectBox extends ListBoxBase {
 	@Override
 	protected void onLoad() {
 		super.onLoad();
-		createByJs(this, getElement(), options.getJavaScriptObject());
+		createByJs(this, getElement(), options.getJavaScriptObject(), ClientContext.nlsCommon.secili());
 	}
 
-	private native void createByJs(MultiSelectBox x, Element el, JavaScriptObject options) /*-{
-																								options.onChange=function(option, checked, select) {
-																								x.@com.javexpress.gwt.library.ui.bootstrap.MultiSelectBox::fireOnChanged(Ljava/lang/String;Z)($wnd.$(option).val(),checked);
-																								};
-																								options.onDropdownShown=function(event) {
-																								x.@com.javexpress.gwt.library.ui.bootstrap.MultiSelectBox::fireOnOpened()();
-																								};
-																								options.onDropdownHidden=function(event) {
-																								x.@com.javexpress.gwt.library.ui.bootstrap.MultiSelectBox::fireOnClosed()();
-																								};
-																								options.buttonText=function(seloptions, select) {
-																								if (seloptions.length === 0) {
-																								return options.nonSelectedText;
-																								} else if (seloptions.length > 3) {
-																								return seloptions.length+' selected';
-																								} else {
-																								var labels = [];
-																								seloptions.each(function() {
-																								if ($(this).attr('label') !== undefined) {
-																								labels.push($(this).attr('label'));
-																								}
-																								else {
-																								labels.push($(this).html());
-																								}
-																								});
-																								return labels.join(', ') + '';
-																								}
-																								}
-																								$wnd.$(el).multiselect(options);
-																								}-*/;
+	private native void createByJs(MultiSelectBox x, Element el, JavaScriptObject options, String selText) /*-{
+		options.onChange=function(option, checked, select) {
+			x.@com.javexpress.gwt.library.ui.bootstrap.MultiSelectBox::fireOnChanged(Ljava/lang/String;Z)($wnd.$(option).val(),checked);
+		};
+		options.onDropdownShown=function(event) {
+			x.@com.javexpress.gwt.library.ui.bootstrap.MultiSelectBox::fireOnOpened()();
+		};
+		options.onDropdownHidden=function(event) {
+			x.@com.javexpress.gwt.library.ui.bootstrap.MultiSelectBox::fireOnClosed()();
+		};
+		options.buttonText=function(seloptions, select) {
+			if (seloptions.length === 0) {
+				return options.nonSelectedText;
+			} else if (seloptions.length > 3) {
+				return seloptions.length+' '+selText;
+			} else {
+				var labels = [];
+				seloptions.each(function() {
+					if ($wnd.$(this).attr('label') !== undefined)
+						labels.push($wnd.$(this).attr('label'));
+					else
+						labels.push($wnd.$(this).html());
+				});
+				return labels.join(', ') + '';
+			}
+		}
+		$wnd.$(el).multiselect(options);
+	}-*/;
 
 	@Override
 	public void addItem(Serializable label, Serializable value, Serializable data, String hint) {
@@ -236,14 +238,10 @@ public class MultiSelectBox extends ListBoxBase {
 
 	@Override
 	public void setValue(String value) {
-		// TODO Auto-generated method stub
-
 	}
 
 	@Override
 	public void setValue(String value, boolean fireEvents) {
-		// TODO Auto-generated method stub
-
 	}
 
 }
