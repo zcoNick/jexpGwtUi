@@ -3,6 +3,7 @@ package com.javexpress.gwt.library.ui.data.tree;
 import java.util.HashMap;
 import java.util.Map;
 
+import com.google.gwt.event.logical.shared.SelectionHandler;
 import com.google.gwt.user.client.ui.SimplePanel;
 import com.google.gwt.user.client.ui.TreeItem;
 import com.google.gwt.user.client.ui.Widget;
@@ -30,9 +31,9 @@ public class Tree extends SimplePanel {
 	public Tree(Widget parent, String id, boolean fitToParent) {
 		super(new com.google.gwt.user.client.ui.Tree());
 		JsUtil.ensureId(parent, this, WidgetConst.TREE_PREFIX, id);
+		addStyleName("jexpTree");
 
 		tree = (com.google.gwt.user.client.ui.Tree) getWidget();
-		tree.setStyleName("jexpTree", true);
 		tree.setAnimationEnabled(true);
 
 		if (fitToParent) {
@@ -43,9 +44,9 @@ public class Tree extends SimplePanel {
 		valMap = new HashMap<String, TreeItem>();
 	}
 
-	public void addItem(String label, String val) {
+	public TreeItem addItem(String label, String val) {
 		int pos = val.lastIndexOf(pathSeparator);
-		TreeItem parent = pos == -1 ? null : getItem(val.substring(0, pos - 1));
+		TreeItem parent = pos == -1 ? null : getItem(val.substring(0, pos));
 		TreeItem ti = new TreeItem();
 		ti.setText(label);
 		ti.getElement().setAttribute("v", val);
@@ -54,6 +55,7 @@ public class Tree extends SimplePanel {
 		} else
 			parent.addItem(ti);
 		valMap.put(val, ti);
+		return ti;
 	}
 
 	protected void removeItem(TreeItem item) {
@@ -86,6 +88,10 @@ public class Tree extends SimplePanel {
 
 	public String getItemText(String val) {
 		return getItem(val).getText();
+	}
+
+	public void addSelectionHandler(SelectionHandler<TreeItem> handler) {
+		tree.addSelectionHandler(handler);
 	}
 
 }

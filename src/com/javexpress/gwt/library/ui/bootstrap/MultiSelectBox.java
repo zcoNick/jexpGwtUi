@@ -7,13 +7,11 @@ import java.util.List;
 import java.util.Map;
 
 import com.google.gwt.core.client.JavaScriptObject;
-import com.google.gwt.dom.client.Document;
 import com.google.gwt.dom.client.Element;
-import com.google.gwt.dom.client.NativeEvent;
 import com.google.gwt.dom.client.NodeList;
 import com.google.gwt.dom.client.OptionElement;
 import com.google.gwt.dom.client.SelectElement;
-import com.google.gwt.event.dom.client.DomEvent;
+import com.google.gwt.event.logical.shared.ValueChangeEvent;
 import com.google.gwt.user.client.ui.Widget;
 import com.javexpress.gwt.library.shared.model.WidgetConst;
 import com.javexpress.gwt.library.ui.ClientContext;
@@ -128,8 +126,7 @@ public class MultiSelectBox extends ListBoxBase {
 		if (lazyValues != null && lazyValues.contains(value.toString())) {
 			setSelectedIndex(getItemCount() - 1);
 			lazyValues.remove(value.toString());
-			NativeEvent event = Document.get().createChangeEvent();
-			DomEvent.fireNativeEvent(event, this);
+			ValueChangeEvent.fireIfNotEqual(this, null, value.toString());
 		}
 	}
 
@@ -229,8 +226,7 @@ public class MultiSelectBox extends ListBoxBase {
 	}
 
 	private void fireOnChanged(String val, boolean checked) {
-		NativeEvent event = Document.get().createChangeEvent();
-		DomEvent.fireNativeEvent(event, this);
+		ValueChangeEvent.fireIfNotEqual(this, null, val);
 	}
 
 	private void fireOnClosed() {
