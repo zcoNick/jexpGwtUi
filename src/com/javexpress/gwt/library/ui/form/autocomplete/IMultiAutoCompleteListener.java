@@ -17,4 +17,6 @@ public interface IMultiAutoCompleteListener {
 
 	void itemRemoved(String id, boolean userAction);
 
+	void valuesSet(int size);
+
 }

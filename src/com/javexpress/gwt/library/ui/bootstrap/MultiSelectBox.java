@@ -167,12 +167,12 @@ public class MultiSelectBox extends ListBoxBase {
 	}
 
 	private native void _rebuild(Element el) /*-{
-												$wnd.$(el).multiselect('rebuild');
-												}-*/;
+		$wnd.$(el).multiselect('rebuild');
+	}-*/;
 
 	private native void _syncSelections(Element el) /*-{
-													$wnd.$(el).multiselect('refresh');
-													}-*/;
+		$wnd.$(el).multiselect('refresh');
+	}-*/;
 
 	public List<String> getValues() {
 		List<String> vals = new ArrayList<String>();

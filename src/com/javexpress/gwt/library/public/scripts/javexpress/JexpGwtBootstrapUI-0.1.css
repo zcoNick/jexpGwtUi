@@ -111,3 +111,4 @@
 .jexpSpinner .icon-only { font-size:12px; }
 .jexpSpinner .spinbox-input { border:none; }
 .jexpSpinner input[type="text"] { font-size:12px; }
+.multiselect-container > li > a > label.checkbox, .multiselect-container > li > a > label.radio { min-height: 1em;padding: 2px 0 2px 25px; }

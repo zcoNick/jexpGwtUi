@@ -86,7 +86,7 @@ public class FormArea extends AbstractContainerFocusable implements ISizeAwareWi
 				mh = (Window.getClientHeight() * Integer.parseInt(mh.substring(0, mh.length() - 1)) / 100) + "px";
 			}
 			getElement().getStyle().setProperty("maxHeight", mh);
-			getElement().getStyle().setOverflow(Overflow.AUTO);
+			getElement().getStyle().setOverflow(Overflow.VISIBLE);
 		}
 	}
 

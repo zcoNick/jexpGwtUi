@@ -285,7 +285,7 @@ public class MultiAutoCompleteBox extends AbstractContainer implements IUserInpu
 		return acData.get(val);
 	}
 
-	private native void _setValueByIds(MultiAutoCompleteBox x, JavaScriptObject options, String values) /*-{
+	private native void _setValueByIds(MultiAutoCompleteBox x, JavaScriptObject options, String values, boolean fireEvents) /*-{
 		$wnd.$
 				.post(
 						options.url,
@@ -293,11 +293,16 @@ public class MultiAutoCompleteBox extends AbstractContainer implements IUserInpu
 							"term" : "@" + values
 						},
 						function(data) {
-							if (!data)
+							if (!data) {
+								if (fireEvents)
+									x.@com.javexpress.gwt.library.ui.form.autocomplete.MultiAutoCompleteBox::fireValuesSet(I)(0);
 								return;
+							}
 							for (var i = 0; i < data.length; i++) {
 								x.@com.javexpress.gwt.library.ui.form.autocomplete.MultiAutoCompleteBox::fireAddToSelection(Ljava/lang/String;Ljava/lang/String;Lcom/google/gwt/core/client/JavaScriptObject;Z)(data[i].id,data[i].label,data[i].data,true);
 							}
+							if (fireEvents)
+								x.@com.javexpress.gwt.library.ui.form.autocomplete.MultiAutoCompleteBox::fireValuesSet(I)(data.length);
 						}, "json");
 	}-*/;
 
@@ -322,6 +327,11 @@ public class MultiAutoCompleteBox extends AbstractContainer implements IUserInpu
 	private void fireOnAdd(final String id, JsonMap data, boolean userSelected) {
 		if (listener != null)
 			listener.itemAdded(id, data, userSelected);
+	}
+
+	private void fireValuesSet(int size) {
+		if (listener != null)
+			listener.valuesSet(size);
 	}
 
 	private void fireAddToSelection(final String id, final String label, JavaScriptObject data, boolean userAction) throws Exception {
@@ -450,7 +460,7 @@ public class MultiAutoCompleteBox extends AbstractContainer implements IUserInpu
 				first = false;
 			values.append(id.toString());
 		}
-		_setValueByIds(this, options.getJavaScriptObject(), values.toString());
+		_setValueByIds(this, options.getJavaScriptObject(), values.toString(), fireEvents);
 	}
 
 	@Override
