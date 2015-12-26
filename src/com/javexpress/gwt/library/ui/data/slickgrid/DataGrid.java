@@ -639,15 +639,15 @@ public class DataGrid<T extends Serializable> extends BaseSlickGrid<ListColumn> 
 		var selectedIndexes = grid.getSelectedRows();
 		if (selectedIndexes && selectedIndexes.length > 0) {
 			var arr = [];
-			boolean filled = false;
-			for (var i = 0; i < selectedIndexes.length; i++){
+			var filled = false;
+			for (var i = 0; i < selectedIndexes.length; i++) {
 				var rowData = @com.javexpress.gwt.library.ui.data.slickgrid.DataGrid::resolveRowData(Lcom/google/gwt/core/client/JavaScriptObject;Lcom/google/gwt/core/client/JavaScriptObject;I)(dataView, data, selectedIndexes[i]);
-				if (rowData){ 
+				if (rowData) {
 					arr[i] = rowData;
 					filled = true;
-				} 
+				}
 			}
-			return filled?arr:null;
+			return filled ? arr : null;
 		}
 		return null;
 	}-*/;
