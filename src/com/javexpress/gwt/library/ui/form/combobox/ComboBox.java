@@ -195,6 +195,7 @@ public class ComboBox extends ListBoxBase implements AsyncCallback<List<? extend
 			return;
 		for (IComboItem item : result)
 			addItem(item.getL(), item.getV(), item.getD(), item instanceof IComboItemWithHint ? ((IComboItemWithHint) item).getH() : null);
+		onItemListChanged();
 	}
 
 }

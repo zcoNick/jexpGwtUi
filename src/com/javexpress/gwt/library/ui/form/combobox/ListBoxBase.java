@@ -25,10 +25,18 @@ import com.javexpress.gwt.library.ui.js.JsUtil;
 public abstract class ListBoxBase extends ListBox implements IUserInputWidget<String>, IListItemBox {
 
 	protected Map<Serializable, Serializable>	dataMap;
-	private boolean								required;
+	private boolean								required, selectFirst;
 	private IItemsChangeHandler					itemsChangeHandler;
 	private boolean								valueChangeHandlerInitialized;
 	private boolean								useEmptyItem	= true;
+
+	public boolean isSelectFirst() {
+		return selectFirst;
+	}
+
+	public void setSelectFirst(boolean selectFirst) {
+		this.selectFirst = selectFirst;
+	}
 
 	public IItemsChangeHandler getItemsChangeHandler() {
 		return itemsChangeHandler;
@@ -176,6 +184,7 @@ public abstract class ListBoxBase extends ListBox implements IUserInputWidget<St
 	protected void onItemListChanged() {
 		if (itemsChangeHandler != null)
 			itemsChangeHandler.onItemsChanged();
+		selectFirstItem();
 	}
 
 	public void addItem(final Serializable label, final Serializable value, final Serializable data, String hint) {
@@ -260,6 +269,17 @@ public abstract class ListBoxBase extends ListBox implements IUserInputWidget<St
 			});
 		}
 		return addHandler(handler, ValueChangeEvent.getType());
+	}
+
+	public boolean selectFirstItem() {
+		if (!isSelectFirst())
+			return false;
+		for (int i = 0; i < getItemCount(); i++)
+			if (JsUtil.isNotEmpty(getValue(i))) {
+				setSelectedIndex(i);
+				return true;
+			}
+		return false;
 	}
 
 }
