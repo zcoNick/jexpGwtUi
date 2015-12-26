@@ -600,8 +600,6 @@ public class DataGrid<T extends Serializable> extends BaseSlickGrid<ListColumn> 
 	}
 
 	private String getKey(JSONObject rd) {
-		if (!rd.containsKey(getKeyColumnName()))
-			return null;
 		JSONValue v = rd.get(getKeyColumnName());
 		if (v == null)
 			return null;
@@ -639,12 +637,17 @@ public class DataGrid<T extends Serializable> extends BaseSlickGrid<ListColumn> 
 
 	private native JsArray<JavaScriptObject> _getSelectedRowsData(DataGrid x, JavaScriptObject grid, JavaScriptObject dataView, JavaScriptObject data) /*-{
 		var selectedIndexes = grid.getSelectedRows();
-		$wnd.console.debug("datagrid", selectedIndexes);
 		if (selectedIndexes && selectedIndexes.length > 0) {
 			var arr = [];
-			for (var i = 0; i < selectedIndexes.length; i++)
-				arr[i] = @com.javexpress.gwt.library.ui.data.slickgrid.DataGrid::resolveRowData(Lcom/google/gwt/core/client/JavaScriptObject;Lcom/google/gwt/core/client/JavaScriptObject;I)(dataView, data, selectedIndexes[i]);
-			return arr;
+			boolean filled = false;
+			for (var i = 0; i < selectedIndexes.length; i++){
+				var rowData = @com.javexpress.gwt.library.ui.data.slickgrid.DataGrid::resolveRowData(Lcom/google/gwt/core/client/JavaScriptObject;Lcom/google/gwt/core/client/JavaScriptObject;I)(dataView, data, selectedIndexes[i]);
+				if (rowData){ 
+					arr[i] = rowData;
+					filled = true;
+				} 
+			}
+			return filled?arr:null;
 		}
 		return null;
 	}-*/;
