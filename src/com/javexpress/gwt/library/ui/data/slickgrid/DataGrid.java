@@ -399,7 +399,7 @@ public class DataGrid<T extends Serializable> extends BaseSlickGrid<ListColumn> 
 		}
 
 		grid.canCellBeActive = function(row, cell) {
-			var rowData = data[row];
+			var rowData = @com.javexpress.gwt.library.ui.data.slickgrid.DataGrid::resolveRowData(Lcom/google/gwt/core/client/JavaScriptObject;Lcom/google/gwt/core/client/JavaScriptObject;I)(dataView, data, row);
 			if (!rowData)
 				return;
 			var rowId = rowData[keyColumnName];
@@ -409,13 +409,10 @@ public class DataGrid<T extends Serializable> extends BaseSlickGrid<ListColumn> 
 		grid.onSelectedRowsChanged
 				.subscribe(function(e, args) {
 					if (!loader.disableSelectEventFire && !options.multiSelect) {
-						var rowData = dataView ? dataView.getItem(args.rows[0])
-								: data[args.rows[0]];
-						if (!rowData || rowData.__group
-								|| rowData.__groupTotals
-								|| rowData.__nonDataRow)
+						var rowData = @com.javexpress.gwt.library.ui.data.slickgrid.DataGrid::resolveRowData(Lcom/google/gwt/core/client/JavaScriptObject;Lcom/google/gwt/core/client/JavaScriptObject;I)(dataView, data, args.rows[0]);
+						if (!rowData)
 							return;
-						var rowId = rowData ? rowData[keyColumnName] : null;
+						var rowId = rowData[keyColumnName];
 						x.@com.javexpress.gwt.library.ui.data.slickgrid.DataGrid::fireOnRowSelect(Ljava/lang/String;ZLcom/google/gwt/core/client/JavaScriptObject;)(rowId?rowId+"":null,true,rowData);
 						return;
 					}
@@ -432,14 +429,10 @@ public class DataGrid<T extends Serializable> extends BaseSlickGrid<ListColumn> 
 								}
 							}
 							if (!exists) {
-								var rowData = dataView ? dataView
-										.getItem(sels[i]) : data[sels[i]];
-								if (!rowData || rowData.__group
-										|| rowData.__groupTotals
-										|| rowData.__nonDataRow)
+								var rowData = @com.javexpress.gwt.library.ui.data.slickgrid.DataGrid::resolveRowData(Lcom/google/gwt/core/client/JavaScriptObject;Lcom/google/gwt/core/client/JavaScriptObject;I)(dataView, data, sels[i]);
+								if (!rowData)
 									continue;
-								var rowId = rowData ? rowData[keyColumnName]
-										: null;
+								var rowId = rowData[keyColumnName];
 								x.@com.javexpress.gwt.library.ui.data.slickgrid.DataGrid::fireOnRowSelect(Ljava/lang/String;ZLcom/google/gwt/core/client/JavaScriptObject;)(rowId?rowId+"":null,true,rowData);
 							}
 						}
@@ -453,16 +446,10 @@ public class DataGrid<T extends Serializable> extends BaseSlickGrid<ListColumn> 
 									}
 								}
 								if (!found) {
-									var rowData = dataView ? dataView
-											.getItem(loader.lastSelectedRows[l])
-											: data[loader.lastSelectedRows[l]];
-									if (!rowData || rowData.__group
-											|| rowData.__groupTotals
-											|| rowData.__nonDataRow)
+									var rowData = @com.javexpress.gwt.library.ui.data.slickgrid.DataGrid::resolveRowData(Lcom/google/gwt/core/client/JavaScriptObject;Lcom/google/gwt/core/client/JavaScriptObject;I)(dataView, data, loader.lastSelectedRows[l]);
+									if (!rowData)
 										continue;
-
-									var rowId = rowData ? rowData[keyColumnName]
-											: null;
+									var rowId = rowData[keyColumnName];
 									x.@com.javexpress.gwt.library.ui.data.slickgrid.DataGrid::fireOnRowSelect(Ljava/lang/String;ZLcom/google/gwt/core/client/JavaScriptObject;)(rowId?rowId+"":null,false,rowData);
 								}
 							}
@@ -473,10 +460,8 @@ public class DataGrid<T extends Serializable> extends BaseSlickGrid<ListColumn> 
 
 		grid.onDblClick
 				.subscribe(function(e, args) {
-					var rowData = dataView ? dataView.getItem(args.row)
-							: data[args.row];
-					if (!rowData || rowData.__group || rowData.__groupTotals
-							|| rowData.__nonDataRow)
+					var rowData = @com.javexpress.gwt.library.ui.data.slickgrid.DataGrid::resolveRowData(Lcom/google/gwt/core/client/JavaScriptObject;Lcom/google/gwt/core/client/JavaScriptObject;I)(dataView, data, args.row);
+					if (!rowData)
 						return;
 					var rowId = rowData[keyColumnName];
 					x.@com.javexpress.gwt.library.ui.data.slickgrid.DataGrid::fireOnRowDoubleClick(Ljava/lang/String;Lcom/google/gwt/core/client/JavaScriptObject;)(rowId+"",rowData);
@@ -498,6 +483,14 @@ public class DataGrid<T extends Serializable> extends BaseSlickGrid<ListColumn> 
 							x.@com.javexpress.gwt.library.ui.data.slickgrid.DataGrid::fireLinkClicked(Lcom/google/gwt/core/client/JavaScriptObject;IILjava/lang/String;ILjava/lang/String;)(linkElement,row,cell,field,columnKey,value);
 						});
 		return grid;
+	}-*/;
+
+	private native static JavaScriptObject resolveRowData(JavaScriptObject dataView, JavaScriptObject data, int rowNum)/*-{
+		var rowData = dataView ? dataView.getItem(rowNum) : data[rowNum];
+		if (!rowData || rowData.__group || rowData.__groupTotals
+				|| rowData.__nonDataRow)
+			return null;
+		return rowData;
 	}-*/;
 
 	@Override
@@ -598,6 +591,8 @@ public class DataGrid<T extends Serializable> extends BaseSlickGrid<ListColumn> 
 
 	@Override
 	public String getSelectedId() {
+		if (!isAttached())
+			return null;
 		JsonMap rd = getSelectedData();
 		if (rd == null)
 			return null;
@@ -621,7 +616,7 @@ public class DataGrid<T extends Serializable> extends BaseSlickGrid<ListColumn> 
 	public List<String> getSelectedIds() {
 		if (!isAttached())
 			return null;
-		JsArray<JavaScriptObject> obj = _getSelectedRowsData(getJsObject(), getData());
+		JsArray<JavaScriptObject> obj = _getSelectedRowsData(this, getJsObject(), getDataView(), getData());
 		if (obj == null || obj.length() == 0)
 			return null;
 		List<String> list = new ArrayList<String>();
@@ -636,16 +631,16 @@ public class DataGrid<T extends Serializable> extends BaseSlickGrid<ListColumn> 
 	public JsonMap getSelectedData() {
 		if (!isAttached())
 			return null;
-		JsArray<JavaScriptObject> obj = _getSelectedRowsData(getJsObject(), getData());
+		JsArray<JavaScriptObject> obj = _getSelectedRowsData(this, getJsObject(), getDataView(), getData());
 		return obj == null || obj.length() == 0 ? null : new JsonMap(obj.get(0));
 	}
 
-	private native JsArray<JavaScriptObject> _getSelectedRowsData(JavaScriptObject grid, JavaScriptObject data) /*-{
+	private native JsArray<JavaScriptObject> _getSelectedRowsData(DataGrid x, JavaScriptObject grid, JavaScriptObject dataView, JavaScriptObject data) /*-{
 		var selectedIndexes = grid.getSelectedRows();
 		if (selectedIndexes && selectedIndexes.length > 0) {
 			var arr = [];
 			for (var i = 0; i < selectedIndexes.length; i++)
-				arr[i] = data[selectedIndexes[i]];
+				arr[i] = @com.javexpress.gwt.library.ui.data.slickgrid.DataGrid::resolveRowData(Lcom/google/gwt/core/client/JavaScriptObject;Lcom/google/gwt/core/client/JavaScriptObject;I)(dataView, data, selectedIndexes[i]);
 			return arr;
 		}
 		return null;
@@ -884,7 +879,7 @@ public class DataGrid<T extends Serializable> extends BaseSlickGrid<ListColumn> 
 		super.onAttach();
 	}
 
-	private int	lastCalculatedSize	= 0;
+	private int lastCalculatedSize = 0;
 
 	private void fireUpdateParentSize(int dataLength) {
 		int calculated = Math.min(maxHeight, Math.max(85, 18 + ((dataLength + 2) * (getOptions().getInt("rowHeight", 24) + 2))));
