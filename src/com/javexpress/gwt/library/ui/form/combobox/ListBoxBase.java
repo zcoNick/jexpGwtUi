@@ -184,7 +184,8 @@ public abstract class ListBoxBase extends ListBox implements IUserInputWidget<St
 	protected void onItemListChanged() {
 		if (itemsChangeHandler != null)
 			itemsChangeHandler.onItemsChanged();
-		selectFirstItem();
+		if (isSelectFirst())
+			selectFirstItem();
 	}
 
 	public void addItem(final Serializable label, final Serializable value, final Serializable data, String hint) {
@@ -272,11 +273,12 @@ public abstract class ListBoxBase extends ListBox implements IUserInputWidget<St
 	}
 
 	public boolean selectFirstItem() {
-		if (!isSelectFirst())
-			return false;
+		String oldValue = getValue();
 		for (int i = 0; i < getItemCount(); i++)
 			if (JsUtil.isNotEmpty(getValue(i))) {
 				setSelectedIndex(i);
+				String newValue = getValue(i);
+				ValueChangeEvent.fireIfNotEqual(this, oldValue, newValue);
 				return true;
 			}
 		return false;
