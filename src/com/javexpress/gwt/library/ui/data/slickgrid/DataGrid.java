@@ -600,6 +600,8 @@ public class DataGrid<T extends Serializable> extends BaseSlickGrid<ListColumn> 
 	}
 
 	private String getKey(JSONObject rd) {
+		if (!rd.containsKey(getKeyColumnName()))
+			return null;
 		JSONValue v = rd.get(getKeyColumnName());
 		if (v == null)
 			return null;
@@ -637,6 +639,7 @@ public class DataGrid<T extends Serializable> extends BaseSlickGrid<ListColumn> 
 
 	private native JsArray<JavaScriptObject> _getSelectedRowsData(DataGrid x, JavaScriptObject grid, JavaScriptObject dataView, JavaScriptObject data) /*-{
 		var selectedIndexes = grid.getSelectedRows();
+		$wnd.console.debug("datagrid", selectedIndexes);
 		if (selectedIndexes && selectedIndexes.length > 0) {
 			var arr = [];
 			for (var i = 0; i < selectedIndexes.length; i++)
