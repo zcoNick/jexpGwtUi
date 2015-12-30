@@ -85,8 +85,7 @@
 				data: JexpUI.AjaxUtils.serialize(postData),
 				success: onSuccess,
 				error: function (jqXHR, textStatus, errorThrown) {
-					if (jqXHR.status!=901)
-						onError(startPage, toPage, url)
+					onError(jqXHR.status, startPage, toPage, url)
 				},
 				complete:function(jqXHR,textStatus){
 				}
@@ -97,7 +96,7 @@
 	    }, 10);
     }
 
-    function onError(fromPage, toPage, url) {
+    function onError(status, fromPage, toPage, url) {
     	alert("Error loading pages " + fromPage + " to " + toPage +" from "+url);
     }
 

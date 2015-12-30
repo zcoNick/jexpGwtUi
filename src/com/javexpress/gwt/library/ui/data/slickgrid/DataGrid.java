@@ -409,6 +409,8 @@ public class DataGrid<T extends Serializable> extends BaseSlickGrid<ListColumn> 
 		grid.onSelectedRowsChanged
 				.subscribe(function(e, args) {
 					if (!loader.disableSelectEventFire && !options.multiSelect) {
+						if (!args.rows||args.rows.length==0)
+							return;
 						var rowData = @com.javexpress.gwt.library.ui.data.slickgrid.DataGrid::resolveRowData(Lcom/google/gwt/core/client/JavaScriptObject;Lcom/google/gwt/core/client/JavaScriptObject;I)(dataView, data, args.rows[0]);
 						if (!rowData)
 							return;
@@ -707,7 +709,7 @@ public class DataGrid<T extends Serializable> extends BaseSlickGrid<ListColumn> 
 	private native void _setSelectedRows(JavaScriptObject grid, JavaScriptObject loader, JsArrayInteger rowIndexes, boolean fireOnSelect) /*-{
 		if (!fireOnSelect)
 			loader.disableSelectEventFire = true;
-		grid.setSelectedRows(rowIndexes != null ? rowIndexes : []);
+		grid.setSelectedRows(rowIndexes ? rowIndexes : []);
 		loader.disableSelectEventFire = false;
 	}-*/;
 
@@ -885,7 +887,7 @@ public class DataGrid<T extends Serializable> extends BaseSlickGrid<ListColumn> 
 		super.onAttach();
 	}
 
-	private int lastCalculatedSize = 0;
+	private int	lastCalculatedSize	= 0;
 
 	private void fireUpdateParentSize(int dataLength) {
 		int calculated = Math.min(maxHeight, Math.max(85, 18 + ((dataLength + 2) * (getOptions().getInt("rowHeight", 24) + 2))));
