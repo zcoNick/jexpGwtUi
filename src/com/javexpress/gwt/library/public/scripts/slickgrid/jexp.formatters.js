@@ -94,11 +94,12 @@ function JexpAvgFormatter(totals, columnDef) {
 function JexpSumFormatter(totals, columnDef) {
 	var val = totals.sum && totals.sum[columnDef.field];
 	if (val != null) {
+		val = numeral(val).format("0,0");//http://numeraljs.com/ English & Turkish compatible format
 		return "&Sigma; : " + val;
 	}
 	return "";
 }
-function JexpCurrencySumFormatter(totals, columnDef) {
+function JexpDecimalSumFormatter(totals, columnDef) {
 	var val = totals.sum && totals.sum[columnDef.field];
 	if (val != null) {
 		val = numeral(val).format(columnDef.numeralFormat);

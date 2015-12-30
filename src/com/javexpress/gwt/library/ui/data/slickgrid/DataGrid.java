@@ -235,6 +235,12 @@ public class DataGrid<T extends Serializable> extends BaseSlickGrid<ListColumn> 
 					}
 				};
 			}
+
+			if (model.jexpSummaryType == "sum")
+				model.groupTotalsFormatter = $wnd.JexpSumFormatter;
+			else if (model.jexpSummaryType == "avg")
+				model.groupTotalsFormatter = $wnd.JexpAvgFormatter;
+
 			if (model.formatter == "bool") {
 				model.formatter = $wnd.JexpBoolFormatter;
 			} else if (model.formatter == "map") {
@@ -245,22 +251,17 @@ public class DataGrid<T extends Serializable> extends BaseSlickGrid<ListColumn> 
 				model.formatter = $wnd.JexpTimeStampFormatter;
 			} else if (model.formatter == "decimal") {
 				model.formatter = $wnd.JexpDecimalFormatter;
-				if (model.groupTotalsFormatter == "sum")
-					model.groupTotalsFormatter = $wnd.JexpCurrencySumFormatter;
+				if (model.jexpSummaryType == "sum")
+					model.groupTotalsFormatter = $wnd.JexpDecimalSumFormatter;
 			} else if (model.formatter == "currency") {
 				model.formatter = $wnd.JexpCurrencyFormatter;
-				if (model.groupTotalsFormatter == "sum")
-					model.groupTotalsFormatter = $wnd.JexpCurrencySumFormatter;
+				if (model.jexpSummaryType == "sum")
+					model.groupTotalsFormatter = $wnd.JexpDecimalSumFormatter;
 			} else if (model.formatter == "link") {
 				model.formatter = $wnd.JexpLinkFormatter;
 			} else if (model.formatter == "percentbar") {
 				model.formatter = $wnd.JexpPercentCompleteBarFormatter;
 			}
-
-			if (model.jexpSummaryType == "sum")
-				model.groupTotalsFormatter = $wnd.JexpSumFormatter;
-			else if (model.jexpSummaryType == "avg")
-				model.groupTotalsFormatter = $wnd.JexpAvgFormatter;
 		}
 		var checkboxSelector = null;
 		if (options.multiSelect) {
@@ -409,7 +410,7 @@ public class DataGrid<T extends Serializable> extends BaseSlickGrid<ListColumn> 
 		grid.onSelectedRowsChanged
 				.subscribe(function(e, args) {
 					if (!loader.disableSelectEventFire && !options.multiSelect) {
-						if (!args.rows||args.rows.length==0)
+						if (!args.rows || args.rows.length == 0)
 							return;
 						var rowData = @com.javexpress.gwt.library.ui.data.slickgrid.DataGrid::resolveRowData(Lcom/google/gwt/core/client/JavaScriptObject;Lcom/google/gwt/core/client/JavaScriptObject;I)(dataView, data, args.rows[0]);
 						if (!rowData)
