@@ -17,20 +17,20 @@ import com.javexpress.gwt.library.ui.js.JsUtil;
 
 public class PickList<V extends Serializable> extends FlexTable {
 
-	private Element																		selected,
-			nonSelected, btAdd, btRemove;
-	private PickListLazyDataSupplier<? extends Serializable, ? extends Serializable>	mapSupplier;
-	private boolean																		autoLoad	= true;
+	private Element selected, nonSelected, btAdd, btRemove;
+	private PickListLazyDataSupplier<? extends Serializable, ? extends Serializable> mapSupplier;
+	private boolean autoLoad = true;
 
-	//http://www.bootply.com/lFEZ9qOonX
-	public PickList(final Widget parent, final String id, final String selectedLabel, final String nonSelectedLabel) {
+	// http://www.bootply.com/lFEZ9qOonX
+	public PickList(final Widget parent, final String id,
+			final String selectedLabel, final String nonSelectedLabel) {
 		super();
 		JsUtil.ensureId(parent, this, WidgetConst.PICKLIST_PREFIX, id);
 		addStyleName("jexpPickList");
-		setHeight("100px");
 		if (selectedLabel != null || nonSelectedLabel != null)
 			createLabelRow(selectedLabel, nonSelectedLabel);
 		createListRow();
+		setHeight("100px");
 	}
 
 	public boolean isAutoLoad() {
@@ -41,7 +41,8 @@ public class PickList<V extends Serializable> extends FlexTable {
 		this.autoLoad = autoLoad;
 	}
 
-	private void createLabelRow(final String selectedLabel, final String nonSelectedLabel) {
+	private void createLabelRow(final String selectedLabel,
+			final String nonSelectedLabel) {
 		Element left = DOM.createDiv();
 		left.setClassName("col-xs-5");
 		Element hl = DOM.createElement("h6");
@@ -102,7 +103,8 @@ public class PickList<V extends Serializable> extends FlexTable {
 	}
 
 	public void addItem(V value, String label, boolean isSelected) {
-		addListItem(isSelected ? selected : nonSelected, value.toString(), label);
+		addListItem(isSelected ? selected : nonSelected, value.toString(),
+				label);
 	}
 
 	private void addListItem(Element ls, String value, String title) {
@@ -123,7 +125,8 @@ public class PickList<V extends Serializable> extends FlexTable {
 		JsUtil.clearChilds(nonSelected);
 	}
 
-	public PickList setItems(final PickListLazyDataSupplier<? extends Serializable, ? extends Serializable> mapSupplier) {
+	public PickList setItems(
+			final PickListLazyDataSupplier<? extends Serializable, ? extends Serializable> mapSupplier) {
 		this.mapSupplier = mapSupplier;
 		if (isAttached())
 			load();
@@ -146,66 +149,68 @@ public class PickList<V extends Serializable> extends FlexTable {
 			load();
 	}
 
-	private native void createByJs(Element el, Element add, Element remove, Element nonSelected, Element selected) /*-{
-		$wnd.$(remove).click(function(e) {
-			$wnd.$(".all", $wnd.$(el)).prop("checked", false);
-			var items = $wnd.$("input:checked:not('.all')", $wnd.$(selected));
-			var n = items.length;
-			if (n > 0) {
-				items.each(function(idx, item) {
-					var choice = $wnd.$(item);
-					choice.prop("checked", false);
-					choice.parent().appendTo($wnd.$(nonSelected));
-				});
-			}
-			return false;
-		});
+	private native void createByJs(Element el, Element add, Element remove,
+			Element nonSelected, Element selected) /*-{
+													$wnd.$(remove).click(function(e) {
+													$wnd.$(".all", $wnd.$(el)).prop("checked", false);
+													var items = $wnd.$("input:checked:not('.all')", $wnd.$(selected));
+													var n = items.length;
+													if (n > 0) {
+													items.each(function(idx, item) {
+													var choice = $wnd.$(item);
+													choice.prop("checked", false);
+													choice.parent().appendTo($wnd.$(nonSelected));
+													});
+													}
+													return false;
+													});
 
-		$wnd.$(add).click(
-				function(e) {
-					$wnd.$('.all', $wnd.$(el)).prop("checked", false);
-					var items = $wnd.$("input:checked:not('.all')", $wnd
-							.$(nonSelected));
-					var n = items.length;
-					if (n > 0) {
-						items.each(function(idx, item) {
-							var choice = $wnd.$(item);
-							choice.prop("checked", false);
-							choice.parent().appendTo($wnd.$(selected));
-						});
-					}
-					return false;
-				});
-	}-*/;
+													$wnd.$(add).click(
+													function(e) {
+													$wnd.$('.all', $wnd.$(el)).prop("checked", false);
+													var items = $wnd.$("input:checked:not('.all')", $wnd
+													.$(nonSelected));
+													var n = items.length;
+													if (n > 0) {
+													items.each(function(idx, item) {
+													var choice = $wnd.$(item);
+													choice.prop("checked", false);
+													choice.parent().appendTo($wnd.$(selected));
+													});
+													}
+													return false;
+													});
+													}-*/;
 
-	private native void _bindSelects(Element el, Element nonSelected, Element selected) /*-{
-		$wnd.$(".all", $wnd.$(el)).click(
-				function(e) {
-					e.stopPropagation();
-					var $this = $wnd.$(this);
-					if ($this.is(":checked")) {
-						$this.parents('.list-group').find("[type=checkbox]")
+	private native void _bindSelects(Element el, Element nonSelected,
+			Element selected) /*-{
+								$wnd.$(".all", $wnd.$(el)).click(
+								function(e) {
+								e.stopPropagation();
+								var $this = $wnd.$(this);
+								if ($this.is(":checked")) {
+								$this.parents('.list-group').find("[type=checkbox]")
 								.prop("checked", true);
-					} else {
-						$this.parents('.list-group').find("[type=checkbox]")
+								} else {
+								$this.parents('.list-group').find("[type=checkbox]")
 								.prop("checked", false);
-						$this.prop("checked", false);
-					}
-				});
+								$this.prop("checked", false);
+								}
+								});
 
-		$wnd.$(".list-group a", $wnd.$(el)).click(function(e) {
-			e.stopPropagation();
-			var $this = $wnd.$(this).find("[type=checkbox]");
-			if ($this.is(":checked")) {
-				$this.prop("checked", false);
-			} else {
-				$this.prop("checked", true);
-			}
-			if ($this.hasClass("all")) {
-				$this.trigger("click");
-			}
-		});
-	}-*/;
+								$wnd.$(".list-group a", $wnd.$(el)).click(function(e) {
+								e.stopPropagation();
+								var $this = $wnd.$(this).find("[type=checkbox]");
+								if ($this.is(":checked")) {
+								$this.prop("checked", false);
+								} else {
+								$this.prop("checked", true);
+								}
+								if ($this.hasClass("all")) {
+								$this.trigger("click");
+								}
+								});
+								}-*/;
 
 	@Override
 	protected void onUnload() {
@@ -219,8 +224,8 @@ public class PickList<V extends Serializable> extends FlexTable {
 	}
 
 	private native void destroyByJs(Element el) /*-{
-		$wnd.$(el).empty().off();
-	}-*/;
+												$wnd.$(el).empty().off();
+												}-*/;
 
 	public LinkedHashMap<String, String> getSelectionsMap() {
 		LinkedHashMap<String, String> vals = new LinkedHashMap<String, String>();
