@@ -1,6 +1,7 @@
 package com.javexpress.gwt.library.ui.bootstrap;
 
 import com.google.gwt.dom.client.Element;
+import com.google.gwt.dom.client.Style.Overflow;
 import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.user.client.Command;
 import com.google.gwt.user.client.DOM;
@@ -94,6 +95,16 @@ public class ExpandCollapsePanel extends AbstractContainerFocusable implements I
 	@Override
 	public void add(Widget widget) {
 		add(widget, contentDiv);
+	}
+
+	public void setMaxHeight(String maxheight) {
+		bodyDiv.getStyle().setProperty("maxHeight", maxheight);
+		bodyDiv.getStyle().setOverflow(Overflow.AUTO);
+	}
+
+	public void setMinHeight(String minheight) {
+		bodyDiv.getStyle().setProperty("minHeight", minheight);
+		bodyDiv.getStyle().setOverflow(Overflow.AUTO);
 	}
 
 	public void addToolItem(ICssIcon icon, String hint, Command command) {
