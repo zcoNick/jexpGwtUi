@@ -224,6 +224,11 @@ public class JqGrid<T extends Serializable> extends JexpWidget implements IDataV
 	}
 
 	@Override
+	public void setColumnReorder(boolean value) {
+		//options.set("", value);
+	}
+
+	@Override
 	public void loadData() {
 		if (options.get("datatype").isString().stringValue().equals("local")) {
 			JsonMap opts = new JsonMap();

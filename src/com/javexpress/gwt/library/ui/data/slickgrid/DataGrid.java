@@ -330,13 +330,13 @@ public class DataGrid<T extends Serializable> extends BaseSlickGrid<ListColumn> 
 								+ Math.min(args.to + 1, data.length) + " / "
 								+ data.length + (dataView ? " (L)" : "");
 
-						if (maxHeight > 0) {
+						if (!dataView && maxHeight > 0) {//DataView ayrı listener var onRowCountChanged
 							x.@com.javexpress.gwt.library.ui.data.slickgrid.DataGrid::fireUpdateParentSize(I)(data.length);
 						}
 					} else {
 						recInfo.innerHTML = noRecFoundMessage;
 
-						if (maxHeight > 0) {
+						if (!dataView && maxHeight > 0) {//DataView ayrı listener var onRowCountChanged
 							x.@com.javexpress.gwt.library.ui.data.slickgrid.DataGrid::fireUpdateParentSize(I)(1);
 						}
 					}
@@ -365,10 +365,12 @@ public class DataGrid<T extends Serializable> extends BaseSlickGrid<ListColumn> 
 
 		if (dataView) {
 			//grouping felan var
-			dataView.onRowCountChanged.subscribe(function(e, args) {
-				grid.updateRowCount();
-				grid.render();
-			});
+			dataView.onRowCountChanged
+					.subscribe(function(e, args) {
+						x.@com.javexpress.gwt.library.ui.data.slickgrid.DataGrid::fireUpdateParentSize(I)(args.current);
+						grid.updateRowCount();
+						grid.render();
+					});
 			dataView.onRowsChanged.subscribe(function(e, args) {
 				grid.invalidateRows(args.rows);
 				grid.render();
@@ -663,6 +665,11 @@ public class DataGrid<T extends Serializable> extends BaseSlickGrid<ListColumn> 
 	@Override
 	public void setFitColumns(boolean value) {
 		getOptions().set("forceFitColumns", value);
+	}
+
+	@Override
+	public void setColumnReorder(boolean value) {
+		getOptions().set("enableColumnReorder", value);
 	}
 
 	@Override

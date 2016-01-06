@@ -87,9 +87,9 @@
                 for (; row = items[i++];) {
                     column = null;
                     if (($.isNumeric(row.level) && $.isNumeric(options.level)) ? row.level == options.level : true) {
-                        for (; column = columns[col++];) {
+                        for (; column = columns[col++];){
                             value = row[column.field];
-                            if ($.isNumeric(value)) {
+                            if (column.jexpSummaryType && $.isNumeric(value)) {
                                 if (!summaryData[column.id]) {
                                     summaryData[column.id] = {count:1, sum: value * 1, values: [value * 1], min:value*1, max:value*1};
                                 } else {

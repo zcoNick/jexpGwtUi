@@ -28,6 +28,8 @@ public interface IDataViewer extends IJexpWidget, ISizeAwareWidget, IDataChangeL
 
 	void setFitColumns(boolean value);
 
+	void setColumnReorder(boolean value);
+
 	void clearSelection();
 
 	void setListing(IJsonServicePoint serviceMethod);
