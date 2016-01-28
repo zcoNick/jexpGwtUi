@@ -3,6 +3,7 @@ package com.javexpress.gwt.library.ui.data;
 import java.io.Serializable;
 import java.util.List;
 
+import com.google.gwt.core.client.JsArrayInteger;
 import com.google.gwt.user.client.ui.Focusable;
 import com.google.gwt.user.client.ui.IsWidget;
 import com.javexpress.gwt.library.shared.model.IJsonServicePoint;
@@ -67,5 +68,9 @@ public interface IDataViewer extends IJexpWidget, ISizeAwareWidget, IDataChangeL
 	void addGrouping(GroupingDefinition groupingItem);
 
 	void applyGrouping();
+
+	public JsArrayInteger getSelectedRowIndexes();
+
+	public JsonMap getRowData(int index);
 
 }

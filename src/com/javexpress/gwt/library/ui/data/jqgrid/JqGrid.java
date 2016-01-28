@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.google.gwt.core.client.JavaScriptObject;
+import com.google.gwt.core.client.JsArrayInteger;
 import com.google.gwt.core.client.JsArrayString;
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.event.dom.client.ContextMenuEvent;
@@ -891,6 +892,16 @@ public class JqGrid<T extends Serializable> extends JexpWidget implements IDataV
 
 	@Override
 	public void setDataExportOptions(boolean useForeignKeysAsVariable) {
+	}
+
+	@Override
+	public JsArrayInteger getSelectedRowIndexes() {
+		return null;
+	}
+
+	@Override
+	public JsonMap getRowData(int index) {
+		return null;
 	}
 
 }
