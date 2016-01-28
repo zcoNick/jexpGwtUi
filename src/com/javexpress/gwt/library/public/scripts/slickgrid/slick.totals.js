@@ -89,21 +89,26 @@
                     if (($.isNumeric(row.level) && $.isNumeric(options.level)) ? row.level == options.level : true) {
                         for (; column = columns[col++];){
                             value = row[column.field];
-                            if (column.jexpSummaryType && $.isNumeric(value)) {
+                        	var hasValue = $.isNumeric(value);
+                            if (column.jexpSummaryType) {
+                            	if (!hasValue)
+                            		value = 0;
                                 if (!summaryData[column.id]) {
-                                    summaryData[column.id] = {count:1, sum: value * 1, values: [value * 1], min:value*1, max:value*1};
+                                    summaryData[column.id] = {count:(hasValue?1:0), sum: value * 1, values: [value * 1], min:value*1, max:value*1};
                                 } else {
                                     var entry = summaryData[column.id];
-                                    summaryData[column.id] = {count:(entry.count+1), sum: (entry.sum + value * 1), values: entry.values.concat(value * 1)};
-                                    summaryData[column.id].min = entry.min>(value*1)?value*1:entry.min;
-                                    summaryData[column.id].max = entry.max<(value*1)?value*1:entry.max;
+                                    summaryData[column.id] = {count:(entry.count+(hasValue?1:0)), sum: (entry.sum + value * 1), values: entry.values.concat(value * 1)};
+                                    if (hasValue){
+                                        summaryData[column.id].min = entry.min>(value*1)?value*1:entry.min;
+                                        summaryData[column.id].max = entry.max<(value*1)?value*1:entry.max;                                    	
+                                    }
                                 }
                             } else {
                                 if (!summaryData[column.id]) {
-                                    summaryData[column.id] = {count:1};
+                                    summaryData[column.id] = {count:(hasValue?1:0)};
                                 } else {
                                     var entry = summaryData[column.id];
-                                    summaryData[column.id].count = (entry.count+1);
+                                    summaryData[column.id].count = (entry.count+(hasValue?1:0));
                                 }
                             }
                         }
