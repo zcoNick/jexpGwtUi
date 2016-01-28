@@ -2,7 +2,6 @@ package com.javexpress.gwt.library.ui.dialog;
 
 import com.google.gwt.core.client.Scheduler;
 import com.google.gwt.core.client.Scheduler.ScheduledCommand;
-import com.google.gwt.core.shared.GWT;
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.dom.client.Style.Display;
 import com.google.gwt.dom.client.Style.Unit;
@@ -113,7 +112,7 @@ public class WindowView extends AbstractContainerFocusable implements IUIComposi
 		setDraggable(form.isDraggable());
 		setMaximizable(form.isMaximizable());
 		setHelpVisible(form.getHelpIndex() != null);
-		if (!GWT.isProdMode())
+		if (!JsUtil.isProdMode())
 			headerDiv.setTitle(form.getClass().getName());
 		form.setCloseHandler(new Command() {
 			@Override

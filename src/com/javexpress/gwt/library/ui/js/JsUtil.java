@@ -138,7 +138,7 @@ public class JsUtil {
 	}
 
 	public static String ensureId(final Widget parent, final Widget widget, final String prefix, String preferredId) {
-		if ((!GWT.isProdMode() || testMode) && isNotEmpty(preferredId)) {
+		if ((!isProdMode() || testMode) && isNotEmpty(preferredId)) {
 			//Development Modu
 			preferredId = prefix + "_" + preferredId.replaceAll("\\.", "_") + (parent != null && isNotEmpty(parent.getElement().getId()) ? "-" + parent.getElement().getId() : "");
 			widget.getElement().setId(preferredId);
@@ -149,7 +149,7 @@ public class JsUtil {
 	}
 
 	public static String ensureId(final Widget parent, final Element we, final String prefix, String preferredId) {
-		if ((!GWT.isProdMode() || testMode) && isNotEmpty(preferredId)) {
+		if ((!isProdMode() || testMode) && isNotEmpty(preferredId)) {
 			//Development Modu
 			preferredId = prefix + "_" + preferredId.replaceAll("\\.", "_") + (parent != null && isNotEmpty(parent.getElement().getId()) ? "-" + parent.getElement().getId() : "");
 			we.setId(preferredId);
@@ -417,7 +417,7 @@ public class JsUtil {
 	}
 
 	public static void handleError(final String windowId, final Throwable e) {
-		if (!GWT.isProdMode())
+		if (!isProdMode())
 			e.printStackTrace();
 		GWT.log(e.getMessage(), e);
 		if (e instanceof UmbrellaException) {
@@ -425,7 +425,7 @@ public class JsUtil {
 			UmbrellaException ue = (UmbrellaException) e;
 			for (Throwable t : ue.getCauses()) {
 				buf.append(t.getMessage());
-				if (!GWT.isProdMode()) {
+				if (!isProdMode()) {
 					StackTraceElement ste = t.getStackTrace()[0];
 					buf.append(ste.getClassName() + "." + ste.getMethodName() + " " + ste.getFileName() + ":" + ste.getLineNumber()).append("<br/>");
 				} else
@@ -1119,4 +1119,15 @@ public class JsUtil {
 							handler.@com.javexpress.gwt.library.ui.js.JsUtil.JqTriggerHandler::eventTriggered(Lcom/google/gwt/user/client/Event;Ljava/lang/String;Ljava/lang/String;)(e,e.type,args);
 						});
 	}-*/;
+
+	private static SuperDevModeIndicator	sdmIndicator	= GWT.create(SuperDevModeIndicator.class);
+
+	public static boolean isSuperDevMode() {
+		return sdmIndicator.isSuperDevMode();
+	}
+
+	public static boolean isProdMode() {
+		return GWT.isProdMode() && !isSuperDevMode();
+	}
+
 }
