@@ -1,21 +1,25 @@
-.jexpSlickGridContainer{}
-.slick-header-column.ui-state-default{ color: #777777 }
+/*0.1.c*/
+.slick-header,.slick-header-columns,.slick-header-column,.slick-viewport,
+.jexpSlickGridContainer *:before,.jexpSlickGridContainer *:after,{ 
+	-webkit-box-sizing:content-box;-moz-box-sizing:content-box;box-sizing:content-box; 
+}
+.slick-columnpicker {
+    max-height: 225px;    
+    overflow: auto;
+}
+.jexpSlickGridContainer {}
+.slick-header-column.ui-state-default{ color: #777777;height:2em }
 .slick-viewport .grid-canvas > .odd { background-color: #FDFDFD;opacity: 0.8; }
 .slick-viewport .grid-canvas > .even { opacity: 0.99; }
 .jexpSlickGridContainer .jexpDataGridLinkItem { color: #00CED1; }
 .jexpSlickGridContainer .jexpDataGridLinkItem:hover { color: #8470ff; }
-.jexpSlickGridContainer div{
-	-webkit-box-sizing: content-box;
-	-moz-box-sizing: content-box;
-	box-sizing: content-box;
-}
 .jexpSlickGridContainer .jexpSlickGridView .slick-header {
 	background: linear-gradient(to bottom, #F8F8F8 0px, #ECECEC 100%) repeat-x scroll 0 0 #F2F2F2;
 	border-bottom: 1px solid #D3D3D3;
     padding: 0 !important;
 	color: #777777;
 	font-size: 0.9em;
-    font-weight: 600;	
+    font-weight: 600;
 }
 .jexpSlickGridContainer .jexpSlickGridView { -moz-border-bottom-colors: none;-moz-border-left-colors: none;-moz-border-right-colors: none;-moz-border-top-colors: none;
     border-color: #D3D3D3;border-image: none;border-style: solid;border-width: 1px 1px;text-shadow: none;
@@ -33,11 +37,6 @@
     line-height: 28px;
     padding-left: 4px;
     vertical-align: middle;
-}
-.slickgrid, .slickgrid *, .slick-header-column {
-    box-sizing: content-box;
-    -moz-box-sizing: content-box;
-    -webkit-box-sizing: content-box;
 }
 .slick-header > .slick-header-columns > .slick-header-column:last-child { 
   border-right-color: transparent;

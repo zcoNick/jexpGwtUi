@@ -52,6 +52,8 @@ public abstract class BaseSlickGrid<CT extends Column> extends ContainerWithBar 
 		WidgetBundles jexp = new WidgetBundles("JavExpress DataGrid Extensions", wb);
 		jexp.addJavaScript("scripts/slickgrid/jexp.remotemodel.js");
 		jexp.addJavaScript("scripts/slickgrid/jexp.formatters.js");
+		if (JsUtil.USE_BOOTSTRAP)
+			jexp.addStyleSheet("scripts/javexpress/jexpGrids-0.1.css");
 		return jexp;
 	}
 

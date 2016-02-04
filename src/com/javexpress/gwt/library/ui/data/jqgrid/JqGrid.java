@@ -51,8 +51,6 @@ public class JqGrid<T extends Serializable> extends JexpWidget implements IDataV
 		wb.addJavaScript("scripts/jqgrid/jquery.jqGrid-4.6.0.min.js");
 
 		WidgetBundles jexp = new WidgetBundles("JavExpress jqGrid Extensions", wb);
-		if (JsUtil.USE_BOOTSTRAP)
-			jexp.addStyleSheet("scripts/javexpress/jexpGrids-0.1.css");
 		jexp.addJavaScript("scripts/jqgrid/jexpJqGrid-0.1.js");
 		return jexp;
 	}
@@ -733,11 +731,11 @@ public class JqGrid<T extends Serializable> extends JexpWidget implements IDataV
 		for (final ListColumn column : columns) {
 			if (column.getField().equals(field) && column.isGroupable()) {
 				final JqPopupMenu menu = new JqPopupMenu() {
-					IMenuHandler	handler	= new IMenuHandler() {
-												@Override
-												public void menuItemClicked(String code, Event event) {
-												}
-											};
+					IMenuHandler handler = new IMenuHandler() {
+						@Override
+						public void menuItemClicked(String code, Event event) {
+						}
+					};
 
 					@Override
 					public void prepareMenu() {
