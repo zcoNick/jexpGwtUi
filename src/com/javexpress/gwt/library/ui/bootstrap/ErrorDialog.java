@@ -148,7 +148,7 @@ public class ErrorDialog extends JexpSimplePanel {
 				String smry = appException.getMessage() != null ? appException.getMessage() : (appException.getErrorCode());
 				((ProvidesJira) ClientContext.instance).createJiraIssue(appException.getModuleId(), smry == null ? "Unknown / Empty" : smry,
 						appException.getTraceHtml(), JsUtil.getUserAgent() + ",Prmt:" + GWT.getPermutationStrongName(),
-						IJiraEnabledForm.TYPE_ERROR, callback);
+						IJiraEnabledForm.TYPE_ERROR, null, callback);
 			}
 
 			@Override
