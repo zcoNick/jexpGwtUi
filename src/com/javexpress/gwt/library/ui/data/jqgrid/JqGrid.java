@@ -572,7 +572,7 @@ public class JqGrid<T extends Serializable> extends JexpWidget implements IDataV
 
 	private native void _updateSize(JavaScriptObject widget, Element el, String elId, Element pagerEl, boolean hasFooterRow, int maxHeight, boolean usingBootstrap) /*-{
 		var parent = $wnd.$(el);//475 in pane 
-		$wnd.console.debug(parent.width());
+		$wnd.console.debug("jqgrid", parent.width());
 		widget.setGridWidth(Math.round(parent.width()
 				- (usingBootstrap ? 0 : 2)), true);
 		if (maxHeight == 0) {
