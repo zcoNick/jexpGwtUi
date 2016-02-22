@@ -1130,4 +1130,8 @@ public class JsUtil {
 		return GWT.isProdMode() && !isSuperDevMode();
 	}
 
+	public static native void destroyElements(String sel) /*-{
+		$wnd.$(sel).remove();
+	}-*/;
+
 }

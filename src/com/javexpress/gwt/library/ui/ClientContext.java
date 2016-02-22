@@ -2,10 +2,15 @@ package com.javexpress.gwt.library.ui;
 
 import com.google.gwt.core.client.EntryPoint;
 import com.google.gwt.core.client.GWT;
+import com.google.gwt.dom.client.Element;
+import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.event.shared.EventBus;
 import com.google.gwt.event.shared.SimpleEventBus;
+import com.google.gwt.user.client.DOM;
+import com.google.gwt.user.client.ui.RootPanel;
 import com.javexpress.common.model.item.exception.AppException;
 import com.javexpress.gwt.library.shared.nls.CommonResources;
+import com.javexpress.gwt.library.ui.dialog.StatusDialog;
 import com.javexpress.gwt.library.ui.dialog.WindowView;
 import com.javexpress.gwt.library.ui.event.ExceptionThrownEvent;
 import com.javexpress.gwt.library.ui.event.FormShowInWindowRequest;
@@ -13,6 +18,7 @@ import com.javexpress.gwt.library.ui.event.HelpRequest;
 import com.javexpress.gwt.library.ui.form.IJiraEnabledForm;
 import com.javexpress.gwt.library.ui.form.IUIComposite;
 import com.javexpress.gwt.library.ui.js.JexpCallback;
+import com.javexpress.gwt.library.ui.js.JsUtil;
 
 public abstract class ClientContext implements EntryPoint {
 
@@ -24,6 +30,8 @@ public abstract class ClientContext implements EntryPoint {
 	public static final EventBus			EVENT_BUS			= GWT.create(SimpleEventBus.class);
 	public static final IResourceInjector	resourceInjector	= GWT.create(IResourceInjector.class);
 	public static final int					HELP_KEYCODE		= 170;
+	
+	private StatusDialog currentStatusDialog;
 
 	@Override
 	public void onModuleLoad() {
@@ -51,6 +59,29 @@ public abstract class ClientContext implements EntryPoint {
 	}
 
 	public void openJiraForm(IJiraEnabledForm iJiraEnabledForm) {
+	}
+	
+	public void showBusy() {
+		showBusy(StatusDialog.DEFAULT_LINE, nlsCommon.yukleniyor());
+	}
+
+	public void showBusy(String id, String message) {
+		if (currentStatusDialog==null||!currentStatusDialog.isAttached()){
+			currentStatusDialog = new StatusDialog();
+			currentStatusDialog.show();
+		}
+		currentStatusDialog.addLine(id, message);
+	}
+	
+	public void removeBusy(String id){
+		if (currentStatusDialog!=null&&currentStatusDialog.isAttached())
+			currentStatusDialog.removeLine(id);
+	}
+	
+	public void clearBusy() {
+		if (currentStatusDialog!=null&&currentStatusDialog.isAttached())
+			currentStatusDialog.removeFromParent();
+		currentStatusDialog = null;
 	}
 
 }
