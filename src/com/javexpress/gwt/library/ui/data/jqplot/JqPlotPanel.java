@@ -9,16 +9,17 @@ import com.javexpress.gwt.library.ui.js.WidgetBundles;
 public abstract class JqPlotPanel extends SimplePanel implements ISizeAwareWidget {
 
 	public static WidgetBundles fillResources(WidgetBundles parent, boolean bars, boolean pies) {
-		WidgetBundles jexp = new WidgetBundles("JqPlot Charting", parent);
-		jexp.addStyleSheet("scripts/jqplot/jquery.jqplot.min.css");
-		jexp.addJavaScript("scripts/jqplot/jquery.jqplot.min.js");
+		WidgetBundles core = new WidgetBundles("JqPlot Charting", parent);
+		core.addStyleSheet("scripts/jqplot/jquery.jqplot.min.css");
+		core.addJavaScript("scripts/jqplot/jquery.jqplot.min.js");
+		WidgetBundles extra = new WidgetBundles("JqPlot Charting Extras", core);
 		if (bars)
-			jexp.addJavaScript("scripts/jqplot/jqplot.barRenderer.min.js");
+			extra.addJavaScript("scripts/jqplot/jqplot.barRenderer.min.js");
 		if (pies) {
-			jexp.addJavaScript("scripts/jqplot/jqplot.pieRenderer.min.js");
-			jexp.addJavaScript("scripts/jqplot/jqplot.categoryAxisRenderer.min.js");
+			extra.addJavaScript("scripts/jqplot/jqplot.pieRenderer.min.js");
+			extra.addJavaScript("scripts/jqplot/jqplot.categoryAxisRenderer.min.js");
 		}
-		return jexp;
+		return extra;
 	}
 
 	private String title;
@@ -44,6 +45,6 @@ public abstract class JqPlotPanel extends SimplePanel implements ISizeAwareWidge
 		refresh();
 	}
 
-	protected abstract void refresh();
+	public abstract void refresh();
 
 }

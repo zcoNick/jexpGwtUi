@@ -28,7 +28,7 @@ public abstract class DashboardWidget extends WidgetBox implements ISizeAwareWid
 		setIcon(getIcon());
 		setHeader(getHeader());
 		if (createGui)
-			createWidget();
+			createGUI();
 	}
 
 	protected JsonMap getOptions() {
@@ -67,7 +67,8 @@ public abstract class DashboardWidget extends WidgetBox implements ISizeAwareWid
 		return FaIcon.rss;
 	}
 
-	protected abstract void createWidget() throws Exception;
+	protected void createGUI(){
+	}
 
 	public void doSetup(HashMap<String, Serializable> parameters, Command persistCommand) {
 	}

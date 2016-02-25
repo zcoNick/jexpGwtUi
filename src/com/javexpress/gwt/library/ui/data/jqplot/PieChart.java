@@ -55,7 +55,7 @@ public class PieChart extends JqPlotPanel {
 	}-*/;
 
 	@Override
-	protected void refresh() {
+	public void refresh() {
 		if (widget != null)
 			destroyByJs(widget);
 		widget = null;

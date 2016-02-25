@@ -103,6 +103,11 @@ public class WidgetBox extends AbstractContainerFocusable implements ISizeAwareW
 		add(widget, contentDiv);
 	}
 
+	@Override
+	public void add(Widget widget, int index) {
+		add(widget, contentDiv);
+	}
+	
 	public void addToolItem(ICssIcon icon, String hint, Command command) {
 		Element a = DOM.createAnchor();
 		a.setTitle(hint);

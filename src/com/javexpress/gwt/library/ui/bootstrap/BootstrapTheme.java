@@ -6,6 +6,7 @@ import com.javexpress.gwt.library.ui.BaseResourceInjector;
 import com.javexpress.gwt.library.ui.ClientContext;
 import com.javexpress.gwt.library.ui.container.dashboard.Dashboard;
 import com.javexpress.gwt.library.ui.data.jqgrid.JqGrid;
+import com.javexpress.gwt.library.ui.data.jqplot.JqPlotPanel;
 import com.javexpress.gwt.library.ui.data.slickgrid.DataGrid;
 import com.javexpress.gwt.library.ui.event.ExceptionThrownEvent;
 import com.javexpress.gwt.library.ui.event.FormShowInWindowRequest;
@@ -90,6 +91,7 @@ public abstract class BootstrapTheme extends BaseResourceInjector {
 		jexp = JqGrid.fillResources(jexp);
 		jexp = DataGrid.fillResources(jexp);
 		jexp = DropZone.fillResources(jexp);
+		jexp = JqPlotPanel.fillResources(jexp, true, true);
 		addStyleSheets(jexp, 1000);
 		addJavaScripts(jexp, 1000);
 		return jexp;
