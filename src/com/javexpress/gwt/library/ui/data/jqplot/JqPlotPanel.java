@@ -1,5 +1,7 @@
 package com.javexpress.gwt.library.ui.data.jqplot;
 
+import com.google.gwt.core.client.JavaScriptObject;
+import com.google.gwt.user.client.Command;
 import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.ui.SimplePanel;
 import com.javexpress.gwt.library.ui.form.ISizeAwareWidget;
@@ -22,7 +24,35 @@ public abstract class JqPlotPanel extends SimplePanel implements ISizeAwareWidge
 		return extra;
 	}
 
+	protected JavaScriptObject widget;
 	private String title;
+	private boolean showLegend;
+	private Command dataRequester;
+	private IJqPlotLabelRenderer labelRenderer;
+
+	public IJqPlotLabelRenderer getLabelRenderer() {
+		return labelRenderer;
+	}
+
+	public void setLabelRenderer(IJqPlotLabelRenderer labelRenderer) {
+		this.labelRenderer = labelRenderer;
+	}
+
+	public Command getDataRequester() {
+		return dataRequester;
+	}
+
+	public void setDataRequester(Command dataRequester) {
+		this.dataRequester = dataRequester;
+	}
+
+	public boolean isShowLegend() {
+		return showLegend;
+	}
+
+	public void setShowLegend(boolean showLegend) {
+		this.showLegend = showLegend;
+	}
 
 	@Override
 	public String getTitle() {
@@ -45,6 +75,22 @@ public abstract class JqPlotPanel extends SimplePanel implements ISizeAwareWidge
 		refresh();
 	}
 
-	public abstract void refresh();
+	@Override
+	protected void onUnload() {
+		dataRequester = null;
+		labelRenderer = null;
+		destroyByJs(widget);
+		widget = null;
+		super.onUnload();
+	}
+
+	protected native void destroyByJs(JavaScriptObject widget) /*-{
+		widget.destroy();
+	}-*/;
+
+	public void refresh() {
+		if (dataRequester != null)
+			dataRequester.execute();
+	}
 
 }
