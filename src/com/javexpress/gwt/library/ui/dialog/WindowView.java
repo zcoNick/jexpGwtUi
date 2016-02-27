@@ -32,6 +32,7 @@ public class WindowView extends AbstractContainerFocusable implements IUIComposi
 	private Element	mainDiv;
 	private Element	btClose;
 	private boolean	draggable;
+	private boolean	resizable;
 	private boolean	maximizable;
 	private boolean	helpVisible;
 	private boolean	hideOnClose	= false;
@@ -45,6 +46,14 @@ public class WindowView extends AbstractContainerFocusable implements IUIComposi
 
 	public void setDraggable(boolean draggable) {
 		this.draggable = draggable;
+	}
+
+	public boolean isResizable() {
+		return resizable;
+	}
+
+	public void setResizable(boolean resizable) {
+		this.resizable = resizable;
 	}
 
 	public boolean isMaximizable() {
@@ -186,7 +195,7 @@ public class WindowView extends AbstractContainerFocusable implements IUIComposi
 			marginLeft = Math.ceil((100 - pct) / 2) + "%";
 		}
 		String zindex = windowDiv.getAttribute("zindex");
-		windowDiv.setAttribute("style", "z-index:" + zindex + ";" + (width != null ? "width:" + width + ";" : "") + "margin:20px " + marginLeft + ";min-width:100px;display:block");
+		windowDiv.setAttribute("style", "z-index:" + zindex + ";" + (width != null ? "width:" + width + ";" : "") + "margin:2px " + marginLeft + ";min-width:100px;display:block");
 	}
 
 	private void fillHeader(ICssIcon icon, String header) {
@@ -283,7 +292,23 @@ public class WindowView extends AbstractContainerFocusable implements IUIComposi
 			opts.set("handle", ".widget-header");
 			opts.set("opacity", 0.8);
 			opts.set("cursor", "move");
-			JsUtil.draggable(getElement(), opts.getJavaScriptObject());
+			JsUtil.draggable(getElement(), opts.getJavaScriptObject(), new Command() {
+				@Override
+				public void execute() {
+					String top = getElement().getStyle().getTop();
+					if (top.startsWith("-"))
+						getElement().getStyle().setTop(0, Unit.PX);
+					String left = getElement().getStyle().getLeft();
+					if (left.startsWith("-"))
+						getElement().getStyle().setLeft(0, Unit.PX);
+				}
+			});
+		}
+		if (resizable) {//Çalışmıyor
+			JsonMap opts = new JsonMap();
+			opts.setInt("minWidth", 75);
+			opts.setInt("minHeight", 50);
+			JsUtil.resizable(mainDiv, opts.getJavaScriptObject());
 		}
 		if (getElement().hasClassName("jexp-ui-window-nonmodal")) {
 			JsUtil.centerInWindow(getElement());

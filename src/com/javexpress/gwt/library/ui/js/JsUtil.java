@@ -82,10 +82,10 @@ public class JsUtil {
 		void eventTriggered(Event event, String type, String args);
 	}
 
-	public static final BigDecimal	ZERO					= new BigDecimal(0);
-	public static boolean			isIE7					= false;
-	public static boolean			isIE8					= false;
-	public static boolean			isIE9					= false;
+	public static final BigDecimal	ZERO	= new BigDecimal(0);
+	public static boolean			isIE7	= false;
+	public static boolean			isIE8	= false;
+	public static boolean			isIE9	= false;
 
 	static {
 		if (Window.Navigator.getUserAgent().matches(".*MSIE 7.*"))
@@ -755,7 +755,7 @@ public class JsUtil {
 		return full * (Integer.parseInt(percent.substring(0, percent.length() - 1))) / 100;
 	}
 
-	public static volatile int	lastDialogZIndex	= 3;
+	public static volatile int lastDialogZIndex = 3;
 
 	public static int calcDialogZIndex() {
 		lastDialogZIndex += 3;
@@ -1059,7 +1059,7 @@ public class JsUtil {
 		return null;
 	}
 
-	public static boolean	USE_BOOTSTRAP	= false;
+	public static boolean USE_BOOTSTRAP = false;
 
 	public static Integer nvl(Integer val, int i) {
 		if (val == null)
@@ -1067,8 +1067,15 @@ public class JsUtil {
 		return val;
 	}
 
-	public static native void draggable(Element el, JavaScriptObject opts) /*-{
+	public static native void draggable(Element el, JavaScriptObject opts, Command onstop) /*-{
+		opts.stop = function() {
+			onstop.@com.google.gwt.user.client.Command::execute()();
+		}
 		$wnd.$(el).draggable(opts);
+	}-*/;
+
+	public static native void resizable(Element el, JavaScriptObject opts) /*-{
+		$wnd.$(el).resizable(opts);
 	}-*/;
 
 	public static native void setNumeralLibLanguage(String cultureCode) /*-{
@@ -1120,7 +1127,7 @@ public class JsUtil {
 						});
 	}-*/;
 
-	private static SuperDevModeIndicator	sdmIndicator	= GWT.create(SuperDevModeIndicator.class);
+	private static SuperDevModeIndicator sdmIndicator = GWT.create(SuperDevModeIndicator.class);
 
 	public static boolean isSuperDevMode() {
 		return sdmIndicator.isSuperDevMode();
