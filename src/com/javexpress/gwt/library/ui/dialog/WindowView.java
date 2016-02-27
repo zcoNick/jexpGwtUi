@@ -308,7 +308,7 @@ public class WindowView extends AbstractContainerFocusable implements IUIComposi
 			JsonMap opts = new JsonMap();
 			opts.setInt("minWidth", 75);
 			opts.setInt("minHeight", 50);
-			JsUtil.resizable(mainDiv, opts.getJavaScriptObject());
+			JsUtil.resizable(windowDiv, opts.getJavaScriptObject());
 		}
 		if (getElement().hasClassName("jexp-ui-window-nonmodal")) {
 			JsUtil.centerInWindow(getElement());
