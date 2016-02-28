@@ -292,15 +292,15 @@ public class WindowView extends AbstractContainerFocusable implements IUIComposi
 			opts.set("handle", ".widget-header");
 			opts.set("opacity", 0.8);
 			opts.set("cursor", "move");
-			JsUtil.draggable(getElement(), opts.getJavaScriptObject(), new Command() {
+			JsUtil.draggable(windowDiv, opts.getJavaScriptObject(), new Command() {
 				@Override
 				public void execute() {
-					String top = getElement().getStyle().getTop();
+					String top = windowDiv.getStyle().getTop();
 					if (top.startsWith("-"))
-						getElement().getStyle().setTop(0, Unit.PX);
-					String left = getElement().getStyle().getLeft();
+						windowDiv.getStyle().setTop(0, Unit.PX);
+					String left = windowDiv.getStyle().getLeft();
 					if (left.startsWith("-"))
-						getElement().getStyle().setLeft(0, Unit.PX);
+						windowDiv.getStyle().setLeft(0, Unit.PX);
 				}
 			});
 		}

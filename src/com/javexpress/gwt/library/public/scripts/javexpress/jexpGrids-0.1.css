@@ -18,11 +18,12 @@
 	border-bottom: 1px solid #D3D3D3;
     padding: 0 !important;
 	color: #777777;
-	font-size: 0.9em;
+	font-size: 1em;
     font-weight: 600;
 }
-.jexpSlickGridContainer .jexpSlickGridView { -moz-border-bottom-colors: none;-moz-border-left-colors: none;-moz-border-right-colors: none;-moz-border-top-colors: none;
-    border-color: #D3D3D3;border-image: none;border-style: solid;border-width: 1px 1px;text-shadow: none;
+.jexpSlickGridContainer .jexpSlickGridView { 
+	-moz-border-bottom-colors: none;-moz-border-left-colors: none;-moz-border-right-colors: none;-moz-border-top-colors: none;
+    border-image: none;text-shadow: none;border-left: 1px solid #D3D3D3;border-right: 1px solid #D3D3D3;border-top: 1px solid #D3D3D3;
 }
 .slick-group { border-bottom: 2px solid #C0C0C0;background-color:  }
 .slick-group .jexpRightAlign { text-align: left; }
@@ -49,7 +50,7 @@
 }
 .jexpGridToolbar .toolitem.disabled { cursor:not-allowed;opacity:0.1; }
 .jexpGridToolbar .toolitem.ui-state-hover { background-color:transparent;border:0;opacity:1; }
-.jexpGridToolbar .toolseparator { width:6px; }
+.jexpGridToolbar .toolseparator { width:6px;font-size:1.8em; }
 .jexpGridToolbar .toolseparator > .ui-separator {
     margin-left: 2px;
 	margin-right: 2px;
@@ -159,3 +160,5 @@
 .ui-jqgrid .ui-icon { background-image: none; }
 .totals-container { position: absolute; overflow: hidden;bottom: 0;background-color:#EFF3F8;color:gray; }
 .totals-container .slick-header-columns { border-bottom: none;border-top: 1px solid silver; }
+.grid-canvas .slick-cell {padding-top:3px;}
+.slick-header-column.ui-state-default {line-height:1.5;}
