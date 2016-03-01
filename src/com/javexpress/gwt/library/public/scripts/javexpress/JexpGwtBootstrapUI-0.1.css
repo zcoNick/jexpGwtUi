@@ -128,3 +128,9 @@
 .ui-resizable-nw{cursor:nw-resize;width:9px;height:9px;left:-5px;top:-5px}
 .ui-resizable-ne{cursor:ne-resize;width:9px;height:9px;right:-5px;top:-5px}
 .ui-resizable-se{width:12px;height:12px;right:-5px;bottom:-5px;background-position:16px 16px}
+.jexpPickList .active{background-color:#428bca;color:white;}
+.jexpPickList .btn {margin-top:10px;padding-bottom:2px;opacity:0.5}
+.jexpPickList .btn:hover {opacity:1}
+.jexpPickList .jexpPickListOptions {padding-top:3px;padding-right:10px;font-size:1.2em;display:none;}
+.jexpPickList .selections .jexpPickListOptions {display:inline-block;opacity:0.3;}
+.jexpPickList .selections .jexpPickListOptions:hover {opacity:1;}

@@ -20,10 +20,27 @@ public class PickList<V extends Serializable> extends FlexTable {
 	private Element selected, nonSelected, btAdd, btRemove;
 	private PickListLazyDataSupplier<? extends Serializable, ? extends Serializable> mapSupplier;
 	private boolean autoLoad = true;
+	private boolean useOptionsButton = false;
+	private IPickListOptionListener optionListener;
+	
+	public boolean isUseOptionsButton() {
+		return useOptionsButton;
+	}
+
+	public void setUseOptionsButton(boolean useOptionsButton) {
+		this.useOptionsButton = useOptionsButton;
+	}
+
+	public IPickListOptionListener getOptionListener() {
+		return optionListener;
+	}
+
+	public void setOptionListener(IPickListOptionListener optionListener) {
+		this.optionListener = optionListener;
+	}
 
 	// http://www.bootply.com/lFEZ9qOonX
-	public PickList(final Widget parent, final String id,
-			final String selectedLabel, final String nonSelectedLabel) {
+	public PickList(final Widget parent, final String id, final String selectedLabel, final String nonSelectedLabel) {
 		super();
 		JsUtil.ensureId(parent, this, WidgetConst.PICKLIST_PREFIX, id);
 		addStyleName("jexpPickList");
@@ -41,8 +58,7 @@ public class PickList<V extends Serializable> extends FlexTable {
 		this.autoLoad = autoLoad;
 	}
 
-	private void createLabelRow(final String selectedLabel,
-			final String nonSelectedLabel) {
+	private void createLabelRow(final String selectedLabel, final String nonSelectedLabel) {
 		Element left = DOM.createDiv();
 		left.setClassName("col-xs-5");
 		Element hl = DOM.createElement("h6");
@@ -75,7 +91,7 @@ public class PickList<V extends Serializable> extends FlexTable {
 	private void createListRow() {
 		selected = DOM.createDiv();
 		selected.getStyle().setOverflow(Overflow.AUTO);
-		selected.setClassName("list-group col-xs-5");
+		selected.setClassName("list-group selections col-xs-5");
 		JsUtil.ensureSubId(getElement(), selected, "s");
 		getElement().appendChild(selected);
 
@@ -103,8 +119,7 @@ public class PickList<V extends Serializable> extends FlexTable {
 	}
 
 	public void addItem(V value, String label, boolean isSelected) {
-		addListItem(isSelected ? selected : nonSelected, value.toString(),
-				label);
+		addListItem(isSelected ? selected : nonSelected, value.toString(), label);
 	}
 
 	private void addListItem(Element ls, String value, String title) {
@@ -117,6 +132,12 @@ public class PickList<V extends Serializable> extends FlexTable {
 		i.setPropertyString("value", value);
 		i.setClassName("pull-right");
 		a.appendChild(i);
+		if (useOptionsButton){
+			Element o = DOM.createSpan();
+			o.setAttribute("value", value);
+			o.setClassName("pull-right fa fa-icon fa-gear jexpPickListOptions jexpHandCursor");
+			a.appendChild(o);
+		}
 		ls.appendChild(a);
 	}
 
@@ -144,73 +165,75 @@ public class PickList<V extends Serializable> extends FlexTable {
 	@Override
 	protected void onLoad() {
 		super.onLoad();
-		createByJs(getElement(), btAdd, btRemove, nonSelected, selected);
+		createByJs(getElement(), btAdd, btRemove, nonSelected, selected, useOptionsButton);
 		if (isAutoLoad())
 			load();
 	}
 
-	private native void createByJs(Element el, Element add, Element remove,
-			Element nonSelected, Element selected) /*-{
-													$wnd.$(remove).click(function(e) {
-													$wnd.$(".all", $wnd.$(el)).prop("checked", false);
-													var items = $wnd.$("input:checked:not('.all')", $wnd.$(selected));
-													var n = items.length;
-													if (n > 0) {
-													items.each(function(idx, item) {
-													var choice = $wnd.$(item);
-													choice.prop("checked", false);
-													choice.parent().appendTo($wnd.$(nonSelected));
-													});
-													}
-													return false;
-													});
+	private native void createByJs(Element el, Element add, Element remove, Element nonSelected, Element selected, boolean useOptionsButton) /*-{
+		$wnd.$(remove).click(function(e) {
+			$wnd.$(".all", $wnd.$(el)).prop("checked", false);
+			var items = $wnd.$("input:checked:not('.all')", $wnd.$(selected));
+			if (items.length > 0) {
+				items.each(function(idx, item) {
+					var choice = $wnd.$(item);
+					choice.prop("checked", false);
+					choice.parent().appendTo($wnd.$(nonSelected));
+				});
+			}
+			return false;
+		});
 
-													$wnd.$(add).click(
-													function(e) {
-													$wnd.$('.all', $wnd.$(el)).prop("checked", false);
-													var items = $wnd.$("input:checked:not('.all')", $wnd
-													.$(nonSelected));
-													var n = items.length;
-													if (n > 0) {
-													items.each(function(idx, item) {
-													var choice = $wnd.$(item);
-													choice.prop("checked", false);
-													choice.parent().appendTo($wnd.$(selected));
-													});
-													}
-													return false;
-													});
-													}-*/;
+		$wnd.$(add).click(
+				function(e) {
+					$wnd.$('.all', $wnd.$(el)).prop("checked", false);
+					var items = $wnd.$("input:checked:not('.all')", $wnd
+							.$(nonSelected));
+					if (items.length > 0) {
+						items.each(function(idx, item) {
+							var choice = $wnd.$(item);
+							choice.prop("checked", false);
+							choice.parent().appendTo($wnd.$(selected));
+						});
+					}
+					return false;
+				});
+	}-*/;
 
-	private native void _bindSelects(Element el, Element nonSelected,
-			Element selected) /*-{
-								$wnd.$(".all", $wnd.$(el)).click(
-								function(e) {
-								e.stopPropagation();
-								var $this = $wnd.$(this);
-								if ($this.is(":checked")) {
-								$this.parents('.list-group').find("[type=checkbox]")
+	private native void _bindSelects(PickList x, Element el, Element nonSelected, Element selected) /*-{
+		$wnd.$(".all", $wnd.$(el)).click(
+				function(e) {
+					e.stopPropagation();
+					var $this = $wnd.$(this);
+					if ($this.is(":checked")) {
+						$this.parents('.list-group').find("[type=checkbox]")
 								.prop("checked", true);
-								} else {
-								$this.parents('.list-group').find("[type=checkbox]")
+					} else {
+						$this.parents('.list-group').find("[type=checkbox]")
 								.prop("checked", false);
-								$this.prop("checked", false);
-								}
-								});
+						$this.prop("checked", false);
+					}
+				});
 
-								$wnd.$(".list-group a", $wnd.$(el)).click(function(e) {
-								e.stopPropagation();
-								var $this = $wnd.$(this).find("[type=checkbox]");
-								if ($this.is(":checked")) {
-								$this.prop("checked", false);
-								} else {
-								$this.prop("checked", true);
-								}
-								if ($this.hasClass("all")) {
-								$this.trigger("click");
-								}
-								});
-								}-*/;
+		$wnd.$(".list-group a", $wnd.$(el)).click(function(e) {
+			e.stopPropagation();
+			var $this = $wnd.$(this).find("[type=checkbox]");
+			if ($this.is(":checked")) {
+				$this.prop("checked", false);
+				$this.parent().removeClass("active");
+			} else {
+				$this.prop("checked", true);
+				$this.parent().addClass("active");
+			}
+			if ($this.hasClass("all")) {
+				$this.trigger("click");
+			}
+		});
+		$wnd.$("span.jexpPickListOptions", $wnd.$(el)).click(function(e) {
+			e.stopPropagation();
+			x.@com.javexpress.gwt.library.ui.form.picklist.PickList::fireOptionsClicked(IILjava/lang/String;)(e.pageX,e.pageY,$wnd.$(this).attr("value"));
+		});
+	}-*/;
 
 	@Override
 	protected void onUnload() {
@@ -222,10 +245,15 @@ public class PickList<V extends Serializable> extends FlexTable {
 		destroyByJs(getElement());
 		super.onUnload();
 	}
+	
+	private void fireOptionsClicked(int x, int y, String value){
+		if (optionListener!=null)
+			optionListener.handleOptionsClicked(x, y, value);
+	}
 
 	private native void destroyByJs(Element el) /*-{
-												$wnd.$(el).empty().off();
-												}-*/;
+		$wnd.$(el).empty().off();
+	}-*/;
 
 	public LinkedHashMap<String, String> getSelectionsMap() {
 		LinkedHashMap<String, String> vals = new LinkedHashMap<String, String>();
@@ -274,7 +302,7 @@ public class PickList<V extends Serializable> extends FlexTable {
 	}
 
 	public void fireItemsChanged() {
-		_bindSelects(getElement(), nonSelected, selected);
+		_bindSelects(this,getElement(), nonSelected, selected);
 	}
 
 	public void refresh() {
