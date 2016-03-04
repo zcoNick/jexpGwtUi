@@ -2,7 +2,7 @@ package com.javexpress.gwt.library.ui.data;
 
 import com.google.gwt.core.client.JavaScriptObject;
 import com.javexpress.gwt.library.ui.js.JsonMap;
-import com.javexpress.gwt.library.ui.menu.PopupMenu;
+import com.javexpress.gwt.library.ui.menu.JqPopupMenu;
 
 public interface IGridListener {
 
@@ -16,7 +16,7 @@ public interface IGridListener {
 
 	public void onGridDataLoaded(JavaScriptObject data);
 
-	public boolean onGridContextMenu(PopupMenu menu, String selectedId, JsonMap selectedData);
+	public boolean onGridContextMenu(JqPopupMenu menu, String selectedId, JsonMap selectedData);
 
 	boolean hasRowStyler();
 

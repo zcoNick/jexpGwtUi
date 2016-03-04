@@ -14,18 +14,18 @@ import com.javexpress.gwt.library.ui.js.JsUtil;
 import com.javexpress.gwt.library.ui.js.JsonMap;
 
 public class TerminalConsole extends JexpSimplePanel {
-	
+
 	public static void fillResources(final List<String> styleSheets, final List<String> javaScripts) {
 		//http://terminal.jcubic.pl/rpc-demo.html
 		styleSheets.add("scripts/terminal/jquery.terminal.css");
-		javaScripts.add("scripts/terminal/jquery.terminal-0.6.3.min.js");
+		javaScripts.add("scripts/terminal/jquery.terminal-0.8.8.min.js");
 	}
-	
-	private JsonMap	options;
-	private JavaScriptObject term;
-	
+
+	private JsonMap				options;
+	private JavaScriptObject	term;
+
 	public TerminalConsole(final Widget parent, final String id, ServiceDefTarget service, Enum method) {
-		this(parent, id, null,service, method);
+		this(parent, id, null, service, method);
 	}
 
 	public TerminalConsole(final Widget parent, final String id, final JsonMap pOptions, ServiceDefTarget service, Enum method) {
@@ -45,15 +45,15 @@ public class TerminalConsole extends JexpSimplePanel {
 		options.set("tabcompletion", "true");
 		return options;
 	}
-	
-	public void setGreetings(String greetings){
+
+	public void setGreetings(String greetings) {
 		options.set("greetings", greetings);
 	}
 
-	public void setPrompt(String prompt){
-		options.set("prompt", prompt+"> ");
+	public void setPrompt(String prompt) {
+		options.set("prompt", prompt + "> ");
 	}
-	
+
 	@Override
 	protected void onLoad() {
 		super.onLoad();
@@ -62,24 +62,24 @@ public class TerminalConsole extends JexpSimplePanel {
 	}
 
 	private native JavaScriptObject createByJs(TerminalConsole x, Element element, JavaScriptObject options) /*-{
-		options.login=function(login,pass,callback){
-			callback.call(this,true);
+		options.login = function(login, pass, callback) {
+			callback.call(this, true);
 		};
-		options.completion=function(terminal, cand, callback){
-			var cmds = ["info","whoami"];//login_name()http://terminal.jcubic.pl/api_reference.php
-			callback.call(this,cmds);
+		options.completion = function(terminal, cand, callback) {
+			var cmds = [ "info", "whoami" ];//login_name()http://terminal.jcubic.pl/api_reference.php
+			callback.call(this, cmds);
 		};
 		return $wnd.$(element).terminal(options);
 	}-*/;
 
-	public void echo(String cmd){
+	public void echo(String cmd) {
 		_echo(term, cmd);
 	}
 
 	private native void _echo(JavaScriptObject t, String cmd) /*-{
 		t.echo(cmd);
 	}-*/;
-	
+
 	@Override
 	protected void onUnload() {
 		options = null;
@@ -87,9 +87,9 @@ public class TerminalConsole extends JexpSimplePanel {
 			destroyByJs(getElement());
 		super.onUnload();
 	}
-	
+
 	private native void destroyByJs(Element element) /*-{
 		$wnd.$(element).terminal('destroy');
 	}-*/;
-	
+
 }

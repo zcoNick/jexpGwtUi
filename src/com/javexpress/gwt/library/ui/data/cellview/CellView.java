@@ -15,7 +15,7 @@ import com.javexpress.gwt.library.shared.model.WidgetConst;
 import com.javexpress.gwt.library.ui.AbstractContainer;
 import com.javexpress.gwt.library.ui.js.JsUtil;
 import com.javexpress.gwt.library.ui.menu.IHasPopupMenu;
-import com.javexpress.gwt.library.ui.menu.PopupMenu;
+import com.javexpress.gwt.library.ui.menu.JqPopupMenu;
 
 public class CellView<T> extends AbstractContainer implements IHasPopupMenu {
 
@@ -39,6 +39,7 @@ public class CellView<T> extends AbstractContainer implements IHasPopupMenu {
 
 	public CellView(final Widget parent, final String id, final Integer mod, final boolean fitToParent) {
 		super(DOM.createDiv());
+		getElement().addClassName("jexpCellView");
 		this.mod = mod.byteValue();
 		JsUtil.ensureId(parent, this, WidgetConst.CELLVIEW_PREFIX, id);
 		if (fitToParent) {
@@ -47,7 +48,6 @@ public class CellView<T> extends AbstractContainer implements IHasPopupMenu {
 		}
 		grid = DOM.createTable().cast();
 		grid.getStyle().setWidth(100, Unit.PCT);
-		//grid.getStyle().setHeight(100, Unit.PCT);
 		getElement().appendChild(grid);
 	}
 
@@ -146,12 +146,12 @@ public class CellView<T> extends AbstractContainer implements IHasPopupMenu {
 	}
 
 	@Override
-	public void setPopupMenu(PopupMenu menu) {
+	public void setPopupMenu(JqPopupMenu menu) {
 		addContextMenuHandler(menu);
 	}
 
 	@Override
-	public boolean canOpenContextMenu(PopupMenu menu) throws Exception {
+	public boolean canOpenContextMenu(JqPopupMenu menu) throws Exception {
 		return true;
 	}
 

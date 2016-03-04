@@ -10,12 +10,26 @@ public class LinkColumn extends ListColumn {
 	private String				hint;
 	private int					linkIndexInGrid	= -1;
 	private LinkColumnListener	listener;
+	private String				text;
+
+	public String getText() {
+		return text;
+	}
+
+	public void setText(String text) {
+		this.text = text;
+	}
 
 	/** Designer compatible constructor */
-	public LinkColumn(final ICssIcon icon, String hint) {
+	public LinkColumn(final ICssIcon icon, String text, String hint) {
 		super(null, null, ColumnAlign.center, "16", false, false, Formatter.link, null);
 		this.icon = icon;
+		this.text = text;
 		this.hint = hint;
+	}
+
+	public LinkColumn(final ICssIcon icon, String hint) {
+		this(icon, null, hint);
 	}
 
 	public LinkColumnListener getListener() {

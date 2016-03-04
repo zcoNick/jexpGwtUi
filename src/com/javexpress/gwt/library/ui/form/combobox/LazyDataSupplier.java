@@ -35,6 +35,10 @@ public abstract class LazyDataSupplier<T, V extends Serializable, L extends Seri
 		return null;
 	}
 
+	protected String getHint(final T t) {
+		return null;
+	}
+
 	protected void dataLoadCompleted(final boolean success) {
 	}
 

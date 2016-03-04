@@ -2,7 +2,7 @@ package com.javexpress.gwt.library.ui.form.textbox;
 
 import com.google.gwt.user.client.ui.Widget;
 import com.javexpress.gwt.library.shared.model.WidgetConst;
-import com.javexpress.gwt.library.ui.bootstrap.FormGroupCell;
+import com.javexpress.gwt.library.ui.bootstrap.LabelControlCell;
 import com.javexpress.gwt.library.ui.data.DataBindingHandler;
 import com.javexpress.gwt.library.ui.form.IUserInputWidget;
 import com.javexpress.gwt.library.ui.js.JsUtil;
@@ -53,7 +53,7 @@ public class TextAreaBox extends com.google.gwt.user.client.ui.TextArea implemen
 	@Override
 	public void setValidationError(String validationError) {
 		if (JsUtil.USE_BOOTSTRAP) {
-			Widget nw = getParent() instanceof FormGroupCell ? getParent() : this;
+			Widget nw = getParent() instanceof LabelControlCell ? getParent() : this;
 			if (validationError == null)
 				nw.removeStyleName("has-error");
 			else
@@ -79,4 +79,14 @@ public class TextAreaBox extends com.google.gwt.user.client.ui.TextArea implemen
 		dataBinding = null;
 		super.onUnload();
 	}
+
+	public void addLine(String value) {
+		addLine(value, false);
+	}
+
+	public void addLine(String value, boolean fireEvents) {
+		String v = getValue();
+		setValue((v != null ? v + "\n" : "") + value, fireEvents);
+	}
+
 }

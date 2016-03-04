@@ -14,9 +14,12 @@ import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.json.client.JSONArray;
 import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.ui.Widget;
+import com.javexpress.gwt.library.ui.ClientContext;
 import com.javexpress.gwt.library.ui.container.panel.ContainerWithBar;
 import com.javexpress.gwt.library.ui.data.Column;
+import com.javexpress.gwt.library.ui.data.Column.ColumnAlign;
 import com.javexpress.gwt.library.ui.data.GridToolItem;
+import com.javexpress.gwt.library.ui.data.GridToolMenu;
 import com.javexpress.gwt.library.ui.js.JsUtil;
 import com.javexpress.gwt.library.ui.js.JsonMap;
 import com.javexpress.gwt.library.ui.js.WidgetBundles;
@@ -24,7 +27,8 @@ import com.javexpress.gwt.library.ui.js.WidgetBundles;
 public abstract class BaseSlickGrid<CT extends Column> extends ContainerWithBar {
 
 	public static WidgetBundles fillResources(WidgetBundles parent) {
-		WidgetBundles wb = new WidgetBundles("EditGrid", parent);
+		//https://raw.githubusercontent.com/manju-reddys/SlickGrid/master/slick.grid.js
+		WidgetBundles wb = new WidgetBundles("SlickGrid", parent);
 		wb.addStyleSheet("scripts/slickgrid/slick.grid.css");
 		wb.addStyleSheet("scripts/slickgrid/slick.columnpicker.css");
 		wb.addStyleSheet("scripts/slickgrid/slick.headermenu.css");
@@ -38,25 +42,26 @@ public abstract class BaseSlickGrid<CT extends Column> extends ContainerWithBar 
 		//wb.addJavaScript("scripts/slickgrid/slick.formatters.js");
 		wb.addJavaScript("scripts/slickgrid/slick.editors.js");
 		wb.addJavaScript("scripts/slickgrid/slick.grid.js");
-		wb.addJavaScript("scripts/slickgrid/slick.dataview.js");
+		wb.addJavaScript("scripts/slickgrid/jexp.dataview.js");
 		wb.addJavaScript("scripts/slickgrid/slick.columnpicker.js");
 		wb.addJavaScript("scripts/slickgrid/slick.headermenu.js");
 		wb.addJavaScript("scripts/slickgrid/slick.groupitemmetadataprovider.js");
 		wb.addJavaScript("scripts/slickgrid/slick.checkboxselectcolumn.js");
 		//wb.addJavaScript("scripts/slickgrid/slick.pager.js");
 
-		WidgetBundles jexp = new WidgetBundles("JavExpress EditGrid Extensions", wb);
+		WidgetBundles jexp = new WidgetBundles("JavExpress DataGrid Extensions", wb);
 		jexp.addJavaScript("scripts/slickgrid/jexp.remotemodel.js");
-		jexp.addJavaScript("scripts/slickgrid/jexp.editors.js");
 		jexp.addJavaScript("scripts/slickgrid/jexp.formatters.js");
+		if (JsUtil.USE_BOOTSTRAP)
+			jexp.addStyleSheet("scripts/javexpress/jexpGrids-0.1.css");
 		return jexp;
 	}
 
 	private JsonMap								options;
-	private JsArray								data	= JsArray.createArray().cast();
+	protected JsArray							data	= JsArray.createArray().cast();
 	private JavaScriptObject					jsObject;
 	private List<CT>							columns	= new ArrayList<CT>();
-	private List<GridToolItem>					tools	= new ArrayList<GridToolItem>();
+	protected List<GridToolItem>				tools	= new ArrayList<GridToolItem>();
 	private String								keyColumnName;
 	private JavaScriptObject					dataView;
 	private Serializable						widgetData;
@@ -165,7 +170,7 @@ public abstract class BaseSlickGrid<CT extends Column> extends ContainerWithBar 
 		JSONArray colModel = new JSONArray();
 		int i = 0;
 		for (CT column : columns) {
-			JsonMap cm = createColumnModel(column, i - 1);
+			JsonMap cm = createColumnModel(column, i);
 			if (cm != null)
 				colModel.set(i++, cm);
 		}
@@ -176,8 +181,15 @@ public abstract class BaseSlickGrid<CT extends Column> extends ContainerWithBar 
 	protected abstract JavaScriptObject createJsObject(JSONArray colModel);
 
 	protected void renderToolItems() {
+		beforeRenderToolItems();
 		for (GridToolItem ti : tools)
-			renderToolItem(ti, true);
+			if (ti instanceof GridToolMenu)
+				renderToolMenu((GridToolMenu) ti, true);
+			else
+				renderToolItem(ti, true);
+	}
+
+	protected void beforeRenderToolItems() {
 	}
 
 	protected Element renderToolItem(GridToolItem ti, boolean enabled) {
@@ -185,6 +197,56 @@ public abstract class BaseSlickGrid<CT extends Column> extends ContainerWithBar 
 		_bindToolElement(ti, span);
 		ti.setElement(span);
 		return span;
+	}
+
+	protected Element renderToolMenu(GridToolMenu ti, boolean enabled) {
+		if (ti.isStartsWithSeparator()) {
+			Element divsep = DOM.createDiv();
+			divsep.addClassName("toolseparator");
+			divsep.getStyle().setDisplay(Display.INLINE_BLOCK);
+			Element sep = DOM.createSpan();
+			sep.addClassName("ui-separator");
+			divsep.appendChild(sep);
+			getToolContainer().appendChild(divsep);
+		}
+		Element div = DOM.createDiv();
+		JsUtil.ensureSubId(getElement(), div, ti.getId());
+		div.addClassName("toolitem");
+		if (ti.isDropUp())
+			getElement().addClassName("dropup");
+		else
+			getElement().addClassName("dropdown");
+
+		div.getStyle().setDisplay(Display.INLINE_BLOCK);
+		Element anchor = DOM.createAnchor();
+		if (ti.getHint() != null)
+			anchor.setTitle(ti.getHint());
+		if (!enabled) {
+			anchor.setAttribute("disabled", "true");
+			anchor.addClassName("disabled");
+		}
+		ClientContext.resourceInjector.applyIconStyles(anchor, ti.getIcon());
+		anchor.addClassName("jexpHandCursor dropdown-toggle");
+		if (JsUtil.isNotEmpty(ti.getCaption()))
+			anchor.setInnerHTML(ti.getCaption());
+		if (JsUtil.isNotEmpty(ti.getIconClass())) {
+			anchor.addClassName(ti.getIconClass());
+		}
+		add(ti.getDropDown(), div);
+		getToolContainer().appendChild(div);
+		anchor.setAttribute("data-toggle", "dropdown");
+		div.insertFirst(anchor);
+
+		if (ti.isEndsWithSeparator()) {
+			Element divsep = DOM.createDiv();
+			divsep.addClassName("toolseparator");
+			divsep.getStyle().setDisplay(Display.INLINE_BLOCK);
+			Element sep = DOM.createSpan();
+			sep.addClassName("ui-separator");
+			divsep.appendChild(sep);
+			getToolContainer().appendChild(divsep);
+		}
+		return anchor;
 	}
 
 	private native void _bindToolElement(GridToolItem gi, Element el) /*-{
@@ -203,31 +265,26 @@ public abstract class BaseSlickGrid<CT extends Column> extends ContainerWithBar 
 		$wnd.$(el).off();
 	}-*/;
 
-	protected void toggleToolItem(GridToolItem ti, boolean enable) {
-		Element el = ti.getElement();
-		if (el == null)
-			return;
-		if (enable) {
-			el.removeAttribute("disabled");
-			el.removeClassName("disabled");
-			el.addClassName("ui-state-hover");
-		} else {
-			el.setAttribute("disabled", "true");
-			el.addClassName("disabled");
-			el.removeClassName("ui-state-hover");
-		}
-	}
-
 	protected JsonMap createColumnModel(final CT column, final int index) {
 		if (column.isHidden())
 			return null;
 		JsonMap model = new JsonMap();
 		model.set("id", column.getField());
 		model.set("field", column.getField());
+		column.setColumnKey(column.hashCode());
+		model.setInt("columnKey", column.getColumnKey());
 		model.set("name", column.getTitle() != null ? column.getTitle() : "");
-		if (column.getWidth() != null) {
+		if (column.getWidth() != null)
 			model.setInt("width", Integer.parseInt(column.getWidth()));
-		}
+		String cssClass = column.getStyleNames();
+		if (JsUtil.isEmpty(cssClass))
+			cssClass = "";
+		if (column.getAlign() == ColumnAlign.right)
+			cssClass += " jexpRightAlign";
+		else if (column.getAlign() == ColumnAlign.center)
+			cssClass += " jexpCenter";
+		if (JsUtil.isNotEmpty(cssClass))
+			model.set("cssClass", cssClass);
 		return model;
 	}
 
@@ -256,7 +313,8 @@ public abstract class BaseSlickGrid<CT extends Column> extends ContainerWithBar 
 
 	@Override
 	public void onResize() {
-		_updateSize(jsObject, getContainer());
+		if (isAttached())
+			_updateSize(jsObject, getContainer());
 	}
 
 	private native void _updateSize(JavaScriptObject slick, Element element) /*-{
@@ -266,7 +324,6 @@ public abstract class BaseSlickGrid<CT extends Column> extends ContainerWithBar 
 	protected native void _updateOptionBool(JavaScriptObject slick, String poption, boolean pvalue) /*-{
 		var opt = {};
 		opt[poption] = pvalue;
-		$wnd.console.debug(opt);
 		slick.setOptions(opt);
 		slick.invalidate();
 	}-*/;
@@ -321,7 +378,8 @@ public abstract class BaseSlickGrid<CT extends Column> extends ContainerWithBar 
 					_unbindToolElement(ti, el);
 			}
 		tools = null;
-		_destroyByJs(jsObject, getContainer(), topPanel);
+		if (jsObject != null)
+			_destroyByJs(jsObject, getContainer(), topPanel);
 		jsObject = null;
 		topPanel = null;
 		super.onUnload();

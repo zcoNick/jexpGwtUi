@@ -7,6 +7,7 @@ import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.ui.ButtonBase;
 import com.google.gwt.user.client.ui.Widget;
 import com.javexpress.gwt.library.shared.model.WidgetConst;
+import com.javexpress.gwt.library.ui.ClientContext;
 import com.javexpress.gwt.library.ui.ICssIcon;
 import com.javexpress.gwt.library.ui.bootstrap.Bootstrap.WContext;
 import com.javexpress.gwt.library.ui.bootstrap.Bootstrap.WPull;
@@ -21,7 +22,7 @@ public class Button extends ButtonBase implements ICallbackAware {
 	private WPull		wpull;
 	private WSize		wsize;
 	private WContext	wcontext;
-	private String		iconClass;
+	private ICssIcon	iconClass;
 	private String		textClass;
 	private boolean		highlight;
 	private Element		iconSpan;
@@ -75,18 +76,14 @@ public class Button extends ButtonBase implements ICallbackAware {
 			updateStyleContext();
 	}
 
-	public String getIconClass() {
+	public ICssIcon getIcon() {
 		return iconClass;
 	}
 
 	public void setIcon(ICssIcon icon) {
-		this.iconClass = icon.getCssClass();
+		this.iconClass = icon;
 		if (isAttached())
-			iconSpan.setClassName("ace-icon " + iconClass);
-	}
-
-	public void setIconClass(String iconClass) {
-		this.iconClass = iconClass;
+			ClientContext.resourceInjector.applyIconStyles(iconSpan, icon);
 	}
 
 	public String getTextClass() {
@@ -111,7 +108,7 @@ public class Button extends ButtonBase implements ICallbackAware {
 	protected void onLoad() {
 		updateStyleContext();
 		iconSpan = DOM.createElement("i");
-		iconSpan.setClassName("ace-icon " + iconClass);
+		ClientContext.resourceInjector.applyIconStyles(iconSpan, iconClass);
 		getElement().appendChild(iconSpan);
 		textSpan = DOM.createSpan();
 		textSpan.setClassName(textClass);
@@ -129,8 +126,11 @@ public class Button extends ButtonBase implements ICallbackAware {
 		clazz += " btn";
 		if (wsize != null) {
 			switch (wsize) {
-				case Small:
+				case small:
 					clazz += " btn-sm";
+					break;
+				case large:
+					clazz += " btn-lg";
 					break;
 			}
 		}
@@ -144,6 +144,27 @@ public class Button extends ButtonBase implements ICallbackAware {
 					break;
 				case Purple:
 					clazz += " btn-purple";
+					break;
+				case Pink:
+					clazz += " btn-pink";
+					break;
+				case Info:
+					clazz += " btn-info";
+					break;
+				case Inverse:
+					clazz += " btn-inverse";
+					break;
+				case Grey:
+					clazz += " btn-grey";
+					break;
+				case Warning:
+					clazz += " btn-warning";
+					break;
+				case Light:
+					clazz += " btn-light";
+					break;
+				case Yellow:
+					clazz += " btn-yellow";
 					break;
 				case Danger:
 					clazz += " btn-danger";
@@ -190,6 +211,8 @@ public class Button extends ButtonBase implements ICallbackAware {
 
 	public void setHighlight(boolean highlight) {
 		this.highlight = highlight;
+		if (isAttached())
+			updateStyleContext();
 	}
 
 	@Override

@@ -4,20 +4,19 @@ import java.math.BigDecimal;
 
 import com.google.gwt.core.client.JavaScriptObject;
 import com.google.gwt.dom.client.Element;
-import com.google.gwt.event.logical.shared.ValueChangeEvent;
 import com.google.gwt.user.client.ui.Widget;
 import com.javexpress.gwt.library.shared.model.JexpGwtUser;
 import com.javexpress.gwt.library.shared.model.WidgetConst;
-import com.javexpress.gwt.library.ui.form.textbox.TextBox;
+import com.javexpress.gwt.library.ui.form.textbox.JexpValueBox;
 import com.javexpress.gwt.library.ui.js.JsUtil;
 import com.javexpress.gwt.library.ui.js.JsonMap;
 import com.javexpress.gwt.library.ui.js.WidgetBundles;
 
-public class DecimalBox extends TextBox {
+public class DecimalBox extends JexpValueBox<BigDecimal> {
 
 	public static void fillResources(WidgetBundles wb) {
 		//https://github.com/BobKnothe/autoNumeric
-		wb.addJavaScript("scripts/autonumeric/autoNumeric-1.9.30.js");
+		wb.addJavaScript("scripts/autonumeric/autoNumeric-1.9.37.js");
 	}
 
 	private JsonMap	options;
@@ -25,9 +24,9 @@ public class DecimalBox extends TextBox {
 
 	/** Designer compatible constructor */
 	public DecimalBox(final Widget parent, final String id) {
-		super(parent, id);
-		JsUtil.ensureId(parent, this, WidgetConst.DECIMALBOX_PREFIX, id);
+		super(parent, id, WidgetConst.DECIMALBOX_PREFIX);
 		addStyleName("jexpRightAlign");
+
 		options = new JsonMap();
 		options.set("lZero", "deny");
 		setGroupSeparator(String.valueOf(JexpGwtUser.getCurrencyGroupChar()));
@@ -55,7 +54,7 @@ public class DecimalBox extends TextBox {
 	public int getDecimals() {
 		return options.getInt("mDec", 2);
 	}
-	
+
 	public void setEmptyDecimals(boolean emptyDecimals) {
 		options.set("aPad", emptyDecimals);
 	}
@@ -86,15 +85,15 @@ public class DecimalBox extends TextBox {
 	@Override
 	protected void onLoad() {
 		super.onLoad();
-		createByJs(this, getElement(), options.getJavaScriptObject(), getText());
+		createByJs(this, getElement(), options.getJavaScriptObject());
 	}
 
-	private native void createByJs(DecimalBox x, Element element, JavaScriptObject options, String value) /*-{
+	private native void createByJs(DecimalBox x, Element element, JavaScriptObject options) /*-{
 		var el = $wnd.$(element).autoNumeric('init', options);
-		if (value && value != '')
-			el.autoNumeric('set', parseFloat(value));
-		el.on("change", function(){
-			x.@com.javexpress.gwt.library.ui.form.decimalbox.DecimalBox::fireOnChange()();
+		//if (value && value != '')
+		//el.autoNumeric('set', parseFloat(value));
+		el.on("change", function(e) {
+			//Just to attach onchange
 		});
 	}-*/;
 
@@ -123,22 +122,26 @@ public class DecimalBox extends TextBox {
 	private native void _setValue(Element element, double d) /*-{
 		$wnd.$(element).autoNumeric('set', d);
 	}-*/;
-	
+
+	@Override
 	public void setValue(final BigDecimal val) {
-		String oldValue = getValue();
-		if (val == null)
-			super.setValue(null);
-		else {
-			if (isAttached()){
-				_setValue(getElement(), val.doubleValue());
-				ValueChangeEvent.fireIfNotEqual(this, oldValue, getValue());
-			} else
-				setValue(val.toString());
-		}
+		setValue(val, false);
 	}
-	
-	private void fireOnChange(){
-		ValueChangeEvent.fireIfNotEqual(this, null, getValue());
+
+	@Override
+	public void setValue(final BigDecimal value, boolean fireEvents) {
+		BigDecimal oldValue = fireEvents ? getValue() : null;
+		if (isAttached() && value != null)
+			_setValue(getElement(), value.doubleValue());
+		else
+			setText(JsUtil.asString(value, getDecimals()));
+		if (fireEvents)
+			fireValueChanged(oldValue, value);
+	}
+
+	@Override
+	public BigDecimal getValue() {
+		return JsUtil.asDecimal(getText());
 	}
 
 }

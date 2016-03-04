@@ -9,13 +9,13 @@ import com.javexpress.gwt.library.ui.ICssIcon;
 import com.javexpress.gwt.library.ui.js.JsUtil;
 import com.javexpress.gwt.library.ui.menu.IMenuHandler;
 
-public class SideBarItem extends AbstractContainer {
+public abstract class SideBarItem extends AbstractContainer {
 
-	private Element			ul;
+	protected Element		ul;
 	private IMenuHandler	handler;
-	private String			text;
-	private String			iconClass;
-	private String			path;
+	protected Element		anchor;
+	protected Element		iconSpan;
+	protected Element		textSpan;
 
 	public IMenuHandler getHandler() {
 		return handler;
@@ -27,76 +27,48 @@ public class SideBarItem extends AbstractContainer {
 
 	public SideBarItem(Widget sideBar, String id, String path) {
 		super(DOM.createElement("li"));
-		this.path = path;
 		JsUtil.ensureId(sideBar, this, WidgetConst.SIDEBARITEM, id);
-	}
-
-	public void addSub(SideBarItem child) {
-		if (ul == null) {
-			ul = DOM.createElement("ul");
-			ul.setClassName("submenu");
-		}
-		add(child, ul);
+		anchor = DOM.createAnchor();
+		anchor.setAttribute("href", "#" + path);
+		anchor.addClassName("sidebar-link");
+		if (path != null)
+			anchor.setAttribute("path", path);
+		iconSpan = DOM.createElement("i");
+		anchor.appendChild(iconSpan);
+		textSpan = DOM.createSpan();
+		anchor.appendChild(textSpan);
+		getElement().appendChild(anchor);
 	}
 
 	public String getText() {
-		return text;
+		return textSpan.getInnerText();
 	}
 
 	public void setText(String text) {
-		this.text = text;
+		textSpan.setInnerText(text);
+	}
+
+	public String getBpmnCode() {
+		return anchor.getAttribute("bpmnCode");
+	}
+
+	public void setBpmnCode(String bpmnCode) {
+		anchor.setAttribute("bpmnCode", bpmnCode);
 	}
 
 	public void setIcon(ICssIcon icon) {
-		this.iconClass = icon.getCssClass();
+		setIconClass(icon.getCssClass());
 	}
 
-	public void setIconClass(String iconClass) {
-		this.iconClass = iconClass;
-	}
-
-	@Override
-	protected void onLoad() {
-		if (ul != null)
-			getElement().addClassName("hsub");
-		Element a = DOM.createAnchor();
-		a.setAttribute("href", "#");
-		if (ul == null) {
-			a.setAttribute("path", path);
-			a.setClassName("sidebar-link");
-		}
-		Element i = DOM.createElement("i");
-		i.setClassName("menu-icon " + (iconClass != null ? iconClass : "fa fa-caret-right"));
-		a.appendChild(i);
-		Element s = DOM.createSpan();
-		s.setClassName("menu-text");
-		s.setInnerText(" " + text + " ");
-		a.appendChild(s);
-		getElement().appendChild(a);
-		if (ul != null) {
-			a.addClassName("dropdown-toggle");
-			Element b1 = DOM.createElement("b");
-			b1.setClassName("arrow fa fa-angle-down");
-			a.appendChild(b1);
-		}
-
-		Element b = DOM.createElement("b");
-		b.setClassName("arrow");
-		getElement().appendChild(b);
-
-		if (ul != null)
-			getElement().appendChild(ul);
-
-		super.onLoad();
-	}
+	public abstract void setIconClass(String iconClass);
 
 	@Override
 	protected void onUnload() {
 		ul = null;
 		handler = null;
-		text = null;
-		iconClass = null;
 		super.onUnload();
 	}
+
+	public abstract SideBarItem createAndAddSubItem(String id, String path);
 
 }

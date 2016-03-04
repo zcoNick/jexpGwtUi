@@ -6,56 +6,39 @@ import java.util.Map;
 
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.dom.client.Style.Display;
-import com.google.gwt.user.client.DOM;
 import com.javexpress.gwt.library.ui.AbstractContainer;
+import com.javexpress.gwt.library.ui.js.JsUtil;
 
-public class ApplicationMainContent extends AbstractContainer {
+public abstract class ApplicationMainContent extends AbstractContainer {
 
-	private static final int		VIEW_CACHE_SIZE	= 10;
+	protected static final int				VIEW_CACHE_SIZE	= 20;
 
-	private Element					inner;
-	private Element					page;
-	private ApplicationBreadcrumb	breadcrumb;
-
-	private Map<String, MainContentView>		viewCache		= new LinkedHashMap<String, MainContentView>(VIEW_CACHE_SIZE);
+	private Map<String, MainContentView>	viewCache		= new LinkedHashMap<String, MainContentView>(VIEW_CACHE_SIZE);
 	private MainContentView					currentView		= null;
 
-	public ApplicationMainContent() {
-		super(DOM.createDiv());
-		getElement().setClassName("main-content");
+	protected Element						page;
 
-		inner = DOM.createDiv();
-		inner.setClassName("main-content-inner");
-		getElement().appendChild(inner);
-
-		ApplicationBreadcrumb breadcrumb = new ApplicationBreadcrumb();
-		add(breadcrumb, inner);
-
-		page = DOM.createDiv();
-		page.setClassName("page-content");
-		inner.appendChild(page);
-	}
-
-	public ApplicationBreadcrumb getBreadcrumb() {
-		return breadcrumb;
+	public ApplicationMainContent(Element el) {
+		super(el);
 	}
 
 	public void addView(String path, MainContentView view) {
-		hideCurrent();
 		try {
+			hideCurrent();
 			add(view, page);
+			viewCache.put(path, view);
+			currentView = view;
+			currentView.onShow();
+			if (viewCache.size() > VIEW_CACHE_SIZE) {
+				Iterator<String> iter = viewCache.keySet().iterator();
+				iter.next();//Dashboard
+				String second = iter.next();
+				MainContentView cached = viewCache.get(second);
+				viewCache.remove(second);
+				cached.removeFromParent();
+			}
 		} catch (Exception e) {
-		}
-		viewCache.put(path, view);
-		currentView = view;
-		currentView.onShow();
-		if (viewCache.size() > VIEW_CACHE_SIZE) {
-			Iterator<String> iter = viewCache.keySet().iterator();
-			iter.next();//Dashboard
-			String second = iter.next();
-			MainContentView cached = viewCache.get(second);
-			viewCache.remove(second);
-			cached.removeFromParent();
+			JsUtil.handleError(this, e);
 		}
 	}
 
@@ -78,14 +61,18 @@ public class ApplicationMainContent extends AbstractContainer {
 		currentView.onShow();
 	}
 
+	public MainContentView getCurrentView() {
+		return currentView;
+	}
+
 	@Override
 	protected void onUnload() {
-		breadcrumb = null;
-		inner = null;
-		page = null;
 		viewCache = null;
 		currentView = null;
+		page = null;
 		super.onUnload();
 	}
+
+	public abstract MainContentView createView(String id);
 
 }

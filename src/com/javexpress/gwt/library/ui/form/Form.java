@@ -10,6 +10,7 @@ import com.google.gwt.event.dom.client.KeyDownHandler;
 import com.google.gwt.event.shared.HandlerRegistration;
 import com.google.gwt.user.client.Command;
 import com.google.gwt.user.client.ui.RequiresResize;
+import com.javexpress.common.model.item.BpmAction;
 import com.javexpress.common.model.item.FormDef;
 import com.javexpress.common.model.item.exception.NotAuthorizedException;
 import com.javexpress.common.model.item.type.Pair;
@@ -17,25 +18,35 @@ import com.javexpress.gwt.library.shared.model.WidgetConst;
 import com.javexpress.gwt.library.ui.ClientContext;
 import com.javexpress.gwt.library.ui.ICssIcon;
 import com.javexpress.gwt.library.ui.container.panel.SimplePanelFocusable;
-import com.javexpress.gwt.library.ui.dialog.NewJiraIssueDialog;
+import com.javexpress.gwt.library.ui.facet.ProvidesAuthorization;
 import com.javexpress.gwt.library.ui.form.keyboard.KeyCode;
 import com.javexpress.gwt.library.ui.js.JexpCallback;
 import com.javexpress.gwt.library.ui.js.JsCache;
 import com.javexpress.gwt.library.ui.js.JsUtil;
 
+@Deprecated
 public abstract class Form extends SimplePanelFocusable implements IWindow, IUIComposite {
 
-	public final static JsCache<String, String>	formRights				= new JsCache<String, String>(30);
+	public final static JsCache<String, String>	formRights	= new JsCache<String, String>(30);
 
 	private IWindowContainer					window;
 	protected Form								that;
 	private String								rights;
-	private boolean								highlightInputElement	= !JsUtil.isBrowserChrome();
 	private List<Command>						onLoadCommands;
 	private List<Command>						onUnloadCommands;
 	private HandlerRegistration					keyDownHandlerRegistration;
-
+	private IUICompositeView					attachedTo;
 	private boolean								showing;
+
+	@Override
+	public IUICompositeView getAttachedTo() {
+		return attachedTo;
+	}
+
+	@Override
+	public void setAttachedTo(IUICompositeView attachedTo) {
+		this.attachedTo = attachedTo;
+	}
 
 	@Override
 	public void setCloseHandler(Command command) {
@@ -91,14 +102,6 @@ public abstract class Form extends SimplePanelFocusable implements IWindow, IUIC
 		return getElement().getId();
 	}
 
-	public boolean isHighlightInputElement() {
-		return highlightInputElement;
-	}
-
-	public void setHighlightInputElement(boolean highlightInputElement) {
-		this.highlightInputElement = highlightInputElement;
-	}
-
 	@Override
 	public void setWindowContainer(final IWindowContainer window) {
 		this.window = window;
@@ -129,8 +132,8 @@ public abstract class Form extends SimplePanelFocusable implements IWindow, IUIC
 		if (authKey != null && authKey.getLeft() != Long.MIN_VALUE && authKey.getRight().equals(" ")) {//if not anonymous
 			final String key = authKey.getLeft() + ":" + authKey.getRight();
 			String cached = formRights.get(key);
-			if (cached == null)
-				ClientContext.instance.formYetkiListesi(authKey.getLeft(), authKey.getRight(), new JexpCallback<List<String>>() {
+			if (cached == null && ClientContext.instance instanceof ProvidesAuthorization) {
+				((ProvidesAuthorization) ClientContext.instance).formYetkiListesi(authKey.getLeft(), authKey.getRight(), new JexpCallback<List<String>>() {
 					@Override
 					protected void onResult(final List<String> result) {
 						String r = JsUtil.join(result, ",");
@@ -138,7 +141,7 @@ public abstract class Form extends SimplePanelFocusable implements IWindow, IUIC
 						applyFormRights(r);
 					}
 				});
-			else
+			} else
 				applyFormRights(cached);
 		} else
 			applyFormRights(null);
@@ -176,8 +179,6 @@ public abstract class Form extends SimplePanelFocusable implements IWindow, IUIC
 
 	@Override
 	protected void onUnload() {
-		if (highlightInputElement)
-			JsUtil.detachHighlightListeners(getElement());
 		keyDownHandlerRegistration.removeHandler();
 		super.onUnload();
 	}
@@ -211,10 +212,6 @@ public abstract class Form extends SimplePanelFocusable implements IWindow, IUIC
 		JsUtil.openWindow(url, null);
 	}
 
-	protected void openJiraIssue(IJiraEnabledForm form) {
-		NewJiraIssueDialog.open(form);
-	}
-
 	protected Pair<Long, String> getAuthKey() {
 		return null;
 	}
@@ -232,8 +229,6 @@ public abstract class Form extends SimplePanelFocusable implements IWindow, IUIC
 	@Override
 	public void onShow() {
 		showing = true;
-		if (highlightInputElement)
-			JsUtil.attachHighlightListeners(getElement());
 	}
 
 	@Override
@@ -281,6 +276,16 @@ public abstract class Form extends SimplePanelFocusable implements IWindow, IUIC
 
 	@Override
 	public void performAction(byte action) throws Exception {
+	}
+
+	@Override
+	public BpmAction getBpmAction() {
+		return null;
+	}
+
+	@Override
+	public boolean canClose() {
+		return true;
 	}
 
 }

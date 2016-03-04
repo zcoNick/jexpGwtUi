@@ -77,7 +77,7 @@ public class GroupedBarChart extends JqPlotPanel {
 		data.push(k);
 	}-*/;
 
-	private JavaScriptObject createDataArray(final Map<String, List<Number>> map) {
+	private JavaScriptObject createGroupedDataArray(final Map<String, List<Number>> map) {
 		JavaScriptObject data = JsArray.createArray().cast();
 		for (String k : map.keySet()) {
 			List<Number> ls = map.get(k);
@@ -103,7 +103,7 @@ public class GroupedBarChart extends JqPlotPanel {
 		//http://www.jqplot.com/tests/bar-charts.php
 		List<String> groups = dataSupplier.getGroups();
 		Map<String, List<Number>> map = dataSupplier.populateData();
-		widget = createByJs(this, getElement().getId(), createTickArray(groups), createSerieTitleArray(map), createDataArray(map), getTitle());
+		widget = createByJs(this, getElement().getId(), createTickArray(groups), createSerieTitleArray(map), createGroupedDataArray(map), getTitle());
 	}
 
 	@Override
@@ -113,9 +113,5 @@ public class GroupedBarChart extends JqPlotPanel {
 		widget = null;
 		super.onUnload();
 	}
-
-	private native void destroyByJs(JavaScriptObject widget) /*-{
-		widget.destroy();
-	}-*/;
 
 }

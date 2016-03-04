@@ -2,7 +2,7 @@ package com.javexpress.gwt.library.ui.data;
 
 import com.google.gwt.core.client.JavaScriptObject;
 import com.javexpress.gwt.library.ui.js.JsonMap;
-import com.javexpress.gwt.library.ui.menu.PopupMenu;
+import com.javexpress.gwt.library.ui.menu.JqPopupMenu;
 
 public class BaseGridListener implements IGridListener {
 
@@ -28,7 +28,7 @@ public class BaseGridListener implements IGridListener {
 	}
 
 	@Override
-	public boolean onGridContextMenu(final PopupMenu menu, final String selectedId, final JsonMap rowData) {
+	public boolean onGridContextMenu(final JqPopupMenu menu, final String selectedId, final JsonMap rowData) {
 		return false;
 	}
 

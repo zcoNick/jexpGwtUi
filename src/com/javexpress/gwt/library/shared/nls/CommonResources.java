@@ -40,6 +40,9 @@ public interface CommonResources extends ConstantsWithLookup {
 	/** Yahudi */
 	String DinEnum_Yahudi();
 
+	/** Uzantı */
+	String Dosya_uzanti();
+
 	/** İlkokul */
 	String EgitimEnum_Ilk();
 
@@ -277,6 +280,9 @@ public interface CommonResources extends ConstantsWithLookup {
 	/** Diğer */
 	String diger();
 
+	/** Dil */
+	String dil();
+
 	/** Doğum Tarihi */
 	String dogumTarihi();
 
@@ -286,8 +292,39 @@ public interface CommonResources extends ConstantsWithLookup {
 	/** Dosya */
 	String dosya();
 
+	/** Yüklemeyi durdur */
+	String dpzCancelUpload();
+
+	/** Yüklemeyi durdurmak istediğinizden emin misiniz? */
+	String dpzCancelUploadConfirmation();
+
+	/** Yüklemek istediğiniz dosyaları buraya sürükleyin */
+	String dpzDefault();
+
+	/** Tarayıcı sürükle & bırak dosya yükleme desteklemiyor */
+	String dpzFallbackMessage();
+
+	/** Aşağıdaki formu eski günlerdeki gibi dosyaları yüklemek için
+	 * kullanın. */
+	String dpzFallbackText();
+
+	/** Dosya boyutu izin verilenden fazla */
+	String dpzFileTooBig();
+
+	/** Geçersiz Dosya Türü */
+	String dpzInvalidFileType();
+
+	/** Maksimum dosya sayısı aşıldı */
+	String dpzMaxFilesExceeded();
+
+	/** Sunucu Hatası : {{statusCode}} */
+	String dpzResponseError();
+
 	/** Düzenle */
 	String duzenle();
+
+	/** E-İmzalı */
+	String eimzali();
 
 	/** Ek Bilgi */
 	String ekBilgi();
@@ -351,6 +388,12 @@ public interface CommonResources extends ConstantsWithLookup {
 
 	/** Geçersiz TC Kimlik No */
 	String gecersizTCKimlik();
+
+	/** Gelişmiş */
+	String gelismis();
+
+	/** Geri */
+	String geri();
 
 	/** Giden Mesajlar */
 	String gidenMesajlar();
@@ -425,6 +468,9 @@ public interface CommonResources extends ConstantsWithLookup {
 	/** İlçe / İl */
 	String ilceIl();
 
+	/** İleri */
+	String ileri();
+
 	/** İncele */
 	String incele();
 
@@ -439,6 +485,9 @@ public interface CommonResources extends ConstantsWithLookup {
 
 	/** İşlem Başarılı */
 	String islemBasarili();
+
+	/** İşlem Yapan */
+	String islemYapan();
 
 	/** Hata başarıyla iletildi. Açılan pencereden durumunu takip edebilirsiniz.
 	 * Referans : */
@@ -455,6 +504,9 @@ public interface CommonResources extends ConstantsWithLookup {
 
 	/** Kaydet */
 	String kaydet();
+
+	/** Kayıt Bilgisi */
+	String kayitBilgisi();
 
 	/** Kayıt bulunamadı */
 	String kayitBulunamadi();
@@ -513,11 +565,17 @@ public interface CommonResources extends ConstantsWithLookup {
 	/** Mahalle */
 	String mahalle();
 
+	/** Menu */
+	String menu();
+
 	/** Mesleği */
 	String meslegi();
 
 	/** Miktar */
 	String miktar();
+
+	/** Modül */
+	String module();
 
 	/** Notlar */
 	String notlar();
@@ -546,6 +604,12 @@ public interface CommonResources extends ConstantsWithLookup {
 	/** Org.Birimi */
 	String orgBirimi();
 
+	/** Oto. */
+	String oto();
+
+	/** Giriş */
+	String oturumAc();
+
 	/** Oturum Kilitli */
 	String oturumZamaniAsilmis();
 
@@ -570,11 +634,17 @@ public interface CommonResources extends ConstantsWithLookup {
 	/** Raporlar */
 	String raporlar();
 
+	/** Referans */
+	String referans();
+
 	/** Resim silinecektir. Emin misiniz? */
 	String resimSilmeOnay();
 
 	/** Saat */
 	String saat();
+
+	/** Şablon */
+	String sablon();
 
 	/** Şablon Adı */
 	String sablonAdi();
@@ -594,8 +664,17 @@ public interface CommonResources extends ConstantsWithLookup {
 	/** Seçenekler */
 	String secenekler();
 
+	/** seçili */
+	String secili();
+
+	/** Seçiniz... */
+	String seciniz();
+
 	/** Seviye */
 	String seviye();
+
+	/** Şifre */
+	String sifre();
 
 	/** Şifremi unuttum */
 	String sifremiUnuttum();
@@ -605,6 +684,9 @@ public interface CommonResources extends ConstantsWithLookup {
 
 	/** Sıra */
 	String siraNo();
+
+	/** Son */
+	String son();
 
 	/** Soyadı */
 	String soyadi();
@@ -653,6 +735,9 @@ public interface CommonResources extends ConstantsWithLookup {
 
 	/** Tümünü Seç */
 	String tumunuSec();
+
+	/** Türü */
+	String turu();
 
 	/** Ünvanı */
 	String unvani();

@@ -21,8 +21,8 @@ public abstract class JexpCallback<T> implements AsyncCallback<T> {
 
 	public JexpCallback(ICallbackAware listener) {
 		this.listener = listener;
-		if (listener != null)
-			listener.callbackStarted();
+		if (this.listener != null)
+			this.listener.callbackStarted();
 	}
 
 	@Override

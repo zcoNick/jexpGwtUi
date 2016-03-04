@@ -4,6 +4,8 @@ import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Map;
 
+import com.google.gwt.event.logical.shared.ValueChangeHandler;
+import com.google.gwt.event.shared.HandlerRegistration;
 import com.google.gwt.i18n.client.ConstantsWithLookup;
 import com.google.gwt.json.client.JSONArray;
 import com.google.gwt.json.client.JSONObject;
@@ -14,7 +16,7 @@ import com.javexpress.gwt.library.ui.form.combobox.IKeyValueList;
 import com.javexpress.gwt.library.ui.form.label.Label;
 import com.javexpress.gwt.library.ui.js.JsUtil;
 
-public class TextField extends Label implements IDataBindable, IKeyValueList {
+public class TextField extends Label implements IDataBindable<String>, IKeyValueList {
 
 	private DataBindingHandler<TextField>	dataBinding;
 	private Map<String, String>				optionsMap;
@@ -52,9 +54,30 @@ public class TextField extends Label implements IDataBindable, IKeyValueList {
 	}
 
 	@Override
+	public String getValue() {
+		String v = getElement().getAttribute("v");
+		return JsUtil.isEmpty(v) ? null : v;
+	}
+
+	@Override
+	public void setText(String text) {
+		getElement().removeAttribute("v");
+		super.setText(text);
+	}
+
+	@Override
 	public void setValue(String value) {
+		setValue(value, false);
+	}
+
+	@Override
+	public void setValue(String value, boolean fireEvents) {
 		String t = optionsMap != null ? optionsMap.get(value) : value;
-		super.setValue(t);
+		if (value == null)
+			getElement().removeAttribute("v");
+		else
+			getElement().setAttribute("v", value);
+		setText(t);
 	}
 
 	@Override
@@ -115,6 +138,11 @@ public class TextField extends Label implements IDataBindable, IKeyValueList {
 			}
 		}
 		onItemListChanged();
+	}
+
+	@Override
+	public HandlerRegistration addValueChangeHandler(ValueChangeHandler handler) {
+		return null;
 	}
 
 }

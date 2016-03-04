@@ -1,63 +1,49 @@
 package com.javexpress.gwt.library.ui.bootstrap;
 
-import java.text.ParseException;
 import java.util.Date;
 
 import com.google.gwt.core.client.JavaScriptObject;
 import com.google.gwt.dom.client.Element;
-import com.google.gwt.event.dom.client.ChangeHandler;
-import com.google.gwt.event.shared.HandlerRegistration;
+import com.google.gwt.dom.client.InputElement;
 import com.google.gwt.i18n.client.LocaleInfo;
 import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.ui.Widget;
 import com.javexpress.gwt.library.shared.model.JexpGwtUser;
 import com.javexpress.gwt.library.shared.model.WidgetConst;
 import com.javexpress.gwt.library.ui.FaIcon;
-import com.javexpress.gwt.library.ui.container.panel.JexpSimplePanel;
-import com.javexpress.gwt.library.ui.data.DataBindingHandler;
-import com.javexpress.gwt.library.ui.form.IWrappedInput;
 import com.javexpress.gwt.library.ui.js.JsUtil;
 import com.javexpress.gwt.library.ui.js.JsonMap;
 import com.javexpress.gwt.library.ui.js.WidgetBundles;
 
-public class DateBox extends JexpSimplePanel implements IWrappedInput<Date> {
+public class DateBox extends BaseWrappedInput<Date, InputElement> {
 
-	public static void fillResources(final WidgetBundles wb) {
-		wb.addStyleSheet("ace/css/datepicker.css");
-		wb.addStyleSheet("ace/css/bootstrap-timepicker.css");
-		wb.addStyleSheet("ace/css/daterangepicker.css");
-		wb.addStyleSheet("ace/css/bootstrap-datetimepicker.css");
+	public static WidgetBundles fillResources(final WidgetBundles parent) {
+		WidgetBundles wb = new WidgetBundles("Date/Time Pickers", parent);
 
-		wb.addJavaScript("ace/js/bootstrap-datepicker.min.js");
-		wb.addJavaScript("ace/js/bootstrap-timepicker.min.js");
-		//wb.addJavaScript("ace/js/moment.min.js");
-		wb.addJavaScript("ace/js/daterangepicker.min.js");
-		wb.addJavaScript("ace/js/bootstrap-datetimepicker.min.js");
-		wb.addJavaScript("ace/js/bootstrap-datepicker.tr.js");
+		wb.addStyleSheet("scripts/datetimepicker/datepicker.css");
+		wb.addStyleSheet("scripts/datetimepicker/bootstrap-timepicker.css");
+		wb.addStyleSheet("scripts/datetimepicker/daterangepicker.css");
+		wb.addStyleSheet("scripts/datetimepicker/bootstrap-datetimepicker.css");
+
+		wb.addJavaScript("scripts/datetimepicker/bootstrap-datepicker.min.js");
+		wb.addJavaScript("scripts/datetimepicker/bootstrap-timepicker.min.js");
+		wb.addJavaScript("scripts/datetimepicker/daterangepicker.min.js");
+		wb.addJavaScript("scripts/datetimepicker/bootstrap-datetimepicker.min.js");
+
+		WidgetBundles lclz = new WidgetBundles("Date/Time Localizations", wb);
+		lclz.addJavaScript("scripts/datetimepicker/bootstrap-datepicker.tr.js");
+		return lclz;
 	}
 
-	private JsonMap				options;
-	private boolean				required;
-	private ChangeHandler		onChangeHandler;
-	private DataBindingHandler	dataBinding;
-	private Element				input;
-
-	@Override
-	public boolean isRequired() {
-		return required;
-	}
-
-	@Override
-	public void setRequired(final boolean required) {
-		this.required = required;
-	}
+	private JsonMap	options;
+	private Element	btDate;
 
 	public DateBox(final Widget parent, final String id) {
-		super(DOM.createDiv());
-		JsUtil.ensureId(parent, this, WidgetConst.DATEBOX_PREFIX, id);
-		getElement().setClassName("input-group jexpDateBox");
+		super(parent, WidgetConst.DATEBOX_PREFIX, id, "input-group jexpDateBox");
 
-		input = DOM.createInputText();
+		input = DOM.createInputText().cast();
+		JsUtil.ensureSubId(getElement(), input, "inp");
+		input.addClassName("form-control");
 		getElement().appendChild(input);
 
 		btDate = DOM.createSpan();
@@ -92,6 +78,10 @@ public class DateBox extends JexpSimplePanel implements IWrappedInput<Date> {
 		options.set("inputformat", fmt);
 	}
 
+	public void setAutoClose(boolean autoClose) {
+		options.set("autoclose", autoClose);
+	}
+
 	@Override
 	protected void onLoad() {
 		super.onLoad();
@@ -99,23 +89,27 @@ public class DateBox extends JexpSimplePanel implements IWrappedInput<Date> {
 	}
 
 	private native void createByJs(DateBox x, Element element, Element bt, JavaScriptObject options) /*-{
-		var el = $wnd.$(element).datepicker(options).on("clearDate", function(e){
-			x.@com.javexpress.gwt.library.ui.bootstrap.DateBox::setValue(Ljava/lang/String;)(null);
-		}).on("changeDate", function(e){
-			x.@com.javexpress.gwt.library.ui.bootstrap.DateBox::fireOnDateSelect(ZLjava/lang/String;)(false,e.format());
-		});
-		el.inputmask("datetime",{
+		var el = $wnd.$(element).datepicker(options);
+		el
+				.on(
+						"clearDate",
+						function(e) {
+							x.@com.javexpress.gwt.library.ui.bootstrap.DateBox::fireValueUpdated()();
+						});
+		el
+				.on(
+						"changeDate",
+						function(e) {
+							if (el.val().indexOf(' ') == -1) {
+								x.@com.javexpress.gwt.library.ui.bootstrap.DateBox::fireValueUpdated()();
+							}
+						});
+		el.inputmask("datetime", {
 			mask : options.inputformat,
 			separator : '.',
-			placeholder : " ",
-			oncomplete : function() {
-				x.@com.javexpress.gwt.library.ui.bootstrap.DateBox::fireOnDateSelect(ZLjava/lang/String;)(false,dateText);
-			}
+			placeholder : " "
 		});
-		el.on("blur",function(e){
-			x.@com.javexpress.gwt.library.ui.bootstrap.DateBox::fireOnDateSelect(ZLjava/lang/String;)(false,el.val());
-		});
-		$wnd.$(".jexpHandCursor", bt).click(function(e){
+		$wnd.$(".jexpHandCursor", bt).click(function(e) {
 			if (!el.is(":disabled"))
 				el.datepicker("show");
 		});
@@ -123,159 +117,71 @@ public class DateBox extends JexpSimplePanel implements IWrappedInput<Date> {
 
 	@Override
 	protected void onUnload() {
-		onChangeHandler = null;
-		options = null;
-		dataBinding = null;
+		btDate = null;
 		destroyByJs(getElement(), input);
+		options = null;
 		super.onUnload();
 	}
 
+	private void fireValueUpdated() {
+		String old = input.getAttribute("c");
+		input.setAttribute("c", getText());
+		fireValueChanged(JsUtil.asDate(old), JsUtil.asDate(getText()));
+	}
+
 	//https://github.com/RobinHerbots/jquery.inputmask/issues/648
-	private native void destroyByJs(Element element, Element input) /*-{
-		$wnd.$(element).datepicker('destroy').empty().off();
+	private native void destroyByJs(Element bt, Element input) /*-{
+		$wnd.$(".jexpHandCursor", bt).off();
+		$wnd.$(input).datepicker('destroy').off();
 	}-*/;
-
-	public void setValue(final Date cand) {
-		setValueDate(cand);
-	}
-
-	public void setValueDate(final Date cand) {
-		if (cand == null) {
-			setValue("");
-			return;
-		}
-		setValue(JexpGwtUser.formatDate(cand));
-	}
-
-	public Date getDate() throws ParseException {
-		String s = input.getPropertyString("value");
-		if (s != null && s.trim().length() > 6)
-			return JexpGwtUser.parseDate(input.getPropertyString("value"));
-		return null;
-	}
-
-	public Date getValueDate() throws ParseException {
-		return getDate();
-	}
 
 	@Override
 	public boolean validate(final boolean focusedBefore) {
 		return JsUtil.validateWidget(this, focusedBefore);
 	}
 
-	public void setValue(String value) {
+	@Override
+	public void setValue(Date value, boolean fireEvents) {
+		Date oldValue = fireEvents ? getValue() : null;
+		setText(JsUtil.asString(value));
+		if (fireEvents)
+			fireValueChanged(oldValue, getValue());
+	}
+
+	public void setValueString(String value) {
+		setValueString(value, false);
+	}
+
+	public void setValueString(String value, boolean fireEvents) {
 		if (value != null && value.startsWith("@")) {
 			if (value.equals("@now"))
-				setValue(new Date());
+				setValue(new Date(), fireEvents);
 			else if (value.startsWith("@now-"))
-				setValue(JsUtil.dateBefore(Integer.parseInt(value.substring(5))));
+				setValue(JsUtil.daysBefore(Integer.parseInt(value.substring(5))), fireEvents);
 			else if (value.startsWith("@now+"))
-				setValue(JsUtil.dateAfter(Integer.parseInt(value.substring(5))));
+				setValue(JsUtil.daysAfter(Integer.parseInt(value.substring(5))), fireEvents);
 			else if (value.equals("@monthStart"))
-				setValue(JsUtil.toMonthStart(new Date()));
+				setValue(JsUtil.toMonthStart(new Date()), fireEvents);
 		} else
-			input.setPropertyString("value", value);
-	}
-
-	@Override
-	public HandlerRegistration addChangeHandler(ChangeHandler handler) {
-		this.onChangeHandler = handler;
-		/*super.addFocusHandler(new FocusHandler() {
-			@Override
-			public void onFocus(FocusEvent event) {
-				updateLastValue();
-			}
-		});
-		super.addBlurHandler(new BlurHandler() {
-			@Override
-			public void onBlur(BlurEvent event) {
-				updateLastValue();
-			}
-		});*/
-		//return super.addChangeHandler(handler);
-		return null;
-	}
-
-	protected void updateLastValue() {
-		this.lastValue = getText();
-	}
-
-	private String getText() {
-		return input.getPropertyString("value");
-	}
-
-	@Override
-	public void setValidationError(String validationError) {
-		if (JsUtil.USE_BOOTSTRAP) {
-			Widget nw = getParent() instanceof FormGroupCell ? getParent() : this;
-			if (validationError == null)
-				nw.removeStyleName("has-error");
-			else
-				nw.addStyleName("has-error");
-		}
-		setTitle(validationError);
-	}
-
-	private String	lastValue	= null;
-	private Element	btDate;
-
-	// ---------- EVENTS
-	public void fireOnDateSelect(boolean mouseSelected, final String dateText) {
-		if (onChangeHandler != null && !getValue().equals(lastValue)) {
-			onChangeHandler.onChange(null);
-		}
-		lastValue = dateText;
-	}
-
-	@Override
-	public void setDataBindingHandler(DataBindingHandler handler) {
-		this.dataBinding = handler;
-		dataBinding.setControl(this);
-	}
-
-	@Override
-	public DataBindingHandler getDataBindingHandler() {
-		return dataBinding;
-	}
-
-	@Override
-	public int getTabIndex() {
-		return input.getTabIndex();
-	}
-
-	@Override
-	public void setAccessKey(char key) {
-	}
-
-	@Override
-	public void setFocus(boolean focused) {
-		if (focused)
-			input.focus();
-	}
-
-	@Override
-	public void setTabIndex(int index) {
-		input.setTabIndex(index);
+			setValue(JexpGwtUser.parseDate(value), fireEvents);
 	}
 
 	@Override
 	public Date getValue() {
-		try {
-			return getDate();
-		} catch (ParseException e) {
-			JsUtil.handleError(this, e);
-		}
+		String s = getText();
+		if (s != null && s.trim().length() > 6)
+			return JexpGwtUser.parseDate(s);
 		return null;
 	}
 
 	@Override
-	public void setEnabled(boolean enabled) {
-		input.setPropertyBoolean("disabled", !enabled);
+	public String getText() {
+		return input.getValue();
 	}
 
 	@Override
-	public Element getInputElement() {
-		return input;
+	public void setText(String text) {
+		input.setValue(text);
 	}
 
 }

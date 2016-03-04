@@ -9,7 +9,7 @@ import com.javexpress.gwt.library.ui.js.JsUtil;
 public class IconEmailBox extends IconTextBox {
 
 	public IconEmailBox(Widget parent, String id) {
-		super(parent, id, FaIcon.email);
+		super(parent, id, FaIcon.at);
 		JsUtil.ensureId(parent, this, WidgetConst.EMAIL_PREFIX, id);
 		setMaxLength(100);
 	}
@@ -23,8 +23,8 @@ public class IconEmailBox extends IconTextBox {
 	public boolean validate(boolean focusedBefore) {
 		boolean validated = JsUtil.validateWidget(this, focusedBefore);
 		if (validated) {
-			if (!JsUtil.isEmpty(getText()))
-				if (!validateEmail(getText().trim())) {
+			if (!JsUtil.isEmpty(getValue()))
+				if (!validateEmail(getValue().trim())) {
 					JsUtil.flagInvalid(this, ClientContext.nlsCommon.gecersizEposta(), focusedBefore);
 					validated = false;
 				}

@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Date;
 
+import com.google.gwt.dom.client.Element;
 import com.google.gwt.dom.client.Style.FontStyle;
 import com.google.gwt.dom.client.Style.FontWeight;
 import com.google.gwt.dom.client.Style.Unit;
@@ -109,12 +110,12 @@ public class Label extends JexpWidget {
 
 	public void highlight(final int durationInMilliseconds) {
 		JsUtil.ensureId(getElement());
-		_highlight(getElement().getId(), durationInMilliseconds);
+		_highlight(getElement(), durationInMilliseconds);
 	}
 
-	private native void _highlight(String id, int durationInMilliseconds) /*-{
-																			$wnd.$("#" + id).effect("highlight", {}, durationInMilliseconds);
-																			}-*/;
+	private native void _highlight(Element el, int durationInMilliseconds) /*-{
+		$wnd.$(el).effect("highlight", {}, durationInMilliseconds);
+	}-*/;
 
 	@Override
 	protected void onUnload() {
@@ -159,8 +160,13 @@ public class Label extends JexpWidget {
 		}
 	}
 
+	public String getValue() {
+		return getText();
+	}
+
 	public Integer getValueInt() {
-		return JsUtil.isEmpty(getText()) ? null : Integer.valueOf(getText());
+		String v = getValue();
+		return JsUtil.isEmpty(v) ? null : Integer.valueOf(v);
 	}
 
 	public void append(String s) {

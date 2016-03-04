@@ -3,18 +3,23 @@ package com.javexpress.gwt.library.ui.bootstrap;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.google.gwt.event.dom.client.KeyCodes;
 import com.google.gwt.event.dom.client.KeyDownEvent;
 import com.google.gwt.event.dom.client.KeyDownHandler;
 import com.google.gwt.event.shared.HandlerRegistration;
 import com.google.gwt.user.client.Command;
 import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.ui.Focusable;
+import com.javexpress.common.model.item.BpmAction;
 import com.javexpress.common.model.item.FormDef;
 import com.javexpress.common.model.item.type.Pair;
 import com.javexpress.gwt.library.ui.AbstractContainerFocusable;
 import com.javexpress.gwt.library.ui.ClientContext;
 import com.javexpress.gwt.library.ui.ICssIcon;
+import com.javexpress.gwt.library.ui.facet.ProvidesAuthorization;
+import com.javexpress.gwt.library.ui.form.IJiraEnabledForm;
 import com.javexpress.gwt.library.ui.form.IUIComposite;
+import com.javexpress.gwt.library.ui.form.IUICompositeView;
 import com.javexpress.gwt.library.ui.form.keyboard.KeyCode;
 import com.javexpress.gwt.library.ui.js.JexpCallback;
 import com.javexpress.gwt.library.ui.js.JsCache;
@@ -23,6 +28,8 @@ import com.javexpress.gwt.library.ui.js.JsUtil;
 public abstract class UIComposite extends AbstractContainerFocusable implements IUIComposite {
 
 	public final static JsCache<String, String>	viewRights	= new JsCache<String, String>(30);
+
+	private IUICompositeView					attachedTo;
 
 	protected UIComposite						that;
 	private String								rights;
@@ -49,12 +56,24 @@ public abstract class UIComposite extends AbstractContainerFocusable implements 
 	private FormDef								formDef;
 	private Focusable							initialWidget;
 
+	private KeyDownHandler						keyDownHandler;
+
 	public UIComposite(String id) {
 		super(DOM.createDiv());
 		getElement().setId(id);
 		getElement().addClassName("jexp-ui-form");
 
 		that = this;
+	}
+
+	@Override
+	public IUICompositeView getAttachedTo() {
+		return attachedTo;
+	}
+
+	@Override
+	public void setAttachedTo(IUICompositeView attachedTo) {
+		this.attachedTo = attachedTo;
 	}
 
 	protected void createGUI() {
@@ -66,6 +85,9 @@ public abstract class UIComposite extends AbstractContainerFocusable implements 
 
 	public void setXsSize(Integer xsSize) {
 		this.xsSize = xsSize;
+		if (isAttached() && attachedTo != null) {
+			attachedTo.onResize();
+		}
 	}
 
 	public Integer getSmSize() {
@@ -74,6 +96,9 @@ public abstract class UIComposite extends AbstractContainerFocusable implements 
 
 	public void setSmSize(Integer smSize) {
 		this.smSize = smSize;
+		if (isAttached() && attachedTo != null) {
+			attachedTo.onResize();
+		}
 	}
 
 	public Integer getMdSize() {
@@ -82,6 +107,9 @@ public abstract class UIComposite extends AbstractContainerFocusable implements 
 
 	public void setMdSize(Integer mdSize) {
 		this.mdSize = mdSize;
+		if (isAttached() && attachedTo != null) {
+			attachedTo.onResize();
+		}
 	}
 
 	public Integer getLgSize() {
@@ -90,15 +118,14 @@ public abstract class UIComposite extends AbstractContainerFocusable implements 
 
 	public void setLgSize(Integer lgSize) {
 		this.lgSize = lgSize;
+		if (isAttached() && attachedTo != null) {
+			attachedTo.onResize();
+		}
 	}
 
 	@Override
 	public void setCloseHandler(Command command) {
 		this.closeCommand = command;
-	}
-
-	public HandlerRegistration addKeyDownHandler(KeyDownHandler handler) {
-		return addDomHandler(handler, KeyDownEvent.getType());
 	}
 
 	@Override
@@ -130,6 +157,9 @@ public abstract class UIComposite extends AbstractContainerFocusable implements 
 
 	public void setHeader(String header) {
 		this.header = header;
+		if (isAttached() && attachedTo != null) {
+			attachedTo.setHeader(icon, header);
+		}
 	}
 
 	@Override
@@ -230,8 +260,8 @@ public abstract class UIComposite extends AbstractContainerFocusable implements 
 		if (authKey != null && authKey.getLeft() != Long.MIN_VALUE && authKey.getRight().equals(" ")) {//if not anonymous
 			final String key = authKey.getLeft() + ":" + authKey.getRight();
 			String cached = viewRights.get(key);
-			if (cached == null)
-				ClientContext.instance.formYetkiListesi(authKey.getLeft(), authKey.getRight(), new JexpCallback<List<String>>() {
+			if (cached == null && ClientContext.instance instanceof ProvidesAuthorization) {
+				((ProvidesAuthorization) ClientContext.instance).formYetkiListesi(authKey.getLeft(), authKey.getRight(), new JexpCallback<List<String>>() {
 					@Override
 					protected void onResult(final List<String> result) {
 						String r = JsUtil.join(result, ",");
@@ -239,14 +269,14 @@ public abstract class UIComposite extends AbstractContainerFocusable implements 
 						applyFormRights(r);
 					}
 				});
-			else
+			} else
 				applyFormRights(cached);
 		} else
 			applyFormRights(null);
 		if (onLoadCommands != null)
 			for (Command cmd : onLoadCommands)
 				cmd.execute();
-		keyDownHandlerRegistration = addKeyDownHandler(new KeyDownHandler() {
+		keyDownHandler = new KeyDownHandler() {
 			@Override
 			public void onKeyDown(final KeyDownEvent event) {
 				if (event.isAltKeyDown()) {
@@ -259,10 +289,21 @@ public abstract class UIComposite extends AbstractContainerFocusable implements 
 						event.preventDefault();
 						event.stopPropagation();
 					}
-				} else if (event.getNativeKeyCode() == 27)
-					close();
+				} else if (event.isShiftKeyDown() && event.getNativeKeyCode() == KeyCodes.KEY_F12) {
+					if (that instanceof IJiraEnabledForm) {
+						event.preventDefault();
+						event.stopPropagation();
+						((IJiraEnabledForm) that).openJiraIssue();
+					}
+				}
 			}
-		});
+		};
+		keyDownHandlerRegistration = addKeyDownHandler(keyDownHandler);
+	}
+
+	@Override
+	public KeyDownHandler getKeyDownHandler() {
+		return keyDownHandler;
 	}
 
 	protected void applyFormRights(final String rights) {
@@ -327,6 +368,16 @@ public abstract class UIComposite extends AbstractContainerFocusable implements 
 
 	@Override
 	public void performAction(byte action) throws Exception {
+	}
+
+	@Override
+	public BpmAction getBpmAction() {
+		return null;
+	}
+
+	@Override
+	public boolean canClose() {
+		return true;
 	}
 
 }

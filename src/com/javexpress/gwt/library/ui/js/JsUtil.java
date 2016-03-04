@@ -13,6 +13,8 @@ import java.util.Map;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.core.client.JavaScriptObject;
 import com.google.gwt.core.client.JsArrayInteger;
+import com.google.gwt.core.client.JsArrayNumber;
+import com.google.gwt.core.client.JsArrayString;
 import com.google.gwt.core.client.Scheduler;
 import com.google.gwt.core.client.Scheduler.ScheduledCommand;
 import com.google.gwt.dom.client.Element;
@@ -27,9 +29,9 @@ import com.google.gwt.json.client.JSONString;
 import com.google.gwt.json.client.JSONValue;
 import com.google.gwt.user.client.Command;
 import com.google.gwt.user.client.DOM;
+import com.google.gwt.user.client.Event;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.ServiceDefTarget;
-import com.google.gwt.user.client.rpc.StatusCodeException;
 import com.google.gwt.user.client.ui.Focusable;
 import com.google.gwt.user.client.ui.FormPanel;
 import com.google.gwt.user.client.ui.FormPanel.SubmitCompleteEvent;
@@ -43,15 +45,15 @@ import com.google.gwt.user.datepicker.client.CalendarUtil;
 import com.javexpress.common.model.item.ControlType;
 import com.javexpress.common.model.item.Result;
 import com.javexpress.common.model.item.exception.AppException;
-import com.javexpress.common.model.item.exception.SessionInvalidException;
 import com.javexpress.common.model.item.type.Pair;
 import com.javexpress.gwt.library.shared.model.IJsonServicePoint;
 import com.javexpress.gwt.library.shared.model.JexpGwtUser;
 import com.javexpress.gwt.library.shared.model.WidgetConst;
 import com.javexpress.gwt.library.ui.ClientContext;
-import com.javexpress.gwt.library.ui.JqIcon;
+import com.javexpress.gwt.library.ui.FaIcon;
 import com.javexpress.gwt.library.ui.bootstrap.CheckBox;
 import com.javexpress.gwt.library.ui.bootstrap.DateBox;
+import com.javexpress.gwt.library.ui.bootstrap.LabelControlCell;
 import com.javexpress.gwt.library.ui.container.buttonbar.ButtonBar;
 import com.javexpress.gwt.library.ui.dialog.ConfirmDialog;
 import com.javexpress.gwt.library.ui.dialog.ConfirmationListener;
@@ -59,9 +61,11 @@ import com.javexpress.gwt.library.ui.dialog.JexpPopupPanel;
 import com.javexpress.gwt.library.ui.dialog.MessageDialog;
 import com.javexpress.gwt.library.ui.dialog.Notification;
 import com.javexpress.gwt.library.ui.dialog.Notification.NotificationType;
+import com.javexpress.gwt.library.ui.facet.ProvidesModuleUtils;
 import com.javexpress.gwt.library.ui.form.Form;
 import com.javexpress.gwt.library.ui.form.IDataBindable;
 import com.javexpress.gwt.library.ui.form.IUserInputWidget;
+import com.javexpress.gwt.library.ui.form.autocomplete.AutoCompleteBox;
 import com.javexpress.gwt.library.ui.form.button.Button;
 import com.javexpress.gwt.library.ui.form.checkbox.CheckBoxJq;
 import com.javexpress.gwt.library.ui.form.checkbox.CheckInlineBox;
@@ -71,9 +75,26 @@ import com.javexpress.gwt.library.ui.form.decimalbox.DecimalBox;
 import com.javexpress.gwt.library.ui.form.numericbox.NumericBox;
 import com.javexpress.gwt.library.ui.form.textbox.TextBox;
 import com.javexpress.gwt.library.ui.form.upload.FileUpload;
-import com.javexpress.gwt.library.ui.form.upload.FileUpload.FileUploadHandler;
 
 public class JsUtil {
+
+	public static interface JqTriggerHandler {
+		void eventTriggered(Event event, String type, String args);
+	}
+
+	public static final BigDecimal	ZERO	= new BigDecimal(0);
+	public static boolean			isIE7	= false;
+	public static boolean			isIE8	= false;
+	public static boolean			isIE9	= false;
+
+	static {
+		if (Window.Navigator.getUserAgent().matches(".*MSIE 7.*"))
+			isIE7 = true;
+		if (Window.Navigator.getUserAgent().matches(".*MSIE 8.*"))
+			isIE8 = true;
+		if (Window.Navigator.getUserAgent().matches(".*MSIE 9.*"))
+			isIE9 = true;
+	}
 
 	public static final double[]	RESPONSIVE_COL_WIDTHS	= new double[] { 0, 8.33333333, 16.6667, 25, 33.3333, 41.6667, 50, 58.3333, 66.6667, 75, 83.3333, 91.6667, 100 };
 
@@ -95,13 +116,13 @@ public class JsUtil {
 		return name.indexOf("chrome") > -1 || name.indexOf("chromium") > -1 || name.indexOf("safari") > -1;
 	}
 
-	public static native String getBrowserName() /*-{
-													return $wnd.navigator.appName.toLowerCase();
-													}-*/;
+	public static native String getBrowserName()/*-{
+		return $wnd.navigator.appName.toLowerCase();
+	}-*/;
 
 	public static native String getUserAgent() /*-{
-												return $wnd.navigator.userAgent.toLowerCase();
-												}-*/;
+		return $wnd.navigator.userAgent.toLowerCase();
+	}-*/;
 
 	public static int[] jsArrayIntegerToIntArray(final JsArrayInteger values) {
 		int[] res = new int[values.length()];
@@ -117,10 +138,9 @@ public class JsUtil {
 	}
 
 	public static String ensureId(final Widget parent, final Widget widget, final String prefix, String preferredId) {
-		if ((!GWT.isProdMode() || testMode) && isNotEmpty(preferredId)) {
+		if ((!isProdMode() || testMode) && isNotEmpty(preferredId)) {
 			//Development Modu
-			preferredId = prefix + "_" + preferredId.replaceAll("\\.", "_") +
-					(parent != null && isNotEmpty(parent.getElement().getId()) ? "-" + parent.getElement().getId() : "");
+			preferredId = prefix + "_" + preferredId.replaceAll("\\.", "_") + (parent != null && isNotEmpty(parent.getElement().getId()) ? "-" + parent.getElement().getId() : "");
 			widget.getElement().setId(preferredId);
 			widget.ensureDebugId(preferredId);
 		} else if (isEmpty(widget.getElement().getId()))
@@ -129,10 +149,9 @@ public class JsUtil {
 	}
 
 	public static String ensureId(final Widget parent, final Element we, final String prefix, String preferredId) {
-		if ((!GWT.isProdMode() || testMode) && isNotEmpty(preferredId)) {
+		if ((!isProdMode() || testMode) && isNotEmpty(preferredId)) {
 			//Development Modu
-			preferredId = prefix + "_" + preferredId.replaceAll("\\.", "_") +
-					(parent != null && isNotEmpty(parent.getElement().getId()) ? "-" + parent.getElement().getId() : "");
+			preferredId = prefix + "_" + preferredId.replaceAll("\\.", "_") + (parent != null && isNotEmpty(parent.getElement().getId()) ? "-" + parent.getElement().getId() : "");
 			we.setId(preferredId);
 		} else if (isEmpty(we.getId()))
 			we.setId(prefix + "_" + DOM.createUniqueId());
@@ -350,21 +369,21 @@ public class JsUtil {
 	}
 
 	public static native void clearChilds(final Element el) /*-{
-															$wnd.$(el).empty();
-															}-*/;
+		$wnd.$(el).empty();
+	}-*/;
 
 	public static native void removeJQEvents(final Element el) /*-{
-																$wnd.$(el).off();
-																}-*/;
+		$wnd.$(el).off();
+	}-*/;
 
 	public static void alert(final String msg) {
 		Window.alert(resolveMessage(msg));
 	}
 
 	private static String resolveMessage(String msg) {
-		if (isNotEmpty(msg) && msg.startsWith("@")) {
+		if ((ClientContext.instance instanceof ProvidesModuleUtils) && isNotEmpty(msg) && msg.startsWith("@")) {
 			String[] ml = msg.substring(1).split("@");
-			return ClientContext.instance.getModuleNls(Long.valueOf(ml[0]), ml[1]);
+			return ((ProvidesModuleUtils) ClientContext.instance).getModuleNls(Long.valueOf(ml[0]), ml[1]);
 		}
 		return msg;
 	}
@@ -386,7 +405,7 @@ public class JsUtil {
 	}
 
 	public static void confirm(final String id, final String title, final String msg, final ConfirmationListener listener) {
-		new ConfirmDialog(null, id, title, msg, listener);
+		new ConfirmDialog(null, id, title, msg, listener).show();
 	}
 
 	public static void confirm(final Widget parent, final String title, final String msg, final ConfirmationListener listener) {
@@ -398,7 +417,7 @@ public class JsUtil {
 	}
 
 	public static void handleError(final String windowId, final Throwable e) {
-		if (!GWT.isProdMode())
+		if (!isProdMode())
 			e.printStackTrace();
 		GWT.log(e.getMessage(), e);
 		if (e instanceof UmbrellaException) {
@@ -406,16 +425,13 @@ public class JsUtil {
 			UmbrellaException ue = (UmbrellaException) e;
 			for (Throwable t : ue.getCauses()) {
 				buf.append(t.getMessage());
-				if (!GWT.isProdMode()) {
+				if (!isProdMode()) {
 					StackTraceElement ste = t.getStackTrace()[0];
 					buf.append(ste.getClassName() + "." + ste.getMethodName() + " " + ste.getFileName() + ":" + ste.getLineNumber()).append("<br/>");
 				} else
 					buf.append("<br/>");
 			}
 			MessageDialog.showAlert(windowId, ClientContext.nlsCommon.hata(), buf.toString());
-		} else if (e instanceof SessionInvalidException || (e instanceof StatusCodeException && ((StatusCodeException) e).getStatusCode() == 901)) {
-			if (ClientContext.instance != null)
-				ClientContext.instance.goLockScreen();
 		} else if (e instanceof AppException) {
 			AppException ae = (AppException) e;
 			ClientContext.instance.showError(windowId, ae);
@@ -445,13 +461,10 @@ public class JsUtil {
 		final JexpPopupPanel db = new JexpPopupPanel(true, true);
 		db.setWidth("30em");
 		db.setHeight(fu.isMulti() ? (fu.isAskName() ? "10em" : "8em") : (fu.isAskName() ? "4em" : "2.5m"));
-		fu.addCompleteHandler(new FileUploadHandler() {
+		fu.addCompleteCommand(new Command() {
 			@Override
-			public void onComplete(final boolean success, final String result, final String errorMessage) {
-				if (success)
-					db.hide(true);
-				else
-					JsUtil.message(fu, errorMessage);
+			public void execute() {
+				db.hide(true);
 			}
 		});
 		db.setWidget(fu);
@@ -459,7 +472,7 @@ public class JsUtil {
 		db.show();
 	}
 
-	public static Widget createControl(final Widget parent, final ControlType type, final String property, final String controlData, final boolean useEmpty, String value, boolean searchMode) {
+	public static Widget createControl(final Widget parent, final ControlType type, final String property, final String controlData, final boolean useEmpty, String value, boolean searchMode) throws Exception {
 		Widget w = null;
 		switch (type) {
 			case Text:
@@ -475,12 +488,12 @@ public class JsUtil {
 			case Decimal:
 				w = new DecimalBox(parent, property + "_");
 				if (value != null)
-					((DecimalBox) w).setValue(value);
+					((DecimalBox) w).setValue(JsUtil.asDecimal(value));
 				break;
 			case Date:
 				w = new DateBox(parent, property + "_");
 				if (value != null)
-					((DateBox) w).setValue(value);
+					((DateBox) w).setValueString(value);
 				break;
 			case Check:
 				w = new CheckBoxJq(parent, property + "_");
@@ -501,6 +514,28 @@ public class JsUtil {
 					c.setValue(value);
 				}
 				break;
+			case AutoCompleteNumber:
+				w = new AutoCompleteBox<Long>(parent, property + "_");
+				if (JsUtil.isNotEmpty(controlData)) {
+					if (!controlData.startsWith("@"))
+						((AutoCompleteBox<Long>) w).setListingAlias(controlData);
+				}
+				if (value != null) {
+					AutoCompleteBox<Long> c = (AutoCompleteBox<Long>) w;
+					c.setValue(value);
+				}
+				break;
+			case AutoCompleteText:
+				w = new AutoCompleteBox<String>(parent, property + "_");
+				if (JsUtil.isNotEmpty(controlData)) {
+					if (!controlData.startsWith("@"))
+						((AutoCompleteBox<String>) w).setListingAlias(controlData);
+				}
+				if (value != null) {
+					AutoCompleteBox<String> c = (AutoCompleteBox<String>) w;
+					c.setValue(value);
+				}
+				break;
 			case ListNumber:
 			case ListText:
 				w = searchMode ? new CheckInlineBox(parent, property + "_") : new ListBox(parent, property + "_");
@@ -512,8 +547,7 @@ public class JsUtil {
 							((CheckInlineBox) w).setItems(controlData, ";", ":");
 						else
 							((ListBox) w).setItems(useEmpty, controlData, ";", ":");
-					}
-					else if (useEmpty && !searchMode) {
+					} else if (useEmpty && !searchMode) {
 						((ListBox) w).addItem("", "");
 					}
 				}
@@ -540,12 +574,12 @@ public class JsUtil {
 		return getWidgetValue(w, false);
 	}
 
-	public static Serializable getWidgetValue(final Widget w, boolean forceNumeric) throws ParseException {
+	public static Serializable getWidgetValue(Widget w, boolean forceNumeric) throws ParseException {
+		if (w instanceof LabelControlCell)
+			w = ((LabelControlCell) w).getWidget(0);
 		Serializable val = null;
-		if (w instanceof com.javexpress.gwt.library.ui.jquery.DateBox)
-			val = ((com.javexpress.gwt.library.ui.jquery.DateBox) w).getDate();
-		else if (w instanceof DateBox)
-			val = ((DateBox) w).getDate();
+		if (w instanceof DateBox)
+			val = ((DateBox) w).getValue();
 		else if (w instanceof NumericBox)
 			val = ((NumericBox) w).getValueLong();
 		else if (w instanceof DecimalBox)
@@ -553,9 +587,10 @@ public class JsUtil {
 		else if (w instanceof ComboBox) {
 			ComboBox cmb = (ComboBox) w;
 			val = forceNumeric ? cmb.getValueLong() : cmb.getValue();
-		} else if (w instanceof CheckInlineBox)
-			val = ((CheckInlineBox) w).getValueList();
-		else if (w instanceof ListBox)
+		} else if (w instanceof CheckInlineBox) {
+			CheckInlineBox cilb = (CheckInlineBox) w;
+			val = forceNumeric ? cilb.getValueListLong() : cilb.getValueList();
+		} else if (w instanceof ListBox)
 			val = ((ListBox) w).getValue();
 		else if (w instanceof TextBox)
 			val = ((TextBox) w).getValue();
@@ -563,16 +598,16 @@ public class JsUtil {
 			val = ((CheckBoxJq) w).getValue();
 		else if (w instanceof CheckBox)
 			val = ((CheckBox) w).getValue();
+		else if (w instanceof AutoCompleteBox)
+			val = ((AutoCompleteBox) w).getValue();
 		return val;
 	}
 
 	public static void setWidgetValue(final Widget w, Serializable value) {
-		if (w instanceof com.javexpress.gwt.library.ui.jquery.DateBox)
-			((com.javexpress.gwt.library.ui.jquery.DateBox) w).setValue((Date) value);
-		else if (w instanceof DateBox)
+		if (w instanceof DateBox)
 			((DateBox) w).setValue((Date) value);
 		else if (w instanceof NumericBox)
-			((NumericBox) w).setValue(value != null ? value.toString() : null);
+			((NumericBox) w).setValue(value != null ? (value instanceof Number ? ((Number) value).longValue() : Long.valueOf(value.toString())) : null);
 		else if (w instanceof DecimalBox)
 			((DecimalBox) w).setValue((BigDecimal) value);
 		else if (w instanceof ComboBox) {
@@ -600,14 +635,18 @@ public class JsUtil {
 				((ListBox) w).setValueList((ArrayList<String>) value);
 		} else if (w instanceof TextBox)
 			((TextBox) w).setValue((String) value);
-		else if (w instanceof CheckBoxJq)
-			((CheckBoxJq) w).setValue((Boolean) value);
+		else if (w instanceof CheckBox)
+			((CheckBox) w).setValue((Boolean) value);
+		else if (w instanceof AutoCompleteBox) {
+			if (value instanceof String)
+				((AutoCompleteBox) w).setValue((String) value);
+			else if (value instanceof Long)
+				((AutoCompleteBox) w).setValueLong((Long) value);
+		}
 	}
 
 	public static void setWidgetEnabled(final Widget w, boolean enabled) {
-		if (w instanceof com.javexpress.gwt.library.ui.jquery.DateBox)
-			((com.javexpress.gwt.library.ui.jquery.DateBox) w).setEnabled(enabled);
-		else if (w instanceof DateBox)
+		if (w instanceof DateBox)
 			((DateBox) w).setEnabled(enabled);
 		else if (w instanceof NumericBox)
 			((NumericBox) w).setEnabled(enabled);
@@ -621,8 +660,10 @@ public class JsUtil {
 			((ListBox) w).setEnabled(enabled);
 		else if (w instanceof TextBox)
 			((TextBox) w).setEnabled(enabled);
-		else if (w instanceof CheckBoxJq)
-			((CheckBoxJq) w).setEnabled(enabled);
+		else if (w instanceof CheckBox)
+			((CheckBox) w).setEnabled(enabled);
+		else if (w instanceof AutoCompleteBox)
+			((AutoCompleteBox) w).setEnabled(enabled);
 	}
 
 	public static String getWidgetText(final Widget w) throws ParseException {
@@ -634,22 +675,20 @@ public class JsUtil {
 		return val;
 	}
 
-	public static Serializable clearWidgetValue(final Widget w) throws ParseException {
+	public static Serializable clearWidgetValue(final Widget w, boolean fireEvents) throws ParseException {
 		Serializable val = null;
-		if (w instanceof com.javexpress.gwt.library.ui.jquery.DateBox)
-			((com.javexpress.gwt.library.ui.jquery.DateBox) w).setValueDate(null);
-		else if (w instanceof DateBox)
-			((DateBox) w).setValueDate(null);
+		if (w instanceof DateBox)
+			((DateBox) w).setValue((Date) null, fireEvents);
 		else if (w instanceof NumericBox)
-			((NumericBox) w).setValueLong(null);
+			((NumericBox) w).setValue(null, fireEvents);
 		else if (w instanceof DecimalBox)
-			((DecimalBox) w).setValue((String) null);
+			((DecimalBox) w).setValue((BigDecimal) null, fireEvents);
 		else if (w instanceof ComboBox)
-			((ComboBox) w).setSelectedIndex(-1);
+			((ComboBox) w).setValue(null, fireEvents);
 		else if (w instanceof TextBox)
-			((TextBox) w).setValue(null);
+			((TextBox) w).setValue(null, fireEvents);
 		else if (w instanceof CheckBoxJq)
-			((CheckBoxJq) w).setValue(false);
+			((CheckBoxJq) w).setValue(false, fireEvents);
 		return val;
 	}
 
@@ -657,14 +696,12 @@ public class JsUtil {
 		String val = w.getElement().getAttribute("defaultValue");
 		if (isEmpty(val))
 			val = null;
-		if (w instanceof com.javexpress.gwt.library.ui.jquery.DateBox)
-			((com.javexpress.gwt.library.ui.jquery.DateBox) w).setValue(val);
-		else if (w instanceof DateBox)
-			((DateBox) w).setValue(val);
+		if (w instanceof DateBox)
+			((DateBox) w).setValueString(val);
 		else if (w instanceof NumericBox)
-			((NumericBox) w).setValue(val);
+			((NumericBox) w).setValue(JsUtil.asLong(val));
 		else if (w instanceof DecimalBox)
-			((DecimalBox) w).setValue(val);
+			((DecimalBox) w).setValue(JsUtil.asDecimal(val));
 		else if (w instanceof ComboBox)
 			((ComboBox) w).setValue(val);
 		else if (w instanceof TextBox)
@@ -687,12 +724,11 @@ public class JsUtil {
 		return s;
 	}
 
-	public static boolean validateWidget(final IUserInputWidget vw, final boolean focusedBefore) {
+	public static boolean validateWidget(final IUserInputWidget<? extends Serializable> vw, final boolean focusedBefore) {
 		if (!vw.isRequired())
 			return true;
 		Serializable val = vw.getValue();
-		if (val == null ||
-				((val instanceof String) && JsUtil.isEmpty((String) val))) {
+		if (val == null || ((val instanceof String) && JsUtil.isEmpty((String) val))) {
 			flagInvalid(vw, ClientContext.nlsCommon.alanZorunlu(), focusedBefore);
 			return false;
 		} else {
@@ -719,12 +755,12 @@ public class JsUtil {
 		return full * (Integer.parseInt(percent.substring(0, percent.length() - 1))) / 100;
 	}
 
-	public static volatile int	lastDialogZIndex	= 3;
+	public static volatile int lastDialogZIndex = 3;
 
 	public static int calcDialogZIndex() {
 		lastDialogZIndex += 3;
-		if (lastDialogZIndex > 503)
-			lastDialogZIndex = calcZIndex(".ui-dialog .jexpErrorDialog .jexp-ui-window .jexp-ui-window-modal");
+		if (lastDialogZIndex > 703)
+			lastDialogZIndex = calcZIndex(".ui-dialog,.jexpErrorDialog,.jexp-ui-window,.modal-backdrop");
 		return lastDialogZIndex;
 	}
 
@@ -733,32 +769,30 @@ public class JsUtil {
 	}
 
 	public static native int calcZIndex(String selector) /*-{
-															var zmax = 0;
-															$wnd.$(selector).each(function() {
-															var cur = parseInt($wnd.$(this).css('z-index'));
-															if (cur != 9999)//jesmaxzindex for alerts
-															zmax = cur > zmax ? cur : zmax;
-															});
-															return parseInt(zmax) + 3;
-															}-*/;
+		var zmax = 0;
+		$wnd.$(selector).each(function() {
+			var cur = parseInt($wnd.$(this).css('z-index'));
+			if (cur != 9999)//jesmaxzindex for alerts
+				zmax = cur > zmax ? cur : zmax;
+		});
+		return parseInt(zmax) + 3;
+	}-*/;
 
-	public static void centerInWindow(final Element el) {
-		centerInWindow("#" + el.getId());
-	}
+	public static native void centerInWindow(Element el) /*-{
+		$wnd.$(el).centerInWindow();
+	}-*/;
 
-	public static native void centerInWindow(String selector) /*-{
-																$wnd.$(selector).centerInWindow();
-																}-*/;
-
-	public static void bindClick(final Element el, final Command execute) {
-		bindClick(JsUtil.ensureId(el), execute);
-	}
+	public static native void bindClick(final Element el, final Command execute) /*-{
+		$wnd.$(el).click(function() {
+			execute.@com.google.gwt.user.client.Command::execute()();
+		});
+	}-*/;
 
 	public static native void bindClick(String id, Command execute) /*-{
-																	$wnd.$("#" + id).click(function() {
-																	execute.@com.google.gwt.user.client.Command::execute()();
-																	});
-																	}-*/;
+		$wnd.$("#" + id).click(function() {
+			execute.@com.google.gwt.user.client.Command::execute()();
+		});
+	}-*/;
 
 	public static void disableInputs(final HasWidgets hasWidgets) {
 		toggleState((Widget) hasWidgets, false);
@@ -859,19 +893,10 @@ public class JsUtil {
 		return result;
 	}
 
-	public static native boolean isOverlayShowing() /*-{
-													return $wnd.$(".ui-widget-overlay")[0] != null;
-													}-*/;
-
-	public static native void console(String log) /*-{
-													if ($wnd.window.console)
-													$wnd.window.console.debug(log);
-													}-*/;
-
 	public static void addCloseButton(final Form that, ButtonBar bb) {
 		Button b = new Button(that, "kapat", ClientContext.nlsCommon.kapat());
 		b.setTitle(ClientContext.nlsCommon.kapat() + " (Esc)");
-		b.setIcon(JqIcon.close);
+		b.setIcon(FaIcon.close);
 		b.addClickHandler(new ClickHandler() {
 			@Override
 			public void onClick(final ClickEvent event) {
@@ -884,7 +909,7 @@ public class JsUtil {
 	public static void addCancelButton(final Form that, ButtonBar bb) {
 		Button b = new Button(that, "vazgec", ClientContext.nlsCommon.vazgec());
 		b.setTitle(ClientContext.nlsCommon.vazgec() + " (Esc)");
-		b.setIcon(JqIcon.cancel);
+		b.setIcon(FaIcon.close);
 		b.addClickHandler(new ClickHandler() {
 			@Override
 			public void onClick(final ClickEvent event) {
@@ -892,16 +917,6 @@ public class JsUtil {
 			}
 		});
 		bb.add(b);
-	}
-
-	public static void ensureRtlClass(final Widget w) {
-		if (isRTL())
-			w.addStyleName("ui-rtl");
-	}
-
-	public static void ensureRtlClass(final Element e) {
-		if (isRTL())
-			e.addClassName("ui-rtl");
 	}
 
 	public static String getUrlForImage(String imagePath) {
@@ -920,56 +935,53 @@ public class JsUtil {
 		return length >= 50 ? WidgetConst.WIDTH_WIDE : (length >= 35 ? WidgetConst.WIDTH_BIG : (length >= 20 ? WidgetConst.WIDTH_MIDDLE : Math.max(length - 1, 5) + "em"));
 	}
 
-	public static native void attachHighlightListeners(Element element) /*-{
-																		$wnd.$(element).find("input,textarea,select").each(
-																		function(index, value) {
-																		var el = $wnd.$(this);
-																		el.on("focus", function(event) {
-																		el.addClass("jesFocusedInput");
-																		}).on("blur", function(event) {
-																		el.removeClass("jesFocusedInput");
-																		});
-																		});
-																		}-*/;
-
-	public static native void detachHighlightListeners(Element element) /*-{
-																		$wnd.$(element).find("input,textarea,select").each(
-																		function(index, value) {
-																		var el = $wnd.$(this);
-																		el.off();
-																		});
-																		}-*/;
-
-	public static Date dateAfter(int amount) {
-		return dateAfter(amount, new Date());
+	public static Date toMonthStart(Date date) {
+		CalendarUtil.setToFirstDayOfMonth(date);
+		return date;
 	}
 
-	public static Date dateAfter(int amount, Date date) {
+	public static Date toMonthEnd(Date date) {
+		CalendarUtil.setToFirstDayOfMonth(date);
+		CalendarUtil.addMonthsToDate(date, 1);
+		CalendarUtil.addDaysToDate(date, -1);
+		return date;
+	}
+
+	public static Date monthsAfter(int months, Date date) {
+		CalendarUtil.addMonthsToDate(date, months);
+		return date;
+	}
+
+	public static Date daysAfter(int amount) {
+		return daysAfter(amount, new Date());
+	}
+
+	public static Date daysAfter(int amount, Date date) {
 		Date r = new Date();
 		CalendarUtil.addDaysToDate(r, amount);
 		return r;
 	}
 
-	public static Date dateBefore(int amount) {
-		return dateBefore(amount, new Date());
+	public static Date daysBefore(int amount) {
+		return daysBefore(amount, new Date());
 	}
 
-	public static Date dateBefore(int amount, Date date) {
-		return dateAfter(-1 * amount, date);
+	public static Date daysBefore(int amount, Date date) {
+		return daysAfter(-1 * amount, date);
 	}
 
 	public static native JsArrayInteger getParentWidthHeight(Element element) /*-{
-																				var el = $wnd.$(element).parent();
-																				return [ el.width(), el.height() ];
-																				}-*/;
+		var el = $wnd.$(element).parent();
+		return [ el.width(), el.height() ];
+	}-*/;
 
 	public static native void hoverStyle(Element element, String hoverState, String normalState) /*-{
-																									$wnd.$(element).hover(function() {
-																									$wnd.$(this).removeClass(normalState).addClass(hoverState);
-																									}, function() {
-																									$wnd.$(this).removeClass(hoverState).addClass(normalState);
-																									});
-																									}-*/;
+		$wnd.$(element).hover(function() {
+			$wnd.$(this).removeClass(normalState).addClass(hoverState);
+		}, function() {
+			$wnd.$(this).removeClass(hoverState).addClass(normalState);
+		});
+	}-*/;
 
 	public static void shakeWidget(Widget widget) {
 		applyEffect(widget.getElement(), JqEffect.shake);
@@ -983,36 +995,35 @@ public class JsUtil {
 		applyEffect(elm, JqEffect.pulsate);
 	}
 
+	public static void slide(Element elm) {
+		applyEffect(elm, JqEffect.slide);
+	}
+
+	public static void highlight(Element elm) {
+		applyEffect(elm, JqEffect.highlight);
+	}
+
 	public static native void transfer(JavaScriptObject fromEl, JavaScriptObject toEl) /*-{
-																						$wnd.$(fromEl).effect("transfer", {
-																						to : toEl
-																						}, 500);
-																						}-*/;
+		$wnd.$(fromEl).effect("transfer", {
+			to : toEl
+		}, 500);
+	}-*/;
 
 	public static native void showElement(Element element, JqEffect effect) /*-{
-																			$wnd.$(element).show(effect.toString());
-																			}-*/;
+		$wnd.$(element).show(effect.toString());
+	}-*/;
 
 	public static native void applyEffect(Element element, JqEffect effect) /*-{
-																			$wnd.$(element).effect(effect.toString());
-																			}-*/;
-
-	public static void absoluteFill(Widget widget) {
-		widget.addStyleName("jesAbsoluteFill");
-	}
-
-	public static Date toMonthStart(Date date) {
-		CalendarUtil.setToFirstDayOfMonth(date);
-		return date;
-	}
+		$wnd.$(element).effect(effect.toString());
+	}-*/;
 
 	public static native void setElementData(Element element, String key, JavaScriptObject data) /*-{
-																									$wnd.$.data(element, key, data);
-																									}-*/;
+		$wnd.$.data(element, key, data);
+	}-*/;
 
 	public static native JavaScriptObject getElementData(Element element, String key) /*-{
-																						return $wnd.$.data(element, key);
-																						}-*/;
+		return $wnd.$.data(element, key);
+	}-*/;
 
 	public static String repeat(String s, int times) {
 		return times == 0 ? "" : new String(new char[times]).replace("\0", s);
@@ -1043,10 +1054,12 @@ public class JsUtil {
 	}
 
 	public static String getServiceUrl(IJsonServicePoint servicePoint) {
-		return ClientContext.instance.getModuleServiceTarget(servicePoint.getModuleId()).getServiceEntryPoint() + "." + ((Enum) servicePoint).toString();
+		if (ClientContext.instance instanceof ProvidesModuleUtils)
+			return ((ProvidesModuleUtils) ClientContext.instance).getModuleServiceTarget(servicePoint.getModuleId()).getServiceEntryPoint() + "." + ((Enum) servicePoint).toString();
+		return null;
 	}
 
-	public static boolean	USE_BOOTSTRAP	= false;
+	public static boolean USE_BOOTSTRAP = false;
 
 	public static Integer nvl(Integer val, int i) {
 		if (val == null)
@@ -1054,15 +1067,22 @@ public class JsUtil {
 		return val;
 	}
 
-	public static native void draggable(Element el, JavaScriptObject opts) /*-{
-																			$wnd.$(el).draggable(opts);
-																			}-*/;
+	public static native void draggable(Element el, JavaScriptObject opts, Command onstop) /*-{
+		opts.stop = function() {
+			onstop.@com.google.gwt.user.client.Command::execute()();
+		}
+		$wnd.$(el).draggable(opts);
+	}-*/;
+
+	public static native void resizable(Element el, JavaScriptObject opts) /*-{
+		$wnd.$(el).resizable(opts);
+	}-*/;
 
 	public static native void setNumeralLibLanguage(String cultureCode) /*-{
-																		$wnd.numeral(cultureCode);
-																		}-*/;
+		$wnd.numeral.language(cultureCode);
+	}-*/;
 
-	public static String createNumeralFormat(int decimals, boolean emptyDecimal) {
+	public static String createNumeralFormat(int decimals, boolean emptyDecimal, String currSymbol) {
 		String f = "0,0";
 		if (decimals == 0)
 			return f;
@@ -1074,7 +1094,51 @@ public class JsUtil {
 			f += "0";
 		if (emptyDecimal)
 			f += "]";
+		if (currSymbol != null)
+			f += " " + currSymbol;
 		return f;
 	}
+
+	public static String createNumeralFormat(int decimals, boolean emptyDecimal) {
+		return createNumeralFormat(decimals, emptyDecimal, null);
+	}
+
+	public static ArrayList<Long> asArrayListLong(JsArrayNumber jsarray) {
+		ArrayList<Long> list = new ArrayList<Long>();
+		for (int i = 0; i < jsarray.length(); i++)
+			list.add(Long.valueOf((long) jsarray.get(i)));
+		return list.isEmpty() ? null : list;
+	}
+
+	public static ArrayList<Long> asArrayListLong(JsArrayString jsarray) {
+		ArrayList<Long> list = new ArrayList<Long>();
+		for (int i = 0; i < jsarray.length(); i++)
+			list.add(Long.valueOf(jsarray.get(i)));
+		return list.isEmpty() ? null : list;
+	}
+
+	public static native void bind(Element element, String eventsToBind, JqTriggerHandler handler) /*-{
+		$wnd
+				.$(element)
+				.bind(
+						eventsToBind,
+						function(e, args) {
+							handler.@com.javexpress.gwt.library.ui.js.JsUtil.JqTriggerHandler::eventTriggered(Lcom/google/gwt/user/client/Event;Ljava/lang/String;Ljava/lang/String;)(e,e.type,args);
+						});
+	}-*/;
+
+	private static SuperDevModeIndicator sdmIndicator = GWT.create(SuperDevModeIndicator.class);
+
+	public static boolean isSuperDevMode() {
+		return sdmIndicator.isSuperDevMode();
+	}
+
+	public static boolean isProdMode() {
+		return GWT.isProdMode() && !isSuperDevMode();
+	}
+
+	public static native void destroyElements(String sel) /*-{
+		$wnd.$(sel).remove();
+	}-*/;
 
 }

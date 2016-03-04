@@ -57,7 +57,7 @@ public class GridLayout extends Grid {
 	public void setLabel(final int row, final int column, final String label, final boolean hAlignRight, final boolean required, final boolean vAlignTop) {
 		setWidget(row, column, new Label(label + (required ? " *:" : " :")), hAlignRight, vAlignTop);
 		if (required)
-			getCellFormatter().addStyleName(row, column, "jesRequired");
+			getCellFormatter().addStyleName(row, column, "jexpRequired");
 	}
 
 	public void setWidget(final int row, final int column, final Widget widget, final boolean hAlignRight) {

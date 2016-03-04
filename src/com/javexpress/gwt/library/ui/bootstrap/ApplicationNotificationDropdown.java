@@ -2,21 +2,24 @@ package com.javexpress.gwt.library.ui.bootstrap;
 
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.user.client.DOM;
-import com.google.gwt.user.client.ui.Widget;
 import com.javexpress.gwt.library.ui.AbstractContainer;
 import com.javexpress.gwt.library.ui.ICssIcon;
 import com.javexpress.gwt.library.ui.bootstrap.Bootstrap.WContext;
 
-public class ApplicationNotificationDropdown extends AbstractContainer {
+public abstract class ApplicationNotificationDropdown extends AbstractContainer {
 
-	private Element	anchor;
-	private Element	icon;
-	private Element	badge;
-	private Element	dropdown;
+	protected Element anchor;
+	protected Element icon;
+	protected Element badge;
+	protected Element dropdown;
+	protected Element header, footer;
+	private String badgeClass;
 
-	public ApplicationNotificationDropdown(Widget parent, String id, WContext styleName, ICssIcon iconClass) {
+	public ApplicationNotificationDropdown(String id, WContext styleName,
+			ICssIcon iconClass, String ulClass, String badgeClass) {
 		super(DOM.createElement("li"));
-		getElement().setClassName(styleName.getValue());
+		if (styleName != null)
+			getElement().setClassName(styleName.getValue());
 
 		anchor = DOM.createAnchor();
 		anchor.setClassName("dropdown-toggle");
@@ -28,13 +31,12 @@ public class ApplicationNotificationDropdown extends AbstractContainer {
 		anchor.appendChild(icon);
 
 		dropdown = DOM.createElement("ul");
-		dropdown.setClassName("dropdown-menu-right dropdown-navbar dropdown-menu dropdown-caret dropdown-close");
+		dropdown.setClassName(ulClass);
 		getElement().appendChild(dropdown);
+		this.badgeClass = badgeClass;
 	}
 
-	public void setIcon(ICssIcon iconClass) {
-		icon.setClassName("ace-icon " + iconClass.getCssClass());
-	}
+	public abstract void setIcon(ICssIcon iconClass);
 
 	public void setBadge(WContext context, String value) {
 		if (badge != null) {
@@ -49,7 +51,8 @@ public class ApplicationNotificationDropdown extends AbstractContainer {
 		if (value == null)
 			return;
 		badge = DOM.createSpan();
-		badge.setClassName("badge badge-" + context.getValue());
+		badge.setClassName(badgeClass + " " + badgeClass + "-"
+				+ context.getValue());
 		badge.setInnerHTML(value);
 		anchor.appendChild(badge);
 	}
@@ -60,6 +63,13 @@ public class ApplicationNotificationDropdown extends AbstractContainer {
 		icon = null;
 		badge = null;
 		dropdown = null;
+		header = null;
+		footer = null;
 		super.onUnload();
 	}
+
+	public abstract void setHeader(ICssIcon icon, String text);
+
+	public abstract void setFooter(ICssIcon icon, String text);
+
 }

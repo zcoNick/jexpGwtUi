@@ -5,24 +5,59 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+import com.google.gwt.event.dom.client.ChangeEvent;
+import com.google.gwt.event.dom.client.ChangeHandler;
+import com.google.gwt.event.dom.client.ClickEvent;
+import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.event.logical.shared.ValueChangeEvent;
+import com.google.gwt.event.logical.shared.ValueChangeHandler;
+import com.google.gwt.event.shared.HandlerRegistration;
 import com.google.gwt.i18n.client.ConstantsWithLookup;
 import com.google.gwt.user.client.ui.FlexTable;
 import com.google.gwt.user.client.ui.Focusable;
 import com.google.gwt.user.client.ui.RadioButton;
 import com.google.gwt.user.client.ui.Widget;
 import com.javexpress.gwt.library.shared.model.WidgetConst;
+import com.javexpress.gwt.library.ui.bootstrap.LabelControlCell;
+import com.javexpress.gwt.library.ui.data.DataBindingHandler;
+import com.javexpress.gwt.library.ui.form.IUserInputWidget;
 import com.javexpress.gwt.library.ui.js.JsUtil;
 
-public class RadioGroupBox extends FlexTable implements Focusable {
+public class RadioGroupBox extends FlexTable implements Focusable, IUserInputWidget<String> {
 
+	private boolean				required;
+	private DataBindingHandler	dataBinding;
 	private final int			mod;
-	private List<RadioButton>	radios	= new ArrayList<RadioButton>();
+	private List<RadioButton>	radios				= new ArrayList<RadioButton>();
+	private ClickHandler		itemClickHandler	= null;
+	private ChangeHandler		handler;
+	private boolean				valueChangeHandlerInitialized;
+
+	@Override
+	public boolean isRequired() {
+		return required;
+	}
+
+	@Override
+	public void setRequired(final boolean required) {
+		this.required = required;
+	}
 
 	public RadioGroupBox(Widget parent, final String id, final int mod) {
 		super();
 		JsUtil.ensureId(parent, this, WidgetConst.RADIOGROUP_PREFIX, id);
-		setStyleName("ui-widget ui-widget-content ui-corner-all jexpBorderBox");
+		if (!JsUtil.USE_BOOTSTRAP)
+			setStyleName("ui-widget ui-widget-content ui-corner-all jexpBorderBox jexpRadioGroupBox");
+		else
+			setStyleName("jexpRadioGroupBox");
 		this.mod = mod;
+		this.itemClickHandler = new ClickHandler() {
+			@Override
+			public void onClick(ClickEvent event) {
+				if (handler != null)
+					handler.onChange(null);
+			}
+		};
 	}
 
 	public void addItem(final Serializable value, final Serializable label) {
@@ -43,6 +78,7 @@ public class RadioGroupBox extends FlexTable implements Focusable {
 		} else
 			row -= 1;
 		setWidget(row, col, rb);
+		rb.addClickHandler(itemClickHandler);
 		radios.add(rb);
 	}
 
@@ -53,6 +89,7 @@ public class RadioGroupBox extends FlexTable implements Focusable {
 		return null;
 	}
 
+	@Override
 	public String getValue() {
 		RadioButton sel = getSelectedRadio();
 		if (sel == null)
@@ -92,14 +129,22 @@ public class RadioGroupBox extends FlexTable implements Focusable {
 		setValue(String.valueOf(selectedValue));
 	}
 
+	@Override
 	public void setValue(final String selectedValue) {
+		setValue(selectedValue, false);
+	}
+
+	@Override
+	public void setValue(String value, boolean fireEvents) {
 		for (RadioButton rb : radios)
-			rb.setValue(selectedValue != null && selectedValue.equals(rb.getFormValue()));
+			rb.setValue(value != null && value.equals(rb.getFormValue()));
 	}
 
 	@Override
 	protected void onUnload() {
 		radios = null;
+		itemClickHandler = null;
+		handler = null;
 		super.onUnload();
 	}
 
@@ -147,6 +192,59 @@ public class RadioGroupBox extends FlexTable implements Focusable {
 	@Override
 	public void setTabIndex(int index) {
 		getElement().setTabIndex(index);
+	}
+
+	@Override
+	public void setValidationError(String validationError) {
+		if (JsUtil.USE_BOOTSTRAP) {
+			Widget nw = getParent() instanceof LabelControlCell ? getParent() : this;
+			if (validationError == null)
+				nw.removeStyleName("has-error");
+			else
+				nw.addStyleName("has-error");
+		}
+		setTitle(validationError);
+	}
+
+	@Override
+	public void setDataBindingHandler(DataBindingHandler handler) {
+		this.dataBinding = handler;
+		dataBinding.setControl(this);
+	}
+
+	@Override
+	public DataBindingHandler getDataBindingHandler() {
+		return dataBinding;
+	}
+
+	@Override
+	public HandlerRegistration addChangeHandler(ChangeHandler handler) {
+		return addDomHandler(this.handler = handler, ChangeEvent.getType());
+	}
+
+	@Override
+	public boolean validate(boolean focusedBefore) {
+		return JsUtil.validateWidget(this, focusedBefore);
+	}
+
+	@Override
+	public void setEnabled(boolean enabled) {
+		for (RadioButton rb : radios)
+			rb.setEnabled(enabled);
+	}
+
+	@Override
+	public HandlerRegistration addValueChangeHandler(ValueChangeHandler<String> handler) {
+		if (!valueChangeHandlerInitialized) {
+			valueChangeHandlerInitialized = true;
+			addChangeHandler(new ChangeHandler() {
+				@Override
+				public void onChange(ChangeEvent event) {
+					ValueChangeEvent.fire(RadioGroupBox.this, getValue());
+				}
+			});
+		}
+		return addHandler(handler, ValueChangeEvent.getType());
 	}
 
 }

@@ -50,4 +50,16 @@ public class TCIdBox extends NumericBox {
 		return validated;
 	}
 
+	public String getValueString() {
+		return getText();
+	}
+
+	public void setValue(String tckimlikNo) {
+		setValue(JsUtil.asLong(tckimlikNo));
+	}
+
+	public void setValue(String tckimlikNo, boolean fireEvents) {
+		setValue(JsUtil.asLong(tckimlikNo), fireEvents);
+	}
+
 }

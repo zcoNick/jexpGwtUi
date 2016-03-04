@@ -82,9 +82,8 @@ public class FormArea extends AbstractContainerFocusable implements ISizeAwareWi
 	private void applyMaxHeight() {
 		if (maxHeight != null) {
 			String mh = maxHeight;
-			if (mh.endsWith("%")) {
+			if (mh.endsWith("%"))
 				mh = (Window.getClientHeight() * Integer.parseInt(mh.substring(0, mh.length() - 1)) / 100) + "px";
-			}
 			getElement().getStyle().setProperty("maxHeight", mh);
 			getElement().getStyle().setOverflow(Overflow.AUTO);
 		}

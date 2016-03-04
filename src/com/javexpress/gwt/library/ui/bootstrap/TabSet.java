@@ -6,10 +6,12 @@ import java.util.List;
 import java.util.Map;
 
 import com.google.gwt.core.client.JavaScriptObject;
+import com.google.gwt.dom.client.Document;
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.dom.client.Style.Display;
 import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.ui.RequiresResize;
+import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.Widget;
 import com.javexpress.gwt.library.shared.model.WidgetConst;
 import com.javexpress.gwt.library.ui.AbstractContainerFocusable;
@@ -94,12 +96,54 @@ public class TabSet extends AbstractContainerFocusable implements ISizeAwareWidg
 		getElement().appendChild(tabContents);
 	}
 
+	private TabSet(Element element) {
+		super(element);
+		getElement().addClassName("jexpTabSet");
+		navBar = getElement().getFirstChildElement();
+		tabContents = navBar.getNextSiblingElement();
+		jsObject = createByJs(this, getElement());
+	}
+
+	public static TabSet wrap(Element element) {
+		// Assert that the element is attached.
+		assert Document.get().getBody().isOrHasChild(element);
+
+		TabSet tabset = new TabSet(element);
+
+		// Mark it attached and remember it for cleanup.
+		tabset.onAttach();
+		RootPanel.detachOnWindowClose(tabset);
+
+		return tabset;
+	}
+
 	@Override
 	protected void onLoad() {
 		super.onLoad();
+		if (tabsPosition == TabsPosition.left)
+			getElement().addClassName("tabs-left");
+		else if (tabsPosition == TabsPosition.bottom)
+			getElement().addClassName("tabs-below");
+		else if (tabsPosition == TabsPosition.right)
+			getElement().addClassName("tabs-right");
 		jsObject = createByJs(this, getElement());
 		if (widgets != null) {
-			performOnShow(widgets.keySet().iterator().next());
+			activeWidgetId = null;
+			int index = -1;
+			for (int i = 0; i < tabContents.getChildCount(); i++) {
+				Element div = ((Element) tabContents.getChild(i));
+				if (!div.hasClassName("hidden")) {
+					activeWidgetId = div.getAttribute("tabid");
+					index = i;
+					break;
+				}
+			}
+			if (index > -1) {
+				if (index == 0)
+					performOnShow(activeWidgetId);
+				else
+					select(index);
+			}
 		}
 	}
 
@@ -119,8 +163,9 @@ public class TabSet extends AbstractContainerFocusable implements ISizeAwareWidg
 		jsObject = null;
 		navBar = null;
 		listener = null;
-		for (Widget w : widgets.values())
-			remove(w);
+		if (widgets != null)
+			for (Widget w : widgets.values())
+				remove(w);
 		widgets = null;
 		sizeWaitingWidgets = null;
 		activeWidgetId = null;
@@ -130,8 +175,8 @@ public class TabSet extends AbstractContainerFocusable implements ISizeAwareWidg
 	}
 
 	private native void destroyByJs(Element element) /*-{
-														$wnd.$(element).off().empty();
-														}-*/;
+		$wnd.$(element).off().empty();
+	}-*/;
 
 	public void addTab(final IUIComposite form, boolean closable) throws Exception {
 		addTab(form.getHeader(), (Widget) form, form.getId(), closable);
@@ -175,7 +220,7 @@ public class TabSet extends AbstractContainerFocusable implements ISizeAwareWidg
 			a.setInnerHTML(useSmallerTitles ? "<small>" + title + "</small>" : title);
 		if (icon != null) {
 			Element span = DOM.createElement("i");
-			span.setClassName("ace-icon " + icon.getCssClass());
+			ClientContext.resourceInjector.applyIconStyles(span, icon);
 			a.insertFirst(span);
 		}
 		Element li = DOM.createElement("li");
@@ -183,7 +228,7 @@ public class TabSet extends AbstractContainerFocusable implements ISizeAwareWidg
 		Element closeSpan = null;
 		if (closable) {
 			closeSpan = DOM.createSpan();
-			closeSpan.setClassName("ace-icon " + FaIcon.close.getCssClass());
+			ClientContext.resourceInjector.applyIconStyles(closeSpan, FaIcon.close);
 			closeSpan.setInnerText(ClientContext.nlsCommon.kapat());
 			li.appendChild(closeSpan);
 		}
@@ -225,18 +270,26 @@ public class TabSet extends AbstractContainerFocusable implements ISizeAwareWidg
 	}
 
 	public void select(int index) {
-		_select(jsObject, index);
+		String wid = (((Element) navBar.getChild(index).getChild(0)).getAttribute("tabid"));
+		if (listener != null)
+			listener.onTabChanging(activeWidgetId, wid);
+		_select(navBar, index);
+		if (listener != null)
+			listener.onTabChanged(activeWidgetId, wid);
+		activeWidgetId = wid;
 	}
 
 	private native void attachShowEvents(TabSet x, Element alink, Element clspan) /*-{
-																					$wnd.$(alink).tab('show').on('shown.bs.tab', function(e) {
+																					$wnd.$(alink).tab('show').on('show.bs.tab', function(e) {
+																					x.@com.javexpress.gwt.library.ui.bootstrap.TabSet::fireOnTabChanging(Ljava/lang/String;Ljava/lang/String;)($wnd.$(e.relatedTarget).attr("tabid"), $wnd.$(e.target).attr("tabid"));
+																					}).on('shown.bs.tab', function(e) {
 																					x.@com.javexpress.gwt.library.ui.bootstrap.TabSet::fireOnTabChanged(Ljava/lang/String;Ljava/lang/String;)($wnd.$(e.relatedTarget).attr("tabid"), $wnd.$(e.target).attr("tabid"));
 																					});
 																					}-*/;
 
-	private native void _select(JavaScriptObject obj, int index) /*-{
-																	$wnd.$("li:eq(" + index + ")", obj).tab('show');
-																	}-*/;
+	private native void _select(Element navbar, int index) /*-{
+		$wnd.$("li:eq(" + index + ") a", navbar).tab('show');
+	}-*/;
 
 	public void hideItem(String id) {
 		toggleItem(id, false);
@@ -249,14 +302,17 @@ public class TabSet extends AbstractContainerFocusable implements ISizeAwareWidg
 	private void toggleItem(String id, boolean show) {
 		for (int i = 0; i < navBar.getChildCount(); i++) {
 			Element a = ((Element) navBar.getChild(i)).getFirstChildElement();
-			a.getStyle().setDisplay(a.getAttribute("tabid").equals(id) && !show ? Display.NONE : Display.BLOCK);
+			if (a.getAttribute("tabid").equals(id))
+				a.getStyle().setDisplay(!show ? Display.NONE : Display.BLOCK);
 		}
 		for (int i = 0; i < tabContents.getChildCount(); i++) {
 			Element div = ((Element) tabContents.getChild(i));
-			if (div.getAttribute("tabid").equals(id) && !show)
-				div.addClassName("hidden");
-			else
-				div.removeClassName("hidden");
+			if (div.getAttribute("tabid").equals(id)) {
+				if (!show)
+					div.addClassName("hidden");
+				else
+					div.removeClassName("hidden");
+			}
 		}
 	}
 
@@ -287,6 +343,10 @@ public class TabSet extends AbstractContainerFocusable implements ISizeAwareWidg
 		return widgets.get(activeWidgetId);
 	}
 
+	public String getActiveTabItemId() {
+		return activeWidgetId;
+	}
+
 	public void setTabWidget(String id, Widget widget) {
 		sizeWaitingWidgets.remove(id);
 		Widget old = widgets.get(id);
@@ -305,4 +365,9 @@ public class TabSet extends AbstractContainerFocusable implements ISizeAwareWidg
 			}
 		}
 	}
+
+	public void setMaxHeight(int maxHeight) {
+		getElement().getStyle().setProperty("maxHeight", maxHeight + "px");
+	}
+
 }

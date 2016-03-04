@@ -3,30 +3,26 @@ package com.javexpress.gwt.library.ui.form.combobox;
 import java.io.Serializable;
 import java.util.List;
 
-import com.google.gwt.dom.client.Document;
-import com.google.gwt.dom.client.NativeEvent;
-import com.google.gwt.event.dom.client.DomEvent;
+import com.google.gwt.event.logical.shared.ValueChangeEvent;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Widget;
 import com.javexpress.common.model.item.IComboItem;
+import com.javexpress.common.model.item.IComboItemWithHint;
 import com.javexpress.gwt.library.shared.model.WidgetConst;
-import com.javexpress.gwt.library.ui.bootstrap.FormGroupCell;
+import com.javexpress.gwt.library.ui.bootstrap.Bootstrap;
+import com.javexpress.gwt.library.ui.bootstrap.LabelControlCell;
 import com.javexpress.gwt.library.ui.data.DataBindingHandler;
 import com.javexpress.gwt.library.ui.js.JsUtil;
 
 public class ComboBox extends ListBoxBase implements AsyncCallback<List<? extends IComboItem<Serializable>>> {
 
 	protected String			lazyValue;
+	protected boolean			lazyFire;
 	private DataBindingHandler	dataBinding;
 
 	/** Designer compatible constructor */
 	public ComboBox(final Widget parent, final String id) {
-		this(parent, id, false);
-	}
-
-	@Deprecated
-	protected ComboBox(final Widget parent, final String id, final boolean isMulti) {
-		super(isMulti);
+		super(false);
 		getElement().addClassName("jexpComboBox");
 		JsUtil.ensureId(parent, this, WidgetConst.COMBOBOX_PREFIX, id);
 	}
@@ -92,32 +88,57 @@ public class ComboBox extends ListBoxBase implements AsyncCallback<List<? extend
 		setValue(selectedValue == null ? null : String.valueOf(selectedValue));
 	}
 
+	public void setValueInt(final Integer selectedValue, boolean fireChanged) {
+		setValue(selectedValue == null ? null : String.valueOf(selectedValue), fireChanged);
+	}
+
 	public void setValueByte(final Byte selectedValue) {
 		setValue(selectedValue == null ? null : String.valueOf(selectedValue));
+	}
+
+	public void setValueByte(final Byte selectedValue, boolean fireChanged) {
+		setValue(selectedValue == null ? null : String.valueOf(selectedValue), fireChanged);
 	}
 
 	public void setValueLong(final Long selectedValue) {
 		setValue(selectedValue == null ? null : String.valueOf(selectedValue));
 	}
 
+	public void setValueLong(final Long selectedValue, boolean fireChanged) {
+		setValue(selectedValue == null ? null : String.valueOf(selectedValue), fireChanged);
+	}
+
 	public void setValueShort(final Short selectedValue) {
 		setValue(selectedValue == null ? null : String.valueOf(selectedValue));
 	}
 
-	public boolean setValue(final String selectedValue) {
-		lazyValue = null;
+	public void setValueShort(final Short selectedValue, boolean fireChanged) {
+		setValue(selectedValue == null ? null : String.valueOf(selectedValue), fireChanged);
+	}
+
+	@Override
+	public void setValue(final String selectedValue) {
+		setValue(selectedValue, false);
+	}
+
+	@Override
+	public void setValue(final String value, boolean fireEvents) {
+		lazyValue = value;
+		lazyFire = fireEvents;
+		String oldValue = fireEvents ? getValue() : null;
 		setSelectedIndex(-1);
-		if (JsUtil.isEmpty(selectedValue)) {
-			return false;
-		}
 		for (int i = 0; i < getItemCount(); i++) {
-			if (getValue(i).equals(selectedValue)) {
+			if (getValue(i).equals(value)) {
 				setSelectedIndex(i);
-				return true;
+				lazyValue = null;
+				lazyFire = false;
+				break;
 			}
 		}
-		lazyValue = selectedValue;
-		return false;
+		if (fireEvents) {
+			String newValue = getValue();
+			ValueChangeEvent.fireIfNotEqual(this, oldValue, newValue);
+		}
 	}
 
 	public String getSelectedText() {
@@ -125,14 +146,10 @@ public class ComboBox extends ListBoxBase implements AsyncCallback<List<? extend
 	}
 
 	@Override
-	public void addItem(Serializable label, Serializable value, Serializable data) {
-		super.addItem(label, value, data);
-		if (lazyValue != null && lazyValue.equals(value.toString())) {
-			setSelectedIndex(getItemCount() - 1);
-			lazyValue = null;
-			NativeEvent event = Document.get().createChangeEvent();
-			DomEvent.fireNativeEvent(event, this);
-		}
+	public void addItem(Serializable label, Serializable value, Serializable data, String hint) {
+		super.addItem(label, value, data, hint);
+		if (lazyValue != null && lazyValue.equals(value.toString()))
+			setValue(lazyValue, lazyFire);
 	}
 
 	@Override
@@ -141,24 +158,16 @@ public class ComboBox extends ListBoxBase implements AsyncCallback<List<? extend
 		super.onUnload();
 	}
 
-	public void setValueLong(Long value, boolean fireChanged) {
-		setValueLong(value);
-		if (fireChanged) {
-			NativeEvent event = Document.get().createChangeEvent();
-			DomEvent.fireNativeEvent(event, this);
-		}
-	}
-
 	@Override
 	public void setValidationError(String validationError) {
 		if (JsUtil.USE_BOOTSTRAP) {
-			Widget nw = getParent() instanceof FormGroupCell ? getParent() : this;
+			Widget nw = getParent() instanceof LabelControlCell ? getParent() : this;
 			if (validationError == null)
 				nw.removeStyleName("has-error");
 			else
 				nw.addStyleName("has-error");
 		}
-		setTitle(validationError);
+		Bootstrap.setTooltip(getElement(), validationError);
 	}
 
 	@Override
@@ -179,11 +188,12 @@ public class ComboBox extends ListBoxBase implements AsyncCallback<List<? extend
 
 	@Override
 	public void onSuccess(List<? extends IComboItem<Serializable>> result) {
-		clear(!isRequired());
+		clear();
 		if (result == null)
 			return;
 		for (IComboItem item : result)
-			addItem(item.getL(), item.getV(), item.getD());
+			addItem(item.getL(), item.getV(), item.getD(), item instanceof IComboItemWithHint ? ((IComboItemWithHint) item).getH() : null);
+		onItemListChanged();
 	}
 
 }

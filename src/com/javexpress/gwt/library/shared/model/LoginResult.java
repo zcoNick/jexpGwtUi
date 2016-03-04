@@ -9,16 +9,16 @@ import com.javexpress.common.model.item.type.Pair;
 
 public class LoginResult extends Result<JexpGwtUser> {
 
-	private Map<Long, MenuNode>						menuNodes;
+	private Map<Long, List<MenuNode>>				menuNodes;
 	private Map<Long, List<Pair<Long, String>>>		reports;
 	private Map<Long, List<Pair<Long, String[]>>>	processes;
 	private int										unreadMessages	= 0;
 
-	public Map<Long, MenuNode> getMenuNodes() {
+	public Map<Long, List<MenuNode>> getMenuNodes() {
 		return menuNodes;
 	}
 
-	public void setMenuNodes(final Map<Long, MenuNode> menuNodes) {
+	public void setMenuNodes(final Map<Long, List<MenuNode>> menuNodes) {
 		this.menuNodes = menuNodes;
 	}
 

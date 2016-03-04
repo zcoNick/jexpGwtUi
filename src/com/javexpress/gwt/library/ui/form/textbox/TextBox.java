@@ -8,11 +8,11 @@ import com.google.gwt.event.shared.HandlerRegistration;
 import com.google.gwt.user.client.ui.Widget;
 import com.javexpress.gwt.library.shared.model.WidgetConst;
 import com.javexpress.gwt.library.ui.ClientContext;
+import com.javexpress.gwt.library.ui.bootstrap.Bootstrap;
 import com.javexpress.gwt.library.ui.bootstrap.FormGroupCell;
 import com.javexpress.gwt.library.ui.data.DataBindingHandler;
 import com.javexpress.gwt.library.ui.form.IUserInputWidget;
 import com.javexpress.gwt.library.ui.js.JsUtil;
-import com.javexpress.gwt.library.ui.keyboard.Keyboard;
 
 public class TextBox extends com.google.gwt.user.client.ui.TextBox implements IUserInputWidget<String>, BlurHandler {
 
@@ -85,10 +85,6 @@ public class TextBox extends com.google.gwt.user.client.ui.TextBox implements IU
 		return JsUtil.isEmpty(s) ? null : s;
 	}
 
-	public void enableVirtualKeyboard() {
-		addStyleName(Keyboard.STYLENAME);
-	}
-
 	@Override
 	protected void onLoad() {
 		if (titleCaseConvert || upperCaseConvert) {
@@ -125,7 +121,7 @@ public class TextBox extends com.google.gwt.user.client.ui.TextBox implements IU
 			else
 				nw.addStyleName("has-error");
 		}
-		setTitle(validationError);
+		Bootstrap.setTooltip(getElement(), validationError);
 	}
 
 	@Override
@@ -143,6 +139,10 @@ public class TextBox extends com.google.gwt.user.client.ui.TextBox implements IU
 	protected void onUnload() {
 		dataBinding = null;
 		super.onUnload();
+	}
+
+	public void setPlaceholder(String value) {
+		getElement().setAttribute("placeholder", value);
 	}
 
 }

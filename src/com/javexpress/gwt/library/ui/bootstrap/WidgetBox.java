@@ -2,12 +2,14 @@ package com.javexpress.gwt.library.ui.bootstrap;
 
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.dom.client.Style.Display;
+import com.google.gwt.dom.client.Style.Overflow;
 import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.user.client.Command;
 import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.ui.Widget;
 import com.javexpress.gwt.library.shared.model.WidgetConst;
 import com.javexpress.gwt.library.ui.AbstractContainerFocusable;
+import com.javexpress.gwt.library.ui.ClientContext;
 import com.javexpress.gwt.library.ui.ICssIcon;
 import com.javexpress.gwt.library.ui.form.ISizeAwareWidget;
 import com.javexpress.gwt.library.ui.js.JsUtil;
@@ -85,7 +87,7 @@ public class WidgetBox extends AbstractContainerFocusable implements ISizeAwareW
 	}
 
 	public void setIcon(ICssIcon icon) {
-		iconSpan.setClassName("ace-icon " + icon.getCssClass());
+		ClientContext.resourceInjector.applyIconStyles(iconSpan, icon);
 	}
 
 	public void setHeader(String header) {
@@ -101,6 +103,11 @@ public class WidgetBox extends AbstractContainerFocusable implements ISizeAwareW
 		add(widget, contentDiv);
 	}
 
+	@Override
+	public void add(Widget widget, int index) {
+		add(widget, contentDiv);
+	}
+	
 	public void addToolItem(ICssIcon icon, String hint, Command command) {
 		Element a = DOM.createAnchor();
 		a.setTitle(hint);
@@ -124,7 +131,7 @@ public class WidgetBox extends AbstractContainerFocusable implements ISizeAwareW
 		if (collapsed) {
 			elCollapse.setInnerHTML("<i class='ace-icon fa fa-chevron-up'></i>");
 			bodyDiv.getStyle().setDisplay(Display.NONE);
-		} else {
+		} else if (elCollapse != null) {
 			elCollapse.setInnerHTML("<i class='ace-icon fa fa-chevron-down'></i>");
 		}
 		super.onLoad();
@@ -182,6 +189,41 @@ public class WidgetBox extends AbstractContainerFocusable implements ISizeAwareW
 		if (listener != null)
 			return listener.onCollapsing();
 		return true;
+	}
+
+	public void expand() {
+		if (isAttached())
+			collapsed = false;
+		else if (elCollapse != null)
+			_perform(getElement(), "show");
+	}
+
+	public void collapse() {
+		if (isAttached())
+			collapsed = true;
+		else if (elCollapse != null)
+			_perform(getElement(), "hide");
+	}
+
+	private native void _perform(Element el, String func) /*-{
+		$wnd.$(el).widget_box(func);
+	}-*/;
+
+	public void setMinHeight(String value) {
+		bodyDiv.getStyle().setProperty("minHeight", value);
+	}
+
+	@Override
+	public void setHeight(String value) {
+		bodyDiv.getStyle().setProperty("height", value);
+	}
+
+	public void setMaxHeight(String value) {
+		bodyDiv.getStyle().setProperty("maxHeight", value);
+	}
+
+	public void setOverflow(Overflow value) {
+		bodyDiv.getStyle().setOverflow(value);
 	}
 
 }

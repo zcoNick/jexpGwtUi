@@ -13,8 +13,8 @@ import com.javexpress.gwt.library.ui.form.ISizeAwareWidget;
 import com.javexpress.gwt.library.ui.js.JsonMap;
 
 public abstract class DashboardWidget extends WidgetBox implements ISizeAwareWidget {
-	
-	protected DashboardWidget that;
+
+	protected DashboardWidget	that;
 
 	public DashboardWidget(Widget parent, final String id) throws Exception {
 		this(parent, id, true);
@@ -28,11 +28,7 @@ public abstract class DashboardWidget extends WidgetBox implements ISizeAwareWid
 		setIcon(getIcon());
 		setHeader(getHeader());
 		if (createGui)
-			createWidget();
-	}
-
-	protected void onShow() {
-		onResize();
+			createGUI();
 	}
 
 	protected JsonMap getOptions() {
@@ -67,11 +63,12 @@ public abstract class DashboardWidget extends WidgetBox implements ISizeAwareWid
 	/** DESIGNER:VALUEFUNCTION{PROPERTY=PROP_TITLE,OF=this} */
 	protected abstract String getHeader();
 
-	protected ICssIcon getIcon(){
+	protected ICssIcon getIcon() {
 		return FaIcon.rss;
 	}
 
-	protected abstract void createWidget() throws Exception;
+	protected void createGUI(){
+	}
 
 	public void doSetup(HashMap<String, Serializable> parameters, Command persistCommand) {
 	}
@@ -80,6 +77,9 @@ public abstract class DashboardWidget extends WidgetBox implements ISizeAwareWid
 	}
 
 	protected void nullify() {
+	}
+
+	public void onShow() {
 	}
 
 }

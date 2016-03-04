@@ -7,7 +7,9 @@ import com.google.gwt.dom.client.Style.Position;
 import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.user.client.DOM;
 import com.javexpress.gwt.library.ui.AbstractContainer;
+import com.javexpress.gwt.library.ui.ClientContext;
 import com.javexpress.gwt.library.ui.ICssIcon;
+import com.javexpress.gwt.library.ui.data.GridToolItem;
 import com.javexpress.gwt.library.ui.form.ISizeAwareWidget;
 import com.javexpress.gwt.library.ui.js.JsUtil;
 
@@ -37,8 +39,13 @@ public abstract class ContainerWithBar extends AbstractContainer implements ISiz
 			addStyleName("ui-widget-content ui-corner-all jexpBorderBox");
 
 		if (fitToParent) {
-			setWidth("auto");
-			setHeight("100%");
+			if (JsUtil.USE_BOOTSTRAP) {
+				getElement().addClassName("col-xs-12");
+				setHeight("100%");
+			} else {
+				setWidth("auto");
+				setHeight("100%");
+			}
 		}
 	}
 
@@ -65,7 +72,7 @@ public abstract class ContainerWithBar extends AbstractContainer implements ISiz
 		}
 		toolContainer.getStyle().setPosition(Position.ABSOLUTE);
 		toolContainer.getStyle().setDisplay(Display.BLOCK);
-		toolContainer.getStyle().setOverflow(Overflow.AUTO);
+		toolContainer.getStyle().setOverflow(Overflow.VISIBLE);
 		toolContainer.getStyle().setLeft(0, Unit.PX);
 		toolContainer.getStyle().setRight(0, Unit.PX);
 		toolContainer.getStyle().setBottom(0, Unit.PX);
@@ -75,6 +82,21 @@ public abstract class ContainerWithBar extends AbstractContainer implements ISiz
 
 	protected int createTopPanel() {
 		return 0;
+	}
+
+	protected void toggleToolItem(GridToolItem ti, boolean enable) {
+		Element el = ti.getElement();
+		if (el == null)
+			return;
+		if (enable) {
+			el.removeAttribute("disabled");
+			el.removeClassName("disabled");
+			el.addClassName("ui-state-hover");
+		} else {
+			el.setAttribute("disabled", "true");
+			el.addClassName("disabled");
+			el.removeClassName("ui-state-hover");
+		}
 	}
 
 	protected Element addToolItemElement(String id, ICssIcon icon, String caption, String hint, String iconClass, boolean enabled, boolean startsWithSeperator, boolean endsWithSeperator) {
@@ -94,8 +116,10 @@ public abstract class ContainerWithBar extends AbstractContainer implements ISiz
 		Element span = DOM.createSpan();
 		if (hint != null)
 			span.setTitle(hint);
-		if (!enabled)
+		if (!enabled) {
 			span.setAttribute("disabled", "true");
+			span.addClassName("disabled");
+		}
 		if (!JsUtil.USE_BOOTSTRAP) {
 			if (JsUtil.isEmpty(caption)) {
 				span.addClassName("ui-cursor-hand ui-icon ui-icon-only " + icon.getCssClass());
@@ -104,7 +128,8 @@ public abstract class ContainerWithBar extends AbstractContainer implements ISiz
 				span.setInnerHTML(caption);
 			}
 		} else {
-			span.addClassName("ace-icon jexpHandCursor " + icon.getCssClass());
+			ClientContext.resourceInjector.applyIconStyles(span, icon);
+			span.addClassName("jexpHandCursor");
 			if (JsUtil.isNotEmpty(caption))
 				span.setInnerHTML(caption);
 		}

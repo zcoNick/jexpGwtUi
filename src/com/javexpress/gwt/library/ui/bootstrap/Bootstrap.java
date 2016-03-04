@@ -3,12 +3,17 @@ package com.javexpress.gwt.library.ui.bootstrap;
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.dom.client.Node;
 import com.google.gwt.user.client.DOM;
+import com.javexpress.gwt.library.ui.ClientContext;
 import com.javexpress.gwt.library.ui.ICssIcon;
 
 public class Bootstrap {
 
+	public static enum HeadingSize {
+		h1, h2, h3, h4, h5, h6
+	}
+
 	public static enum WSize {
-		Small, Medium, Large
+		small, normal, large
 	}
 
 	public static enum WPull {
@@ -28,7 +33,9 @@ public class Bootstrap {
 		Default("default"), Primary("primary"), Grey("grey"), Purple("purple"), Orange(
 				"orange"),
 		Important("important"), Green("green"), Success("success"), light_blue(
-				"light-blue"), Info("light-blue"), Danger("danger");
+				"light-blue"),
+		Info("light-blue"), Danger("danger"), Inverse("inverse"), Warning(
+				"warning"), Light("light"), Yellow("yellow"), Pink("pink");
 		private String	value;
 
 		public String getValue() {
@@ -40,14 +47,14 @@ public class Bootstrap {
 		}
 	}
 
-	public static Element createSpacer(int size) {
+	public static Element createSpace(int size) {
 		Element el = DOM.createDiv();
 		el.setClassName("space" + (size > -1 ? "-" + size : ""));
 		return el;
 	}
 
 	public static Node createSpacer() {
-		return createSpacer(-1);
+		return createSpace(-1);
 	}
 
 	public static Element createBlockLabel() {
@@ -62,85 +69,11 @@ public class Bootstrap {
 		return el;
 	}
 
-	public static Element createIconText(String textBoxIcon, String placeHolder) {
-		Element span = DOM.createSpan();
-		span.setClassName("block input-icon input-icon-right");
-		Element input = DOM.createInputText();
-		input.setClassName("form-control");
-		if (placeHolder != null)
-			input.setAttribute("placeholder", placeHolder);
-		span.appendChild(input);
-		Element i = DOM.createElement("i");
-		i.setClassName("ace-icon fa " + textBoxIcon);
-		span.appendChild(i);
-		return span;
-	}
-
-	public static Element createIconPassword(String textBoxIcon, String placeHolder) {
-		Element span = DOM.createSpan();
-		span.setClassName("block input-icon input-icon-right");
-		Element input = DOM.createInputPassword();
-		input.setClassName("form-control");
-		if (placeHolder != null)
-			input.setAttribute("placeholder", placeHolder);
-		span.appendChild(input);
-		Element i = DOM.createElement("i");
-		i.setClassName("ace-icon fa " + textBoxIcon);
-		span.appendChild(i);
-		return span;
-	}
-
-	public static Element[] createCheckbox(String text) {
-		Element ch = DOM.createInputCheck();
-		ch.setClassName("ace");
-		Element span = DOM.createSpan();
-		span.setClassName("lbl");
-		span.setInnerText(text);
-		return new Element[] { ch, span };
-	}
-
-	public static Element createButton(int size, WPull wpull, WSize wsize, WContext wcontext, String icon, String textClass, String text) {
-		Element button = DOM.createButton();
-		return makeButton(button, size, wpull, wsize, wcontext, icon, textClass, text);
-	}
-
-	public static Element makeButton(Element button, Integer size, WPull wpull, WSize wsize, WContext wcontext, String icon, String textClass, String text) {
-		String clazz = "";
-		if (size != null)
-			clazz = "width-" + size;
-		if (wpull != null)
-			clazz += " " + wpull.value;
-		clazz += " btn";
-		if (wsize != null) {
-			switch (wsize) {
-				case Small:
-					clazz += " btn-sm";
-					break;
-			}
-		}
-		if (wcontext != null) {
-			switch (wcontext) {
-				case Primary:
-					clazz += " btn-primary";
-					break;
-			}
-		}
-		button.setClassName(clazz);
-		Element i = DOM.createElement("i");
-		i.setClassName("ace-icon " + icon);
-		button.appendChild(i);
-		Element span = DOM.createSpan();
-		span.setClassName(textClass);
-		span.setInnerText(text);
-		button.appendChild(span);
-		return button;
-	}
-
 	public static Element createIconTextAnchor(String anchorClass, ICssIcon iconClass, String text, boolean rightIcon) {
 		Element a = DOM.createAnchor();
 		a.setClassName(anchorClass);
 		Element i = DOM.createElement("i");
-		i.setClassName("ace-icon " + iconClass.getCssClass());
+		ClientContext.resourceInjector.applyIconStyles(i, iconClass);
 		Element span = DOM.createSpan();
 		span.setInnerText(text);
 		if (rightIcon) {
@@ -158,22 +91,42 @@ public class Bootstrap {
 	}
 
 	public static void setTooltip(Element elm, String tooltip) {
-		setTooltip(elm, tooltip, 3500);
+		setTooltip(elm, tooltip, 2500);
 	}
 
 	public static native void setTooltip(Element elm, String tooltip, int duration) /*-{
+		if (!tooltip) {
+			$wnd.$(elm).tooltip('destroy');
+			return;
+		}
 		var options = {
-			placement : "auto bottom",
+			placement : "auto right",
 			title : tooltip,
-			//container : "#" + elm,
-			//viewport : "#" + elm,
 			trigger : "manual"
 		};
-		$wnd.$(elm).tooltip(options).on("hidden.bs.tooltip", function() {
-			setTimeout(function() {
+		$wnd.$(elm).tooltip(options).on("shown.bs.tooltip", function() {
+			$wnd.setTimeout(function() {
 				$wnd.$(elm).tooltip('destroy');
 			}, duration);
 		}).tooltip('show');
 	}-*/;
+
+	public static Element createHeading(HeadingSize headingSize) {
+		switch (headingSize) {
+			case h1:
+				return DOM.createElement("h1");
+			case h2:
+				return DOM.createElement("h2");
+			case h3:
+				return DOM.createElement("h3");
+			case h4:
+				return DOM.createElement("h4");
+			case h5:
+				return DOM.createElement("h5");
+			case h6:
+				return DOM.createElement("h6");
+		}
+		return null;
+	}
 
 }

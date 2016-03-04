@@ -9,7 +9,7 @@ import com.google.gwt.core.client.Scheduler.ScheduledCommand;
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.i18n.client.LocaleInfo;
 import com.google.gwt.user.client.ui.Widget;
-import com.javexpress.gwt.library.ui.jquery.ResourceInjector;
+import com.javexpress.gwt.library.ui.ClientContext;
 import com.javexpress.gwt.library.ui.js.JsonMap;
 import com.javexpress.gwt.library.ui.map.model.GeoLocation;
 import com.javexpress.gwt.library.ui.map.model.GeoMarker;
@@ -92,7 +92,7 @@ public class GMaps extends BaseMapPanel {
 			if (isDrawingTools())
 				libraries += "&libraries=drawing";
 			String key = listener != null ? "key=" + listener.getApiKey() : "";
-			ResourceInjector.injectScript("https://maps.googleapis.com/maps/api/js?" + key + "&sensor=true&language=" + LocaleInfo.getCurrentLocale().getLocaleName() + libraries + "&callback=gmapInitialized", new Callback<Void, Exception>() {
+			ClientContext.resourceInjector.injectScript("https://maps.googleapis.com/maps/api/js?" + key + "&sensor=true&language=" + LocaleInfo.getCurrentLocale().getLocaleName() + libraries + "&callback=gmapInitialized", new Callback<Void, Exception>() {
 				@Override
 				public void onSuccess(Void result) {
 				}

@@ -4,6 +4,6 @@ import com.google.gwt.user.client.Event;
 
 public interface IToolItemHandler {
 
-	public void execute(Event event);
+	public void execute(final String itemId, Event event);
 
 }

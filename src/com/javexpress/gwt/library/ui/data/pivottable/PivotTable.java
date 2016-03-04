@@ -19,34 +19,37 @@ import com.javexpress.gwt.library.ui.form.ISizeAwareWidget;
 import com.javexpress.gwt.library.ui.js.JsUtil;
 import com.javexpress.gwt.library.ui.js.JsonMap;
 
-public class PivotTable extends JexpWidget implements ISizeAwareWidget{
+public class PivotTable extends JexpWidget implements ISizeAwareWidget {
 
 	public static void fillResources(final List<String> styleSheets, final List<String> javaScripts) {
-		styleSheets.add("scripts/pivottable/pivot.css");
-		//javaScripts.add("scripts/pivottable/grid.locale-" + LocaleInfo.getCurrentLocale().getLocaleName() + ".js");
-		javaScripts.add("scripts/pivottable/pivot-20140623.js");
-		//javaScripts.add("scripts/pivottable/gchart_renderers-20131112.js");
+		styleSheets.add("scripts/pivottable/pivot.min.css");
+		javaScripts.add("scripts/pivottable/pivot.min.js");
+		//javaScripts.add("scripts/pivottable/gchart_renderers.min.js");
 	}
-	
+
 	public static enum PivotRenderer {
-		Table("Table"),TableBarchart("Table Barchart"),Heatmap("Heatmap"),RowHeatmap("Row Heatmap"),ColHeatmap("Col Heatmap"),LineChart("Line Chart"),BarChart("Bar Chart"),
-		StackedBarChart("Stacked Bar Chart"),AreaChart("Area Chart");
-		protected String label;
-		PivotRenderer(String label){
+		Table("Table"), TableBarchart("Table Barchart"), Heatmap("Heatmap"), RowHeatmap(
+				"Row Heatmap"), ColHeatmap("Col Heatmap"), LineChart(
+				"Line Chart"), BarChart("Bar Chart"),
+		StackedBarChart("Stacked Bar Chart"), AreaChart("Area Chart");
+		protected String	label;
+
+		PivotRenderer(String label) {
 			this.label = label;
 		}
-		public String getLabel(){
+
+		public String getLabel() {
 			return label;
 		}
 	}
 
 	protected JsonMap			options;
 	private JavaScriptObject	widget;
-	private Map<String,String>	fields = new LinkedHashMap<String,String>();
-	private JSONArray rows = new JSONArray();
-	private JSONArray cols = new JSONArray();
+	private Map<String, String>	fields	= new LinkedHashMap<String, String>();
+	private JSONArray			rows	= new JSONArray();
+	private JSONArray			cols	= new JSONArray();
 	private Serializable		widgetData;
-	private IPivotTableListener listener;
+	private IPivotTableListener	listener;
 
 	public IPivotTableListener getListener() {
 		return listener;
@@ -63,23 +66,23 @@ public class PivotTable extends JexpWidget implements ISizeAwareWidget{
 	public void setWidgetData(Serializable widgetData) {
 		this.widgetData = widgetData;
 	}
-	
-	public void setRenderer(PivotRenderer renderer){
+
+	public void setRenderer(PivotRenderer renderer) {
 		options.set("rendererName", renderer.label);
 	}
-	
-	public void addField(String label, String field){
+
+	public void addField(String label, String field) {
 		fields.put(field, label);
 	}
-	
-	public void addRow(String field){
+
+	public void addRow(String field) {
 		rows.set(rows.size(), new JSONString(fields.get(field)));
 	}
 
-	public void addCol(String field){
+	public void addCol(String field) {
 		cols.set(cols.size(), new JSONString(fields.get(field)));
 	}
-	
+
 	public PivotTable(final Widget parent, final String id, final ServiceDefTarget service, final Enum method) {
 		this(parent, id, service, method, true);
 	}
@@ -113,31 +116,34 @@ public class PivotTable extends JexpWidget implements ISizeAwareWidget{
 
 	private native JavaScriptObject createByJs(PivotTable x, Element element, JavaScriptObject options, Map<String, String> fields) /*-{
 		var el = $wnd.$(element);
-        var derivers = $wnd.$.pivotUtilities.derivers;
-        options.renderers = $wnd.$.extend($wnd.$.pivotUtilities.renderers, $wnd.$.pivotUtilities.gchart_renderers);
-        options.derivedAttributes = {};
-        var iter = fields.keySet().iterator();
-        while (iter.hasNext()){
-        	var key = iter.next();
-        	var l = fields.get(key);
-        	options.derivedAttributes[l] = function(data){
-        		return data[key];
-        	};
-        }
-		$wnd.$.getJSON(options.url, x.@com.javexpress.gwt.library.ui.data.pivottable.PivotTable::calculatePostData()() )
-			.done(function( json ) {
-	            el.pivotUI(json, options);
-			})
-			.fail(function( jqxhr, textStatus, error ) {
-				if ($wnd.console)
-					$wnd.console.log( "Request Failed: " + err );
-			});
+		var derivers = $wnd.$.pivotUtilities.derivers;
+		options.renderers = $wnd.$.extend($wnd.$.pivotUtilities.renderers,
+				$wnd.$.pivotUtilities.gchart_renderers);
+		options.derivedAttributes = {};
+		var iter = fields.keySet().iterator();
+		while (iter.hasNext()) {
+			var key = iter.next();
+			var l = fields.get(key);
+			options.derivedAttributes[l] = function(data) {
+				return data[key];
+			};
+		}
+		$wnd.$
+				.getJSON(
+						options.url,
+						x.@com.javexpress.gwt.library.ui.data.pivottable.PivotTable::calculatePostData()())
+				.done(function(json) {
+					el.pivotUI(json, options);
+				}).fail(function(jqxhr, textStatus, error) {
+					if ($wnd.console)
+						$wnd.console.log("Request Failed: " + err);
+				});
 		return el;
 	}-*/;
-	
-	protected JavaScriptObject calculatePostData(){
+
+	protected JavaScriptObject calculatePostData() {
 		JsonMap postData = new JsonMap();
-		if (listener!=null)
+		if (listener != null)
 			listener.fillPivotPostData(postData);
 		return postData.getJavaScriptObject();
 	}

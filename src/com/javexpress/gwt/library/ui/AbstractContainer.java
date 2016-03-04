@@ -19,17 +19,18 @@ public abstract class AbstractContainer extends ComplexPanel implements Requires
 	public void add(final Widget child, int index) {
 		super.insert(child, getElement(), index, true);
 	}
-	
+
 	public String getId() {
 		return getElement().getId();
 	}
-	
+
+	@Override
 	public void onResize() {
 		for (Widget w : getChildren())
 			if (w instanceof RequiresResize)
 				((RequiresResize) w).onResize();
 	}
-	
+
 	@Override
 	protected void onUnload() {
 		clear();

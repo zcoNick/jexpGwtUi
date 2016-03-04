@@ -3,7 +3,10 @@ package com.javexpress.gwt.library.ui.dialog;
 import com.google.gwt.core.client.Scheduler;
 import com.google.gwt.core.client.Scheduler.ScheduledCommand;
 import com.google.gwt.dom.client.Element;
+import com.google.gwt.dom.client.Style.Display;
 import com.google.gwt.dom.client.Style.Unit;
+import com.google.gwt.event.dom.client.KeyDownEvent;
+import com.google.gwt.event.dom.client.KeyDownHandler;
 import com.google.gwt.user.client.Command;
 import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.Window;
@@ -29,9 +32,13 @@ public class WindowView extends AbstractContainerFocusable implements IUIComposi
 	private Element	mainDiv;
 	private Element	btClose;
 	private boolean	draggable;
+	private boolean	resizable;
 	private boolean	maximizable;
 	private boolean	helpVisible;
+	private boolean	hideOnClose	= false;
+	private boolean	showing;
 	private Element	helpSpan;
+	private Element	headerEl;
 
 	public boolean isDraggable() {
 		return draggable;
@@ -39,6 +46,14 @@ public class WindowView extends AbstractContainerFocusable implements IUIComposi
 
 	public void setDraggable(boolean draggable) {
 		this.draggable = draggable;
+	}
+
+	public boolean isResizable() {
+		return resizable;
+	}
+
+	public void setResizable(boolean resizable) {
+		this.resizable = resizable;
 	}
 
 	public boolean isMaximizable() {
@@ -57,21 +72,36 @@ public class WindowView extends AbstractContainerFocusable implements IUIComposi
 		this.helpVisible = helpVisible;
 	}
 
-	public WindowView(String id) {
-		super(DOM.createDiv());
-		setStyleName("jexp-ui-window-modal modal in");
-		getElement().setAttribute("style", "display: block; padding-right: 17px; z-index:" + JsUtil.calcDialogZIndex());
+	public boolean isHideOnClose() {
+		return hideOnClose;
+	}
 
-		Element backdrop = DOM.createDiv();
-		backdrop.setClassName("modal-backdrop in");
-		backdrop.getStyle().setHeight(com.google.gwt.user.client.Window.getClientHeight(), Unit.PX);
-		getElement().appendChild(backdrop);
+	public void setHideOnClose(boolean hideOnClose) {
+		this.hideOnClose = hideOnClose;
+	}
+
+	public WindowView(String id, boolean modal) {
+		super(DOM.createDiv());
+		int autoZIndex = JsUtil.calcDialogZIndex();
+		getElement().setAttribute("style", "display: block; padding-right: 17px; z-index:" + autoZIndex);
+		getElement().setAttribute("oz", String.valueOf(autoZIndex));
+		if (modal) {
+			setStyleName("jexp-ui-window-modal modal in");
+			Element backdrop = DOM.createDiv();
+			backdrop.setClassName("modal-backdrop in");
+			backdrop.getStyle().setHeight(com.google.gwt.user.client.Window.getClientHeight(), Unit.PX);
+			backdrop.getStyle().setZIndex(JsUtil.calcDialogZIndex());
+			getElement().appendChild(backdrop);
+		} else {
+			setStyleName("jexp-ui-window-nonmodal");
+		}
 
 		windowDiv = DOM.createDiv();
-		windowDiv.setClassName("modal-dialog jexp-ui-window widget-box jexpShadow");
+		windowDiv.setClassName((modal ? "modal-dialog " : "") + "jexp-ui-window widget-box jexpShadow");
 		windowDiv.setTabIndex(-1);
 		windowDiv.setAttribute("role", "dialog");
 		windowDiv.setId(WidgetConst.WINDOWPREFIX + "_" + id);
+		windowDiv.setAttribute("zindex", String.valueOf(JsUtil.calcDialogZIndex()));
 		getElement().appendChild(windowDiv);
 
 		headerDiv = DOM.createDiv();
@@ -91,6 +121,8 @@ public class WindowView extends AbstractContainerFocusable implements IUIComposi
 		setDraggable(form.isDraggable());
 		setMaximizable(form.isMaximizable());
 		setHelpVisible(form.getHelpIndex() != null);
+		if (!JsUtil.isProdMode())
+			headerDiv.setTitle(form.getClass().getName());
 		form.setCloseHandler(new Command() {
 			@Override
 			public void execute() {
@@ -112,8 +144,29 @@ public class WindowView extends AbstractContainerFocusable implements IUIComposi
 		windowDiv.setAttribute("aria-describedby", "dialog-confirm");
 		windowDiv.setAttribute("aria-labelledby", getId() + "_title");
 
-		IUIComposite form = (IUIComposite) getWidget(0);
+		final IUIComposite form = (IUIComposite) getWidget(0);
 		fillHeader(form.getIcon(), form.getHeader());
+		form.setAttachedTo(this);
+		addKeyDownHandler(new KeyDownHandler() {
+			@Override
+			public void onKeyDown(KeyDownEvent event) {
+				KeyDownHandler kdh = form.getKeyDownHandler();
+				if (kdh != null)
+					kdh.onKeyDown(event);
+				/*
+				 * textboxlarda backspace yapınca history den onceki sayfaya gidiyordu onlemek için aşağıyı açınca textbox da silme yapmıyor
+				 * if (event.getNativeKeyCode() == KeyCodes.KEY_ESCAPE) {
+					event.preventDefault();
+					event.stopPropagation();
+					close();
+					return;
+				}
+				if (event.isLive()&&event.getNativeKeyCode() == KeyCodes.KEY_BACKSPACE) {
+					event.preventDefault();
+					event.stopPropagation();
+				}*/
+			}
+		});
 
 		super.doAttachChildren();
 	}
@@ -125,11 +178,11 @@ public class WindowView extends AbstractContainerFocusable implements IUIComposi
 		if (width == null && form instanceof UIComposite) {
 			UIComposite uic = (UIComposite) form;
 			int screenW = Window.getClientWidth();
-			double pct = 50;
 			Integer xs = JsUtil.nvl(uic.getXsSize(), 0);
 			Integer sm = JsUtil.nvl(uic.getSmSize(), xs);
 			Integer md = JsUtil.nvl(uic.getMdSize(), sm);
 			Integer lg = JsUtil.nvl(uic.getLgSize(), md);
+			double pct = 50;
 			if (xs > 0 && screenW < 768)
 				pct = JsUtil.RESPONSIVE_COL_WIDTHS[xs];
 			else if (sm > 0 && screenW >= 768 && screenW < 992)
@@ -141,16 +194,12 @@ public class WindowView extends AbstractContainerFocusable implements IUIComposi
 			width = String.valueOf(pct) + "%";
 			marginLeft = Math.ceil((100 - pct) / 2) + "%";
 		}
-		windowDiv.setAttribute("style", (width != null ? "width:" + width + ";" : "") + "margin:20px " + marginLeft + ";min-width:100px;display:block");
+		String zindex = windowDiv.getAttribute("zindex");
+		windowDiv.setAttribute("style", "z-index:" + zindex + ";" + (width != null ? "width:" + width + ";" : "") + "margin:2px " + marginLeft + ";min-width:100px;display:block");
 	}
 
 	private void fillHeader(ICssIcon icon, String header) {
-		Element h5 = DOM.createElement("h5");
-		h5.setClassName("widget-title");
-		if (icon != null)
-			header = "<i class='ace-icon " + icon.getCssClass() + "'></i>" + header;
-		h5.setInnerHTML(header);
-		headerDiv.appendChild(h5);
+		setHeader(icon, header);
 
 		Element tools = DOM.createDiv();
 		tools.setClassName("widget-toolbar");
@@ -159,7 +208,7 @@ public class WindowView extends AbstractContainerFocusable implements IUIComposi
 			helpSpan = DOM.createAnchor();
 			helpSpan.setId(windowDiv.getId() + "_help");
 			helpSpan.addClassName("jexpWindowToolItem ub_" + windowDiv.getId());
-			helpSpan.setInnerHTML("<i class='ace-icon fa fa-question'></i>");
+			helpSpan.setInnerHTML("<i class='" + ClientContext.resourceInjector.getFontIconPrefixClass() + " fa fa-question'></i>");
 			helpSpan.setTitle(ClientContext.nlsCommon.yardim());
 			tools.appendChild(helpSpan);
 		}
@@ -167,24 +216,56 @@ public class WindowView extends AbstractContainerFocusable implements IUIComposi
 		btClose = DOM.createAnchor();
 		btClose.setId(windowDiv.getId() + "_close");
 		btClose.addClassName("ub_" + windowDiv.getId());
-		btClose.setInnerHTML("<i class='ace-icon fa fa-times'></i>");
+		btClose.setInnerHTML("<i class='" + ClientContext.resourceInjector.getFontIconPrefixClass() + " fa fa-times'></i>");
 		btClose.setTitle(ClientContext.nlsCommon.kapat());
 		tools.appendChild(btClose);
 
 		headerDiv.appendChild(tools);
 	}
 
+	@Override
+	public void setHeader(ICssIcon icon, String header) {
+		if (headerEl == null) {
+			headerEl = DOM.createElement("h5");
+			headerEl.setClassName("widget-title");
+			headerDiv.appendChild(headerEl);
+		}
+		if (icon != null)
+			header = "<i class='" + ClientContext.resourceInjector.getFontIconPrefixClass() + " " + icon.getCssClass() + "'></i>" + header;
+		headerEl.setInnerHTML(header);
+	}
+
 	private native void bindOnClick(Element el, Command command) /*-{
-																	$wnd.$(el).click(function() {
-																	command.@com.google.gwt.user.client.Command::execute()();
-																	});
-																	}-*/;
+		$wnd.$(el).click(function() {
+			command.@com.google.gwt.user.client.Command::execute()();
+		});
+	}-*/;
 
 	public void show() {
-		RootPanel.get().add(this);
+		if (!isAttached()) {
+			RootPanel.get().add(this);
+		} else {
+			getElement().getStyle().setDisplay(Display.BLOCK);
+			selectActiveWindow(getElement());
+		}
 		IUIComposite form = (IUIComposite) getWidget(0);
 		setFocus(true);
 		form.onShow();
+		showing = true;
+	}
+
+	public void hide() {
+		if (isAttached()) {
+			getElement().getStyle().setDisplay(Display.NONE);
+			IUIComposite form = (IUIComposite) getWidget(0);
+			setFocus(false);
+			form.onHide();
+			showing = false;
+		}
+	}
+
+	public boolean isShowing() {
+		return showing;
 	}
 
 	@Override
@@ -193,7 +274,10 @@ public class WindowView extends AbstractContainerFocusable implements IUIComposi
 		bindOnClick(btClose, new Command() {
 			@Override
 			public void execute() {
-				close();
+				if (isHideOnClose())
+					hide();
+				else
+					close();
 			}
 		});
 		if (helpSpan != null)
@@ -206,11 +290,46 @@ public class WindowView extends AbstractContainerFocusable implements IUIComposi
 		if (isDraggable()) {
 			JsonMap opts = new JsonMap();
 			opts.set("handle", ".widget-header");
-			opts.set("opacity", 0.5);
+			opts.set("opacity", 0.8);
 			opts.set("cursor", "move");
-			JsUtil.draggable(windowDiv, opts.getJavaScriptObject());
+			JsUtil.draggable(windowDiv, opts.getJavaScriptObject(), new Command() {
+				@Override
+				public void execute() {
+					String top = windowDiv.getStyle().getTop();
+					if (top.startsWith("-"))
+						windowDiv.getStyle().setTop(0, Unit.PX);
+					String left = windowDiv.getStyle().getLeft();
+					if (left.startsWith("-"))
+						windowDiv.getStyle().setLeft(0, Unit.PX);
+				}
+			});
+		}
+		if (resizable) {//Çalışmıyor
+			JsonMap opts = new JsonMap();
+			opts.setInt("minWidth", 75);
+			opts.setInt("minHeight", 50);
+			JsUtil.resizable(windowDiv, opts.getJavaScriptObject());
+		}
+		if (getElement().hasClassName("jexp-ui-window-nonmodal")) {
+			JsUtil.centerInWindow(getElement());
+			bindOnClick(headerDiv, new Command() {
+				@Override
+				public void execute() {
+					selectActiveWindow(getElement());
+				}
+			});
 		}
 	}
+
+	protected native void selectActiveWindow(Element el) /*-{
+		$wnd.$(".jexpActiveWindow").each(
+				function() {
+					var that = $wnd.$(this);
+					that.css("z-index", that.attr("oz")).removeClass(
+							"jexpActiveWindow");
+				});
+		$wnd.$(el).css("z-index", 9999).addClass("jexpActiveWindow");
+	}-*/;
 
 	public void openHelp() {
 		Widget w = getWidget(0);
@@ -220,16 +339,21 @@ public class WindowView extends AbstractContainerFocusable implements IUIComposi
 	}
 
 	public void close() {
-		Scheduler.get().scheduleDeferred(new ScheduledCommand() {
-			@Override
-			public void execute() {
-				removeFromParent();
-			}
-		});
+		boolean cc = true;
+		if (getWidgetCount() > 0 && getWidget(0) instanceof IUIComposite)
+			cc = ((IUIComposite) getWidget(0)).canClose();
+		if (cc)
+			Scheduler.get().scheduleDeferred(new ScheduledCommand() {
+				@Override
+				public void execute() {
+					removeFromParent();
+				}
+			});
 	}
 
 	@Override
 	protected void onUnload() {
+		headerEl = null;
 		headerDiv = null;
 		mainDiv = null;
 		_destroyByJs(getElement(), ".ub_" + windowDiv.getId());
@@ -238,8 +362,8 @@ public class WindowView extends AbstractContainerFocusable implements IUIComposi
 	}
 
 	private native void _destroyByJs(Element el, String ubSel) /*-{
-																$wnd.$(ubSel, $wnd.$(el)).off();
-																}-*/;
+		$wnd.$(ubSel, $wnd.$(el)).off();
+	}-*/;
 
 	@Override
 	public void onResize() {
@@ -254,6 +378,17 @@ public class WindowView extends AbstractContainerFocusable implements IUIComposi
 		windowDiv.getStyle().setHeight(h, Unit.PX);
 		if (getWidget(0) instanceof RequiresResize)
 			((RequiresResize) getWidget(0)).onResize();
+	}
+
+	public void setPosition(Integer posX, Integer posY) {
+		if (posX != null)
+			windowDiv.getStyle().setLeft(posX, Unit.PX);
+		if (posY != null)
+			windowDiv.getStyle().setTop(posY, Unit.PX);
+	}
+
+	public void setBaseZIndex(int zindex) {
+		getElement().setAttribute("oz", String.valueOf(zindex));
 	}
 
 }

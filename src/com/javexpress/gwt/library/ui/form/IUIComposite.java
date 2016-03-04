@@ -1,15 +1,21 @@
 package com.javexpress.gwt.library.ui.form;
 
+import com.google.gwt.event.dom.client.KeyDownHandler;
 import com.google.gwt.user.client.Command;
 import com.google.gwt.user.client.ui.Focusable;
 import com.google.gwt.user.client.ui.HasWidgets;
 import com.google.gwt.user.client.ui.IsWidget;
+import com.javexpress.common.model.item.BpmAction;
 import com.javexpress.common.model.item.FormDef;
 import com.javexpress.gwt.library.ui.ICssIcon;
 
 public interface IUIComposite extends IsWidget, HasWidgets, ISizeAwareWidget, Focusable {
 
 	final static byte	ACT_INSERTRECORD	= -128;
+
+	IUICompositeView getAttachedTo();
+
+	void setAttachedTo(IUICompositeView attachedTo);
 
 	void addOnLoadCommand(Command command);
 
@@ -44,5 +50,11 @@ public interface IUIComposite extends IsWidget, HasWidgets, ISizeAwareWidget, Fo
 	boolean isSupportsAction(byte action);
 
 	void performAction(byte action) throws Exception;
+
+	BpmAction getBpmAction();
+
+	KeyDownHandler getKeyDownHandler();
+
+	boolean canClose();
 
 }

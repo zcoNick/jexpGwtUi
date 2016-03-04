@@ -8,7 +8,7 @@ import com.google.gwt.user.client.ui.TextArea;
 import com.google.gwt.user.client.ui.Widget;
 import com.javexpress.gwt.library.shared.model.WidgetConst;
 import com.javexpress.gwt.library.ui.ClientContext;
-import com.javexpress.gwt.library.ui.bootstrap.FormGroupCell;
+import com.javexpress.gwt.library.ui.bootstrap.LabelControlCell;
 import com.javexpress.gwt.library.ui.data.DataBindingHandler;
 import com.javexpress.gwt.library.ui.form.IUserInputWidget;
 import com.javexpress.gwt.library.ui.js.JsUtil;
@@ -20,17 +20,18 @@ public class CodeEditor extends TextArea implements IUserInputWidget<String> {
 	public static void fillResources(final WidgetBundles wb) {
 		wb.addStyleSheet("scripts/codemirror/lib/codemirror.css");
 		wb.addStyleSheet("scripts/codemirror/addon/hint/jexp.show-hint.css");
-		wb.addJavaScript("scripts/codemirror/lib/codemirror-4.1.0.js");
+		wb.addJavaScript("scripts/codemirror/lib/codemirror-5.6.js");
 		wb.addJavaScript("scripts/codemirror/addon/hint/show-hint.js");
-		wb.addJavaScript("scripts/codemirror/addon/hint/jexp.sql-hint.js");
-		wb.addJavaScript("scripts/codemirror/addon/fold/xml-fold.js");
+		//wb.addJavaScript("scripts/codemirror/addon/hint/jexp.sql-hint.js");
+		wb.addJavaScript("scripts/codemirror/addon/hint/sql-hint.js");
+		//wb.addJavaScript("scripts/codemirror/addon/fold/xml-fold.js");
 		wb.addJavaScript("scripts/codemirror/addon/edit/matchbrackets.js");
-		wb.addJavaScript("scripts/codemirror/addon/edit/matchtags.js");
+		//wb.addJavaScript("scripts/codemirror/addon/edit/matchtags.js");
 		wb.addJavaScript("scripts/codemirror/mode/sql/sql.js");
-		wb.addJavaScript("scripts/codemirror/mode/xml/xml.js");
-		wb.addJavaScript("scripts/codemirror/mode/css/css.js");
-		wb.addJavaScript("scripts/codemirror/mode/javascript/javascript.js");
-		wb.addJavaScript("scripts/codemirror/mode/htmlmixed/htmlmixed.js");
+		//wb.addJavaScript("scripts/codemirror/mode/xml/xml.js");
+		//wb.addJavaScript("scripts/codemirror/mode/css/css.js");
+		//wb.addJavaScript("scripts/codemirror/mode/javascript/javascript.js");
+		//wb.addJavaScript("scripts/codemirror/mode/htmlmixed/htmlmixed.js");
 	}
 
 	protected JavaScriptObject	jsObject;
@@ -178,7 +179,7 @@ public class CodeEditor extends TextArea implements IUserInputWidget<String> {
 	@Override
 	public void setValidationError(String validationError) {
 		if (JsUtil.USE_BOOTSTRAP) {
-			Widget nw = getParent() instanceof FormGroupCell ? getParent() : this;
+			Widget nw = getParent() instanceof LabelControlCell ? getParent() : this;
 			if (validationError == null)
 				nw.removeStyleName("has-error");
 			else

@@ -1,0 +1,136 @@
+.form-control-container.form-control { border: 0 none; height: 26px; line-height: 1; padding-bottom: 1px; padding-left: 0; padding-top: 1px;background-color: transparent; }
+.jexpFormArea > .form-group > label[class*="col-"]{margin-bottom:2px}
+.jexpFormArea > .form-group > .jexpControlContainer{margin-bottom:2px}
+.jexpFormArea.borderTop { border-top:1px solid #EEEEEE;margin-top:3px;padding-top: 3px; }
+.jexpFormArea.borderBottom { border-bottom:1px solid #EEEEEE;margin-bottom:3px;padding-bottom: 3px; }
+.jexpLabel.form-control { border: 0 none; height: 26px; line-height: 1; padding-bottom: 1px; padding-left: 0; padding-top:5px; background-color: transparent; }
+.jexpLabel.jexpNoContentBanner { color: #9F9F9F;font-size: 1.5em;font-style: italic;line-height: 2em; }
+.jexpCheckBox { font-size:12px; }
+.jexpCheckBox.form-control { background-color: transparent; }
+.jexpTree.form-control { height:inherit;padding:3px;font-size:1em; }
+.gwt-TreeItem { cursor: pointer;padding: 4px 3px; }
+.gwt-CheckBox.jexpSmallGwtCheck > label { font-size:inherit; }
+.modal > .widget-box { margin-top: 20px; }
+.jexp-ui-window { font-size: 1em }
+.jexp-ui-window.widget-box { border:none }
+.jexp-ui-window > .widget-header { background-color:#cceeff;background:-webkit-gradient(linear,left top,left bottom,color-stop(0%,#ffffff),color-stop(100%,#cceeff));background:-webkit-linear-gradient(#ffffff,#cceeff);background:-moz-linear-gradient(#ffffff,#cceeff);background:-ms-linear-gradient(#ffffff,#cceeff);background:-o-linear-gradient(#ffffff,#cceeff);filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#ffffff', endColorstr='#cceeff');-ms-filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#ffffff', endColorstr='#cceeff');background:linear-gradient(#ffffff,#cceeff);color:#333399;}
+.jexp-ui-window > .widget-body { background-color:#ffffff;background:-moz-radial-gradient(50% 75%,circle,#ffffff,#EFF3F8);background:-webkit-radial-gradient(50% 75%,circle,#ffffff,#EFF3F8);background:-o-radial-gradient(50% 75%,circle,#ffffff,#EFF3F8);background:-ms-radial-gradient(50% 75%,circle,#ffffff,#EFF3F8);background:radial-gradient(50% 75%,circle,#ffffff,#EFF3F8);}
+.widget-box > .widget-header, .jexp-ui-window > .widget-header { padding-left: 8px; min-height: 28px }
+.jexp-ui-window-nonmodal { position:absolute;top:20%;left:40%; }
+.jexp-ui-window > .widget-header > .widget-title { line-height:28px;display: inline-block;padding-bottom: 0; }
+.jexp-ui-window > .widget-header > .widget-toolbar { line-height: 28px;display: inline-block;float: right;padding-right: 1em; }
+.jexp-ui-window > .widget-body > .widget-main { padding: 4px 3px 3px; }
+.jexp-ui-window .modal-footer { padding-bottom: 2px;padding-top: 2px;padding-right: 6px; }
+.jexp-ui-window > .widget-header > .widget-toolbar a { cursor: pointer }
+.jexp-ui-window > .widget-header > .widget-toolbar a.jexpWindowToolItem { padding-right:4px }
+.jexpToolBar { font-size:1.1em; }
+.jexp-ui-buttonset { text-align:center;margin-top: 4px; }
+.jexp-ui-buttonset-left { display:inline-block;float:left }
+.jexp-ui-buttonset-center { display:inline-block }
+.jexp-ui-buttonset-right { display:inline-block;float:right }
+.form-horizontal .control-label { padding-top: 3px; color:#777777;overflow: hidden;text-overflow: ellipsis;white-space: nowrap; }
+.form-group { margin-bottom: 0px; }
+.form-group label { font-size:1em;height:22px; }
+.jexpTextBox,.jexpComboBox,.jexpNumericBox,.jexpDateBox,.jexpDateBox input[type="text"],
+.form-group select,.form-group textarea,.form-group input[type="text"], .form-group input[type="password"], .form-group input[type="datetime"], .form-group input[type="datetime-local"], .form-group input[type="date"], .form-group input[type="month"], .form-group input[type="time"], .form-group input[type="week"], .form-group input[type="number"], .form-group input[type="email"], .form-group input[type="url"], .form-group input[type="search"], .form-group input[type="tel"], .form-group input[type="color"]{
+	font-size:1em;
+	padding:1px;	
+	height:22px;
+	color:#000000;
+}
+.jexpDateBox input[type="text"] { width:7em }
+.form-group .input-group-addon, .jexpDateBox .input-group-addon{ font-size: 12px;padding: 2px 4px; }
+.input-group.jexpDateBox{ padding:0;width:8em }
+.jexp-ui-form { background-color:transparent }
+.jexp-ui-formcontrol-no-border { border:none;padding:0;margin-bottom:0;height:24px; }
+.jexp-ui-field-required:after{ content: "*" }
+.form-group > label { text-align:right; }
+.jexp-ui-window-modal.modal.in { opacity:1 }
+.jexp-ui-window-modal > .modal-backdrop.in {background-color: transparent}
+.jexpCheckComboBox { font-size:0.9em;padding:0; }
+.jexpCheckComboPanel { font-size:0.9em;z-index:9999;background-color: inherit;}
+.jexpCheckComboPanel .jexpCheckComboTools { border-bottom: 1px solid inherit; cursor: pointer }
+.jexpCheckComboPanel .jexpCheckComboAll { font-size:0.9em;font-style: italic; padding-left: 2em; }
+.jexpCheckComboPanel .jexpCheckComboReset { font-size:0.9em;font-style: italic; padding-right: 1em; }
+.jexpCheckComboPanel > label { font-size: 0.9em; }
+.jexpCheckComboPanel > input[type="checkbox"] { margin: 3px 4px 5px 5px; }
+.jexp-ui-progress { margin-bottom: 0}
+.ui-autocomplete { z-index: 9999; max-height: 225px; overflow: auto }
+.ui-autocomplete > .ui-menu-item { font-size: 0.9em; white-space: nowrap; padding: 2px 2px 2px }
+.ui-autocomplete > .evenitem { opacity: 0.9;background-color: #eefcfe }
+.ui-autocomplete > .ui-menu-item > a { color:inherit; }
+.ui-autocomplete > .evenitem.ui-state-focus { background-color: #4F99C6;color:#FFFFFF;font-weight: 400;margin: auto;text-decoration: none }
+.jexpCheckGroupBox { font-size:0.9em; }
+.jexpCheckGroupBox.form-control { height:inherit;padding: 2px 4px; }
+.jexpCheckGroupBoxCheck > label { height:15px; }
+.jexpCheckGroupBoxCheck > input { margin: 4px 2px 0; }
+.jexpPickList{ }
+.jexpPickList h6 { margin:0; }
+.jexpPickList.hasBorder{ border: 1px solid #EEEEEE; }
+.jexpPickList .list-group { margin-bottom: 0; }
+.jexpPickList .list-group-item { padding: 2px 17px 4px 6px; }
+.jexpPickList .list-group-item:nth-child(even) { opacity: 0.9;background-color: #eefcfe; }
+.jexpPickListButtons .btn { font-size:1.3em;margin-left:16.666%; }
+.jexpTabSet { margin-top:4px }
+.jexpTabSet > .nav-tabs > li > a { padding: 2px 7px 4px; }
+.jexpTabSet > .tab-content { padding: 4px 0 2px; }
+.jexpTabSet > .tab-content > .tab-pane { height:100%; }
+.jexpTabSet > .tab-content > .tab-pane.hidden { display:none; }
+.jexpTabSet.tabs-left > .nav-tabs { border-bottom:none; }
+.jexpTabSet.tabs-left > .nav-tabs > li { margin-bottom: 2px; }
+.jexpFormArea.form-horizontal .form-group { margin-left:0px;margin-right:0px; }
+.jexpGroupBox.widget-box.transparent > .widget-header { min-height:22px;margin-bottom:2px; } 
+.jexpGroupBox.widget-box.transparent > .widget-header > .widget-title { line-height:22px; }
+.jexpCellView { margin:3px; }
+.jexpCellPanel { line-height:0;border: 1px solid #CCC;margin: 2px 2px 2px 2px;background: rgba(255,255,255,1);background: -moz-linear-gradient(top, rgba(255,255,255,1) 0%, rgba(252,252,252,1) 47%, rgba(245,245,245,1) 100%);background: -webkit-gradient(left top, left bottom, color-stop(0%, rgba(255,255,255,1)), color-stop(47%, rgba(252,252,252,1)), color-stop(100%, rgba(245,245,245,1)));background: -webkit-linear-gradient(top, rgba(255,255,255,1) 0%, rgba(252,252,252,1) 47%, rgba(245,245,245,1) 100%);background: -o-linear-gradient(top, rgba(255,255,255,1) 0%, rgba(252,252,252,1) 47%, rgba(245,245,245,1) 100%);background: -ms-linear-gradient(top, rgba(255,255,255,1) 0%, rgba(252,252,252,1) 47%, rgba(245,245,245,1) 100%);background: linear-gradient(to bottom, rgba(255,255,255,1) 0%, rgba(252,252,252,1) 47%, rgba(245,245,245,1) 100%);filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ffffff', endColorstr='#f5f5f5', GradientType=0 ); }
+.form-group .jexpControlContainer .jexpRadioGroupBox { height:inherit;font-size:0.9em;padding-left:6px;padding-top:6px;padding-right:0px;padding-bottom:0px; }
+.form-group .jexpControlContainer .jexpRadioGroupBox .gwt-RadioButton > label { padding-left:3px;padding-right:3px; }
+.jexp-ui-buttonset.borderTop { border-top: 1px solid #EEEEEE;margin-top: 1em;padding-top: 3px; }
+.jexp-ui-buttonset button { margin-left:3px; }
+.jexpStepsPanel { min-height: 5.5em; }
+.jexpStepsPanel.borderBottom { border-bottom: 1px solid #EEEEEE;margin-bottom: 1em; }
+.jexpStepsPanel.borderTop { border-top: 1px solid #EEEEEE;margin-top: 1em; }
+.jexpSchedule { margin: 0 auto; }
+.jexpSchedule .jexpPendingTask { }
+.jexpSchedule .jexpCompletedTask { text-decoration: line-through; }
+.toolitem > .disabled { opacity: 0.3; }
+.modal-header > .close { color: white;opacity: 0.8; }
+.jexpMultiAutoCompleteBox.form-control { padding: 2px 0;font-size:0.9em; }
+.table > tbody > tr.jexpMultiAutoCompleteListItem > td { padding:3px; }
+.jexpEditComboBox > ul { width:100%;margin-top:0px;padding:0; }
+.jexpEditComboBox > ul > li:nth-child(even) { opacity: 0.9;background-color: #eefcfe; }
+.dropdown-submenu { position: relative; }
+.dropdown-submenu>.dropdown-menu { top: 0;left: 100%;margin-top: -6px;margin-left: -1px;-webkit-border-radius: 0 6px 6px 6px;-moz-border-radius: 0 6px 6px;border-radius: 0 6px 6px 6px;}
+.dropdown-submenu:hover>.dropdown-menu { display: block; }
+.dropdown-submenu>a:after { display: block;content: " ";float: right;width: 0;height: 0;border-color: transparent;border-style: solid;border-width: 5px 0 5px 5px;border-left-color: #ccc;margin-top: 5px;margin-right: -10px; }
+.dropdown-submenu:hover>a:after { border-left-color: #fff; }
+.dropdown-submenu.pull-left { float: none; }
+.dropdown-submenu.pull-left>.dropdown-menu { left: -100%;margin-left: 10px;-webkit-border-radius: 6px 0 6px 6px;-moz-border-radius: 6px 0 6px 6px;border-radius: 6px 0 6px 6px; }
+.list-group.slim > a { padding:5px 7px; }
+.jexpSpinner { padding:0;height:24px; }
+.jexpSpinner .icon-only { font-size:12px; }
+.jexpSpinner .spinbox-input { border:none; }
+.jexpSpinner input[type="text"] { font-size:12px; }
+.multiselect-container > li > a > label.checkbox, .multiselect-container > li > a > label.radio { min-height: 1em;padding: 2px 0 2px 25px; }
+.jexpLoading {position:absolute;top:0;right:0;left:0;bottom:0;background-color:rgba(250,250,250,0.3);z-index:9999}
+.jexpLoadingInner {position: absolute;top: 30%;left: 42%;z-index: 100;border:1px solid lightgray;padding:12px;background-color:white;}
+.jexpLoadingText{color:orange;font-weight:bold;}
+.jqplot-target {font-family:inherit;}
+.ui-resizable{position:relative}
+.ui-resizable-handle{position:absolute;font-size:0.1px;display:block;-ms-touch-action:none;touch-action:none}
+.ui-resizable-disabled .ui-resizable-handle,.ui-resizable-autohide .ui-resizable-handle{display:none}
+.ui-resizable-n{cursor:n-resize;height:7px;width:100%;top:-5px;left:0}
+.ui-resizable-s{cursor:s-resize;height:7px;width:100%;bottom:-5px;left:0}
+.ui-resizable-e{cursor:e-resize;width:7px;right:-5px;top:0;height:100%}
+.ui-resizable-w{cursor:w-resize;width:7px;left:-5px;top:0;height:100%}
+.ui-resizable-se{cursor:se-resize;width:12px;height:12px;right:1px;bottom:1px}
+.ui-resizable-sw{cursor:sw-resize;width:9px;height:9px;left:-5px;bottom:-5px}
+.ui-resizable-nw{cursor:nw-resize;width:9px;height:9px;left:-5px;top:-5px}
+.ui-resizable-ne{cursor:ne-resize;width:9px;height:9px;right:-5px;top:-5px}
+.ui-resizable-se{width:12px;height:12px;right:-5px;bottom:-5px;background-position:16px 16px}
+.jexpPickList .active{background-color:#428bca;color:white;}
+.jexpPickList .btn {margin-top:10px;padding-bottom:2px;opacity:0.5}
+.jexpPickList .btn:hover {opacity:1}
+.jexpPickList .jexpPickListOptions {padding-top:3px;padding-right:10px;font-size:1.2em;display:none;}
+.jexpPickList .selections .jexpPickListOptions {display:inline-block;opacity:0.3;}
+.jexpPickList .selections .jexpPickListOptions:hover {opacity:1;}

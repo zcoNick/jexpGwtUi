@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.google.gwt.core.client.JavaScriptObject;
+import com.google.gwt.core.client.JsArrayInteger;
 import com.google.gwt.core.client.JsArrayString;
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.event.dom.client.ContextMenuEvent;
@@ -23,8 +24,8 @@ import com.javexpress.gwt.library.shared.model.IJsonServicePoint;
 import com.javexpress.gwt.library.shared.model.JexpGwtUser;
 import com.javexpress.gwt.library.shared.model.WidgetConst;
 import com.javexpress.gwt.library.ui.ClientContext;
+import com.javexpress.gwt.library.ui.FaIcon;
 import com.javexpress.gwt.library.ui.JexpWidget;
-import com.javexpress.gwt.library.ui.JqIcon;
 import com.javexpress.gwt.library.ui.data.DecimalColumn;
 import com.javexpress.gwt.library.ui.data.GridToolItem;
 import com.javexpress.gwt.library.ui.data.IDataViewer;
@@ -33,40 +34,41 @@ import com.javexpress.gwt.library.ui.data.IToolItemHandler;
 import com.javexpress.gwt.library.ui.data.LinkColumn;
 import com.javexpress.gwt.library.ui.data.ListColumn;
 import com.javexpress.gwt.library.ui.data.ListColumn.Formatter;
+import com.javexpress.gwt.library.ui.data.slickgrid.GroupingDefinition;
 import com.javexpress.gwt.library.ui.js.JsUtil;
 import com.javexpress.gwt.library.ui.js.JsonMap;
 import com.javexpress.gwt.library.ui.js.WidgetBundles;
 import com.javexpress.gwt.library.ui.menu.IMenuHandler;
-import com.javexpress.gwt.library.ui.menu.MenuItem;
-import com.javexpress.gwt.library.ui.menu.PopupMenu;
+import com.javexpress.gwt.library.ui.menu.JqMenuItem;
+import com.javexpress.gwt.library.ui.menu.JqPopupMenu;
 
 public class JqGrid<T extends Serializable> extends JexpWidget implements IDataViewer {
 
 	public static WidgetBundles fillResources(WidgetBundles parent) {
 		WidgetBundles wb = new WidgetBundles("jqGrid 4.6.0", parent);
-		wb.addStyleSheet("ace/css/ui.jqgrid.css");
+		wb.addStyleSheet("scripts/jqgrid/" + (JsUtil.USE_BOOTSTRAP ? "bootstrap" : "jquery") + ".ui.jqgrid.css");
 		wb.addJavaScript("scripts/jqgrid/grid.locale-" + LocaleInfo.getCurrentLocale().getLocaleName() + ".js");
 		wb.addJavaScript("scripts/jqgrid/jquery.jqGrid-4.6.0.min.js");
 
 		WidgetBundles jexp = new WidgetBundles("JavExpress jqGrid Extensions", wb);
-		jexp.addStyleSheet("ace/css/jexpGrids-0.1.css");
 		jexp.addJavaScript("scripts/jqgrid/jexpJqGrid-0.1.js");
 		return jexp;
 	}
 
-	protected JsonMap				options;
-	private boolean					keyNavigation	= true;
-	protected final Element			table;
-	private Element					pager;
-	private JavaScriptObject		widget;
-	private IGridListener			listener;
-	private List<ListColumn>		columns			= new ArrayList<ListColumn>();
-	protected List<GridToolItem>	tools			= new ArrayList<GridToolItem>();
-	private Serializable			widgetData;
-	private boolean					waitingFocus;
-	private boolean					useSmallFonts;
-	private String					keyColumnName;
-	private int						maxHeight		= 0;
+	protected JsonMap					options;
+	private boolean						keyNavigation	= true;
+	protected final Element				table;
+	private Element						pager;
+	private JavaScriptObject			widget;
+	private IGridListener				listener;
+	private List<ListColumn>			columns			= new ArrayList<ListColumn>();
+	protected List<GridToolItem>		tools			= new ArrayList<GridToolItem>();
+	private Serializable				widgetData;
+	private boolean						waitingFocus;
+	private boolean						useSmallFonts;
+	private String						keyColumnName;
+	private int							maxHeight		= 0;
+	private List<GroupingDefinition>	grouping		= null;
 
 	public String getKeyColumnName() {
 		return keyColumnName;
@@ -221,6 +223,11 @@ public class JqGrid<T extends Serializable> extends JexpWidget implements IDataV
 	}
 
 	@Override
+	public void setColumnReorder(boolean value) {
+		//options.set("", value);
+	}
+
+	@Override
 	public void loadData() {
 		if (options.get("datatype").isString().stringValue().equals("local")) {
 			JsonMap opts = new JsonMap();
@@ -314,6 +321,13 @@ public class JqGrid<T extends Serializable> extends JexpWidget implements IDataV
 	}
 
 	@Override
+	protected void onAttach() {
+		if (grouping != null && !grouping.isEmpty())
+			applyGrouping();
+		super.onAttach();
+	}
+
+	@Override
 	protected void onLoad() {
 		super.onLoad();
 		JSONArray colModel = new JSONArray();
@@ -338,16 +352,16 @@ public class JqGrid<T extends Serializable> extends JexpWidget implements IDataV
 		nav.set("del", false);
 		nav.set("search", false);
 		if (JsUtil.USE_BOOTSTRAP) {
-			nav.set("refreshicon", "fa fa-refresh");
+			nav.set("refreshicon", "fa fa-refresh green");
 			nav.set("refreshtitle", ClientContext.nlsCommon.yenile());
 		}
 		widget = createByJs(this, table, table.getId(), listener, options.getJavaScriptObject(), nav.getJavaScriptObject(), colModel.getJavaScriptObject(), hasFrozenColumns, keyNavigation, listener != null && listener.hasRowStyler(), useSmallFonts, arrGroupableColumns, keyColumnName, maxHeight);
 		if (!options.get("shrinkToFit").isBoolean().booleanValue()) {
-			GridToolItem tiHideShow = new GridToolItem("hideShow", null, JqIcon.arrow_2_ne_sw, ClientContext.nlsCommon.hideShowColumn());
+			GridToolItem tiHideShow = new GridToolItem("hideshow", null, FaIcon.arrows_h, ClientContext.nlsCommon.hideShowColumn());
 			tiHideShow.setEndsWithSeparator(true);
 			tiHideShow.setHandler(new IToolItemHandler() {
 				@Override
-				public void execute(Event event) {
+				public void execute(final String itemId, Event event) {
 					JsonMap opt = new JsonMap();
 					opt.set("title", ClientContext.nlsCommon.alanlariSecin());
 					_openColumnChooser(widget, opt.getJavaScriptObject());
@@ -364,103 +378,103 @@ public class JqGrid<T extends Serializable> extends JexpWidget implements IDataV
 	}
 
 	protected native void _openColumnChooser(JavaScriptObject widget, JavaScriptObject options) /*-{
-																								widget.jqGrid('columnChooser', options);
-																								}-*/;
+		widget.jqGrid('columnChooser', options);
+	}-*/;
 
 	private native JavaScriptObject createByJs(JqGrid x, Element elm, String id, IGridListener listener, JavaScriptObject options, JavaScriptObject navOptions, JavaScriptObject colModel, boolean hasFrozenColumns, boolean keyNavigation, boolean hasRowStyler, boolean useSmallFonts, JsArrayString groupCols, String keyColumnName, int maxHeight) /*-{
-																																																																																						var el = $wnd.$(elm);
-																																																																																						options.colModel=colModel;
-																																																																																						if (maxHeight>0)
-																																																																																						options.height='auto';
-																																																																																						options.pager="#"+id+"_pager";
-																																																																																						options.jsonReader={page:"page",total:"total",records:"count",root:"data",repeatitems:false,id:keyColumnName};
-																																																																																						options.treeReader={page:"page",total:"total",records:"count",root:"data",repeatitems:false,id:keyColumnName,parent_id_field:"parent"};
-																																																																																						for (var i=0;i<colModel.length;i++){
-																																																																																						if (colModel[i]["formatter"]){
-																																																																																						if (colModel[i]["formatter"].substring(0,4)=="link"){
-																																																																																						colModel[i]["formatter"]=function(cellValue, options, rowObject){
-																																																																																						if (x.@com.javexpress.gwt.library.ui.data.jqgrid.JqGrid::isRenderCell(ILjava/lang/String;)(options.pos,cellValue+""))
-																																																																																						return "<span class='ui-icon "+options.colModel.jqicon+" ui-cursor-hand' grid=\""+id+"\" col=\""+options.pos+"\" title=\""+options.colModel.hint+"\" value=\""+cellValue+"\">";
-																																																																																						else
-																																																																																						return "";
-																																																																																						};
-																																																																																						}
-																																																																																						}
-																																																																																						}
-																																																																																						options.beforeSelectRow=function(rowId,event){
-																																																																																						var rowData = el.getRowData(rowId);
-																																																																																						return x.@com.javexpress.gwt.library.ui.data.jqgrid.JqGrid::fireOnBeforeRowSelect(Ljava/lang/String;Lcom/google/gwt/core/client/JavaScriptObject;)(rowId,rowData);
-																																																																																						};
-																																																																																						options.onSelectRow=function(rowId,status){
-																																																																																						var rowData = el.getRowData(rowId);
-																																																																																						x.@com.javexpress.gwt.library.ui.data.jqgrid.JqGrid::fireOnRowSelect(Ljava/lang/String;ZLcom/google/gwt/core/client/JavaScriptObject;)(rowId,status,rowData);
-																																																																																						};
-																																																																																						options.ondblClickRow=function(rowId){
-																																																																																						var rowData = el.getRowData(rowId);
-																																																																																						x.@com.javexpress.gwt.library.ui.data.jqgrid.JqGrid::fireOnRowDoubleClick(Ljava/lang/String;Lcom/google/gwt/core/client/JavaScriptObject;)(rowId,rowData);
-																																																																																						};
-																																																																																						options.gridComplete=function(){
-																																																																																						$wnd.$("span.ui-icon[grid='"+id+"']", el).click(function(){
-																																																																																						var e = $wnd.$(this);
-																																																																																						var rowId = e.attr("value");
-																																																																																						var rowData = el.getRowData(rowId);
-																																																																																						x.@com.javexpress.gwt.library.ui.data.jqgrid.JqGrid::fireOnColumnLinkClick(Lcom/google/gwt/core/client/JavaScriptObject;Ljava/lang/String;Ljava/lang/String;Lcom/google/gwt/core/client/JavaScriptObject;)(e,e.attr("col"),rowId,rowData);
-																																																																																						});
-																																																																																						};
-																																																																																						options.loadComplete=function(data){
-																																																																																						x.@com.javexpress.gwt.library.ui.data.jqgrid.JqGrid::fireOnDataLoaded(Lcom/google/gwt/core/client/JavaScriptObject;)(data);
-																																																																																						};
-																																																																																						if (listener!=null){
-																																																																																						if (hasRowStyler){
-																																																																																						options.rowattr=function(rd) {
-																																																																																						var classes = x.@com.javexpress.gwt.library.ui.data.jqgrid.JqGrid::fireOnRowAttr(Lcom/google/gwt/core/client/JavaScriptObject;)(rd);
-																																																																																						if (classes) 
-																																																																																						return { "class": classes };
-																																																																																						else
-																																																																																						return null;
-																																																																																						}
-																																																																																						}
-																																																																																						options.serializeGridData=function(postData){
-																																																																																						postData.gridId=id;
-																																																																																						x.@com.javexpress.gwt.library.ui.data.jqgrid.JqGrid::fireOnSerializeGridData(Lcom/google/gwt/core/client/JavaScriptObject;)(postData);
-																																																																																						return $wnd.JexpUI.AjaxUtils.serialize(postData);
-																																																																																						}
-																																																																																						}
-																																																																																						el.jqGrid(options);
-																																																																																						el.jqGrid("navGrid",options.pager,navOptions);
-																																																																																						if (hasFrozenColumns)
-																																																																																						el.jqGrid("setFrozenColumns");
-																																																																																						if (keyNavigation){
-																																																																																						el.jqGrid("bindKeys",{
-																																																																																						"onEnter":function( rowId ) { 
-																																																																																						var rowData = el.getRowData(rowId);
-																																																																																						x.@com.javexpress.gwt.library.ui.data.jqgrid.JqGrid::fireOnRowDoubleClick(Ljava/lang/String;Lcom/google/gwt/core/client/JavaScriptObject;)(rowId,rowData);
-																																																																																						}
-																																																																																						});
-																																																																																						}
-																																																																																						if (groupCols.length>0){
-																																																																																						el.parent().parent().parent().find("tr.ui-jqgrid-labels > th > div").each(function(){
-																																																																																						var f = $wnd.$(this).attr("id");
-																																																																																						f = f.substring(f.lastIndexOf("_")+1);
-																																																																																						for (var i=0;i<groupCols.length;i++){
-																																																																																						if (f==groupCols[i]){
-																																																																																						$wnd.$("<span class='ui-icon ui-icon-arrowstop-1-s jesHeaderMenuIcon'></span>").click(function(e){
-																																																																																						//jqgh_jqg_tetkikler-fr_lb_tetkikislemleripane_tetkikAdi
-																																																																																						x.@com.javexpress.gwt.library.ui.data.jqgrid.JqGrid::fireOnHeaderColumnContextMenu(Ljava/lang/String;II)(f,e.pageX,e.pageY);
-																																																																																						return false;
-																																																																																						}).prependTo($wnd.$(this).parent());
-																																																																																						break;
-																																																																																						}
-																																																																																						}
-																																																																																						});
-																																																																																						}
-																																																																																						var bdiv = $wnd.$("#gview_"+id+" > .ui-jqgrid-bdiv", el);
-																																																																																						if (useSmallFonts)
-																																																																																						bdiv.addClass("jqGridSmallFonts");
-																																																																																						if (maxHeight>0)
-																																																																																						bdiv.css("max-height", maxHeight+"px");			
-																																																																																						return el;
-																																																																																						}-*/;
+		var el = $wnd.$(elm);
+		options.colModel=colModel;
+		if (maxHeight>0)
+			options.height=maxHeight;//'auto';
+		options.pager="#"+id+"_pager";
+		options.jsonReader={page:"page",total:"total",records:"count",root:"data",repeatitems:false,id:keyColumnName};
+		options.treeReader={page:"page",total:"total",records:"count",root:"data",repeatitems:false,id:keyColumnName,parent_id_field:"parent"};
+		for (var i=0;i<colModel.length;i++){
+			if (colModel[i]["formatter"]){
+				if (colModel[i]["formatter"].substring(0,4)=="link"){
+					colModel[i]["formatter"]=function(cellValue, options, rowObject){
+						if (x.@com.javexpress.gwt.library.ui.data.jqgrid.JqGrid::isRenderCell(ILjava/lang/String;)(options.pos,cellValue+""))
+							return "<span class='ui-icon "+options.colModel.jqicon+" jexpHandCursor' grid=\""+id+"\" col=\""+options.pos+"\" title=\""+options.colModel.hint+"\" value=\""+cellValue+"\">";
+						else
+							return "";
+					};
+				}
+			}
+		}
+		options.beforeSelectRow=function(rowId,event){
+		var rowData = el.getRowData(rowId);
+		return x.@com.javexpress.gwt.library.ui.data.jqgrid.JqGrid::fireOnBeforeRowSelect(Ljava/lang/String;Lcom/google/gwt/core/client/JavaScriptObject;)(rowId,rowData);
+		};
+		options.onSelectRow=function(rowId,status){
+		var rowData = el.getRowData(rowId);
+		x.@com.javexpress.gwt.library.ui.data.jqgrid.JqGrid::fireOnRowSelect(Ljava/lang/String;ZLcom/google/gwt/core/client/JavaScriptObject;)(rowId,status,rowData);
+		};
+		options.ondblClickRow=function(rowId){
+		var rowData = el.getRowData(rowId);
+		x.@com.javexpress.gwt.library.ui.data.jqgrid.JqGrid::fireOnRowDoubleClick(Ljava/lang/String;Lcom/google/gwt/core/client/JavaScriptObject;)(rowId,rowData);
+		};
+		options.gridComplete=function(){
+		$wnd.$("span.ui-icon[grid='"+id+"']", el).click(function(){
+		var e = $wnd.$(this);
+		var rowId = e.attr("value");
+		var rowData = el.getRowData(rowId);
+		x.@com.javexpress.gwt.library.ui.data.jqgrid.JqGrid::fireOnColumnLinkClick(Lcom/google/gwt/core/client/JavaScriptObject;Ljava/lang/String;Ljava/lang/String;Lcom/google/gwt/core/client/JavaScriptObject;)(e,e.attr("col"),rowId,rowData);
+		});
+		};
+		options.loadComplete=function(data){
+		x.@com.javexpress.gwt.library.ui.data.jqgrid.JqGrid::fireOnDataLoaded(Lcom/google/gwt/core/client/JavaScriptObject;)(data);
+		};
+		if (listener!=null){
+		if (hasRowStyler){
+		options.rowattr=function(rd) {
+		var classes = x.@com.javexpress.gwt.library.ui.data.jqgrid.JqGrid::fireOnRowAttr(Lcom/google/gwt/core/client/JavaScriptObject;)(rd);
+		if (classes) 
+		return { "class": classes };
+		else
+		return null;
+		}
+		}
+		options.serializeGridData=function(postData){
+		postData.gridId=id;
+		x.@com.javexpress.gwt.library.ui.data.jqgrid.JqGrid::fireOnSerializeGridData(Lcom/google/gwt/core/client/JavaScriptObject;)(postData);
+		return $wnd.JexpUI.AjaxUtils.serialize(postData);
+		}
+		}
+		el.jqGrid(options);
+		el.jqGrid("navGrid",options.pager,navOptions);
+		if (hasFrozenColumns)
+		el.jqGrid("setFrozenColumns");
+		if (keyNavigation){
+		el.jqGrid("bindKeys",{
+		"onEnter":function( rowId ) { 
+		var rowData = el.getRowData(rowId);
+		x.@com.javexpress.gwt.library.ui.data.jqgrid.JqGrid::fireOnRowDoubleClick(Ljava/lang/String;Lcom/google/gwt/core/client/JavaScriptObject;)(rowId,rowData);
+		}
+		});
+		}
+		if (groupCols.length>0){
+		el.parent().parent().parent().find("tr.ui-jqgrid-labels > th > div").each(function(){
+		var f = $wnd.$(this).attr("id");
+		f = f.substring(f.lastIndexOf("_")+1);
+		for (var i=0;i<groupCols.length;i++){
+		if (f==groupCols[i]){
+		$wnd.$("<span class='ui-icon ui-icon-arrowstop-1-s jesHeaderMenuIcon'></span>").click(function(e){
+		//jqgh_jqg_tetkikler-fr_lb_tetkikislemleripane_tetkikAdi
+		x.@com.javexpress.gwt.library.ui.data.jqgrid.JqGrid::fireOnHeaderColumnContextMenu(Ljava/lang/String;II)(f,e.pageX,e.pageY);
+		return false;
+		}).prependTo($wnd.$(this).parent());
+		break;
+		}
+		}
+		});
+		}
+		var bdiv = $wnd.$("#gview_"+id+" > .ui-jqgrid-bdiv", el);
+		if (useSmallFonts)
+		bdiv.addClass("jqGridSmallFonts");
+		if (maxHeight>0)
+		bdiv.css("max-height", maxHeight+"px");			
+		return el;
+	}-*/;
 
 	@Override
 	protected void onUnload() {
@@ -474,15 +488,16 @@ public class JqGrid<T extends Serializable> extends JexpWidget implements IDataV
 			for (GridToolItem gti : tools)
 				gti.unload();
 		tools = null;
+		grouping = null;
 		destroyByJs(table, table.getId() + "_pager", "alertmod_" + table.getId());
 		super.onUnload();
 	}
 
 	private native void destroyByJs(Element element, String pager, String alertMod) /*-{
-																					$wnd.$(element).jqGrid("unbindKeys").jqGrid('GridUnload').remove();
-																					$wnd.$("#" + pager).remove();
-																					$wnd.$("#" + alertMod).remove();
-																					}-*/;
+		$wnd.$(element).jqGrid("unbindKeys").jqGrid('GridUnload').remove();
+		$wnd.$("#" + pager).remove();
+		$wnd.$("#" + alertMod).remove();
+	}-*/;
 
 	@Override
 	public void addColumn(final ListColumn column) {
@@ -500,7 +515,14 @@ public class JqGrid<T extends Serializable> extends JexpWidget implements IDataV
 	}
 
 	@Override
-	public void setGroupColumn(String... field) {
+	public void addGrouping(GroupingDefinition groupingItem) {
+		if (grouping == null)
+			grouping = new ArrayList<GroupingDefinition>();
+		grouping.add(groupingItem);
+	}
+
+	@Override
+	public void applyGrouping() {
 		if (isAttached()) {
 			_clearGrouping(widget);
 			if (columns == null) {
@@ -508,21 +530,23 @@ public class JqGrid<T extends Serializable> extends JexpWidget implements IDataV
 				return;
 			}
 		}
+		if (grouping == null)
+			return;
 		options.set("grouping", true);
 		if (!isAttached()) {
 			JsonMap gd = new JsonMap();
 			JSONArray names = new JSONArray();
 			JSONArray summaries = new JSONArray();
 			int i = 0;
-			for (String f : field) {
-				names.set(i++, new JSONString(f));
-				summaries.set(i++, JSONBoolean.getInstance(true));
+			for (GroupingDefinition gi : grouping) {
+				names.set(i++, new JSONString(gi.getField()));
+				summaries.set(i, JSONBoolean.getInstance(true));
 			}
 			JSONArray arrBool = new JSONArray();
 			gd.put("groupField", names);
 			gd.put("groupSummary", summaries);
 			i = 0;
-			for (String f : field)
+			for (GroupingDefinition gi : grouping)
 				arrBool.set(i++, JSONBoolean.getInstance(true));
 			gd.put("groupColumnShow", arrBool);
 			gd.set("groupDataSorted", true);
@@ -532,40 +556,40 @@ public class JqGrid<T extends Serializable> extends JexpWidget implements IDataV
 			 */
 		} else {
 			JsArrayString arrField = JsArrayString.createArray().cast();
-			for (String f : field)
-				arrField.push(f);
+			for (GroupingDefinition gi : grouping)
+				arrField.push(gi.getField());
 			_groupBy(widget, arrField);
 		}
 	}
 
 	private native void _clearGrouping(JavaScriptObject widget) /*-{
-																widget.jqGrid('groupingRemove');
-																}-*/;
+		widget.jqGrid('groupingRemove');
+	}-*/;
 
 	private native void _groupBy(JavaScriptObject widget, JsArrayString field) /*-{
-																				widget.jqGrid('groupingGroupBy', field);
-																				}-*/;
+		widget.jqGrid('groupingGroupBy', field);
+	}-*/;
 
 	private native void _updateSize(JavaScriptObject widget, Element el, String elId, Element pagerEl, boolean hasFooterRow, int maxHeight, boolean usingBootstrap) /*-{
-																																									var parent = $wnd.$(el);//475 in pane 
-																																									$wnd.console.debug(parent.width());
-																																									widget.setGridWidth(Math.round(parent.width()
-																																									- (usingBootstrap ? 0 : 2)), true);
-																																									if (maxHeight == 0) {
-																																									var hdiv = Math.round($wnd.$("#" + elId + " .ui-jqgrid-hdiv")
-																																									.height()) + 1;//22+1
-																																									var pager = Math.round($wnd.$(pagerEl).height()) + 1;//25+1
-																																									widget.setGridHeight(Math.round(parent.height() - 1 - hdiv - pager
-																																									- (hasFooterRow ? 22 : 0)));
-																																									}
-																																									}-*/;
+		var parent = $wnd.$(el);//475 in pane 
+		$wnd.console.debug("jqgrid", parent.width());
+		widget.setGridWidth(Math.round(parent.width()
+				- (usingBootstrap ? 0 : 2)), true);
+		if (maxHeight == 0) {
+			var hdiv = Math.round($wnd.$("#" + elId + " .ui-jqgrid-hdiv")
+					.height()) + 1;//22+1
+			var pager = Math.round($wnd.$(pagerEl).height()) + 1;//25+1
+			widget.setGridHeight(Math.round(parent.height() - 1 - hdiv - pager
+					- (hasFooterRow ? 22 : 0)));
+		}
+	}-*/;
 
 	private void renderToolItem(final GridToolItem tool) {
 		if (tool.isStartsWithSeparator())
 			_addtoolseparator(tool, widget, table.getId());
 		JsonMap options = new JsonMap();
 		options.set("id", table.getId() + "_" + tool.getId());
-		options.set("buttonicon", tool.getIcon().getCssClass());
+		options.set("buttonicon", tool.getIcon().getCssClass() + (JsUtil.isNotEmpty(tool.getIconClass()) ? " " + tool.getIconClass() : ""));
 		options.set("caption", tool.getCaption() != null ? tool.getCaption() : "");
 		if (tool.getHint() != null)
 			options.set("title", tool.getHint());
@@ -575,15 +599,15 @@ public class JqGrid<T extends Serializable> extends JexpWidget implements IDataV
 	}
 
 	private native void _addToolItem(GridToolItem x, JavaScriptObject widget, String id, JavaScriptObject options) /*-{
-																													options.onClickButton = function(event) {
-																													x.@com.javexpress.gwt.library.ui.data.GridToolItem::executeHandler(Lcom/google/gwt/user/client/Event;)(event);
-																													}
-																													widget.jqGrid("navButtonAdd", "#" + id + "_pager", options);
-																													}-*/;
+		options.onClickButton = function(event) {
+			x.@com.javexpress.gwt.library.ui.data.GridToolItem::executeHandler(Lcom/google/gwt/user/client/Event;)(event);
+		}
+		widget.jqGrid("navButtonAdd", "#" + id + "_pager", options);
+	}-*/;
 
 	private native void _addtoolseparator(GridToolItem x, JavaScriptObject widget, String id) /*-{
-																								widget.jqGrid('navSeparatorAdd', "#" + id + "_pager", {});
-																								}-*/;
+		widget.jqGrid('navSeparatorAdd', "#" + id + "_pager", {});
+	}-*/;
 
 	@Override
 	public JsonMap getSelectedData() {
@@ -600,8 +624,8 @@ public class JqGrid<T extends Serializable> extends JexpWidget implements IDataV
 
 	//???
 	private native JavaScriptObject _getRowData(JavaScriptObject widget, Serializable rowId) /*-{
-																								return widget.getRowData(rowId);
-																								}-*/;
+		return widget.getRowData(rowId);
+	}-*/;
 
 	@Override
 	public String getSelectedId() {
@@ -624,12 +648,12 @@ public class JqGrid<T extends Serializable> extends JexpWidget implements IDataV
 	}
 
 	private native String _getSelectedId(JavaScriptObject widget) /*-{
-																	return widget.jqGrid("getGridParam", "selrow");
-																	}-*/;
+		return widget.jqGrid("getGridParam", "selrow");
+	}-*/;
 
 	private native JsArrayString _getSelectedIds(JavaScriptObject widget) /*-{
-																			return widget.jqGrid("getGridParam", "selarrrow");
-																			}-*/;
+		return widget.jqGrid("getGridParam", "selarrrow");
+	}-*/;
 
 	@Override
 	public void refresh() {
@@ -654,24 +678,24 @@ public class JqGrid<T extends Serializable> extends JexpWidget implements IDataV
 	}
 
 	private native void _setCaption(JavaScriptObject widget, String caption) /*-{
-																				widget.jqGrid("setCaption", caption);
-																				}-*/;
+		widget.jqGrid("setCaption", caption);
+	}-*/;
 
 	private native void _setOptions(JavaScriptObject widget, JavaScriptObject opts) /*-{
-																					widget.jqGrid("setGridParam", opts);
-																					}-*/;
+		widget.jqGrid("setGridParam", opts);
+	}-*/;
 
 	private native void _reload(JavaScriptObject widget) /*-{
-															widget.trigger("reloadGrid");
-															}-*/;
+		widget.trigger("reloadGrid");
+	}-*/;
 
 	private native void _refresh(JavaScriptObject widget, Serializable rowId) /*-{
-																				widget.trigger("reloadGrid");
-																				if (rowId)
-																				$wnd.setTimeout(function() {
-																				widget.setSelection(rowId);
-																				}, 250);
-																				}-*/;
+		widget.trigger("reloadGrid");
+		if (rowId)
+			$wnd.setTimeout(function() {
+				widget.setSelection(rowId);
+			}, 250);
+	}-*/;
 
 	@Override
 	public HandlerRegistration addContextMenuHandler(ContextMenuHandler handler) {
@@ -679,12 +703,12 @@ public class JqGrid<T extends Serializable> extends JexpWidget implements IDataV
 	}
 
 	@Override
-	public void setPopupMenu(PopupMenu menu) {
+	public void setPopupMenu(JqPopupMenu menu) {
 		addContextMenuHandler(menu);
 	}
 
 	@Override
-	public boolean canOpenContextMenu(PopupMenu menu) throws Exception {
+	public boolean canOpenContextMenu(JqPopupMenu menu) throws Exception {
 		if (listener != null)
 			return listener.onGridContextMenu(menu, getSelectedId(), getSelectedData());
 		return false;
@@ -706,18 +730,16 @@ public class JqGrid<T extends Serializable> extends JexpWidget implements IDataV
 	private void fireOnHeaderColumnContextMenu(final String field, final int x, final int y) {
 		for (final ListColumn column : columns) {
 			if (column.getField().equals(field) && column.isGroupable()) {
-				final PopupMenu menu = new PopupMenu() {
-					IMenuHandler	handler	= new IMenuHandler() {
-												@Override
-												public void itemClicked(String code) {
-													if (code.equals("group"))
-														setGroupColumn(field);
-												}
-											};
+				final JqPopupMenu menu = new JqPopupMenu() {
+					IMenuHandler handler = new IMenuHandler() {
+						@Override
+						public void menuItemClicked(String code, Event event) {
+						}
+					};
 
 					@Override
 					public void prepareMenu() {
-						MenuItem mig = new MenuItem("group", ClientContext.nlsCommon.grupla(), handler);//if isgroupable
+						JqMenuItem mig = new JqMenuItem("group", ClientContext.nlsCommon.grupla(), handler);//if isgroupable
 						add(mig);
 					}
 				};
@@ -786,8 +808,8 @@ public class JqGrid<T extends Serializable> extends JexpWidget implements IDataV
 	}
 
 	private native void _hideColumn(JavaScriptObject widget, String field) /*-{
-																			widget.jqGrid("hideCol", field);
-																			}-*/;
+		widget.jqGrid("hideCol", field);
+	}-*/;
 
 	public void showColumn(String field) {
 		_showColumn(widget, field);
@@ -798,20 +820,20 @@ public class JqGrid<T extends Serializable> extends JexpWidget implements IDataV
 	}
 
 	private native void _selectRow(JavaScriptObject widget, String rowId, boolean fireOnSelect) /*-{
-																								widget.jqGrid("setSelection", rowId, fireOnSelect);
-																								}-*/;
+		widget.jqGrid("setSelection", rowId, fireOnSelect);
+	}-*/;
 
 	private native void _showColumn(JavaScriptObject widget, String field) /*-{
-																			widget.jqGrid("showCol", field);
-																			}-*/;
+		widget.jqGrid("showCol", field);
+	}-*/;
 
 	private native void _clearData(JavaScriptObject widget) /*-{
-															widget.jqGrid("clearGridData", true);
-															}-*/;
+		widget.jqGrid("clearGridData", true);
+	}-*/;
 
 	private native void _clearSelection(JavaScriptObject widget) /*-{
-																	widget.jqGrid("resetSelection");
-																	}-*/;
+		widget.jqGrid("resetSelection");
+	}-*/;
 
 	@Override
 	public void setSelectedIds(List<? extends Serializable> values, boolean fireOnSelect) {
@@ -831,8 +853,8 @@ public class JqGrid<T extends Serializable> extends JexpWidget implements IDataV
 	}
 
 	private native String getFirstRowId(JavaScriptObject jso) /*-{
-																return jso.getDataIDs()[0];
-																}-*/;
+		return jso.getDataIDs()[0];
+	}-*/;
 
 	@Override
 	public void setFocus(boolean focused) {
@@ -864,6 +886,20 @@ public class JqGrid<T extends Serializable> extends JexpWidget implements IDataV
 
 	@Override
 	public void performAutoSizeColumns() {
+	}
+
+	@Override
+	public void setDataExportOptions(boolean useForeignKeysAsVariable) {
+	}
+
+	@Override
+	public JsArrayInteger getSelectedRowIndexes() {
+		return null;
+	}
+
+	@Override
+	public JsonMap getRowData(int index) {
+		return null;
 	}
 
 }

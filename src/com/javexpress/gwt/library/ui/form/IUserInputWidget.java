@@ -6,7 +6,7 @@ import com.google.gwt.dom.client.Element;
 import com.google.gwt.event.dom.client.HasChangeHandlers;
 import com.google.gwt.user.client.ui.Focusable;
 
-public interface IUserInputWidget<T extends Serializable> extends Focusable, HasChangeHandlers, IDataBindable {
+public interface IUserInputWidget<T extends Serializable> extends Focusable, HasChangeHandlers, IDataBindable<T> {
 
 	public boolean isRequired();
 
@@ -14,11 +14,9 @@ public interface IUserInputWidget<T extends Serializable> extends Focusable, Has
 
 	public boolean validate(boolean focusedBefore);
 
-	public T getValue();
-
 	public Element getElement();
 
-	public void setEnabled(boolean locked);
+	public void setEnabled(boolean enabled);
 
 	public void setValidationError(String validationError);
 

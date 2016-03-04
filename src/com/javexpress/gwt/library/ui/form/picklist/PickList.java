@@ -17,21 +17,37 @@ import com.javexpress.gwt.library.ui.js.JsUtil;
 
 public class PickList<V extends Serializable> extends FlexTable {
 
-	private Element																		selected,
-			nonSelected, btAdd, btRemove;
-	private PickListLazyDataSupplier<? extends Serializable, ? extends Serializable>	mapSupplier;
-	private boolean																		autoLoad	= true;
+	private Element selected, nonSelected, btAdd, btRemove;
+	private PickListLazyDataSupplier<? extends Serializable, ? extends Serializable> mapSupplier;
+	private boolean autoLoad = true;
+	private boolean useOptionsButton = false;
+	private IPickListOptionListener optionListener;
+	
+	public boolean isUseOptionsButton() {
+		return useOptionsButton;
+	}
 
-	//http://www.bootply.com/lFEZ9qOonX
+	public void setUseOptionsButton(boolean useOptionsButton) {
+		this.useOptionsButton = useOptionsButton;
+	}
+
+	public IPickListOptionListener getOptionListener() {
+		return optionListener;
+	}
+
+	public void setOptionListener(IPickListOptionListener optionListener) {
+		this.optionListener = optionListener;
+	}
+
+	// http://www.bootply.com/lFEZ9qOonX
 	public PickList(final Widget parent, final String id, final String selectedLabel, final String nonSelectedLabel) {
 		super();
 		JsUtil.ensureId(parent, this, WidgetConst.PICKLIST_PREFIX, id);
 		addStyleName("jexpPickList");
-		setWidth("100%");
-		setHeight("100%");
 		if (selectedLabel != null || nonSelectedLabel != null)
 			createLabelRow(selectedLabel, nonSelectedLabel);
 		createListRow();
+		setHeight("100px");
 	}
 
 	public boolean isAutoLoad() {
@@ -75,22 +91,22 @@ public class PickList<V extends Serializable> extends FlexTable {
 	private void createListRow() {
 		selected = DOM.createDiv();
 		selected.getStyle().setOverflow(Overflow.AUTO);
-		selected.setClassName("list-group col-xs-5");
-		JsUtil.ensureSubId(getElement(), selected, "_s");
+		selected.setClassName("list-group selections col-xs-5");
+		JsUtil.ensureSubId(getElement(), selected, "s");
 		getElement().appendChild(selected);
 
 		Element btDiv = DOM.createDiv();
 		btDiv.setClassName("jexpPickListButtons col-xs-2");
 		btAdd = DOM.createButton();
-		btAdd.setClassName("btn btn-default");
+		btAdd.setClassName("btn btn-white col-xs-8");
 		Element ia = DOM.createElement("i");
-		ia.setClassName("glyphicon glyphicon-chevron-left");
+		ia.setClassName("fa fa-arrow-left");
 		btAdd.appendChild(ia);
 		btDiv.appendChild(btAdd);
 		btRemove = DOM.createButton();
-		btRemove.setClassName("btn btn-default");
+		btRemove.setClassName("btn btn-white col-xs-8");
 		Element ir = DOM.createElement("i");
-		ir.setClassName("glyphicon glyphicon-chevron-right");
+		ir.setClassName("fa fa-arrow-right");
 		btRemove.appendChild(ir);
 		btDiv.appendChild(btRemove);
 		getElement().appendChild(btDiv);
@@ -98,7 +114,7 @@ public class PickList<V extends Serializable> extends FlexTable {
 		nonSelected = DOM.createDiv();
 		nonSelected.getStyle().setOverflow(Overflow.AUTO);
 		nonSelected.setClassName("list-group col-xs-5");
-		JsUtil.ensureSubId(getElement(), nonSelected, "_a");
+		JsUtil.ensureSubId(getElement(), nonSelected, "a");
 		getElement().appendChild(nonSelected);
 	}
 
@@ -116,39 +132,49 @@ public class PickList<V extends Serializable> extends FlexTable {
 		i.setPropertyString("value", value);
 		i.setClassName("pull-right");
 		a.appendChild(i);
+		if (useOptionsButton){
+			Element o = DOM.createSpan();
+			o.setAttribute("value", value);
+			o.setClassName("pull-right fa fa-icon fa-gear jexpPickListOptions jexpHandCursor");
+			a.appendChild(o);
+		}
 		ls.appendChild(a);
 	}
 
 	public void clearItems() {
-		selected.removeAllChildren();
-		nonSelected.removeAllChildren();
+		JsUtil.clearChilds(selected);
+		JsUtil.clearChilds(nonSelected);
 	}
 
-	public PickList setItems(final PickListLazyDataSupplier<? extends Serializable, ? extends Serializable> mapSupplier) {
+	public PickList setItems(
+			final PickListLazyDataSupplier<? extends Serializable, ? extends Serializable> mapSupplier) {
 		this.mapSupplier = mapSupplier;
+		if (isAttached())
+			load();
 		return this;
 	}
 
 	public void load() {
 		clearItems();
-		if (mapSupplier != null)
+		if (mapSupplier != null) {
 			mapSupplier.fillItems(this);
+		} else
+			fireItemsChanged();
 	}
 
 	@Override
 	protected void onLoad() {
 		super.onLoad();
-		createByJs(getElement(), btAdd, btRemove, nonSelected, selected);
+		createByJs(getElement(), btAdd, btRemove, nonSelected, selected, useOptionsButton);
 		if (isAutoLoad())
 			load();
 	}
 
-	private native void createByJs(Element el, Element add, Element remove, Element nonSelected, Element selected) /*-{
+	private native void createByJs(Element el, Element add, Element remove, Element nonSelected, Element selected, boolean useOptionsButton) /*-{
 		$wnd.$(remove).click(function(e) {
 			$wnd.$(".all", $wnd.$(el)).prop("checked", false);
 			var items = $wnd.$("input:checked:not('.all')", $wnd.$(selected));
-			var n = items.length;
-			if (n > 0) {
+			if (items.length > 0) {
 				items.each(function(idx, item) {
 					var choice = $wnd.$(item);
 					choice.prop("checked", false);
@@ -163,8 +189,7 @@ public class PickList<V extends Serializable> extends FlexTable {
 					$wnd.$('.all', $wnd.$(el)).prop("checked", false);
 					var items = $wnd.$("input:checked:not('.all')", $wnd
 							.$(nonSelected));
-					var n = items.length;
-					if (n > 0) {
+					if (items.length > 0) {
 						items.each(function(idx, item) {
 							var choice = $wnd.$(item);
 							choice.prop("checked", false);
@@ -173,7 +198,9 @@ public class PickList<V extends Serializable> extends FlexTable {
 					}
 					return false;
 				});
+	}-*/;
 
+	private native void _bindSelects(PickList x, Element el, Element nonSelected, Element selected) /*-{
 		$wnd.$(".all", $wnd.$(el)).click(
 				function(e) {
 					e.stopPropagation();
@@ -193,12 +220,18 @@ public class PickList<V extends Serializable> extends FlexTable {
 			var $this = $wnd.$(this).find("[type=checkbox]");
 			if ($this.is(":checked")) {
 				$this.prop("checked", false);
+				$this.parent().removeClass("active");
 			} else {
 				$this.prop("checked", true);
+				$this.parent().addClass("active");
 			}
 			if ($this.hasClass("all")) {
 				$this.trigger("click");
 			}
+		});
+		$wnd.$("span.jexpPickListOptions", $wnd.$(el)).click(function(e) {
+			e.stopPropagation();
+			x.@com.javexpress.gwt.library.ui.form.picklist.PickList::fireOptionsClicked(IILjava/lang/String;)(e.pageX,e.pageY,$wnd.$(this).attr("value"));
 		});
 	}-*/;
 
@@ -212,9 +245,14 @@ public class PickList<V extends Serializable> extends FlexTable {
 		destroyByJs(getElement());
 		super.onUnload();
 	}
+	
+	private void fireOptionsClicked(int x, int y, String value){
+		if (optionListener!=null)
+			optionListener.handleOptionsClicked(x, y, value);
+	}
 
 	private native void destroyByJs(Element el) /*-{
-		$wnd.$(el).empty().remove();
+		$wnd.$(el).empty().off();
 	}-*/;
 
 	public LinkedHashMap<String, String> getSelectionsMap() {
@@ -227,8 +265,8 @@ public class PickList<V extends Serializable> extends FlexTable {
 		return vals;
 	}
 
-	public List<String> getSelectionValues() {
-		List<String> vals = new ArrayList<String>();
+	public ArrayList<String> getSelectionValues() {
+		ArrayList<String> vals = new ArrayList<String>();
 		for (int i = 0; i < selected.getChildCount(); i++) {
 			InputElement in = selected.getChild(i).getChild(1).cast();
 			vals.add(in.getValue());
@@ -247,6 +285,7 @@ public class PickList<V extends Serializable> extends FlexTable {
 			if (in.getValue().equals(sel)) {
 				Node a = in.getParentNode();
 				selected.appendChild(a);
+				break;
 			}
 		}
 	}
@@ -257,8 +296,17 @@ public class PickList<V extends Serializable> extends FlexTable {
 			if (in.getValue().equals(sel)) {
 				Node a = in.getParentNode();
 				nonSelected.appendChild(a);
+				break;
 			}
 		}
+	}
+
+	public void fireItemsChanged() {
+		_bindSelects(this,getElement(), nonSelected, selected);
+	}
+
+	public void refresh() {
+		load();
 	}
 
 }

@@ -214,7 +214,12 @@ public class CheckInlineBox extends TextArea implements IUserInputWidget<String>
 						String nlsValue = nls.getString(constant.substring(1));
 						addItem(nlsValue, key, false, null);
 					} catch (Exception ex) {
-						addItem(constant, key, false, null);
+						try {
+							String nlsValue = ClientContext.nlsCommon.getString(constant.substring(1));
+							addItem(nlsValue, key, false, null);
+						} catch (Exception ex1) {
+							addItem(constant, key, false, null);
+						}
 					}
 				} else
 					addItem(constant, key, false, null);
@@ -396,6 +401,18 @@ public class CheckInlineBox extends TextArea implements IUserInputWidget<String>
 	@Override
 	public DataBindingHandler getDataBindingHandler() {
 		return dataBinding;
+	}
+
+	public ArrayList<Long> getValueListLong() {
+		if (items == null || items.isEmpty())
+			return null;
+		ArrayList<Long> sels = new ArrayList<Long>();
+		for (String l : items.keySet()) {
+			Pair<String, Boolean> pair = items.get(l);
+			if (pair.getRight())
+				sels.add(Long.valueOf(pair.getLeft()));
+		}
+		return sels.isEmpty() ? null : sels;
 	}
 
 }

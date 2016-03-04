@@ -17,7 +17,7 @@ public class BaseToolItem {
 	private boolean				startsWithSeparator;
 	private boolean				endsWithSeparator;
 	private Element				element;
-	private boolean visible = true;
+	private boolean				visible	= true;
 
 	public Element getElement() {
 		return element;
@@ -26,7 +26,7 @@ public class BaseToolItem {
 	public void setElement(Element element) {
 		this.element = element;
 		if (!visible)
-			element.getStyle().setDisplay(visible?Display.INLINE_BLOCK:Display.NONE);
+			element.getStyle().setDisplay(visible ? Display.INLINE_BLOCK : Display.NONE);
 	}
 
 	public String getIconClass() {
@@ -108,7 +108,7 @@ public class BaseToolItem {
 
 	public void executeHandler(Event event) {
 		if (handler != null)
-			handler.execute(event);
+			handler.execute(id, event);
 	}
 
 	public void unload() {
@@ -118,8 +118,8 @@ public class BaseToolItem {
 
 	public void setVisible(boolean visible) {
 		this.visible = visible;
-		if (element!=null)
-			element.getStyle().setDisplay(visible?Display.INLINE_BLOCK:Display.NONE);
+		if (element != null)
+			element.getStyle().setDisplay(visible ? Display.INLINE_BLOCK : Display.NONE);
 	}
 
 }

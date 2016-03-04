@@ -12,9 +12,5 @@ public class RadioBox extends RadioButton {
 		super(name, label);
 		JsUtil.ensureId(parent, this, WidgetConst.RADIOBOX_PREFIX, id);
 	}
-	
-	public RadioBox(final Widget parent, final String id, String name) {
-		this(parent, id, name, null);
-	}
 
 }

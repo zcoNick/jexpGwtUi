@@ -8,40 +8,47 @@ import java.util.List;
 import java.util.Map;
 
 import com.google.gwt.core.client.JavaScriptObject;
-import com.google.gwt.dom.client.DivElement;
 import com.google.gwt.dom.client.Element;
-import com.google.gwt.dom.client.InputElement;
 import com.google.gwt.dom.client.Style.Display;
-import com.google.gwt.dom.client.Style.FontWeight;
 import com.google.gwt.dom.client.Style.Overflow;
+import com.google.gwt.dom.client.Style.TextAlign;
 import com.google.gwt.dom.client.Style.Unit;
-import com.google.gwt.dom.client.TableElement;
 import com.google.gwt.dom.client.TableRowElement;
+import com.google.gwt.event.dom.client.ChangeEvent;
+import com.google.gwt.event.dom.client.ChangeHandler;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.event.logical.shared.ValueChangeEvent;
+import com.google.gwt.event.logical.shared.ValueChangeHandler;
+import com.google.gwt.event.shared.HandlerRegistration;
 import com.google.gwt.user.client.Command;
 import com.google.gwt.user.client.DOM;
-import com.google.gwt.user.client.ui.Focusable;
 import com.google.gwt.user.client.ui.Widget;
 import com.javexpress.gwt.library.shared.model.IJsonServicePoint;
 import com.javexpress.gwt.library.shared.model.WidgetConst;
 import com.javexpress.gwt.library.ui.AbstractContainer;
 import com.javexpress.gwt.library.ui.ICssIcon;
+import com.javexpress.gwt.library.ui.bootstrap.Bootstrap;
+import com.javexpress.gwt.library.ui.bootstrap.FormGroupCell;
+import com.javexpress.gwt.library.ui.data.DataBindingHandler;
+import com.javexpress.gwt.library.ui.form.IUserInputWidget;
 import com.javexpress.gwt.library.ui.form.label.Label;
 import com.javexpress.gwt.library.ui.js.JqEffect;
 import com.javexpress.gwt.library.ui.js.JsUtil;
 import com.javexpress.gwt.library.ui.js.JsonMap;
 
-public class MultiAutoCompleteBox<V extends Serializable> extends AbstractContainer implements Focusable {
+public class MultiAutoCompleteBox extends AbstractContainer implements IUserInputWidget<ArrayList<? extends Serializable>> {
 
-	private TableElement				table;
-	private InputElement				input;
-	private DivElement					div;
+	private boolean						required;
+	private Element						input;
+	private Element						items;
 	private IMultiAutoCompleteListener	listener;
 	private JsonMap						options;
 	private Map<String, JsonMap>		acData;
 	private Element						tdOpen;
 	private Label						btOpen;
+	private DataBindingHandler			dataBinding;
+	private boolean						valueChangeHandlerInitialized;
 
 	public IMultiAutoCompleteListener getListener() {
 		return listener;
@@ -57,53 +64,52 @@ public class MultiAutoCompleteBox<V extends Serializable> extends AbstractContai
 	}
 
 	public MultiAutoCompleteBox(Widget parent, String id, String searchText, boolean fitToParent, final IJsonServicePoint servicePoint) {
-		super(DOM.createTable());
+		super(DOM.createDiv());
 		JsUtil.ensureId(parent, this, WidgetConst.MULTIAUTOCOMPLETE_PREFIX, id);
-
-		addStyleName("jexpBorderBox");
+		getElement().addClassName((JsUtil.USE_BOOTSTRAP ? "" : "ui-widget ui-widget-content ui-corner-all ") + "jexpMultiAutoCompleteBox");
 
 		if (fitToParent) {
 			getElement().getStyle().setWidth(100, Unit.PCT);
 			getElement().getStyle().setHeight(100, Unit.PCT);
 		}
 
-		table = getElement().cast();
-		table.addClassName("ui-widget ui-widget-content ui-corner-all jesMultiAutoCompleteBox");
-		table.setCellPadding(2);
-		table.setCellSpacing(0);
-
-		Element tr = DOM.createTR();
-		tr.setAttribute("height", "1%");
-		tr.addClassName("ui-widget-header");
-		tr.getStyle().setFontWeight(FontWeight.NORMAL);
-		Element td = DOM.createTD();
-		td.setAttribute("align", "right");
-		Element label = DOM.createSpan();
-		label.setInnerText(searchText + " : ");
-		td.appendChild(label);
-		tr.appendChild(td);
-		td = DOM.createTD();
-		input = DOM.createInputText().cast();
-		input.getStyle().setWidth(97, Unit.PCT);
+		Element tr = DOM.createDiv();
+		tr.addClassName("col-xs-12");
+		int xs = 12;
+		if (searchText != null) {
+			Element td = DOM.createDiv();
+			td.setClassName("col-xs-3");
+			Element label = DOM.createSpan();
+			label.setInnerText(searchText + " : ");
+			tr.appendChild(td);
+			xs -= 3;
+		}
+		Element inpCont = DOM.createDiv();
+		inpCont.addClassName("input-group jexpAutoComplete");
+		input = DOM.createInputText();
+		input.addClassName("col-xs-" + xs);
 		JsUtil.ensureSubId(getElement(), input, WidgetConst.AUTOCOMPLETE_PREFIX);
-		td.appendChild(input);
-		tr.appendChild(td);
-		tdOpen = DOM.createTD();
-		tr.appendChild(tdOpen);
-		table.appendChild(tr);
+		inpCont.appendChild(input);
+		Element span = DOM.createSpan();
+		span.setClassName("input-group-addon jexpHandCursor");
+		Element icon = DOM.createElement("i");
+		icon.setClassName("fa fa-search");
+		span.appendChild(icon);
+		inpCont.appendChild(span);
+		tr.appendChild(inpCont);
 
-		tr = DOM.createTR();
-		tr.setAttribute("height", "99%");
-		td = DOM.createTD();
-		td.setAttribute("colspan", "3");
-		td.setAttribute("height", "100%");
-		div = DOM.createDiv().cast();
-		div.getStyle().setWidth(100, Unit.PCT);
-		div.getStyle().setHeight(100, Unit.PCT);
-		div.getStyle().setOverflow(Overflow.AUTO);
-		td.appendChild(div);
-		tr.appendChild(td);
-		table.appendChild(tr);
+		getElement().appendChild(tr);
+
+		Element itemsDiv = DOM.createDiv();
+		itemsDiv.addClassName("col-xs-12");
+		itemsDiv.getStyle().setHeight(100, Unit.PCT);
+		itemsDiv.getStyle().setOverflow(Overflow.AUTO);
+		Element itemsTable = DOM.createTable();
+		itemsTable.addClassName("table table-striped");
+		items = DOM.createTBody();
+		itemsTable.appendChild(items);
+		itemsDiv.appendChild(itemsTable);
+		getElement().appendChild(itemsDiv);
 
 		options = new JsonMap();
 		options.setInt("minLength", 2);
@@ -142,7 +148,7 @@ public class MultiAutoCompleteBox<V extends Serializable> extends AbstractContai
 			createByJs(this, input, options.getJavaScriptObject(), listener != null);
 	}
 
-	private native void createByJs(MultiAutoCompleteBox x, InputElement element, JavaScriptObject options, boolean hasListener) /*-{
+	private native void createByJs(MultiAutoCompleteBox x, Element element, JavaScriptObject options, boolean hasListener) /*-{
 		var el = $wnd.$(element);
 		if (hasListener) {
 			options.source = function(request, response) {
@@ -155,7 +161,7 @@ public class MultiAutoCompleteBox<V extends Serializable> extends AbstractContai
 			options.source = options.url;
 		options.id = el.attr("id") + "_menu";
 		options.select = function(event, ui) {
-			var r = x.@com.javexpress.gwt.library.ui.form.autocomplete.MultiAutoCompleteBox::fireOnSelect(Ljava/lang/String;Ljava/lang/String;Lcom/google/gwt/core/client/JavaScriptObject;)(ui.item.id,ui.item.label,ui.item.data);
+			var r = x.@com.javexpress.gwt.library.ui.form.autocomplete.MultiAutoCompleteBox::fireCanSelect(Ljava/lang/String;Ljava/lang/String;Lcom/google/gwt/core/client/JavaScriptObject;)(ui.item.id,ui.item.label,ui.item.data);
 			if (r) {
 				el.val(null);
 				x.@com.javexpress.gwt.library.ui.form.autocomplete.MultiAutoCompleteBox::fireAddToSelection(Ljava/lang/String;Ljava/lang/String;Lcom/google/gwt/core/client/JavaScriptObject;Z)(ui.item.id,ui.item.label,ui.item.data, true);
@@ -172,35 +178,36 @@ public class MultiAutoCompleteBox<V extends Serializable> extends AbstractContai
 
 	@Override
 	protected void onUnload() {
+		destroyByJs(input, items);
 		options = null;
 		input = null;
-		div = null;
-		table = null;
+		items = null;
 		acData = null;
 		if (btOpen != null)
 			remove(btOpen);
 		tdOpen = null;
 		btOpen = null;
-			destroyByJs(input);
 		super.onUnload();
 	}
 
-	private native void destroyByJs(InputElement element) /*-{
+	private native void destroyByJs(Element element, Element items) /*-{
 		$wnd.$(element).jexpautocomplete('destroy');
+		$wnd.$(items).empty().off();
 	}-*/;
 
-	public List<String> getValues() {
-		List<String> list = new ArrayList<String>();
-		for (int i = 0; i < div.getChildCount(); i++) {
-			Element t = (Element) div.getChild(i);
+	@Override
+	public ArrayList<String> getValue() {
+		ArrayList<String> list = new ArrayList<String>();
+		for (int i = 0; i < items.getChildCount(); i++) {
+			Element t = (Element) items.getChild(i);
 			list.add(t.getAttribute("value"));
 		}
 		return list.isEmpty() ? null : list;
 	}
 
 	private Element findElement(String id) {
-		for (int i = 0; i < div.getChildCount(); i++) {
-			Element t = (Element) div.getChild(i);
+		for (int i = 0; i < items.getChildCount(); i++) {
+			Element t = (Element) items.getChild(i);
 			if (id.equals(t.getAttribute("value")))
 				return t;
 		}
@@ -209,19 +216,19 @@ public class MultiAutoCompleteBox<V extends Serializable> extends AbstractContai
 
 	public List<Long> getValuesLong() {
 		List<Long> list = new ArrayList<Long>();
-		for (int i = 0; i < div.getChildCount(); i++) {
-			Element t = (Element) div.getChild(i);
+		for (int i = 0; i < items.getChildCount(); i++) {
+			Element t = (Element) items.getChild(i);
 			list.add(JsUtil.asLong(t.getAttribute("value")));
 		}
 		return list.isEmpty() ? null : list;
 	}
 
-	private native void _addCloseEvent(MultiAutoCompleteBox<V> x, Element span) /*-{
+	private native void _addDeleteEvent(MultiAutoCompleteBox x, Element span) /*-{
 		$wnd
 				.$(span)
 				.click(
 						function() {
-							var item = $wnd.$(this).parent().parent().parent();
+							var item = $wnd.$(this).parent().parent();
 							var val = item.attr("value");
 							item.fadeOut(300, function() {
 								$wnd.$(this).remove();
@@ -249,11 +256,11 @@ public class MultiAutoCompleteBox<V extends Serializable> extends AbstractContai
 	public void setTabIndex(int index) {
 	}
 
-	public boolean addItem(Serializable val, String label) {
+	public boolean addItem(Serializable val, String label) throws Exception {
 		return addItem(val, label, null);
 	}
 
-	public boolean addItem(Serializable val, String label, JsonMap data) {
+	public boolean addItem(Serializable val, String label, JsonMap data) throws Exception {
 		Element existing = findElement(val.toString());
 		if (existing != null)
 			return false;
@@ -278,21 +285,43 @@ public class MultiAutoCompleteBox<V extends Serializable> extends AbstractContai
 		return acData.get(val);
 	}
 
+	private native void _setValueByIds(MultiAutoCompleteBox x, JavaScriptObject options, String values, boolean fireEvents) /*-{
+		$wnd.$
+				.post(
+						options.url,
+						{
+							"term" : "@" + values
+						},
+						function(data) {
+							if (!data) {
+								if (fireEvents)
+									x.@com.javexpress.gwt.library.ui.form.autocomplete.MultiAutoCompleteBox::fireValuesSet(I)(0);
+								return;
+							}
+							for (var i = 0; i < data.length; i++) {
+								x.@com.javexpress.gwt.library.ui.form.autocomplete.MultiAutoCompleteBox::fireAddToSelection(Ljava/lang/String;Ljava/lang/String;Lcom/google/gwt/core/client/JavaScriptObject;Z)(data[i].id,data[i].label,data[i].data,true);
+							}
+							if (fireEvents)
+								x.@com.javexpress.gwt.library.ui.form.autocomplete.MultiAutoCompleteBox::fireValuesSet(I)(data.length);
+						}, "json");
+	}-*/;
+
 	// ---------- EVENTS
-	private boolean fireOnSelect(final String id, final String label, JavaScriptObject data) throws Exception {
+	private boolean fireCanSelect(final String id, final String label, JavaScriptObject data) throws Exception {
 		Element existing = findElement(id);
 		if (existing != null) {
 			JsUtil.pulsate(existing);
 			return false;
 		}
 		if (listener != null)
-			return listener.itemSelected(id, label, data == null ? null : new JsonMap(data));
+			return listener.canSelectItem(id, label, data == null ? null : new JsonMap(data));
 		return true;
 	}
 
 	private void fireOnRemove(final String id, boolean userAction) throws Exception {
 		if (listener != null)
 			listener.itemRemoved(id, userAction);
+		input.focus();
 	}
 
 	private void fireOnAdd(final String id, JsonMap data, boolean userSelected) {
@@ -300,18 +329,20 @@ public class MultiAutoCompleteBox<V extends Serializable> extends AbstractContai
 			listener.itemAdded(id, data, userSelected);
 	}
 
-	private void fireAddToSelection(final String id, final String label, JavaScriptObject data, boolean userAction) {
-		TableElement t = DOM.createTable().cast();
-		t.setAttribute("align", "center");
-		t.addClassName("jesMultiAutoCompleteListItem");
-		t.setCellPadding(2);
-		t.setCellSpacing(0);
-		t.getStyle().setDisplay(Display.NONE);
-		t.getStyle().setWidth(99, Unit.PCT);
-		t.setAttribute("value", id);
+	private void fireValuesSet(int size) {
+		if (listener != null)
+			listener.valuesSet(size);
+	}
+
+	private void fireAddToSelection(final String id, final String label, JavaScriptObject data, boolean userAction) throws Exception {
+		if (listener != null)
+			listener.itemSelected(id, label, data == null ? null : new JsonMap(data), userAction);
 		TableRowElement tr = DOM.createTR().cast();
+		tr.getStyle().setDisplay(Display.NONE);
+		tr.addClassName("jexpMultiAutoCompleteListItem");
+		tr.setAttribute("value", id);
 		TableRowElement td = DOM.createTD().cast();
-		td.setAttribute("width", "98%");
+		td.setClassName("col-xs-11");
 		Element child = null;
 		JsonMap jsonmapdata = data == null ? null : new JsonMap(data);
 		if (listener != null)
@@ -323,21 +354,21 @@ public class MultiAutoCompleteBox<V extends Serializable> extends AbstractContai
 		td.appendChild(child);
 		tr.appendChild(td);
 		td = DOM.createTD().cast();
-		td.setAttribute("width", "1%");
+		td.setClassName("col-xs-1");
+		td.getStyle().setTextAlign(TextAlign.CENTER);
 		Element span = DOM.createSpan();
-		span.addClassName("ui-icon ui-icon-only ui-icon-trash ui-cursor-hand");
-		_addCloseEvent(this, span);
+		span.addClassName("fa fa-minus jexpHandCursor");
+		_addDeleteEvent(this, span);
 		td.appendChild(span);
 		tr.appendChild(td);
-		t.appendChild(tr);
-		div.insertFirst(t);
+		items.insertFirst(tr);
 		if (data != null) {
 			if (acData == null)
 				acData = new HashMap<String, JsonMap>();
 			acData.put(id, jsonmapdata);
 		}
 		fireOnAdd(id, jsonmapdata, userAction);
-		JsUtil.showElement(t, JqEffect.slide);
+		JsUtil.showElement(tr, JqEffect.highlight);
 	}
 
 	private void fireOnSearch(JavaScriptObject postData) {
@@ -346,8 +377,8 @@ public class MultiAutoCompleteBox<V extends Serializable> extends AbstractContai
 	}
 
 	public void removeItems() {
-		for (int i = 0; i < div.getChildCount(); i++) {
-			Element item = (Element) div.getChild(i);
+		for (int i = 0; i < items.getChildCount(); i++) {
+			Element item = (Element) items.getChild(i);
 			String val = item.getAttribute("value");
 			if (acData != null)
 				acData.remove(val);
@@ -355,13 +386,95 @@ public class MultiAutoCompleteBox<V extends Serializable> extends AbstractContai
 		}
 	}
 
-	public void setValues(Map<V, String> values) {
+	public void setValues(Map<? extends Serializable, String> values) throws Exception {
 		removeItems();
 		if (values == null || values.isEmpty())
 			return;
-		for (Serializable v : values.keySet()) {
+		for (Serializable v : values.keySet())
 			addItem(v, values.get(v));
+	}
+
+	@Override
+	public HandlerRegistration addChangeHandler(ChangeHandler handler) {
+		return null;
+	}
+
+	@Override
+	public void setDataBindingHandler(DataBindingHandler handler) {
+		this.dataBinding = handler;
+		dataBinding.setControl(this);
+	}
+
+	@Override
+	public DataBindingHandler getDataBindingHandler() {
+		return dataBinding;
+	}
+
+	@Override
+	public boolean isRequired() {
+		return required;
+	}
+
+	@Override
+	public void setRequired(boolean required) {
+		this.required = required;
+	}
+
+	@Override
+	public boolean validate(boolean focusedBefore) {
+		return JsUtil.validateWidget(this, focusedBefore);
+	}
+
+	@Override
+	public void setEnabled(boolean locked) {
+	}
+
+	@Override
+	public void setValidationError(String validationError) {
+		if (JsUtil.USE_BOOTSTRAP) {
+			Widget nw = getParent() instanceof FormGroupCell ? getParent() : this;
+			if (validationError == null)
+				nw.removeStyleName("has-error");
+			else
+				nw.addStyleName("has-error");
 		}
+		Bootstrap.setTooltip(getElement(), validationError);
+	}
+
+	@Override
+	public void setValue(ArrayList<? extends Serializable> value) {
+		setValue(value, false);
+	}
+
+	@Override
+	public void setValue(ArrayList<? extends Serializable> ids, boolean fireEvents) {
+		removeItems();
+		if (ids == null || ids.isEmpty())
+			return;
+		StringBuilder values = new StringBuilder();
+		boolean first = true;
+		for (Serializable id : ids) {
+			if (!first)
+				values.append(";");
+			else
+				first = false;
+			values.append(id.toString());
+		}
+		_setValueByIds(this, options.getJavaScriptObject(), values.toString(), fireEvents);
+	}
+
+	@Override
+	public HandlerRegistration addValueChangeHandler(ValueChangeHandler<ArrayList<? extends Serializable>> handler) {
+		if (!valueChangeHandlerInitialized) {
+			valueChangeHandlerInitialized = true;
+			addChangeHandler(new ChangeHandler() {
+				@Override
+				public void onChange(ChangeEvent event) {
+					ValueChangeEvent.fire(MultiAutoCompleteBox.this, getValue());
+				}
+			});
+		}
+		return addHandler(handler, ValueChangeEvent.getType());
 	}
 
 }

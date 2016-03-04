@@ -3,7 +3,7 @@ package com.javexpress.gwt.library.ui.data;
 import com.javexpress.gwt.library.ui.ICssIcon;
 import com.javexpress.gwt.library.ui.js.BaseToolItem;
 
-public class GridToolItem extends BaseToolItem{
+public class GridToolItem extends BaseToolItem {
 
 	/** Designer compatible constructor */
 	public GridToolItem(final String id) {

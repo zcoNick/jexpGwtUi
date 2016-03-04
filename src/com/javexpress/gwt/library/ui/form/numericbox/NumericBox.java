@@ -1,51 +1,24 @@
 package com.javexpress.gwt.library.ui.form.numericbox;
 
-import com.google.gwt.core.client.JavaScriptObject;
-import com.google.gwt.dom.client.Element;
+import com.google.gwt.event.dom.client.ChangeEvent;
+import com.google.gwt.event.dom.client.ChangeHandler;
 import com.google.gwt.event.dom.client.KeyDownEvent;
 import com.google.gwt.event.dom.client.KeyDownHandler;
-import com.google.gwt.user.client.DOM;
-import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.Widget;
 import com.javexpress.gwt.library.shared.model.WidgetConst;
-import com.javexpress.gwt.library.ui.bootstrap.FormGroupCell;
-import com.javexpress.gwt.library.ui.data.DataBindingHandler;
-import com.javexpress.gwt.library.ui.form.IUserInputWidget;
+import com.javexpress.gwt.library.ui.form.textbox.JexpValueBox;
 import com.javexpress.gwt.library.ui.js.JsUtil;
-import com.javexpress.gwt.library.ui.js.JsonMap;
 
-public class NumericBox extends TextBox implements IUserInputWidget {
+public class NumericBox extends JexpValueBox<Long> {
 
-	protected JsonMap			options;
-	private boolean				required;
-	protected JavaScriptObject	widget;
-	private DataBindingHandler	dataBinding;
-
-	@Override
-	public boolean isRequired() {
-		return required;
-	}
-
-	@Override
-	public void setRequired(final boolean required) {
-		this.required = required;
-	}
+	private Integer	minValue, maxValue;
 
 	/** Designer compatible constructor */
 	public NumericBox(final Widget parent, final String id) {
-		this(parent, id, true);
-	}
-
-	@Deprecated
-	public NumericBox(final Widget parent, final String id, final boolean alignRight) {
-		super(DOM.createInputText());
-		JsUtil.ensureId(parent, this, WidgetConst.NUMERICBOX_PREFIX, id);
+		super(parent, id, WidgetConst.NUMERICBOX_PREFIX);
 		if (!JsUtil.USE_BOOTSTRAP)
 			setWidth("4em");
-		createDefaultOptions();
-		setStyleName("gwt-TextBox jexpNumericBox");
-		if (alignRight)
-			setAlignment(TextAlignment.RIGHT);
+		addStyleName("jexpNumericBox jexpRightAlign");
 		addKeyDownHandler(new KeyDownHandler() {
 			@Override
 			public void onKeyDown(KeyDownEvent event) {
@@ -59,39 +32,13 @@ public class NumericBox extends TextBox implements IUserInputWidget {
 					event.getNativeEvent().preventDefault();
 			}
 		});
+		addChangeHandler(new ChangeHandler() {
+			@Override
+			public void onChange(ChangeEvent event) {
+				applyMinMaxCheck();
+			}
+		});
 	}
-
-	protected JsonMap createDefaultOptions() {
-		options = new JsonMap();
-		return options;
-	}
-
-	@Override
-	protected void onLoad() {
-		super.onLoad();
-		widget = createByJs(this, getElement(), options.getJavaScriptObject());
-	}
-
-	private native JavaScriptObject createByJs(NumericBox x, Element element, JavaScriptObject options) /*-{
-		var el = $wnd.$(element);
-		if (options.spinnerOptions)
-			el.spinner(options.spinnerOptions);
-		return el;
-	}-*/;
-
-	@Override
-	protected void onUnload() {
-		widget = null;
-		dataBinding = null;
-		destroyByJs(getElement(), options.getJavaScriptObject());
-		options = null;
-		super.onUnload();
-	}
-
-	private native void destroyByJs(Element element, JavaScriptObject options) /*-{
-		if (options.spinnerOptions)
-			$wnd.$(element).spinner("destroy");
-	}-*/;
 
 	public Long getValueLong() {
 		return JsUtil.asLong(getText());
@@ -109,70 +56,74 @@ public class NumericBox extends TextBox implements IUserInputWidget {
 		return JsUtil.asByte(getText());
 	}
 
-	public void setValueLong(final Long val) {
-		setText(val == null ? null : val.toString());
-	}
-
 	public void setValueInt(final Integer val) {
-		setText(val == null ? null : val.toString());
-	}
-
-	public void setMaxLength(final int length) {
-		getElement().setAttribute("maxlength", String.valueOf(length));
-		setWidth(JsUtil.calcSizeForMaxLength(length));
-	}
-
-	public void setValue(final Byte val) {
-		setText(val == null ? null : String.valueOf(val));
-	}
-
-	public void setValue(final Integer val) {
-		setText(val == null ? null : String.valueOf(val));
-	}
-
-	public void setValue(final Long val) {
-		setText(val == null ? null : String.valueOf(val));
+		setValue(val == null ? null : val.longValue());
 	}
 
 	public void setValueShort(final Short val) {
-		setText(val == null ? null : String.valueOf(val));
+		setValue(val == null ? null : val.longValue());
 	}
 
 	public void setValueByte(final Byte val) {
-		setText(val == null ? null : val.toString());
+		setValue(val == null ? null : val.longValue());
 	}
 
 	public int getValueIntDef(final int i) {
 		return JsUtil.isEmpty(getText()) ? i : getValueInt();
 	}
 
-	@Override
-	public boolean validate(final boolean focusedBefore) {
-		return JsUtil.validateWidget(this, focusedBefore);
+	public Integer getMinValue() {
+		return minValue;
 	}
 
-	@Override
-	public void setValidationError(String validationError) {
-		if (JsUtil.USE_BOOTSTRAP) {
-			Widget nw = getParent() instanceof FormGroupCell ? getParent() : this;
-			if (validationError == null)
-				nw.removeStyleName("has-error");
-			else
-				nw.addStyleName("has-error");
+	public void setMinValue(Integer minValue) {
+		this.minValue = minValue;
+	}
+
+	public Integer getMaxValue() {
+		return maxValue;
+	}
+
+	public void setMaxValue(Integer maxValue) {
+		this.maxValue = maxValue;
+	}
+
+	protected Long applyMinMaxCheck() {
+		Long v = getValueLong();
+		if (v != null) {
+			if (maxValue != null && v.longValue() > maxValue.longValue()) {
+				setText(maxValue.toString());
+				v = maxValue.longValue();
+				JsUtil.highlight(getElement());
+			} else if (minValue != null && v.longValue() < minValue.longValue()) {
+				setText(minValue.toString());
+				v = minValue.longValue();
+				JsUtil.highlight(getElement());
+			}
 		}
-		setTitle(validationError);
+		return v;
 	}
 
 	@Override
-	public void setDataBindingHandler(DataBindingHandler handler) {
-		this.dataBinding = handler;
-		dataBinding.setControl(this);
-
+	public void setValue(final Long val) {
+		setValue(val, false);
 	}
 
 	@Override
-	public DataBindingHandler getDataBindingHandler() {
-		return dataBinding;
+	public void setValue(final Long value, boolean fireEvents) {
+		Long oldValue = fireEvents ? getValue() : null;
+		setText(JsUtil.asString(value));
+		if (fireEvents)
+			fireValueChanged(oldValue, value);
+	}
+
+	@Override
+	public Long getValue() {
+		return JsUtil.asLong(getText());
+	}
+
+	public void setValueString(String value) {
+		setValue(Long.valueOf(value));
 	}
 
 }

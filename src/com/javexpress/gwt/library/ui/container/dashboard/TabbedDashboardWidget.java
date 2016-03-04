@@ -31,7 +31,7 @@ public abstract class TabbedDashboardWidget extends DashboardWidget {
 		tabsDiv.setClassName("tab-content padding-2");
 		contentDiv.appendChild(tabsDiv);
 
-		createWidget();
+		createGUI();
 	}
 
 	protected void addTab(TabItem tab) throws Exception {

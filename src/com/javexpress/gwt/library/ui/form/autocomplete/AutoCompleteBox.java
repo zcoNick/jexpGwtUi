@@ -5,31 +5,25 @@ import java.io.Serializable;
 import com.google.gwt.core.client.JavaScriptObject;
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.dom.client.InputElement;
-import com.google.gwt.event.dom.client.ChangeHandler;
-import com.google.gwt.event.shared.HandlerRegistration;
 import com.google.gwt.user.client.Command;
 import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.ui.Widget;
 import com.javexpress.gwt.library.shared.model.IJsonServicePoint;
 import com.javexpress.gwt.library.shared.model.WidgetConst;
-import com.javexpress.gwt.library.ui.bootstrap.FormGroupCell;
-import com.javexpress.gwt.library.ui.container.panel.JexpSimplePanel;
-import com.javexpress.gwt.library.ui.data.DataBindingHandler;
-import com.javexpress.gwt.library.ui.form.IWrappedInput;
+import com.javexpress.gwt.library.ui.ClientContext;
+import com.javexpress.gwt.library.ui.bootstrap.BaseWrappedInput;
+import com.javexpress.gwt.library.ui.bootstrap.Bootstrap;
+import com.javexpress.gwt.library.ui.facet.ProvidesModuleUtils;
 import com.javexpress.gwt.library.ui.js.JsUtil;
 import com.javexpress.gwt.library.ui.js.JsonMap;
 
-public class AutoCompleteBox<V extends Serializable> extends JexpSimplePanel implements IWrappedInput<String> {
+public class AutoCompleteBox<V extends Serializable> extends BaseWrappedInput<String, InputElement> {
 
-	private boolean					required;
 	private JsonMap					options;
 	private IAutoCompleteListener	listener;
 	private Command					newItemRequestCommand;
 	private String					newItemTitle;
-	private DataBindingHandler		dataBinding;
-	private InputElement			input;
 	private Element					indicator;
-	private ChangeHandler			onChangeHandler;
 
 	public IAutoCompleteListener getListener() {
 		return listener;
@@ -46,16 +40,15 @@ public class AutoCompleteBox<V extends Serializable> extends JexpSimplePanel imp
 
 	@Deprecated
 	public AutoCompleteBox(final Widget parent, final String id, final IJsonServicePoint servicePoint) {
-		super(DOM.createDiv());
-		JsUtil.ensureId(parent, this, WidgetConst.AUTOCOMPLETE_PREFIX, id);
-		getElement().setClassName("input-group jexpAutoComplete");
+		super(parent, WidgetConst.AUTOCOMPLETE_PREFIX, id, "input-group jexpAutoComplete");
 
 		input = DOM.createInputText().cast();
+		JsUtil.ensureSubId(getElement(), input, "inp");
 		getElement().appendChild(input);
 
 		indicator = DOM.createSpan();
-		indicator.setClassName("input-group-addon");
-		indicator.setInnerHTML("<i class='jexpHandCursor fa fa-search'></i>");
+		indicator.setClassName("input-group-addon jexpHandCursor");
+		indicator.setInnerHTML("<i class='fa fa-search'></i>");
 		getElement().appendChild(indicator);
 
 		options = new JsonMap();
@@ -75,13 +68,28 @@ public class AutoCompleteBox<V extends Serializable> extends JexpSimplePanel imp
 			options.set("url", JsUtil.getServiceUrl(servicePoint));
 	}
 
+	public void setListingAlias(String controlData) throws Exception {
+		if (ClientContext.instance instanceof ProvidesModuleUtils) {
+			String[] cds = controlData.split("/");
+			if (cds.length >= 2) {
+				String url = ((ProvidesModuleUtils) ClientContext.instance).getModuleServiceTarget(Long.valueOf(cds[0])).getServiceEntryPoint() + "." + controlData.substring(controlData.indexOf("/") + 1);
+				options.set("url", url);
+				return;
+			}
+		}
+		throw new Exception("ControlData is not resolvable");
+	}
+
 	@Override
 	protected void onLoad() {
 		super.onLoad();
-		createByJs(this, input, indicator, options.getJavaScriptObject(), newItemTitle, listener != null);
+		if (listener != null || options.containsKey("url"))
+			createByJs(this, input, indicator, options.getJavaScriptObject(), newItemTitle, listener != null);
+		else
+			Bootstrap.setTooltip(input, "Has no url defined");
 	}
 
-	private native void createByJs(AutoCompleteBox x, Element input, Element indicator, JavaScriptObject options, String newItemTitle, boolean hasListener) /*-{
+	private native void createByJs(AutoCompleteBox<V> x, Element input, Element indicator, JavaScriptObject options, String newItemTitle, boolean hasListener) /*-{
 		var el = $wnd.$(input);
 		el.attr("v", "");
 		if (hasListener) {
@@ -95,16 +103,17 @@ public class AutoCompleteBox<V extends Serializable> extends JexpSimplePanel imp
 			options.source = options.url;
 		options.id = el.attr("id") + "_menu";
 		options.select = function(event, ui) {
-			var r = x.@com.javexpress.gwt.library.ui.form.autocomplete.AutoCompleteBox::fireOnSelect(Ljava/lang/String;Ljava/lang/String;Lcom/google/gwt/core/client/JavaScriptObject;)(ui.item.id,ui.item.label,ui.item.data);
+			var r = x.@com.javexpress.gwt.library.ui.form.autocomplete.AutoCompleteBox::fireCanSelect(Ljava/lang/String;Ljava/lang/String;Lcom/google/gwt/core/client/JavaScriptObject;)(ui.item.id+"",ui.item.label,ui.item.data);
 			if (r) {
 				el.attr("v", ui.item.id);
 				el.val(ui.item.label);
 				$wnd.$.data(el, "acdata", ui.item.data);
+				x.@com.javexpress.gwt.library.ui.form.autocomplete.AutoCompleteBox::fireOnSelect(Ljava/lang/String;Ljava/lang/String;Lcom/google/gwt/core/client/JavaScriptObject;Z)(ui.item.id+"",ui.item.label,ui.item.data,true);
 			}
 			return r;
 		};
 		options.search = function(event, ui) {
-			el.attr("v", "");
+			el.attr("v", "''");
 			$wnd.$(".fa", $wnd.$(indicator)).removeClass("fa-search").addClass(
 					"fa-spin").addClass("fa-spinner");
 		};
@@ -117,10 +126,12 @@ public class AutoCompleteBox<V extends Serializable> extends JexpSimplePanel imp
 				.on(
 						"blur",
 						function() {
-							if (el.attr("v") != "" && el.val() == "") {
+							if (el.attr("v") == "''" || el.val().trim() == "") {
 								el.attr("v", "");
+								el.val(null);
+								el.effect("highlight");
 								$wnd.$.data(el, "acdata", null);
-								x.@com.javexpress.gwt.library.ui.form.autocomplete.AutoCompleteBox::fireOnSelect(Ljava/lang/String;Ljava/lang/String;Lcom/google/gwt/core/client/JavaScriptObject;)(null,null,null);
+								x.@com.javexpress.gwt.library.ui.form.autocomplete.AutoCompleteBox::fireOnSelect(Ljava/lang/String;Ljava/lang/String;Lcom/google/gwt/core/client/JavaScriptObject;Z)(null,null,null,false);
 							}
 						});
 		if (newItemTitle) {
@@ -133,6 +144,14 @@ public class AutoCompleteBox<V extends Serializable> extends JexpSimplePanel imp
 						x.@com.javexpress.gwt.library.ui.form.autocomplete.AutoCompleteBox::fireOnNewItemRequest()();
 					});
 		}
+		if (indicator) {
+			$wnd
+					.$(indicator)
+					.click(
+							function() {
+								x.@com.javexpress.gwt.library.ui.form.autocomplete.AutoCompleteBox::fireOnButtonClick()();
+							});
+		}
 	}-*/;
 
 	@Override
@@ -140,22 +159,17 @@ public class AutoCompleteBox<V extends Serializable> extends JexpSimplePanel imp
 		listener = null;
 		newItemRequestCommand = null;
 		options = null;
-		dataBinding = null;
-		onChangeHandler = null;
-		destroyByJs(input);
+		destroyByJs(input, indicator);
+		indicator = null;
 		super.onUnload();
 	}
 
-	private native void destroyByJs(Element elm) /*-{
+	private native void destroyByJs(Element elm, Element btn) /*-{
+		$wnd.$(btn).off();
 		var el = $wnd.$(elm);
 		if (el)
 			el.jexpautocomplete('destroy');
 	}-*/;
-
-	public void setValue(final V value, final String label) {
-		input.setValue(label);
-		input.setAttribute("v", value.toString());
-	}
 
 	@Override
 	public String getValue() {
@@ -169,34 +183,50 @@ public class AutoCompleteBox<V extends Serializable> extends JexpSimplePanel imp
 		return JsUtil.asLong(getValue());
 	}
 
+	@Override
+	public String getText() {
+		return input.getValue();
+	}
+
 	public void onNewItemRequest(String newItemTitle, final Command newItemRequestCommand) {
 		this.newItemTitle = newItemTitle;
 		this.newItemRequestCommand = newItemRequestCommand;
 	}
 
-	@Override
-	public void clear() {
-		input.setValue("");
-		input.setAttribute("v", "");
-	}
-
-	public void setValue(final Long value) {
-		setValueLong(value);
-	}
-
 	public void setValueLong(final Long value) {
-		setValue(value == null ? (String) null : value.toString());
+		setValueLong(value, false);
 	}
 
-	public void setValue(final String value) {
-		if (value == null)
-			clear();
-		else {
-			_setValueById(this, input, options.getJavaScriptObject(), value);
+	public void setValueLong(final Long value, boolean fireEvents) {
+		setValue(value == null ? (String) null : value.toString(), fireEvents);
+	}
+
+	public void setValueInt(final Integer value) {
+		setValueInt(value, false);
+	}
+
+	public void setValueInt(final Integer value, boolean fireEvents) {
+		setValue(value == null ? (String) null : value.toString(), fireEvents);
+	}
+
+	@Override
+	public void setValue(String value) {
+		setValue(value, false);
+	}
+
+	@Override
+	public void setValue(String value, boolean fireEvents) {
+		if (value == null) {
+			String old = fireEvents ? input.getAttribute("v") : null;
+			setText(null);
+			if (fireEvents && JsUtil.isNotEmpty(old))
+				fireOnSelect(null, null, null, false);
+		} else {
+			_setValueById(this, input, options.getJavaScriptObject(), value, fireEvents);
 		}
 	}
 
-	private native void _setValueById(AutoCompleteBox x, Element input, JavaScriptObject options, String value) /*-{
+	private native void _setValueById(AutoCompleteBox<V> x, Element input, JavaScriptObject options, String value, boolean fireEvents) /*-{
 		var lb = $wnd.$(input).val("...");
 		$wnd.$
 				.post(
@@ -205,11 +235,17 @@ public class AutoCompleteBox<V extends Serializable> extends JexpSimplePanel imp
 							"term" : "@" + value
 						},
 						function(data) {
-							var r = x.@com.javexpress.gwt.library.ui.form.autocomplete.AutoCompleteBox::fireOnSelect(Ljava/lang/String;Ljava/lang/String;Lcom/google/gwt/core/client/JavaScriptObject;)(data.id,data.label,data.data);
+							if (!data)
+								return;
+							data = data[0];
+							var r = !fireEvents
+									|| x.@com.javexpress.gwt.library.ui.form.autocomplete.AutoCompleteBox::fireCanSelect(Ljava/lang/String;Ljava/lang/String;Lcom/google/gwt/core/client/JavaScriptObject;)(data.id,data.label,data.data);
 							if (r) {
+								lb.attr("v", data.id);
 								lb.val(data.label);
 								$wnd.$.data(lb, "acdata", data.data);
-								lb.attr("v", data.id);
+								if (fireEvents)
+									x.@com.javexpress.gwt.library.ui.form.autocomplete.AutoCompleteBox::fireOnSelect(Ljava/lang/String;Ljava/lang/String;Lcom/google/gwt/core/client/JavaScriptObject;Z)(data.id,data.label,data.data,false);
 							}
 						}, "json");
 	}-*/;
@@ -219,43 +255,30 @@ public class AutoCompleteBox<V extends Serializable> extends JexpSimplePanel imp
 		return o == null ? null : new JsonMap(o);
 	}
 
-	@Override
-	public boolean isRequired() {
-		return required;
-	}
-
-	@Override
-	public void setRequired(boolean required) {
-		this.required = required;
-	}
-
-	@Override
-	public boolean validate(boolean focusedBefore) {
-		return JsUtil.validateWidget(this, focusedBefore);
-	}
-
-	@Override
-	public void setValidationError(String validationError) {
-		if (JsUtil.USE_BOOTSTRAP) {
-			Widget nw = getParent() instanceof FormGroupCell ? getParent() : this;
-			if (validationError == null)
-				nw.removeStyleName("has-error");
-			else
-				nw.addStyleName("has-error");
-		}
-		setTitle(validationError);
-	}
-
 	// ---------- EVENTS
 	private void fireOnSearch(JavaScriptObject postData) {
 		if (listener != null)
 			listener.onAutoCompleteBeforeDataRequest(new JsonMap(postData));
 	}
 
-	private boolean fireOnSelect(final String id, final String label, JavaScriptObject data) throws Exception {
-		if (listener != null && JsUtil.isNotEmpty(id))
-			return listener.itemSelected(id, label, data != null ? new JsonMap(data) : null);
+	private boolean fireCanSelect(final String id, final String label, JavaScriptObject data) throws Exception {
+		if (listener != null)
+			return listener.canSelectItem(id, label, data != null ? new JsonMap(data) : null);
 		return true;
+	}
+
+	private void fireOnSelect(final String id, final String label, JavaScriptObject data, boolean userAction) {
+		try {
+			if (listener != null)
+				listener.itemSelected(id, label, data != null ? new JsonMap(data) : null, userAction);
+		} catch (Exception e) {
+			JsUtil.handleError(this, e);
+		}
+	}
+
+	private void fireOnButtonClick() throws Exception {
+		if (listener != null)
+			listener.buttonClicked();
 	}
 
 	private void fireOnNewItemRequest() throws Exception {
@@ -263,61 +286,14 @@ public class AutoCompleteBox<V extends Serializable> extends JexpSimplePanel imp
 			newItemRequestCommand.execute();
 	}
 
-	@Override
-	public void setDataBindingHandler(DataBindingHandler handler) {
-		this.dataBinding = handler;
-		dataBinding.setControl(this);
-	}
-
-	@Override
-	public DataBindingHandler getDataBindingHandler() {
-		return dataBinding;
-	}
-
-	@Override
-	public void setEnabled(boolean enabled) {
-		input.setDisabled(!enabled);
-	}
-
-	@Override
-	public int getTabIndex() {
-		return input.getTabIndex();
-	}
-
-	@Override
-	public void setAccessKey(char key) {
-		input.setAccessKey(String.valueOf(key));
-	}
-
-	@Override
-	public void setFocus(boolean focused) {
-		if (focused)
-			input.focus();
-		else
-			input.blur();
-	}
-
-	@Override
-	public void setTabIndex(int index) {
-		input.setTabIndex(index);
-	}
-
-	@Override
-	public HandlerRegistration addChangeHandler(ChangeHandler handler) {
-		return null;
-	}
-
-	@Override
-	public Element getInputElement() {
-		return input;
-	}
-
-	public String getText() {
-		return input.getValue();
-	}
-
 	public void setMaxLength(int maxLength) {
 		input.setMaxLength(maxLength);
+	}
+
+	@Override
+	public void setText(String text) {
+		input.setValue(text);
+		input.removeAttribute("v");
 	}
 
 }

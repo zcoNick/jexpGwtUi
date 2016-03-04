@@ -14,7 +14,7 @@ import com.google.gwt.dom.client.SelectElement;
 import com.google.gwt.event.dom.client.DomEvent;
 import com.google.gwt.user.client.ui.Widget;
 import com.javexpress.gwt.library.shared.model.WidgetConst;
-import com.javexpress.gwt.library.ui.bootstrap.FormGroupCell;
+import com.javexpress.gwt.library.ui.bootstrap.LabelControlCell;
 import com.javexpress.gwt.library.ui.data.DataBindingHandler;
 import com.javexpress.gwt.library.ui.js.JsUtil;
 
@@ -35,8 +35,8 @@ public class ListBox extends ListBoxBase {
 	}
 
 	@Override
-	public void addItem(Serializable label, Serializable value, Serializable data) {
-		super.addItem(label, value, data);
+	public void addItem(Serializable label, Serializable value, Serializable data, String hint) {
+		super.addItem(label, value, data, hint);
 		if (lazyValues != null && lazyValues.contains(value.toString())) {
 			setSelectedIndex(getItemCount() - 1);
 			lazyValues.remove(value.toString());
@@ -101,9 +101,9 @@ public class ListBox extends ListBoxBase {
 
 	public void setAltRows(boolean altRows) {
 		if (altRows)
-			getElement().addClassName("jesAltRows");
+			getElement().addClassName("jexpAltRows");
 		else
-			getElement().removeClassName("jesAltRows");
+			getElement().removeClassName("jexpAltRows");
 	}
 
 	public List<String> getValues() {
@@ -125,7 +125,7 @@ public class ListBox extends ListBoxBase {
 	@Override
 	public void setValidationError(String validationError) {
 		if (JsUtil.USE_BOOTSTRAP) {
-			Widget nw = getParent() instanceof FormGroupCell ? getParent() : this;
+			Widget nw = getParent() instanceof LabelControlCell ? getParent() : this;
 			if (validationError == null)
 				nw.removeStyleName("has-error");
 			else
@@ -143,6 +143,17 @@ public class ListBox extends ListBoxBase {
 	@Override
 	public DataBindingHandler getDataBindingHandler() {
 		return dataBinding;
+	}
+
+	@Override
+	@Deprecated
+	public void setValue(String value) {
+		setValue(value, false);
+	}
+
+	@Override
+	@Deprecated
+	public void setValue(String value, boolean fireEvents) {
 	}
 
 }

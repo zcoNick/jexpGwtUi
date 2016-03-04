@@ -2,6 +2,7 @@ package com.javexpress.gwt.library.ui.form.combobox;
 
 import java.util.LinkedHashMap;
 import java.util.Map;
+import java.util.Set;
 
 import com.google.gwt.http.client.Request;
 import com.google.gwt.http.client.RequestBuilder;
@@ -20,6 +21,15 @@ public class KeyValueDataLoader implements Command {
 	private final long							moduleId;
 	private final ServiceDefTarget				serviceDefTarget;
 	protected final Map<IKeyValueList, String>	comboKey	= new LinkedHashMap<IKeyValueList, String>();
+	private IKeyValueDataLoaderListener			listener;
+
+	public IKeyValueDataLoaderListener getListener() {
+		return listener;
+	}
+
+	public void setListener(IKeyValueDataLoaderListener listener) {
+		this.listener = listener;
+	}
 
 	public KeyValueDataLoader(long moduleId, ServiceDefTarget serviceDefTarget) {
 		this.moduleId = moduleId;
@@ -62,6 +72,9 @@ public class KeyValueDataLoader implements Command {
 	public void execute() {
 		if (comboKey.isEmpty())
 			return;
+		final Set<IKeyValueList> set = comboKey.keySet();
+		if (listener != null)
+			listener.onStartLoadingKeys(set);
 		//Fired from Form.onLoad
 		StringBuilder rd = new StringBuilder();
 		for (String k : comboKey.values())
@@ -74,19 +87,31 @@ public class KeyValueDataLoader implements Command {
 				public void onResponseReceived(Request request, Response response) {
 					if (response.getStatusCode() == 901)
 						return;
+					if (response.getStatusCode() == 500) {
+						listener.onKeysLoadingError(response.getText());
+						return;
+					}
 					JSONValue v = JSONParser.parseStrict(response.getText());
 					JSONObject json = v.isObject();
-					for (IKeyValueList combo : comboKey.keySet()) {
+					for (IKeyValueList combo : set) {
 						String k = comboKey.get(combo);
+						/*if (k.indexOf("?") > -1)
+							k = k.substring(0, k.indexOf("?"));//FisEdit de CariSecince*/
 						JSONValue va = json.get(k);
-						if (va != null) {
-							JSONObject grp = va.isObject();
+						JSONObject grp = va != null ? va.isObject() : null;
+						if (grp != null && grp.size() > 0) {
 							for (String ig : grp.keySet()) {
 								JSONObject itm = grp.get(ig).isObject();
 								combo.setKeyValueDataItems(itm);
 							}
-						}
+						} else
+							combo.setKeyValueDataItems(null);
+						if (listener != null)
+							listener.onLoadedKeyValues(k, grp);
 					}
+					if (listener != null)
+						listener.onKeysCompleted(set);
+					comboKey.clear();
 				}
 
 				@Override

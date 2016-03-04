@@ -7,6 +7,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import com.google.gwt.i18n.client.DateTimeFormat;
+import com.google.gwt.i18n.client.LocaleInfo;
 import com.google.gwt.i18n.client.NumberFormat;
 
 public class JexpGwtUser implements Serializable {
@@ -26,8 +27,8 @@ public class JexpGwtUser implements Serializable {
 	private char						currencyDecimalChar;
 	private String						sessionId;
 	private String						companyName;
-	private Map<String, Serializable>	clientVariables = new HashMap<String, Serializable>();
-	
+	private Map<String, Serializable>	clientVariables	= new HashMap<String, Serializable>();
+
 	public Map<String, Serializable> getClientParams() {
 		return clientVariables;
 	}
@@ -35,9 +36,9 @@ public class JexpGwtUser implements Serializable {
 	public void setClientVariables(Map<String, Serializable> clientVariables) {
 		this.clientVariables = clientVariables;
 	}
-	
-	public static Serializable getVariable(long moduleId, String key){
-		return instance.clientVariables.get(moduleId+":"+key);
+
+	public static Serializable getVariable(long moduleId, String key) {
+		return instance.clientVariables.get(moduleId + "é" + key);
 	}
 
 	public String getCompanyName() {
@@ -97,19 +98,35 @@ public class JexpGwtUser implements Serializable {
 	}
 
 	public static char getCurrencyGroupChar() {
-		return instance.currencyGroupChar;
+		if (instance != null)
+			return instance.currencyGroupChar;
+		String fmt = LocaleInfo.getCurrentLocale().getNumberConstants().groupingSeparator();
+		return fmt.charAt(0);
 	}
 
 	public static char getCurrencyDecimalChar() {
-		return instance.currencyDecimalChar;
+		if (instance != null)
+			return instance.currencyDecimalChar;
+		String fmt = LocaleInfo.getCurrentLocale().getNumberConstants().decimalSeparator();
+		return fmt.charAt(0);
 	}
 
 	public static String getDateFormat() {
-		return instance.dateFormat;
+		if (instance != null)
+			return instance.dateFormat;
+		String fmt = LocaleInfo.getCurrentLocale().getDateTimeConstants().dateFormats()[0].toUpperCase();
+		if (fmt.indexOf("M") < fmt.indexOf("D"))
+			fmt = "MM.dd.yyyy";
+		else
+			fmt = "dd.MM.yyyy";
+		return fmt;
 	}
 
 	public static String getTimeStampFormat() {
-		return instance.timeStampFormat;
+		if (instance != null)
+			return instance.timeStampFormat;
+		String fmt = getDateFormat() + " " + LocaleInfo.getCurrentLocale().getDateTimeConstants().timeFormats()[2].toUpperCase();
+		return fmt;
 	}
 
 	public Long getOrgUnitId() {
@@ -147,31 +164,40 @@ public class JexpGwtUser implements Serializable {
 	}
 
 	public static String formatDate(final Date cand) {
-		return DateTimeFormat.getFormat(instance.dateFormat).format(cand);
+		return cand == null ? null : DateTimeFormat.getFormat(getDateFormat()).format(cand);
 	}
 
 	public static String formatTimestamp(final Date cand) {
-		return DateTimeFormat.getFormat(instance.timeStampFormat).format(cand);
+		return cand == null ? null : DateTimeFormat.getFormat(getTimeStampFormat()).format(cand);
 	}
 
 	public static String formatTimestampLong(final Date cand) {
-		return DateTimeFormat.getFormat(instance.timeStampFormatLong).format(cand);
+		return cand == null ? null : DateTimeFormat.getFormat(instance.timeStampFormatLong).format(cand);
 	}
 
-	public static Date parseDate(final String text) {
-		return DateTimeFormat.getFormat(instance.dateFormat).parse(text);
+	public static Date parseDate(String text) {
+		String fmt = getDateFormat();
+		if (text != null && text.length() > fmt.length())
+			text = text.substring(0, fmt.length());
+		return text == null ? null : DateTimeFormat.getFormat(fmt).parse(text);
 	}
 
 	public static Date parseTimestamp(final String text) {
-		return DateTimeFormat.getFormat(instance.timeStampFormat).parse(text);
+		return text == null ? null : DateTimeFormat.getFormat(instance.timeStampFormat).parse(text);
 	}
 
 	public static BigDecimal parseDecimal(String text) {
-		if (getCurrencyDecimalChar() != '.')//TR ise
+		if (getCurrencyDecimalChar() != '.') //TR ise
 			text = text.replaceAll("\\.", "").replaceAll(",", ".");
 		else
 			text = text.replaceAll(",", ".");
 		return new BigDecimal(text);
+	}
+
+	public static String formatNumber(final Number cand) {
+		NumberFormat nf = NumberFormat.getFormat("###,##0");
+		String s = nf.format(cand);
+		return s;
 	}
 
 	public static String formatDecimal(final BigDecimal cand) {

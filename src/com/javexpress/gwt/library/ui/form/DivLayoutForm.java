@@ -1,6 +1,7 @@
 package com.javexpress.gwt.library.ui.form;
 
 import com.google.gwt.dom.client.Style.Unit;
+import com.google.gwt.event.dom.client.KeyDownHandler;
 import com.google.gwt.user.client.ui.Focusable;
 import com.google.gwt.user.client.ui.Widget;
 import com.javexpress.gwt.library.ui.container.layout.DivBorderLayout;
@@ -140,6 +141,11 @@ public abstract class DivLayoutForm extends Form {
 	public void onResize() {
 		if (layout != null)
 			layout.onResize();
+	}
+
+	@Override
+	public KeyDownHandler getKeyDownHandler() {
+		return null;
 	}
 
 }

@@ -3,10 +3,12 @@ package com.javexpress.gwt.library.ui.data;
 import java.io.Serializable;
 import java.util.List;
 
+import com.google.gwt.core.client.JsArrayInteger;
 import com.google.gwt.user.client.ui.Focusable;
 import com.google.gwt.user.client.ui.IsWidget;
 import com.javexpress.gwt.library.shared.model.IJsonServicePoint;
 import com.javexpress.gwt.library.ui.IJexpWidget;
+import com.javexpress.gwt.library.ui.data.slickgrid.GroupingDefinition;
 import com.javexpress.gwt.library.ui.form.ISizeAwareWidget;
 import com.javexpress.gwt.library.ui.js.JsonMap;
 import com.javexpress.gwt.library.ui.menu.IHasPopupMenu;
@@ -27,9 +29,9 @@ public interface IDataViewer extends IJexpWidget, ISizeAwareWidget, IDataChangeL
 
 	void setFitColumns(boolean value);
 
-	void clearSelection();
+	void setColumnReorder(boolean value);
 
-	public void setGroupColumn(String... field);
+	void clearSelection();
 
 	void setListing(IJsonServicePoint serviceMethod);
 
@@ -60,5 +62,15 @@ public interface IDataViewer extends IJexpWidget, ISizeAwareWidget, IDataChangeL
 	void setMaxHeight(int maxHeight);
 
 	void performAutoSizeColumns();
+
+	void setDataExportOptions(boolean useForeignKeysAsVariable);
+
+	void addGrouping(GroupingDefinition groupingItem);
+
+	void applyGrouping();
+
+	public JsArrayInteger getSelectedRowIndexes();
+
+	public JsonMap getRowData(int index);
 
 }
