@@ -31,6 +31,7 @@ import com.javexpress.gwt.library.ui.dialog.WindowView;
 import com.javexpress.gwt.library.ui.event.ApplicationReadyEvent;
 import com.javexpress.gwt.library.ui.event.SessionExpiredEvent;
 import com.javexpress.gwt.library.ui.event.handler.ApplicationReadyEventHandler;
+import com.javexpress.gwt.library.ui.facet.ProvidesJira;
 import com.javexpress.gwt.library.ui.form.IJiraEnabledForm;
 import com.javexpress.gwt.library.ui.form.IUIComposite;
 import com.javexpress.gwt.library.ui.js.JexpCallback;
@@ -137,10 +138,10 @@ public abstract class BootstrapClient extends ClientContext implements ProvidesR
 			event.preventDefault();
 			event.stopPropagation();
 		}
-		if (event.isShiftKeyDown() && event.getNativeKeyCode() == KeyCodes.KEY_F12) {
+		if (this instanceof ProvidesJira && event.isShiftKeyDown() && event.getNativeKeyCode() == KeyCodes.KEY_F12) {
 			event.preventDefault();
 			event.stopPropagation();
-			ClientContext.instance.openJiraForm(new IJiraEnabledForm() {
+			((ProvidesJira) ClientContext.instance).openJiraForm(new IJiraEnabledForm() {
 				@Override
 				public void openJiraIssue() {
 				}

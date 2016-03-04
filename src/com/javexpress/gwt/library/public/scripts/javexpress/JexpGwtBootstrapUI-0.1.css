@@ -78,6 +78,7 @@
 .jexpTabSet > .tab-content > .tab-pane.hidden { display:none; }
 .jexpTabSet.tabs-left > .nav-tabs { border-bottom:none; }
 .jexpTabSet.tabs-left > .nav-tabs > li { margin-bottom: 2px; }
+.jexpTabSet.tabs-left > .nav-tabs > li > a { padding: 5px 10px 2px 5px; }
 .jexpFormArea.form-horizontal .form-group { margin-left:0px;margin-right:0px; }
 .jexpGroupBox.widget-box.transparent > .widget-header { min-height:22px;margin-bottom:2px; } 
 .jexpGroupBox.widget-box.transparent > .widget-header > .widget-title { line-height:22px; }
