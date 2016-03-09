@@ -1054,8 +1054,11 @@ public class JsUtil {
 	}
 
 	public static String getServiceUrl(IJsonServicePoint servicePoint) {
-		if (ClientContext.instance instanceof ProvidesModuleUtils)
-			return ((ProvidesModuleUtils) ClientContext.instance).getModuleServiceTarget(servicePoint.getModuleId()).getServiceEntryPoint() + "." + ((Enum) servicePoint).toString();
+		if (ClientContext.instance instanceof ProvidesModuleUtils) {
+			ServiceDefTarget moduleServiceTarget = ((ProvidesModuleUtils) ClientContext.instance).getModuleServiceTarget(servicePoint.getModuleId());
+			if (moduleServiceTarget != null)
+				return moduleServiceTarget.getServiceEntryPoint() + "." + ((Enum) servicePoint).toString();
+		}
 		return null;
 	}
 
