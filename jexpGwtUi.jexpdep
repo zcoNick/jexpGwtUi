@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<JavExpress-DependenciesDefinition artifactId="jexp-gwt-ui" classpathConfiguration="compile,test" groupId="com.javexpress" nexusPath="http://dev.javexpress.com:6527/nexus/content/repositories/releases" version="1.0.2">
+<JavExpress-DependenciesDefinition artifactId="jexp-gwt-ui" classpathConfiguration="compile,test" groupId="com.javexpress" nexusPath="http://dev.javexpress.com:6527/nexus/content/repositories/releases" version="1.0.3">
     <copyToArtifacts/>
     <dependencies artifactId="jexp-common" configuration="compile" groupId="com.javexpress" ignoreTestScope="true" inactive="false" jarSuffix="" javaDoc="false" repoName="" source="true" transitive="true" useOtherRepos="true" version="latest" workspacePath="/jexpCommon/jexpCommon.jexpdep"/>
     <dependencies artifactId="gwt-servlet" configuration="runtime" groupId="com.google.gwt" ignoreTestScope="true" inactive="false" jarSuffix="" javaDoc="false" repoName="maven" source="true" transitive="false" useOtherRepos="true" version="2.7.0" workspacePath=""/>
