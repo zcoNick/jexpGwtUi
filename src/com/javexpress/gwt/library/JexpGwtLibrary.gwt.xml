@@ -6,29 +6,6 @@
 	<inherits name="com.google.gwt.json.JSON" />
 	<inherits name="com.google.gwt.resources.Resources" />
 	
-	<define-property name="bootstrapTheme" values="alte,cerulean" />
-	<property-provider name="bootstrapTheme"><![CDATA[                    
-	     return __gwt_getMetaProperty("bootstrapTheme"); 
-	]]></property-provider>
-	
-	<set-property-fallback name="bootstrapTheme" value="alte"/>
-	
-	<replace-with class="com.javexpress.gwt.library.ui.bootstrap.alte.AlteStdTheme">
-		<when-type-is class="com.javexpress.gwt.library.ui.IResourceInjector" />
-		<when-property-is name="bootstrapTheme" value="alte" />
-	</replace-with>
-	
-	<replace-with class="com.javexpress.gwt.library.ui.bootstrap.bootswatch.CeruleanTheme">
-		<when-type-is class="com.javexpress.gwt.library.ui.IResourceInjector" />
-		<when-property-is name="bootstrapTheme" value="cerulean" />
-	</replace-with>
-	
-	<!-- deferred binding for Super Dev Mode indicator -->
-	<replace-with class="com.javexpress.gwt.library.ui.js.SuperDevModeIndicatorTrue">
-	  <when-type-is class="com.javexpress.gwt.library.ui.js.SuperDevModeIndicator"/>
-	  <when-property-is name="superdevmode" value="on" />
-	</replace-with>
-
 	<!--generate-with class="com.javexpress.gwt.library.rebind.JexpRemoteServiceProxyGenerator">
 		<when-type-assignable class="com.javexpress.gwt.library.shared.service.IJexpRemoteService" />
 	</generate-with--> 

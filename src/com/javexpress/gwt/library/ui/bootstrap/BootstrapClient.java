@@ -194,6 +194,21 @@ public abstract class BootstrapClient extends ClientContext implements ProvidesR
 		instance.showInWindow(form, true, callback);
 	}
 
+	public void fillApplicationBrandLeft(Element s1) {
+		s1.setClassName("red");
+		s1.setInnerText("jexp");
+	}
+
+	public void fillApplicationBrandRight(Element s2) {
+		s2.setClassName("grey");
+		s2.setInnerText("GwtFw");
+	}
+
+	public void fillApplicationBrandLink(Element h4) {
+		h4.setClassName("blue");
+		h4.setInnerHTML("&copy; javexpress.com");
+	}
+
 	@Override
 	public void onApplicationReady(ApplicationReadyEvent event) {
 		final String href = Window.Location.getHref();

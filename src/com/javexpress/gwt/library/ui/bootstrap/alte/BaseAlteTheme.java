@@ -9,7 +9,7 @@ import com.javexpress.gwt.library.ui.bootstrap.BootstrapAdminTheme;
 import com.javexpress.gwt.library.ui.bootstrap.SideBarItem;
 import com.javexpress.gwt.library.ui.js.WidgetBundles;
 
-public class AlteStdTheme extends BootstrapAdminTheme {
+public abstract class BaseAlteTheme extends BootstrapAdminTheme {
 
 	@Override
 	public String getThemeName() {
