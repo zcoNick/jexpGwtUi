@@ -902,4 +902,9 @@ public class JqGrid<T extends Serializable> extends JexpWidget implements IDataV
 		return null;
 	}
 
+	@Override
+	public int getRowCount() {
+		return 0;
+	}
+
 }

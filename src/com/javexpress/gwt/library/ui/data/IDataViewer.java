@@ -73,4 +73,6 @@ public interface IDataViewer extends IJexpWidget, ISizeAwareWidget, IDataChangeL
 
 	public JsonMap getRowData(int index);
 
+	public int getRowCount();
+
 }
