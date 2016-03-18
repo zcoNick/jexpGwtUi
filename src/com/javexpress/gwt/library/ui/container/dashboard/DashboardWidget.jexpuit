@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<JavExpress-UIDesign disableCodeGeneration="true" extendable="true" packageName="com.javexpress.gwt.fw.ui.form" superDesignPath="com.javexpress.gwt.library.ui.bootstrap/UIForm.jexpuit" field="true" name="this">
+<JavExpress-UIDesign disableCodeGeneration="true" extendable="true" packageName="com.javexpress.gwt.fw.ui.form" superDesignPath="com.javexpress.gwt.library.ui.bootstrap/Form.jexpuit" field="true" name="this">
     <designerHints extra="onLoadedKeyValues" type="VIRTUALEVENT" value="loadedKeyValues"/>
     <designerHints extra="onStartLoadingKeys" type="VIRTUALEVENT" value="startLoadingKeys"/>
     <designerHints extra="onKeysCompleted" type="VIRTUALEVENT" value="keysCompleted"/>
