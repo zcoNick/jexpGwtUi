@@ -40,7 +40,7 @@ import com.javexpress.gwt.library.ui.js.JsUtil;&#xD;
 public class ${className} extends DashboardWidget {&#xD;
 &#xD;
 	public static final String	CODE	= ?;&#xD;
-	public static final String	LABEL	= ${clientModule}.nls.dbw?();&#xD;
+	public static final String	LABEL	= $wt.getClientClass($module).nls.dbw?();&#xD;
 &#xD;
 	public ${className}(Widget parent, final String id) throws Exception {&#xD;
 		super(parent, id);&#xD;
@@ -64,7 +64,7 @@ public class ${className} extends DashboardWidget {&#xD;
 	}&#xD;
 	&#xD;
 }</macro>
-        <parameters variable="clientModule" label="Client Module" type="Text" required="false"/>
+        <parameters variable="module" label="Client Module" type="Text" required="false"/>
         <templates name="Main Template">
             <macro>package ${packageName};&#xD;
 &#xD;
@@ -75,10 +75,10 @@ import com.javexpress.gwt.library.ui.FaIcon;
 import com.javexpress.gwt.library.ui.ICssIcon;
 import com.javexpress.gwt.library.ui.js.JsUtil;&#xD;
 &#xD;
-public class ${className} extends ModuleUIForm&lt;${clientModule}&gt; {&#xD;
+public class ${className} extends ModuleUIForm&lt;$wt.getClientClass($module)&gt; {&#xD;
 &#xD;
 	public ${className}(final String id) {&#xD;
-		super(id, ${clientModule}.instance);&#xD;
+		super(id, $wt.getClientClass($module).instance);&#xD;
 		createGUI();&#xD;
 	}&#xD;
 &#xD;
