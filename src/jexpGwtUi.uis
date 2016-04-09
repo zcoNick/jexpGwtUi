@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<JavExpress-UISettings>
+<JavaStudio-UISettings>
     <autoCompleteAccess/>
     <comboAccess/>
     <constantAccess/>
@@ -33,4 +33,4 @@
         </entry>
     </resourceMappingFile>
     <uploadHandlerAccess/>
-</JavExpress-UISettings>
+</JavaStudio-UISettings>

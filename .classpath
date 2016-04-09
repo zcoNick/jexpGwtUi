@@ -3,6 +3,6 @@
 	<classpathentry kind="src" path="src"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
 	<classpathentry kind="con" path="com.google.gwt.eclipse.core.GWT_CONTAINER"/>
-	<classpathentry kind="con" path="com.javexpress.studio.dependency.classpath.JexpDependencyClasspathContainer/jexpGwtUi.jexpdep"/>
+	<classpathentry kind="con" path="com.javastud.studio.dependency.classpath.JexpDependencyClasspathContainer/jexpGwtUi.dep"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

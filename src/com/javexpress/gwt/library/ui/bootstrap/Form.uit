@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<JavExpress-UIDesign disableCodeGeneration="true" extendable="true" field="true" componentName="ResponsiveForm" name="this">
+<JavaStudio-UIDesign disableCodeGeneration="true" extendable="true" field="true" componentName="ResponsiveForm" name="this">
     <designerHints extra="onLoad" type="VIRTUALEVENT" value="load"/>
     <designerHints extra="onShow" type="VIRTUALEVENT" value="show"/>
     <designerHints extra="onResize" type="VIRTUALEVENT" value="resize"/>
@@ -20,4 +20,4 @@
         <deviceType>Desktop</deviceType>
         <zoom>1.0</zoom>
     </lastState>
-</JavExpress-UIDesign>
+</JavaStudio-UIDesign>
