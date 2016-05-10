@@ -102,7 +102,7 @@ public class CheckInlineBox extends TextArea implements IUserInputWidget<String>
 				HorizontalPanel tools = new HorizontalPanel();
 				tools.addStyleName("jexpCheckComboTools");
 				tools.setWidth("100%");
-				Label lbTumu = new Label(ClientContext.nlsCommon.tumunuSec());
+				Label lbTumu = new Label(ClientContext.nlsCommon.selectAll());
 				lbTumu.addStyleName("jexpCheckComboAll");
 				lbTumu.addClickHandler(new ClickHandler() {
 					@Override
@@ -111,7 +111,7 @@ public class CheckInlineBox extends TextArea implements IUserInputWidget<String>
 					}
 				});
 				tools.add(lbTumu);
-				Label lbTemizle = new Label(ClientContext.nlsCommon.temizle());
+				Label lbTemizle = new Label(ClientContext.nlsCommon.clear());
 				lbTemizle.addStyleName("jexpCheckComboReset");
 				lbTemizle.addClickHandler(new ClickHandler() {
 					@Override

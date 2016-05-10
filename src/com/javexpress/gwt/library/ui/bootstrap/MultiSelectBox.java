@@ -48,10 +48,10 @@ public class MultiSelectBox extends ListBoxBase {
 		options.set("enableClickableOptGroups", true);
 		options.setInt("maxHeight", 200);
 		options.set("nonSelectedText", " ");
-		options.set("allSelectedText", ClientContext.nlsCommon.tumu());
+		options.set("allSelectedText", ClientContext.nlsCommon.all());
 		options.setInt("numberDisplayed", 3);
 		options.set("includeSelectAllOption", true);
-		options.set("selectAllText", ClientContext.nlsCommon.tumunuSec());
+		options.set("selectAllText", ClientContext.nlsCommon.selectAll());
 		options.set("enableFiltering", false);
 		options.set("enableCaseInsensitiveFiltering", false);
 		return options;
