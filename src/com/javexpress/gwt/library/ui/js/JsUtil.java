@@ -82,10 +82,10 @@ public class JsUtil {
 		void eventTriggered(Event event, String type, String args);
 	}
 
-	public static final BigDecimal	ZERO	= new BigDecimal(0);
-	public static boolean			isIE7	= false;
-	public static boolean			isIE8	= false;
-	public static boolean			isIE9	= false;
+	public static final BigDecimal	ZERO					= new BigDecimal(0);
+	public static boolean			isIE7					= false;
+	public static boolean			isIE8					= false;
+	public static boolean			isIE9					= false;
 
 	static {
 		if (Window.Navigator.getUserAgent().matches(".*MSIE 7.*"))
@@ -755,7 +755,7 @@ public class JsUtil {
 		return full * (Integer.parseInt(percent.substring(0, percent.length() - 1))) / 100;
 	}
 
-	public static volatile int lastDialogZIndex = 3;
+	public static volatile int	lastDialogZIndex	= 3;
 
 	public static int calcDialogZIndex() {
 		lastDialogZIndex += 3;
@@ -1062,7 +1062,7 @@ public class JsUtil {
 		return null;
 	}
 
-	public static boolean USE_BOOTSTRAP = false;
+	public static boolean	USE_BOOTSTRAP	= false;
 
 	public static Integer nvl(Integer val, int i) {
 		if (val == null)
@@ -1130,7 +1130,7 @@ public class JsUtil {
 						});
 	}-*/;
 
-	private static SuperDevModeIndicator sdmIndicator = GWT.create(SuperDevModeIndicator.class);
+	private static SuperDevModeIndicator	sdmIndicator	= GWT.create(SuperDevModeIndicator.class);
 
 	public static boolean isSuperDevMode() {
 		return sdmIndicator.isSuperDevMode();
@@ -1144,4 +1144,20 @@ public class JsUtil {
 		$wnd.$(sel).remove();
 	}-*/;
 
+	public static long getDayDiffBetween(final Date buyuk, final Date ilk) {
+		final long diff = buyuk.getTime() - ilk.getTime();
+		return diff / (1000 * 60 * 60 * 24);
+	}
+
+	public static void clearTime(Date date) {
+		date.setHours(0);
+		date.setMinutes(0);
+		date.setSeconds(0);
+	}
+
+	public static void dayEnd(Date date) {
+		date.setHours(23);
+		date.setMinutes(59);
+		date.setSeconds(59);
+	}
 }
