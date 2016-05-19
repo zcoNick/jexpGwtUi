@@ -26,6 +26,8 @@ import com.javexpress.gwt.library.ui.js.WidgetBundles;
 
 public abstract class BaseSlickGrid<CT extends Column> extends ContainerWithBar {
 
+	protected static final int TOPPANEL_HEIGHT = 24;
+
 	public static WidgetBundles fillResources(WidgetBundles parent) {
 		//https://raw.githubusercontent.com/manju-reddys/SlickGrid/master/slick.grid.js
 		WidgetBundles wb = new WidgetBundles("SlickGrid", parent);
@@ -127,7 +129,8 @@ public abstract class BaseSlickGrid<CT extends Column> extends ContainerWithBar 
 			topPanel.getStyle().setTop(0, Unit.PX);
 			topPanel.getStyle().setLeft(0, Unit.PX);
 			topPanel.getStyle().setRight(0, Unit.PX);
-			topPanel.getStyle().setHeight(18, Unit.PX);
+			topPanel.getStyle().setHeight(TOPPANEL_HEIGHT, Unit.PX);
+			getElement().appendChild(topPanel);
 			setHeader(header);
 		}
 
@@ -147,7 +150,7 @@ public abstract class BaseSlickGrid<CT extends Column> extends ContainerWithBar 
 
 	@Override
 	protected int createTopPanel() {
-		return topPanel != null ? 18 : 0;
+		return topPanel != null ? TOPPANEL_HEIGHT : 0;
 	}
 
 	public void setHeader(String title) {
@@ -158,8 +161,8 @@ public abstract class BaseSlickGrid<CT extends Column> extends ContainerWithBar 
 	protected JsonMap createDefaultOptions() {
 		JsonMap options = new JsonMap();
 		options.set("forceFitColumns", true);
-		options.setInt("headerRowHeight", 18);
-		options.setInt("topPanelHeight", 18);
+		options.setInt("headerRowHeight", TOPPANEL_HEIGHT);
+		options.setInt("topPanelHeight", TOPPANEL_HEIGHT);
 		options.set("enableColumnReorder", false);
 		return options;
 	}

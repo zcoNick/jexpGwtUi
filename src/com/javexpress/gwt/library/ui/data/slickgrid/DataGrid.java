@@ -344,6 +344,7 @@ public class DataGrid<T extends Serializable> extends BaseSlickGrid<ListColumn> 
 					$wnd.$(loadingPanel).removeClass(loadingCssClassName);
 
 					if (dataView) {
+						$wnd.console.debug("A");
 						dataView.beginUpdate();
 						dataView.setItems(loader.data, keyColumnName);
 						if (currentGroupDef) {
@@ -354,6 +355,7 @@ public class DataGrid<T extends Serializable> extends BaseSlickGrid<ListColumn> 
 						x.@com.javexpress.gwt.library.ui.data.slickgrid.DataGrid::fireOnDataLoaded(IILcom/google/gwt/core/client/JavaScriptObject;)(args.from, args.to, data);
 						dataView.endUpdate();
 					} else {
+						$wnd.console.debug("B");
 						if (loader.lastLength != data.length) {
 							grid.updateRowCount();
 							loader.lastLength = data.length;
@@ -872,8 +874,13 @@ public class DataGrid<T extends Serializable> extends BaseSlickGrid<ListColumn> 
 	}
 
 	private void fireOnDataLoaded(int from, int to, JavaScriptObject data) throws Exception {
-		if (listener != null)
-			listener.onGridDataLoaded(data);
+		if (listener != null){
+			try {
+				listener.onGridDataLoaded(data);
+			} catch (Exception e){
+				JsUtil.handleError(this, e);
+			}
+		}
 	}
 
 	private void fireLinkClicked(JavaScriptObject linkElement, int row, int cell, String field, int columnKey, String value) {
@@ -898,7 +905,7 @@ public class DataGrid<T extends Serializable> extends BaseSlickGrid<ListColumn> 
 	private int	lastCalculatedSize	= 0;
 
 	private void fireUpdateParentSize(int dataLength) {
-		int calculated = Math.min(maxHeight, Math.max(85, 18 + ((dataLength + 2) * (getOptions().getInt("rowHeight", 24) + 2))));
+		int calculated = Math.min(maxHeight, Math.max(85, TOPPANEL_HEIGHT + ((dataLength + 2) * (getOptions().getInt("rowHeight", 24) + 2))));
 		if (calculated != lastCalculatedSize) {
 			setHeight(calculated + "px");
 			lastCalculatedSize = calculated;

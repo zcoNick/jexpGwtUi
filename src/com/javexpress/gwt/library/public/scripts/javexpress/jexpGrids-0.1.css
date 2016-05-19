@@ -8,6 +8,20 @@
     overflow: auto;
 }
 .jexpSlickGridContainer {}
+.grid-header > label {
+    background: #E7E7E7; /* For browsers that do not support gradients */
+    background: -webkit-linear-gradient(#EFF3F8, #E1E1E1); /* For Safari 5.1 to 6.0 */
+    background: -o-linear-gradient(#EFF3F8, #E1E1E1); /* For Opera 11.1 to 12.0 */
+    background: -moz-linear-gradient(#EFF3F8, #E1E1E1); /* For Firefox 3.6 to 15 */
+    background: linear-gradient(#EFF3F8, #E1E1E1); /* Standard syntax */
+    border-radius: 8px;
+    color: #777777;
+    margin-left: 0;
+    margin-top: 3px;
+    padding: 4px 14px;
+    height:3em;
+    width:100%;
+}
 .slick-header-column.ui-state-default{ color: #777777;height:2em }
 .slick-viewport .grid-canvas > .odd { background-color: #FDFDFD;opacity: 0.8; }
 .slick-viewport .grid-canvas > .even { opacity: 0.99; }
