@@ -72,7 +72,7 @@
 .jexpPickList .list-group-item:nth-child(even) { opacity: 0.9;background-color: #eefcfe; }
 .jexpPickListButtons .btn { font-size:1.3em;margin-left:16.666%; }
 .jexpTabSet { margin-top:4px }
-.jexpTabSet > .nav-tabs > li > a { padding: 2px 7px 4px; }
+.jexpTabSet > .nav-tabs > li > a { padding: 5px 7px 3px; }
 .jexpTabSet > .tab-content { padding: 4px 0 2px; }
 .jexpTabSet > .tab-content > .tab-pane { height:100%; }
 .jexpTabSet > .tab-content > .tab-pane.hidden { display:none; }
