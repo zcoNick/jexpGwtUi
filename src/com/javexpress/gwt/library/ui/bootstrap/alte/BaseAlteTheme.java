@@ -40,7 +40,7 @@ public abstract class BaseAlteTheme extends BootstrapAdminTheme {
 	public void addJavaScripts(WidgetBundles wb, int phase) {
 		switch (phase) {
 			case 10:
-				wb.addJavaScript("scripts/slimscroll/jquery.slimscroll-1.3.3.min.js");
+				wb.addJavaScript("scripts/slimscroll/jquery.slimscroll-1.3.6.min.js");
 				break;
 			case 100:
 				wb.addJavaScript("scripts/alte/app.js");

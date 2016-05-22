@@ -47,7 +47,7 @@ public class ApplicationSideBarAlte extends ApplicationSideBar {
 			alwaysVisible : false,
 			size : '3px'
 		}).css("width", "100%");
-		$wnd.$("a.sidebar-link", $wnd.$(element)).click(
+		$wnd.$("a.jexpSidebarLink", $wnd.$(element)).click(
 				function(e) {
 					var a = $wnd.$(this);
 					x.@com.javexpress.gwt.library.ui.bootstrap.alte.ApplicationSideBarAlte::fireLinkClicked(Ljava/lang/String;)(a.attr("path"));

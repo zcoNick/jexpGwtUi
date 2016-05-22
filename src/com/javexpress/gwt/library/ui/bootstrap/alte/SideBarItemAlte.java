@@ -39,7 +39,7 @@ public class SideBarItemAlte extends SideBarItem {
 			Element b1 = DOM.createElement("i");
 			b1.setClassName("fa fa-angle-left pull-right");
 			anchor.appendChild(b1);
-			anchor.removeClassName("sidebar-link");
+			anchor.removeClassName("jexpSidebarLink");
 		}
 		add(sbi, ul);
 		return sbi;
