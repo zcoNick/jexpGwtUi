@@ -5,938 +5,1338 @@ import com.google.gwt.i18n.client.ConstantsWithLookup;
 public interface CommonResources extends ConstantsWithLookup {
 
 	/**
-	 * 
+	 * Doç.
 	 */
-	String AkademikUnvanEnum_Doc();
+	String	AkademikUnvanEnum_Doc();
 
 	/**
-	 * 
+	 * Dr.
 	 */
-	String AkademikUnvanEnum_Dr();
+	String	AkademikUnvanEnum_Dr();
 
 	/**
-	 * 
+	 * Ord.Prof.
 	 */
-	String AkademikUnvanEnum_OrdProf();
+	String	AkademikUnvanEnum_OrdProf();
 
 	/**
-	 * 
+	 * Prof.
 	 */
-	String AkademikUnvanEnum_Prof();
+	String	AkademikUnvanEnum_Prof();
 
 	/**
-	 * 
+	 * Yrd.Doç.
 	 */
-	String AkademikUnvanEnum_YrdDoc();
+	String	AkademikUnvanEnum_YrdDoc();
 
 	/**
-	 * 
+	 * Çift Cinsiyetli
 	 */
-	String CinsiyetBeyanEnum_Cift();
+	String	CinsiyetBeyanEnum_Cift();
 
 	/**
-	 * 
+	 * Erkek
 	 */
-	String CinsiyetEnum_Erkek();
+	String	CinsiyetEnum_Erkek();
 
 	/**
-	 * 
+	 * Kadın
 	 */
-	String CinsiyetEnum_Kadin();
+	String	CinsiyetEnum_Kadin();
 
-	/** All */
-	String CinsiyetUygulanabilirEnum_Hepsi();
+	/**
+	 * Hepsi
+	 */
+	String	CinsiyetUygulanabilirEnum_Hepsi();
 
 	/**
-	 * 
+	 * Hıristiyan
 	 */
-	String DinEnum_Hiristiyan();
+	String	DinEnum_Hiristiyan();
 
 	/**
-	 * 
+	 * İslam
 	 */
-	String DinEnum_Islam();
+	String	DinEnum_Islam();
 
 	/**
-	 * 
+	 * Yahudi
 	 */
-	String DinEnum_Yahudi();
+	String	DinEnum_Yahudi();
 
-	/** Extension */
-	String Dosya_uzanti();
+	/**
+	 * Uzantı
+	 */
+	String	Dosya_uzanti();
 
-	/** Elementary school */
-	String EgitimEnum_Ilk();
+	/**
+	 * İlkokul
+	 */
+	String	EgitimEnum_Ilk();
 
 	/**
-	 * 
+	 * Lisans
 	 */
-	String EgitimEnum_Lisans();
+	String	EgitimEnum_Lisans();
 
 	/**
-	 * 
+	 * Lise
 	 */
-	String EgitimEnum_Lise();
+	String	EgitimEnum_Lise();
 
 	/**
-	 * 
+	 * Okumamış
 	 */
-	String EgitimEnum_Okumamis();
+	String	EgitimEnum_Okumamis();
 
 	/**
-	 * 
+	 * Önlisans
 	 */
-	String EgitimEnum_Onlisans();
+	String	EgitimEnum_Onlisans();
 
-	/** Middle school */
-	String EgitimEnum_Orta();
+	/**
+	 * Ortaokul
+	 */
+	String	EgitimEnum_Orta();
 
 	/**
-	 * 
+	 * Yüksek Lisans
 	 */
-	String EgitimEnum_YuksekLisans();
+	String	EgitimEnum_YuksekLisans();
 
-	/** Yes */
-	String EvetHayirEnum_Evet();
+	/**
+	 * Evet
+	 */
+	String	EvetHayirEnum_Evet();
 
-	/** No */
-	String EvetHayirEnum_Hayir();
+	/**
+	 * Hayır
+	 */
+	String	EvetHayirEnum_Hayir();
 
-	/** Wednesday */
-	String GunEnum_Carsamba();
+	/**
+	 * Çarşamba
+	 */
+	String	GunEnum_Carsamba();
 
-	/** Friday */
-	String GunEnum_Cuma();
+	/**
+	 * Cuma
+	 */
+	String	GunEnum_Cuma();
 
-	/** Saturday */
-	String GunEnum_Cumartesi();
+	/**
+	 * Cumartesi
+	 */
+	String	GunEnum_Cumartesi();
 
-	/** Sunday */
-	String GunEnum_Pazar();
+	/**
+	 * Pazar
+	 */
+	String	GunEnum_Pazar();
 
-	/** Monday */
-	String GunEnum_Pazartesi();
+	/**
+	 * Pazartesi
+	 */
+	String	GunEnum_Pazartesi();
 
-	/** Thursday */
-	String GunEnum_Persembe();
+	/**
+	 * Perşembe
+	 */
+	String	GunEnum_Persembe();
 
-	/** Tuesday */
-	String GunEnum_Sali();
+	/**
+	 * Salı
+	 */
+	String	GunEnum_Sali();
 
-	/** Bug */
-	String JiraTalepTuruEnum_Hata();
+	/**
+	 * Hata
+	 */
+	String	JiraTalepTuruEnum_Hata();
 
-	/** New Feature */
-	String JiraTalepTuruEnum_Istek();
+	/**
+	 * İstek / Yeni Özellik
+	 */
+	String	JiraTalepTuruEnum_Istek();
 
-	/** Create New Jira Issue */
-	String Jira_baslik();
+	/**
+	 * Jira Talebi Oluştur
+	 */
+	String	Jira_baslik();
 
-	/** Description */
-	String Jira_detayAciklama();
+	/**
+	 * Açıklama / Detay
+	 */
+	String	Jira_detayAciklama();
 
-	/** Summary */
-	String Jira_ozet();
+	/**
+	 * Özet
+	 */
+	String	Jira_ozet();
 
 	/**
-	 * 
+	 * Türü
 	 */
-	String Jira_turu();
+	String	Jira_turu();
 
 	/**
-	 * 
+	 * AB Rh-
 	 */
-	String KanGrubuEnum_ABN();
+	String	KanGrubuEnum_ABN();
 
 	/**
-	 * 
+	 * AB Rh+
 	 */
-	String KanGrubuEnum_ABP();
+	String	KanGrubuEnum_ABP();
 
 	/**
-	 * 
+	 * A Rh-
 	 */
-	String KanGrubuEnum_AN();
+	String	KanGrubuEnum_AN();
 
 	/**
-	 * 
+	 * A Rh+
 	 */
-	String KanGrubuEnum_AP();
+	String	KanGrubuEnum_AP();
 
 	/**
-	 * 
+	 * B Rh-
 	 */
-	String KanGrubuEnum_BN();
+	String	KanGrubuEnum_BN();
 
 	/**
-	 * 
+	 * B Rh+
 	 */
-	String KanGrubuEnum_BP();
+	String	KanGrubuEnum_BP();
 
 	/**
-	 * 
+	 * 0 Rh-
 	 */
-	String KanGrubuEnum_SifirN();
+	String	KanGrubuEnum_SifirN();
 
 	/**
-	 * 
+	 * 0 Rh+
 	 */
-	String KanGrubuEnum_SifirP();
+	String	KanGrubuEnum_SifirP();
 
 	/**
-	 * 
+	 * Diğer
 	 */
-	String KimlikTuruEnum_Diger();
+	String	KimlikTuruEnum_Diger();
 
 	/**
-	 * 
+	 * Ehliyet
 	 */
-	String KimlikTuruEnum_Ehliyet();
+	String	KimlikTuruEnum_Ehliyet();
 
 	/**
-	 * 
+	 * Evlilik Cüzdanı
 	 */
-	String KimlikTuruEnum_EvlilikCuzdani();
+	String	KimlikTuruEnum_EvlilikCuzdani();
 
 	/**
-	 * 
+	 * Nüfus Cüzdanı
 	 */
-	String KimlikTuruEnum_Nufus();
+	String	KimlikTuruEnum_Nufus();
 
 	/**
-	 * 
+	 * Pasaport
 	 */
-	String KimlikTuruEnum_Pasaport();
+	String	KimlikTuruEnum_Pasaport();
 
-	/** Mother */
-	String KisiyeYakinlikEnum_Annesi();
+	/**
+	 * Annesi
+	 */
+	String	KisiyeYakinlikEnum_Annesi();
 
-	/** Father */
-	String KisiyeYakinlikEnum_Babasi();
+	/**
+	 * Babası
+	 */
+	String	KisiyeYakinlikEnum_Babasi();
 
-	/** Child */
-	String KisiyeYakinlikEnum_Cocugu();
+	/**
+	 * Çocuğu
+	 */
+	String	KisiyeYakinlikEnum_Cocugu();
 
-	/** Wife */
-	String KisiyeYakinlikEnum_Esi();
+	/**
+	 * Eşi
+	 */
+	String	KisiyeYakinlikEnum_Esi();
 
-	/** Itself */
-	String KisiyeYakinlikEnum_Kendisi();
+	/**
+	 * Kendisi
+	 */
+	String	KisiyeYakinlikEnum_Kendisi();
 
-	/** Microsoft Active Directory */
-	String LdapServerTypeEnum_ActiveDirectory();
+	/**
+	 * Microsoft Active Directory
+	 */
+	String	LdapServerTypeEnum_ActiveDirectory();
 
-	/** Open Ldap */
-	String LdapServerTypeEnum_OpenLdap();
+	/**
+	 * Open Ldap
+	 */
+	String	LdapServerTypeEnum_OpenLdap();
 
-	/** Normal */
-	String MailAuthenticationTypeEnum_Normal();
+	/**
+	 * Normal
+	 */
+	String	MailAuthenticationTypeEnum_Normal();
 
-	/** Ssl */
-	String MailAuthenticationTypeEnum_Ssl();
+	/**
+	 * Ssl
+	 */
+	String	MailAuthenticationTypeEnum_Ssl();
 
-	/** Tls */
-	String MailAuthenticationTypeEnum_Tls();
+	/**
+	 * Tls
+	 */
+	String	MailAuthenticationTypeEnum_Tls();
 
 	/**
-	 * 
+	 * Bekar
 	 */
-	String MedeniHaliEnum_Bekar();
+	String	MedeniHaliEnum_Bekar();
 
 	/**
-	 * 
+	 * Boşanmış
 	 */
-	String MedeniHaliEnum_Bosanmis();
+	String	MedeniHaliEnum_Bosanmis();
 
 	/**
-	 * 
+	 * Dul
 	 */
-	String MedeniHaliEnum_Dul();
+	String	MedeniHaliEnum_Dul();
 
 	/**
-	 * 
+	 * Evli
 	 */
-	String MedeniHaliEnum_Evli();
+	String	MedeniHaliEnum_Evli();
 
-	/** Category */
-	String OrgBirim_kategori();
+	/**
+	 * Kategori
+	 */
+	String	OrgBirim_kategori();
 
-	/** Classification */
-	String OrgBirim_sinifi();
+	/**
+	 * Sınıfı
+	 */
+	String	OrgBirim_sinifi();
 
-	/** Type */
-	String OrgBirim_tipi();
+	/**
+	 * Tipi
+	 */
+	String	OrgBirim_tipi();
 
-	/** Pieces */
-	String adet();
+	/**
+	 * Adet
+	 */
+	String	adet();
 
-	/** Name */
-	String adi();
+	/**
+	 * Adı
+	 */
+	String	adi();
 
 	/**
-	 * 
+	 * Adı Soyadı
 	 */
-	String adiSoyadi();
+	String	adiSoyadi();
 
-	/** Address */
-	String adres();
+	/**
+	 * Adres
+	 */
+	String	adres();
+
+	/**
+	 * Aktar
+	 */
+	String	aktar();
+
+	/**
+	 * Aktif
+	 */
+	String	aktif();
+
+	/**
+	 * Alan için metin uzunluğu beklenenden fazla
+	 */
+	String	alanDegeriUzun();
 
-	/** Import */
-	String aktar();
+	/**
+	 * Bu alan zorunludur
+	 */
+	String	alanZorunlu();
 
-	/** Active */
-	String aktif();
+	/**
+	 * Alanları Seçin
+	 */
+	String	alanlariSecin();
 
-	/** The size of entered text is bigger then expected size */
-	String alanDegeriUzun();
+	/**
+	 * Tümü
+	 */
+	String	all();
 
-	/** This field is required */
-	String alanZorunlu();
+	/**
+	 * Alt Grup
+	 */
+	String	altGrup();
 
-	/** Select Columns */
-	String alanlariSecin();
+	/**
+	 * Ara
+	 */
+	String	ara();
 
-	/** All */
-	String all();
+	/**
+	 * Erişim
+	 */
+	String	auth_access();
 
-	/** Sub Group */
-	String altGrup();
+	/**
+	 * Silme
+	 */
+	String	auth_delete();
 
-	/** Search */
-	String ara();
+	/**
+	 * Yazma
+	 */
+	String	auth_write();
 
-	/** Access */
-	String auth_access();
+	/**
+	 * Azı
+	 */
+	String	azi();
 
-	/** Delete */
-	String auth_delete();
+	/**
+	 * Banka Adı
+	 */
+	String	bankaAdi();
 
-	/** Write */
-	String auth_write();
+	/**
+	 * Başlangıç Tarihi
+	 */
+	String	baslangicTarihi();
 
-	/** Less */
-	String azi();
+	/**
+	 * Bilgi Eksik
+	 */
+	String	bilgiEksik();
 
 	/**
-	 * 
+	 * Birim Fiyat
 	 */
-	String bankaAdi();
+	String	birimFiyat();
 
-	/** Start Date */
-	String baslangicTarihi();
+	/**
+	 * Bitiş Tarihi
+	 */
+	String	bitisTarihi();
 
 	/**
-	 * 
+	 * Cinsiyeti
 	 */
-	String bilgiEksik();
+	String	cinsiyeti();
 
-	/** Unit Price */
-	String birimFiyat();
+	/**
+	 * Temizle
+	 */
+	String	clear();
 
-	/** End Date */
-	String bitisTarihi();
+	/**
+	 * Dahili Kod
+	 */
+	String	dahiliKod();
 
-	/** Sex */
-	String cinsiyeti();
+	/**
+	 * Dahili Telefon
+	 */
+	String	dahiliTelefon();
 
-	/** Clear */
-	String clear();
+	/**
+	 * Dakika
+	 */
+	String	dakika();
 
-	/** Internal Code */
-	String dahiliKod();
+	/**
+	 * Değeri
+	 */
+	String	degeri();
 
 	/**
-	 * 
+	 * Açıklama
 	 */
-	String dahiliTelefon();
+	String	description();
 
-	/** Minute */
-	String dakika();
+	/**
+	 * Diğer
+	 */
+	String	diger();
 
-	/** Value */
-	String degeri();
+	/**
+	 * Dil
+	 */
+	String	dil();
 
-	/** Description */
-	String description();
+	/**
+	 * Doğum Tarihi
+	 */
+	String	dogumTarihi();
 
-	/** Other */
-	String diger();
+	/**
+	 * Doğum Yeri
+	 */
+	String	dogumYeri();
 
-	/** Language */
-	String dil();
+	/**
+	 * Dosya
+	 */
+	String	dosya();
 
 	/**
-	 * 
+	 * Yüklemeyi durdur
 	 */
-	String dogumTarihi();
+	String	dpzCancelUpload();
 
 	/**
-	 * 
+	 * Yüklemeyi durdurmak istediğinizden emin misiniz?
 	 */
-	String dogumYeri();
+	String	dpzCancelUploadConfirmation();
 
-	/** File */
-	String dosya();
+	/**
+	 * Yüklemek istediğiniz dosyaları buraya sürükleyin
+	 */
+	String	dpzDefault();
 
-	/** Cancel uploading */
-	String dpzCancelUpload();
+	/**
+	 * Tarayıcı sürükle & bırak dosya yükleme desteklemiyor
+	 */
+	String	dpzFallbackMessage();
 
-	/** Are you sure you want to stop the uploading? */
-	String dpzCancelUploadConfirmation();
+	/**
+	 * Aşağıdaki formu eski günlerdeki gibi dosyaları yüklemek için kullanın.
+	 */
+	String	dpzFallbackText();
 
-	/** Drop files here to upload */
-	String dpzDefault();
+	/**
+	 * Dosya boyutu izin verilenden fazla
+	 */
+	String	dpzFileTooBig();
 
-	/** Your browser does not support drag'n'drop file uploads */
-	String dpzFallbackMessage();
+	/**
+	 * Geçersiz Dosya Türü
+	 */
+	String	dpzInvalidFileType();
 
-	/** Please use the fallback form below to upload your files like in the
-	 * olden days. */
-	String dpzFallbackText();
+	/**
+	 * Maksimum dosya sayısı aşıldı
+	 */
+	String	dpzMaxFilesExceeded();
 
-	/** The file size is more than allowed */
-	String dpzFileTooBig();
+	/**
+	 * Sunucu Hatası : {{statusCode}}
+	 */
+	String	dpzResponseError();
 
-	/** Invalid File Type */
-	String dpzInvalidFileType();
+	/**
+	 * Düzenle
+	 */
+	String	duzenle();
 
-	/** The maximum number of files exceeded */
-	String dpzMaxFilesExceeded();
+	/**
+	 * E-İmzalı
+	 */
+	String	eimzali();
 
-	/** Server error : {{status code}} */
-	String dpzResponseError();
+	/**
+	 * Ek Bilgi
+	 */
+	String	ekBilgi();
 
-	/** Edit */
-	String duzenle();
+	/**
+	 * E-Posta
+	 */
+	String	eposta();
 
-	/** E-Signed */
-	String eimzali();
+	/**
+	 * Erkek
+	 */
+	String	erkek();
 
-	/** Additional Info */
-	String ekBilgi();
+	/**
+	 * Kullanıcı / Şifre kombinasyonu geçersiz
+	 */
+	String	error_userpassworddoesntmatch();
 
-	/** E-Mail */
-	String eposta();
+	/**
+	 * Evet
+	 */
+	String	evet();
 
 	/**
-	 * 
+	 * Faks
 	 */
-	String erkek();
+	String	faks();
 
-	/** User / Password combination is invalid */
-	String error_userpassworddoesntmatch();
+	/**
+	 * Fazlası
+	 */
+	String	fazlasi();
 
 	/**
-	 * 
+	 * (Tümü)
 	 */
-	String evet();
+	String	filtreTumu();
 
 	/**
-	 * 
+	 * Filtreler
 	 */
-	String faks();
+	String	filtreler();
 
-	/** More */
-	String fazlasi();
+	/**
+	 * Lütfen gerekli filtre değerlerini seçiniz
+	 */
+	String	filtreleriDoldurun();
 
-	/** (All) */
-	String filtreTumu();
+	/**
+	 * Form Kodu
+	 */
+	String	formKodu();
 
-	/** Filters */
-	String filtreler();
+	/**
+	 * Açmak istediğiniz Formu seçiniz
+	 */
+	String	formSeciniz();
 
-	/** Please select the filter values */
-	String filtreleriDoldurun();
+	/**
+	 * Editör
+	 */
+	String	formTypeEditor();
 
-	/** Form Code */
-	String formKodu();
+	/**
+	 * Sunucu İşi
+	 */
+	String	formTypeJobStart();
 
-	/** Select a Form to open */
-	String formSeciniz();
+	/**
+	 * Liste
+	 */
+	String	formTypeList();
 
-	/** Editor */
-	String formTypeEditor();
+	/**
+	 * Sorgu
+	 */
+	String	formTypeQuery();
 
-	/** Job Starter */
-	String formTypeJobStart();
+	/**
+	 * Rapor Tanımı
+	 */
+	String	formTypeReportDef();
 
-	/** List */
-	String formTypeList();
+	/**
+	 * Görev
+	 */
+	String	formTypeTask();
 
-	/** Query */
-	String formTypeQuery();
+	/**
+	 * Süreç Tanımı
+	 */
+	String	formTypeWorkflowDef();
 
-	/** Report Definitions */
-	String formTypeReportDef();
+	/**
+	 * Fotoğraf
+	 */
+	String	fotograf();
 
-	/** Task */
-	String formTypeTask();
+	/**
+	 * Geçersiz E-Posta adresi
+	 */
+	String	gecersizEposta();
 
-	/** Workflow Definitions */
-	String formTypeWorkflowDef();
+	/**
+	 * Geçersiz TC Kimlik No
+	 */
+	String	gecersizTCKimlik();
 
-	/** Photograph */
-	String fotograf();
+	/**
+	 * Gelişmiş
+	 */
+	String	gelismis();
 
 	/**
-	 * 
+	 * Geri
 	 */
-	String gecersizEposta();
+	String	geri();
 
 	/**
-	 * 
+	 * Giden Mesajlar
 	 */
-	String gecersizTCKimlik();
+	String	gidenMesajlar();
 
-	/** Advanced */
-	String gelismis();
+	/**
+	 * Gönder
+	 */
+	String	gonder();
 
-	/** Back */
-	String geri();
+	/**
+	 * adet
+	 */
+	String	gridOzet_Adet();
 
-	/** Sent Messages */
-	String gidenMesajlar();
+	/**
+	 * Mks
+	 */
+	String	gridOzet_Max();
 
-	/** Send */
-	String gonder();
+	/**
+	 * Min
+	 */
+	String	gridOzet_Min();
 
-	/** item(s) */
-	String gridOzet_Adet();
+	/**
+	 * Ort
+	 */
+	String	gridOzet_Ortalama();
 
-	/** Max */
-	String gridOzet_Max();
+	/**
+	 * Grup Kodu
+	 */
+	String	grupKodu();
 
-	/** Min */
-	String gridOzet_Min();
+	/**
+	 * Bu alana göre Grupla
+	 */
+	String	grupla();
 
-	/** Avg */
-	String gridOzet_Ortalama();
+	/**
+	 * Gruplamayı Değiştir
+	 */
+	String	gruplamaDegistir();
 
-	/** Group Code */
-	String grupKodu();
+	/**
+	 * Gsm
+	 */
+	String	gsm();
 
-	/** Group by this field */
-	String grupla();
+	/**
+	 * Hata
+	 */
+	String	hata();
 
-	/** Change grouping */
-	String gruplamaDegistir();
+	/**
+	 * Kontrol altında olan bir hata ile karşılaşıldı
+	 */
+	String	hataBaslikKontrollu();
 
-	/** Gsm */
-	String gsm();
+	/**
+	 * Üzgünüz, beklenmedik bir hata oluştu
+	 */
+	String	hataBaslikKontrolsuz();
 
 	/**
-	 * 
+	 * Bu hatanın çözümü hakkında bilgi almak için burayı tıklayabilirsiniz
 	 */
-	String hata();
+	String	hataCozumLinki();
 
-	/** A known error was occurred */
-	String hataBaslikKontrollu();
+	/**
+	 * Hata İzi
+	 */
+	String	hataHaritasi();
 
-	/** We are sorry, an unexpected error has occurred */
-	String hataBaslikKontrolsuz();
+	/**
+	 * Bu hatayı kısa sürede çözebilmemiz için lütfen burayı tıklayarak sorunu bildiriniz
+	 */
+	String	hataJiraLink();
 
-	/** You can click here to see potential solutions of this error */
-	String hataCozumLinki();
+	/**
+	 * Hayır
+	 */
+	String	hayir();
 
-	/** Exception Trace */
-	String hataHaritasi();
+	/**
+	 * Hesap No
+	 */
+	String	hesapNo();
 
-	/** As soon as we can resolve this error, please report the issue by
-	 * clicking here */
-	String hataJiraLink();
+	/**
+	 * Hesap oluşturmak istiyorum
+	 */
+	String	hesapOlusturmakIstiyorum();
 
 	/**
-	 * 
+	 * Kolon Gizle/Göster
 	 */
-	String hayir();
+	String	hideShowColumn();
 
 	/**
-	 * 
+	 * Hoşgeldiniz
 	 */
-	String hesapNo();
+	String	hosgeldiniz();
 
-	/** I want to register */
-	String hesapOlusturmakIstiyorum();
+	/**
+	 * İl
+	 */
+	String	il();
 
-	/** Hide/Show Column */
-	String hideShowColumn();
+	/**
+	 * İlçe
+	 */
+	String	ilce();
 
-	/** Welcome */
-	String hosgeldiniz();
+	/**
+	 * İlçe / İl
+	 */
+	String	ilceIl();
 
 	/**
-	 * 
+	 * İleri
 	 */
-	String il();
+	String	ileri();
 
 	/**
-	 * 
+	 * İncele
 	 */
-	String ilce();
+	String	incele();
 
 	/**
-	 * 
+	 * İş Adresi
 	 */
-	String ilceIl();
+	String	isAdresi();
 
-	/** Next */
-	String ileri();
+	/**
+	 * Başlat
+	 */
+	String	isBaslat();
 
-	/** Inspect */
-	String incele();
+	/**
+	 * Lütfen işaretli alanları kontrol edin
+	 */
+	String	isaretliAlanlariKontrolEdin();
 
 	/**
-	 * 
+	 * İşlem Başarılı
 	 */
-	String isAdresi();
+	String	islemBasarili();
 
-	/** Start */
-	String isBaslat();
+	/**
+	 * İşlem Yapan
+	 */
+	String	islemYapan();
 
-	/** Please check the highlighted fields */
-	String isaretliAlanlariKontrolEdin();
+	/**
+	 * Hata başarıyla iletildi. Açılan pencereden durumunu takip edebilirsiniz. Referans :
+	 */
+	String	jiraBildirildi();
 
-	/** Operation Succeeded */
-	String islemBasarili();
+	/**
+	 * Kadın
+	 */
+	String	kadin();
 
-	/** Operator */
-	String islemYapan();
+	/**
+	 * Kan Grubu
+	 */
+	String	kanGrubu();
 
-	/** This error was successfuly submitted. You can track issue with the
-	 * opened window. Reference : */
-	String jiraBildirildi();
+	/**
+	 * Kapat
+	 */
+	String	kapat();
 
 	/**
-	 * 
+	 * Kaydet
 	 */
-	String kadin();
+	String	kaydet();
 
 	/**
-	 * 
+	 * Kayıt Bilgisi
 	 */
-	String kanGrubu();
+	String	kayitBilgisi();
 
-	/** Close */
-	String kapat();
+	/**
+	 * Kayıt bulunamadı
+	 */
+	String	kayitBulunamadi();
 
-	/** Save */
-	String kaydet();
+	/**
+	 * Kayıt başarıyla eklendi
+	 */
+	String	kayitEklendi();
 
-	/** Record Info */
-	String kayitBilgisi();
+	/**
+	 * Kayıt başarıyla günlendi
+	 */
+	String	kayitGunlendi();
 
-	/** Empty datasource */
-	String kayitBulunamadi();
+	/**
+	 * Lütfen işlem yapılacak kayıtı seçiniz
+	 */
+	String	kayitSeciniz();
 
-	/** Record inserted successfully */
-	String kayitEklendi();
+	/**
+	 * Kayıt başarıyla silindi
+	 */
+	String	kayitSilindi();
 
-	/** Record updated successfully */
-	String kayitGunlendi();
+	/**
+	 * Kayıt silinecektir. Emin misiniz?
+	 */
+	String	kayitSilmeOnayi();
 
-	/** Please select a record to operate */
-	String kayitSeciniz();
+	/**
+	 * Kayıt Tarihçesi
+	 */
+	String	kayitTarihcesi();
 
-	/** Record deleted successfully */
-	String kayitSilindi();
+	/**
+	 * Kayıt Zamanı
+	 */
+	String	kayitZamani();
 
-	/** Record will be deleted. Are you sure? */
-	String kayitSilmeOnayi();
+	/**
+	 * Kodu
+	 */
+	String	kodu();
 
-	/** Record Log */
-	String kayitTarihcesi();
+	/**
+	 * Konu
+	 */
+	String	konu();
 
 	/**
-	 * 
+	 * Kopyala
 	 */
-	String kayitZamani();
+	String	kopyala();
 
 	/**
-	 * 
+	 * Kullanıcı
 	 */
-	String kodu();
+	String	kullaniciIslemleri();
 
-	/** Subject */
-	String konu();
+	/**
+	 * Kullanıcı Profili
+	 */
+	String	kullaniciProfili();
 
-	/** Duplicate */
-	String kopyala();
+	/**
+	 * tr
+	 */
+	String	lang();
 
 	/**
-	 * 
+	 * Ve
 	 */
-	String kullaniciIslemleri();
+	String	logic_and();
 
 	/**
-	 * 
+	 * Veya
 	 */
-	String kullaniciProfili();
+	String	logic_or();
 
-	/** en */
-	String lang();
+	/**
+	 * Giriş
+	 */
+	String	login();
 
-	/** Login */
-	String login();
+	/**
+	 * Sosyal hesaplarınız ile oturum açın
+	 */
+	String	login_signinWithSocialAccount();
 
-	/** Please wait... */
-	String lutfenBekleyin();
+	/**
+	 * Lütfen Bekleyin...
+	 */
+	String	lutfenBekleyin();
 
-	/** Please save the record first */
-	String lutfenKayitIsleminiBitiriniz();
+	/**
+	 * Lütfen önce kayıt işlemini bitiriniz
+	 */
+	String	lutfenKayitIsleminiBitiriniz();
 
-	/** Please Enter Your Login Information */
-	String lutfenOturumBilgileriniziGiriniz();
+	/**
+	 * Lütfen Oturum Bilgilerinizi Giriniz
+	 */
+	String	lutfenOturumBilgileriniziGiriniz();
 
-	/** Please select */
-	String lutfenSeciniz();
+	/**
+	 * Lütfen Seçiniz
+	 */
+	String	lutfenSeciniz();
 
 	/**
-	 * 
+	 * Mahalle
 	 */
-	String mahalle();
+	String	mahalle();
 
-	/** Menu */
-	String menu();
+	/**
+	 * Menu
+	 */
+	String	menu();
 
 	/**
-	 * 
+	 * Mesleği
 	 */
-	String meslegi();
+	String	meslegi();
 
-	/** Quantity */
-	String miktar();
+	/**
+	 * Miktar
+	 */
+	String	miktar();
 
-	/** Module */
-	String module();
+	/**
+	 * Modül
+	 */
+	String	module();
 
-	/** Notes */
-	String notlar();
+	/**
+	 * Notlar
+	 */
+	String	notlar();
 
-	/** Unread Messages */
-	String okunmamisMesajBaslik();
+	/**
+	 * Okunmamış Mesajlar
+	 */
+	String	okunmamisMesajBaslik();
 
-	/** Unread messages */
-	String okunmamisMesajSayisi();
+	/**
+	 * Okunmayan Mesajlar
+	 */
+	String	okunmamisMesajSayisi();
 
-	/** You have unread incoming messages */
-	String okunmamisMesajUyarisi();
+	/**
+	 * Okunmamış mesajlarınız var
+	 */
+	String	okunmamisMesajUyarisi();
 
-	/** Viewed Messages */
-	String okunmusMesajBaslik();
+	/**
+	 * Okunmuş Mesajlar
+	 */
+	String	okunmusMesajBaslik();
 
-	/** Check */
-	String onay();
+	/**
+	 * Onay
+	 */
+	String	onay();
 
-	/** Preview */
-	String onizleme();
+	/**
+	 * Önizleme
+	 */
+	String	onizleme();
 
-	/** Options... */
-	String opsiyonlar();
+	/**
+	 * Opsiyonlar...
+	 */
+	String	opsiyonlar();
 
-	/** Org.Unit */
-	String orgBirimi();
+	/**
+	 * Org.Birimi
+	 */
+	String	orgBirimi();
 
-	/** Auto */
-	String oto();
+	/**
+	 * Oto.
+	 */
+	String	oto();
 
-	/** Login */
-	String oturumAc();
+	/**
+	 * Giriş
+	 */
+	String	oturumAc();
 
-	/** Session Locked */
-	String oturumZamaniAsilmis();
+	/**
+	 * Oturum Kilitli
+	 */
+	String	oturumZamaniAsilmis();
 
-	/** Special Code 1 */
-	String ozelKod1();
+	/**
+	 * Özel Kod 1
+	 */
+	String	ozelKod1();
 
-	/** Special Code 2 */
-	String ozelKod2();
+	/**
+	 * Özel Kod 2
+	 */
+	String	ozelKod2();
 
-	/** Summary View */
-	String ozetGorunum();
+	/**
+	 * Özet Görünüm
+	 */
+	String	ozetGorunum();
 
-	/** Dashboard */
-	String pano();
+	/**
+	 * Özet Görünüm
+	 */
+	String	pano();
 
-	/** Password */
-	String password();
+	/**
+	 * Şifre
+	 */
+	String	password();
 
-	/** Print */
-	String print();
+	/**
+	 * Yazdır
+	 */
+	String	print();
 
-	/** The is no defined filter for this report */
-	String raporFiltresiYok();
+	/**
+	 * Bu rapor için tanımlanmış filtre bulunmamaktadır
+	 */
+	String	raporFiltresiYok();
 
 	/**
-	 * 
+	 * Raporlar
 	 */
-	String raporlar();
+	String	raporlar();
 
-	/** Reference */
-	String referans();
+	/**
+	 * Referans
+	 */
+	String	referans();
 
-	/** Remember me */
-	String rememberMe();
+	/**
+	 * Beni hatırla
+	 */
+	String	rememberMe();
 
 	/**
-	 * 
+	 * Resim silinecektir. Emin misiniz?
 	 */
-	String resimSilmeOnay();
+	String	resimSilmeOnay();
 
-	/** Hour */
-	String saat();
+	/**
+	 * Saat
+	 */
+	String	saat();
 
-	/** Template */
-	String sablon();
+	/**
+	 * Şablon
+	 */
+	String	sablon();
 
-	/** Template Name */
-	String sablonAdi();
+	/**
+	 * Şablon Adı
+	 */
+	String	sablonAdi();
 
-	/** Save as template */
-	String sablonKaydet();
+	/**
+	 * Şablon olarak kaydet
+	 */
+	String	sablonKaydet();
 
-	/** Do you want to update template : */
-	String sablonUzerineYazmaUyarisi();
+	/**
+	 * Mevcut şablon güncellensin mi?
+	 */
+	String	sablonUzerineYazmaUyarisi();
 
-	/** Load from template */
-	String sablondanAc();
+	/**
+	 * Şablondan Aç
+	 */
+	String	sablondanAc();
 
-	/** Select */
-	String sec();
+	/**
+	 * Seç
+	 */
+	String	sec();
 
-	/** Options */
-	String secenekler();
+	/**
+	 * Seçenekler
+	 */
+	String	secenekler();
 
-	/** selected */
-	String secili();
+	/**
+	 * seçili
+	 */
+	String	secili();
 
-	/** Select... */
-	String seciniz();
+	/**
+	 * Seçiniz...
+	 */
+	String	seciniz();
 
-	/** Select All */
-	String selectAll();
+	/**
+	 * Tümünü Seç
+	 */
+	String	selectAll();
 
 	/**
-	 * 
+	 * Seviye
 	 */
-	String seviye();
+	String	seviye();
 
-	/** Password */
-	String sifre();
+	/**
+	 * Şifre
+	 */
+	String	sifre();
 
-	/** I forgot my password */
-	String sifremiUnuttum();
+	/**
+	 * Şifremi unuttum
+	 */
+	String	sifremiUnuttum();
 
 	/**
-	 * 
+	 * Sil
 	 */
-	String sil();
+	String	sil();
 
-	/** Order */
-	String siraNo();
+	/**
+	 * Sıra
+	 */
+	String	siraNo();
 
-	/** Finish */
-	String son();
+	/**
+	 * Son
+	 */
+	String	son();
 
-	/** Surname */
-	String soyadi();
+	/**
+	 * Soyadı
+	 */
+	String	soyadi();
 
 	/**
-	 * 
+	 * Değer Tanımı
 	 */
-	String st_modulkoddegertanimi();
+	String	st_modulkoddegertanimi();
 
-	/** Process State */
-	String surecDurumu();
+	/**
+	 * Süreç Durumu
+	 */
+	String	surecDurumu();
 
-	/** Process St.Time */
-	String surecDurumuZaman();
+	/**
+	 * Süreç D.Zamanı
+	 */
+	String	surecDurumuZaman();
 
-	/** Ok */
-	String tamam();
+	/**
+	 * Tamam
+	 */
+	String	tamam();
 
 	/**
-	 * 
+	 * Tamamlandı
 	 */
-	String tamamlandi();
+	String	tamamlandi();
 
-	/** Undefined Error */
-	String taninmayanHata();
+	/**
+	 * Tanınmayan Hata
+	 */
+	String	taninmayanHata();
 
-	/** Date */
-	String tarih();
+	/**
+	 * Tarih
+	 */
+	String	tarih();
 
-	/** History */
-	String tarihce();
+	/**
+	 * Tarihçe
+	 */
+	String	tarihce();
 
-	/** TC Identity */
-	String tcKimlikNo();
+	/**
+	 * TC Kimlik
+	 */
+	String	tcKimlikNo();
 
-	/** Telephone */
-	String telefon();
+	/**
+	 * Telefon
+	 */
+	String	telefon();
 
-	/** Time */
-	String time();
+	/**
+	 * Zaman
+	 */
+	String	time();
 
 	/**
-	 * 
+	 * Tipi
 	 */
-	String tipi();
+	String	tipi();
 
-	/** Total Price */
-	String toplamFiyat();
+	/**
+	 * Toplam Fiyat
+	 */
+	String	toplamFiyat();
 
-	/** Type */
-	String turu();
+	/**
+	 * Türü
+	 */
+	String	turu();
 
-	/** Title */
-	String unvani();
+	/**
+	 * Ünvanı
+	 */
+	String	unvani();
 
-	/** Username */
-	String username();
+	/**
+	 * Kullanıcı Adı
+	 */
+	String	username();
 
-	/** Warning */
-	String uyari();
+	/**
+	 * Uyarı
+	 */
+	String	uyari();
 
-	/** Apply */
-	String uygula();
+	/**
+	 * Uygula
+	 */
+	String	uygula();
 
-	/** Nationality */
-	String uyrugu();
+	/**
+	 * Uyruğu
+	 */
+	String	uyrugu();
 
-	/** Cancel */
-	String vazgec();
+	/**
+	 * Vazgeç
+	 */
+	String	vazgec();
 
-	/** Web Site */
-	String webSitesi();
+	/**
+	 * Web Sitesi
+	 */
+	String	webSitesi();
 
-	/** Help */
-	String yardim();
+	/**
+	 * Yardım
+	 */
+	String	yardim();
 
-	/** New */
-	String yeni();
+	/**
+	 * Yeni
+	 */
+	String	yeni();
 
 	/**
 	 * 
 	 */
-	String yeniAltOge();
+	String	yeniAltOge();
 
-	/** New Message... */
-	String yeniMesaj();
+	/**
+	 * Yeni Mesaj...
+	 */
+	String	yeniMesaj();
 
-	/** Refresh */
-	String yenile();
+	/**
+	 * Yenile
+	 */
+	String	yenile();
 
 	/**
-	 * 
+	 * Yetki Gerekir
 	 */
-	String yetkiGerekir();
+	String	yetkiGerekir();
 
-	/** You are not authorized for this action */
-	String yetkiliDegilsiniz();
+	/**
+	 * Bu işlem için yetkili değilsiniz
+	 */
+	String	yetkiliDegilsiniz();
 
 	/**
-	 * 
+	 * Yükleniyor...
 	 */
-	String yukleniyor();
+	String	yukleniyor();
 
 }

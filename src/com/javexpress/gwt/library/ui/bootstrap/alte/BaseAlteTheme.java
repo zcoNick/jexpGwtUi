@@ -1,12 +1,14 @@
 package com.javexpress.gwt.library.ui.bootstrap.alte;
 
 import com.google.gwt.dom.client.Element;
+import com.google.gwt.dom.client.InputElement;
 import com.google.gwt.user.client.ui.RootPanel;
 import com.javexpress.gwt.library.ui.FaIcon;
 import com.javexpress.gwt.library.ui.ICssIcon;
 import com.javexpress.gwt.library.ui.bootstrap.ApplicationMainContainer;
 import com.javexpress.gwt.library.ui.bootstrap.BootstrapAdminTheme;
 import com.javexpress.gwt.library.ui.bootstrap.SideBarItem;
+import com.javexpress.gwt.library.ui.bootstrap.Bootstrap.WContext;
 import com.javexpress.gwt.library.ui.js.WidgetBundles;
 
 public abstract class BaseAlteTheme extends BootstrapAdminTheme {
@@ -98,4 +100,12 @@ public abstract class BaseAlteTheme extends BootstrapAdminTheme {
 		return sbi;
 	}
 
+	@Override
+	public void applyCheckboxStyles(Element element, InputElement check, Element label) {
+	}
+	
+	@Override
+	public void applyCheckboxColorContext(InputElement check, WContext context) {
+	}
+	
 }

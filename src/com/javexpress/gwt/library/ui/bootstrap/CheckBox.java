@@ -16,7 +16,9 @@ import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.ui.SimplePanel;
 import com.google.gwt.user.client.ui.Widget;
 import com.javexpress.gwt.library.shared.model.WidgetConst;
+import com.javexpress.gwt.library.ui.ClientContext;
 import com.javexpress.gwt.library.ui.IJexpWidget;
+import com.javexpress.gwt.library.ui.bootstrap.Bootstrap.WContext;
 import com.javexpress.gwt.library.ui.data.DataBindingHandler;
 import com.javexpress.gwt.library.ui.form.IUserInputWidget;
 import com.javexpress.gwt.library.ui.js.JsUtil;
@@ -34,14 +36,15 @@ public class CheckBox extends SimplePanel implements IJexpWidget, HasKeyDownHand
 		getElement().setClassName("jexpCheckBox");
 
 		check = DOM.createInputCheck().cast();
-		check.setClassName("ace");
 		JsUtil.ensureSubId(getElement(), check, "ch");
 		getElement().appendChild(check);
 
 		label = DOM.createLabel();
-		label.setClassName("lbl");
 		label.setAttribute("for", check.getId());
 		setText(text);
+		
+		ClientContext.resourceInjector.applyCheckboxStyles(getElement(), check, label);
+		
 		getElement().appendChild(label);
 	}
 
@@ -155,6 +158,10 @@ public class CheckBox extends SimplePanel implements IJexpWidget, HasKeyDownHand
 
 	public HandlerRegistration addClickHandler(ClickHandler handler) {
 		return addDomHandler(handler, ClickEvent.getType());
+	}
+	
+	public void setColorContext(WContext context){
+		ClientContext.resourceInjector.applyCheckboxColorContext(check, context);
 	}
 
 	@Override

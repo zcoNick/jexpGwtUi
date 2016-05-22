@@ -20,6 +20,7 @@ import com.javexpress.gwt.library.shared.model.WidgetConst;
 import com.javexpress.gwt.library.ui.ClientContext;
 import com.javexpress.gwt.library.ui.ICssIcon;
 import com.javexpress.gwt.library.ui.IJexpWidget;
+import com.javexpress.gwt.library.ui.bootstrap.Bootstrap.WContext;
 import com.javexpress.gwt.library.ui.js.JsUtil;
 
 public class IconEmbeddedInput extends SimplePanel implements IJexpWidget, Focusable, HasKeyDownHandlers, HasKeyUpHandlers, HasKeyPressHandlers {
@@ -33,8 +34,10 @@ public class IconEmbeddedInput extends SimplePanel implements IJexpWidget, Focus
 		input = createInput();
 		JsUtil.ensureId(parent, input, getIdPrefix(), id);
 		getElement().appendChild(input);
-		icon = DOM.createSpan();
-		getElement().appendChild(icon);
+		if (iconClass!=null){
+			icon = DOM.createSpan();
+			getElement().appendChild(icon);
+		}
 		ClientContext.resourceInjector.applyIconInputGroupStyles(getElement(), input, icon, iconClass);
 	}
 
@@ -119,4 +122,22 @@ public class IconEmbeddedInput extends SimplePanel implements IJexpWidget, Focus
 		return input.getStyle();
 	}
 
+	public void setColorContext(WContext colorContext) {
+		icon.addClassName(colorContext.getValue());
+	}
+	
+	public void setInverted(boolean inverted){
+		if (inverted)
+			getElement().addClassName("inverted");
+		else
+			getElement().removeClassName("inverted");
+	}
+
+	public void setCircular(boolean circular){
+		if (circular)
+			icon.addClassName("circular");
+		else
+			icon.removeClassName("circular");
+	}
+	
 }

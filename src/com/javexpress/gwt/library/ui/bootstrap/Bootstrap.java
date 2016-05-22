@@ -34,7 +34,7 @@ public class Bootstrap {
 				"orange"),
 		Important("important"), Green("green"), Success("success"), light_blue(
 				"light-blue"),
-		Info("light-blue"), Danger("danger"), Inverse("inverse"), Warning(
+		Info("info"), Danger("danger"), Warning(
 				"warning"), Light("light"), Yellow("yellow"), Pink("pink");
 		private String	value;
 
@@ -69,19 +69,32 @@ public class Bootstrap {
 		return el;
 	}
 
+	public static Element createIconAnchor(Element parent, String anchorClass, String iconClass) {
+		Element a = DOM.createAnchor();
+		a.setClassName(anchorClass);
+		Element i = DOM.createElement("i");
+		i.setClassName(iconClass);
+		a.appendChild(i);
+		if (parent!=null)
+			parent.appendChild(a);
+		return a;
+	}
+
 	public static Element createIconTextAnchor(String anchorClass, ICssIcon iconClass, String text, boolean rightIcon) {
 		Element a = DOM.createAnchor();
 		a.setClassName(anchorClass);
 		Element i = DOM.createElement("i");
 		ClientContext.resourceInjector.applyIconStyles(i, iconClass);
-		Element span = DOM.createSpan();
-		span.setInnerText(text);
-		if (rightIcon) {
-			a.appendChild(span);
-			a.appendChild(i);
-		} else {
-			a.appendChild(i);
-			a.appendChild(span);
+		if (text!=null){
+			Element span = DOM.createSpan();
+			span.setInnerText(text);
+			if (rightIcon) {
+				a.appendChild(span);
+				a.appendChild(i);
+			} else {
+				a.appendChild(i);
+				a.appendChild(span);
+			}
 		}
 		return a;
 	}
@@ -128,5 +141,5 @@ public class Bootstrap {
 		}
 		return null;
 	}
-
+	
 }

@@ -2,6 +2,7 @@ body { font-family: Helvetica,Arial,sans-serif; font-size:13px; }
 .no-padding-right { padding-right: 0 !important; }
 .login-page { background: none repeat scroll 0 0 #DFE0E2;background: url(loginbg.jpg) #394557; }
 .login-logo, .register-logo { font-size: 35px;font-weight: 400; }
+.login-box { margin-top:7vh; }
 .login-box-body { 
 	margin: 0 auto;
 	background: none repeat scroll 0 0 rgba(251, 251, 251, 0.5);

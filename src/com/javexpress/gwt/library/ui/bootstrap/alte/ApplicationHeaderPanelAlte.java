@@ -5,6 +5,7 @@ import com.google.gwt.dom.client.Style.Cursor;
 import com.google.gwt.user.client.DOM;
 import com.javexpress.gwt.library.ui.ICssIcon;
 import com.javexpress.gwt.library.ui.bootstrap.ApplicationHeaderPanel;
+import com.javexpress.gwt.library.ui.bootstrap.ApplicationNavBar;
 import com.javexpress.gwt.library.ui.bootstrap.ApplicationNotificationDropdown;
 import com.javexpress.gwt.library.ui.bootstrap.ApplicationUserInfoDropdown;
 import com.javexpress.gwt.library.ui.bootstrap.Bootstrap.WContext;
@@ -14,6 +15,8 @@ public class ApplicationHeaderPanelAlte extends ApplicationHeaderPanel {
 	private Element					brand;
 	private Element					navRightUl;
 	private ApplicationNavBarAlte	navbar;
+	protected Element	navDiv;
+
 
 	public ApplicationHeaderPanelAlte(String id) {
 		super(DOM.createElement("header"), id);
@@ -74,12 +77,17 @@ public class ApplicationHeaderPanelAlte extends ApplicationHeaderPanel {
 		navbar = new ApplicationNavBarAlte("navbar");
 		return navbar;
 	}
+	
+	public void addNavBar(ApplicationNavBar navbar) {
+		add(navbar, navDiv);
+	}
 
 	@Override
 	protected void onUnload() {
 		brand = null;
 		navRightUl = null;
 		navbar = null;
+		navDiv = null;
 		super.onUnload();
 	}
 

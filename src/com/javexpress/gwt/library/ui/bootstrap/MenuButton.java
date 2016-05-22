@@ -181,9 +181,6 @@ public class MenuButton extends ComplexPanel {
 				case Info:
 					clazz += " btn-info";
 					break;
-				case Inverse:
-					clazz += " btn-inverse";
-					break;
 				case Grey:
 					clazz += " btn-grey";
 					break;
@@ -254,6 +251,13 @@ public class MenuButton extends ComplexPanel {
 					handler.menuItemClicked(code, event);
 			}
 		});
+	}
+	
+	public void setInverted(boolean inverted){
+		if (inverted)
+			getElement().addClassName("btn-inverse");
+		else
+			getElement().removeClassName("btn-inverse");
 	}
 
 }

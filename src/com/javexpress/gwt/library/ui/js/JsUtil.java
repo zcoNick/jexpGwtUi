@@ -115,7 +115,23 @@ public class JsUtil {
 		String name = getUserAgent();
 		return name.indexOf("chrome") > -1 || name.indexOf("chromium") > -1 || name.indexOf("safari") > -1;
 	}
+	
+	public static Element createSubDiv(Element parent, String styles){
+		Element div = DOM.createDiv();
+		div.setClassName(styles);
+		parent.appendChild(div);
+		return div;
+	}
 
+	public static Element createSubAnchor(Element parent, String styles, String text){
+		Element anchor = DOM.createAnchor();
+		anchor.setClassName(styles);
+		parent.appendChild(anchor);
+		if (text!=null)
+			anchor.setInnerText(text);
+		return anchor;
+	}
+	
 	public static native String getBrowserName()/*-{
 		return $wnd.navigator.appName.toLowerCase();
 	}-*/;

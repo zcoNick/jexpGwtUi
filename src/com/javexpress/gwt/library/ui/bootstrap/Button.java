@@ -151,9 +151,6 @@ public class Button extends ButtonBase implements ICallbackAware {
 				case Info:
 					clazz += " btn-info";
 					break;
-				case Inverse:
-					clazz += " btn-inverse";
-					break;
 				case Grey:
 					clazz += " btn-grey";
 					break;
@@ -176,7 +173,7 @@ public class Button extends ButtonBase implements ICallbackAware {
 			}
 		} else if (highlight)
 			clazz += " btn-primary";
-		getElement().setClassName(clazz);
+		getElement().addClassName(clazz);
 	}
 
 	public void click() {
@@ -236,6 +233,13 @@ public class Button extends ButtonBase implements ICallbackAware {
 
 	public Integer getTag() {
 		return tag;
+	}
+	
+	public void setInverted(boolean inverted){
+		if (inverted)
+			getElement().addClassName("btn-inverse");
+		else
+			getElement().removeClassName("btn-inverse");
 	}
 
 }
