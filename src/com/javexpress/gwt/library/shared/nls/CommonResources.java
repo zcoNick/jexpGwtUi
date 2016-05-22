@@ -945,6 +945,11 @@ public interface CommonResources extends ConstantsWithLookup {
 	String	login_signinWithSocialAccount();
 
 	/**
+	 * Oturum Kapat
+	 */
+	String	logout();
+
+	/**
 	 * Lütfen Bekleyin...
 	 */
 	String	lutfenBekleyin();
@@ -1080,6 +1085,16 @@ public interface CommonResources extends ConstantsWithLookup {
 	String	print();
 
 	/**
+	 * Fotoğrafı Değiştir
+	 */
+	String	profile_changePhoto();
+
+	/**
+	 * Profil
+	 */
+	String	profile_profile();
+
+	/**
 	 * Bu rapor için tanımlanmış filtre bulunmamaktadır
 	 */
 	String	raporFiltresiYok();
@@ -1158,6 +1173,11 @@ public interface CommonResources extends ConstantsWithLookup {
 	 * Tümünü Seç
 	 */
 	String	selectAll();
+
+	/**
+	 * Ayarlar
+	 */
+	String	settings();
 
 	/**
 	 * Seviye

@@ -1176,4 +1176,21 @@ public class JsUtil {
 		date.setMinutes(59);
 		date.setSeconds(59);
 	}
+
+	public static Element createSubSpan(Element parent, String styles) {
+		return createSubElement(parent, "span", styles);
+	}
+
+	public static Element createSubElement(Element parent, String tag) {
+		return createSubElement(parent, tag, null);
+	}
+	
+	public static Element createSubElement(Element parent, String tag, String styles) {
+		Element child = DOM.createElement(tag);
+		if (styles!=null)
+			child.setClassName(styles);
+		parent.appendChild(child);
+		return child;
+	}
+
 }

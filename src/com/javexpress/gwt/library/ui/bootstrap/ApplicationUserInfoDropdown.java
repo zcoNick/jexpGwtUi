@@ -10,7 +10,8 @@ public abstract class ApplicationUserInfoDropdown extends AbstractContainer {
 
 	public ApplicationUserInfoDropdown(String id, String liClass) {
 		super(DOM.createElement("li"));
-		getElement().setClassName(liClass);
+		if (liClass!=null)
+			getElement().setClassName(liClass);
 
 		anchor = DOM.createAnchor();
 		anchor.setClassName("dropdown-toggle");
