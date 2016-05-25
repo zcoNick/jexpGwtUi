@@ -4,6 +4,7 @@ import com.google.gwt.core.client.Scheduler;
 import com.google.gwt.core.client.Scheduler.ScheduledCommand;
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.dom.client.Style.Display;
+import com.google.gwt.dom.client.Style.Overflow;
 import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.event.dom.client.KeyDownEvent;
 import com.google.gwt.event.dom.client.KeyDownHandler;
@@ -110,6 +111,10 @@ public class WindowView extends AbstractContainerFocusable implements IUIComposi
 
 		Element body = DOM.createDiv();
 		body.setClassName("widget-body");
+
+		body.getStyle().setOverflow(Overflow.AUTO);
+		body.getStyle().setProperty("maxHeight", "93vh");
+
 		mainDiv = DOM.createDiv();
 		mainDiv.setClassName("widget-main container-fluid");
 		body.appendChild(mainDiv);
