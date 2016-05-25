@@ -5,7 +5,7 @@
 .jexpNoMargin { margin:0; }
 .jexpRightAlign { text-align:right }
 .jexpCenter { text-align:center }
-.jexpShadow { -moz-box-shadow: 0 0 36px 12px #888;-webkit-box-shadow: 0 0 30px 8px #888;box-shadow: 0 0 30px 8px #888; }
+.jexpShadow { -moz-box-shadow: 0 0 18px 0px #888;-webkit-box-shadow: 0 0 18px 0px #888;box-shadow: 0 0 18px 0px #888; }
 .jexpHandCursor { cursor:pointer }
 .jexpErrorDialog { -moz-box-shadow: 0 0 30px 8px #FF3300;-webkit-box-shadow: 0 0 30px 8px #FF3300;box-shadow: 0 0 30px 8px #FF3300; position:fixed;top:70px;left:25%;width:50%;z-index: 9999; }
 .jexpErrorDialog .well { padding:10px; margin-bottom: 0 }

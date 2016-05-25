@@ -12,8 +12,22 @@
 .gwt-CheckBox.jexpSmallGwtCheck > label { font-size:inherit; }
 .modal > .widget-box { margin-top: 20px; }
 .jexp-ui-window { font-size: 1em }
-.jexp-ui-window.widget-box { border:none }
-.jexp-ui-window > .widget-header { background-color:#cceeff;background:-webkit-gradient(linear,left top,left bottom,color-stop(0%,#ffffff),color-stop(100%,#cceeff));background:-webkit-linear-gradient(#ffffff,#cceeff);background:-moz-linear-gradient(#ffffff,#cceeff);background:-ms-linear-gradient(#ffffff,#cceeff);background:-o-linear-gradient(#ffffff,#cceeff);filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#ffffff', endColorstr='#cceeff');-ms-filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#ffffff', endColorstr='#cceeff');background:linear-gradient(#ffffff,#cceeff);color:#333399;}
+.jexp-ui-window.widget-box { border: 4px solid #33BEF5;border-radius: 3px; }
+.jexp-ui-window > .widget-header { 
+	background-color:#61B6FF;
+	background:-webkit-gradient(linear,left top,left bottom,color-stop(0%,#33BEF5),color-stop(100%,#61B6FF));
+	background:-webkit-linear-gradient(#33BEF5,#61B6FF);
+	background:-moz-linear-gradient(#33BEF5,#61B6FF);
+	background:-ms-linear-gradient(#33BEF5,#61B6FF);
+	background:-o-linear-gradient(#33BEF5,#61B6FF);
+	filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#33BEF5', endColorstr='#61B6FF');
+	-ms-filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#33BEF5', endColorstr='#61B6FF');
+	background:linear-gradient(#33BEF5,#61B6FF);
+	color:#edf0fc;
+}
+.jexp-ui-window > .widget-header > .widget-toolbar a { color:#e8e7fd;font-size:1.5em; } 
+.jexp-ui-window > .widget-header > .widget-toolbar a:hover { color:white; } 
+.jexp-ui-window > .widget-header > .widget-toolbar:before { border:none; } 
 .jexp-ui-window > .widget-body { background-color:#ffffff;background:-moz-radial-gradient(50% 75%,circle,#ffffff,#EFF3F8);background:-webkit-radial-gradient(50% 75%,circle,#ffffff,#EFF3F8);background:-o-radial-gradient(50% 75%,circle,#ffffff,#EFF3F8);background:-ms-radial-gradient(50% 75%,circle,#ffffff,#EFF3F8);background:radial-gradient(50% 75%,circle,#ffffff,#EFF3F8);}
 .widget-box > .widget-header, .jexp-ui-window > .widget-header { padding-left: 8px; min-height: 28px }
 .jexp-ui-window-nonmodal { position:absolute;top:20%;left:40%; }

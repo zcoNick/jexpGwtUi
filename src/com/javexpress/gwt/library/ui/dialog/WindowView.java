@@ -84,7 +84,7 @@ public class WindowView extends AbstractContainerFocusable implements IUIComposi
 	public WindowView(String id, boolean modal) {
 		super(DOM.createDiv());
 		int autoZIndex = JsUtil.calcDialogZIndex();
-		getElement().setAttribute("style", "display: block; padding-right: 17px; z-index:" + autoZIndex);
+		getElement().setAttribute("style", "display: block; padding-right: 1em; z-index:" + autoZIndex);
 		getElement().setAttribute("oz", String.valueOf(autoZIndex));
 		if (modal) {
 			setStyleName("jexp-ui-window-modal modal in");
@@ -200,7 +200,7 @@ public class WindowView extends AbstractContainerFocusable implements IUIComposi
 			marginLeft = Math.ceil((100 - pct) / 2) + "%";
 		}
 		String zindex = windowDiv.getAttribute("zindex");
-		windowDiv.setAttribute("style", "z-index:" + zindex + ";" + (width != null ? "width:" + width + ";" : "") + "margin:2px " + marginLeft + ";min-width:100px;display:block");
+		windowDiv.setAttribute("style", "z-index:" + zindex + ";" + (width != null ? "width:" + width + ";" : "") + "left:" + marginLeft + ";min-width:100px;display:block");
 	}
 
 	private void fillHeader(ICssIcon icon, String header) {
@@ -304,8 +304,14 @@ public class WindowView extends AbstractContainerFocusable implements IUIComposi
 					if (top.startsWith("-"))
 						windowDiv.getStyle().setTop(0, Unit.PX);
 					String left = windowDiv.getStyle().getLeft();
-					if (left.startsWith("-"))
+					if (left.startsWith("-")){
 						windowDiv.getStyle().setLeft(0, Unit.PX);
+						windowDiv.getStyle().clearMarginLeft();
+					} else {
+						int pct = Integer.valueOf(left.replaceFirst("px", ""))*100/Window.getClientWidth();
+						windowDiv.getStyle().setLeft(pct, Unit.PCT);
+						windowDiv.getStyle().clearMarginLeft();
+					}
 				}
 			});
 		}
