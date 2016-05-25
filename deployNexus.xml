@@ -1,0 +1,178 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="jexpGwtUi" default="default" basedir="../jexpGwtUi" xmlns:jstddep="com.javastud.studio.dependency.ant">
+
+	<target name="jenkins">
+		<property name="JEXPLIB" value="/var/lib/jenkins/jstdlib"/>
+		<echo>Initializing JavaStudio tasks classpaths from ${JEXPLIB}</echo>
+		<path id="tasks.classpath">
+	        <fileset dir="${JEXPLIB}">
+	            <include name="**/*.jar"/>
+	        </fileset>
+	    </path>
+		<taskdef uri="com.javastud.studio.dependency.ant" name="retrieve" classname="com.javastud.studio.dependency.ant.RetrieveAntTask">
+			<classpath>
+				<path refid="tasks.classpath" />
+			</classpath>
+		</taskdef>
+		<typedef uri="com.javastud.studio.dependency.ant" name="path" classname="com.javastud.studio.dependency.ant.DepPath">
+			<classpath>
+				<path refid="tasks.classpath" />
+			</classpath>
+		</typedef>
+		<taskdef uri="com.javastud.studio.dependency.ant" name="jiraReleaseNotes" classname="com.javastud.studio.dependency.ant.JiraReleaseNotesTask">
+			<classpath>
+				<path refid="tasks.classpath" />
+			</classpath>
+		</taskdef>
+		<taskdef uri="com.javastud.studio.dependency.ant" name="publish" classname="com.javastud.studio.dependency.ant.PublishAntTask">
+			<classpath>
+				<path refid="tasks.classpath" />
+			</classpath>
+		</taskdef>
+		<taskdef uri="com.javastud.studio.dependency.ant" name="versionInfo" classname="com.javastud.studio.dependency.ant.VersionInfoTask">
+			<classpath>
+				<path refid="tasks.classpath" />
+			</classpath>
+		</taskdef>
+		<taskdef uri="com.javexpress.studio.dbgenerator.ant" name="generate" classname="com.javastud.studio.dbgenerator.ant.GenerateAntTask">
+			<classpath>
+				<path refid="tasks.classpath" />
+			</classpath>
+		</taskdef>
+		<property file="${basedir}/../jexpApplication/jenkins.build.params"/>
+		<jstddep:retrieve dependencies="${basedir}/${ant.project.name}.dep" configuration="compile,runtime" createXml="true" overwriteXml="true" workspaceSearchPath="${basedir}/.." timeout="${dependency.timeout}"/>
+		<antcall target="build"/>
+	</target>
+
+	<target name="default">
+		<property file="${basedir}/../jexpApplication/build.params"/>
+		<antcall target="build"/>
+	</target>
+
+	<target name="build">
+		<taskdef resource="net/sf/antcontrib/antcontrib.properties">
+		  <classpath>
+		    <pathelement location="${basedir}/../jexpApplication/ant-contrib-1.0b3.jar"/>
+		  </classpath>
+		</taskdef>
+
+		<property file="lastdeploy.properties"/>		
+
+		<jstddep:path id="project.classpath" conf="*" dependencies="${basedir}/jexpGwtUi.dep" />
+
+		<property name="myproperty" refid="project.classpath"/>
+		<echo message="${myproperty}"/> 
+
+		<path id="gwt.sdk.classpath">
+	        <fileset dir="${GWTSDK}">
+	            <include name="**/*.jar"/>
+	        </fileset>
+	    </path>
+		
+		<path id="jexp.sdk.classpath">
+	        <fileset dir="${basedir}/..">
+	            <include name="**/jarTemp/**/jexpCommon.jar"/>
+	        </fileset>
+	    </path>
+
+		<property name="PROJECTDIR" value="${basedir}"/>
+		<property name="TEMPDIR" value="${basedir}/jarTemp"/>
+		<delete dir="${TEMPDIR}" />
+		<mkdir dir="${TEMPDIR}/bin"/>
+		<javac destdir="${TEMPDIR}/bin" debug="off" encoding="UTF-8" target="1.6" source="1.6">
+			<classpath>
+				<path refid="project.classpath" />
+				<path refid="jexp.sdk.classpath" />
+				<path refid="gwt.sdk.classpath" />
+			</classpath>
+			<src path="${PROJECTDIR}/src" />
+		</javac>
+
+	    <tstamp>
+	        <format property="builtat" pattern="yyyyMMddhhmm"/>
+	    </tstamp>		
+		<jstddep:versionInfo dependencies="${basedir}/jexpGwtUi.dep" buildId="${builtat}" buildDate="${builtat}" user="${user.name}" outFolder="${basedir}/src" outJava="com.javexpress.gwt.library.shared.VersionInfo" implementing="com.javexpress.common.model.item.IVersionInfo"/>
+		<jstddep:jiraReleaseNotes dependencies="${basedir}/jexpGwtUi.dep" baseURL="${jira.host}" credentials="${jira.credentials}" jiraProject="JEXPGWTUI" outXml="${PROJECTDIR}/src/jexpGwtUi-releaseNotes.xml" proxyHost="${proxy.host}"/>
+		
+		<delete dir="${basedir}/gwt-unitCache"/>
+		<property name="jexpsdkfiles" refid="jexp.sdk.classpath"/>
+		<echo message="Jexp files ${jexpsdkfiles}"/> 
+		<echo>Preparing GWTAR of JavExpress UI using ${GWTSDK}</echo>
+		<java classname="com.google.gwt.dev.CompileModule" failonerror="yes" fork="yes">
+			<sysproperty key="vFailIfNotSerializable" value="true" />
+			<classpath>
+				<pathelement location="${basedir}/src" />
+				<path refid="project.classpath" />
+				<path refid="jexp.sdk.classpath" />
+				<path refid="gwt.sdk.classpath" />
+			</classpath>
+			<jvmarg value="-Xss8M" />
+			<jvmarg value="-Xms128m" />
+            <jvmarg value="-Xmx512m" />
+            <jvmarg value="-XX:MaxPermSize=256M" />
+            <jvmarg value="-Djava.awt.headless=true" />
+            <arg value="-logLevel" />
+            <arg value="${GWTAR.LOGLEVEL}" />
+            <arg value="-strict" />
+            <arg value="-out" />
+            <arg value="${TEMPDIR}/gwtar" />
+            <arg value="com.javexpress.gwt.library.JexpGwtLibrary" />
+        </java>
+
+		<property name="SDKJAR" value="${TEMPDIR}/jexpGwtUi.jar"/>
+		<delete file="${SDKJAR}"/>		
+		<jar destfile="${SDKJAR}" index="true">
+			<fileset dir="${TEMPDIR}/bin"/>
+			<fileset dir="${TEMPDIR}/gwtar" includes="**/*.gwtar"/>
+			<fileset dir="${PROJECTDIR}/src">
+				<include name="**/rebind/**"/>
+				<include name="**/shared/**"/>
+				<include name="**/ui/**"/>
+				<include name="**/public/**"/>
+			    <include name="**/*.dtd"/>
+			    <include name="**/*.xml"/>
+			    <include name="*.uis"/>
+			</fileset>
+		</jar>
+		<delete dir="${TEMPDIR}/bin"/>
+		<delete dir="${TEMPDIR}/gwtar"/>
+
+		<jstddep:publish jar="${SDKJAR}" dependencies="${basedir}/jexpGwtUi.dep" baseURL="${nexus.host}/service/local" repository="${nexus.repository}" credentials="${nexus.credentials}" proxyHost="${proxy.host}" fakeJar="${basedir}/../jexpApplication/emptysource.jar"/>
+		
+		<if>
+			<equals arg1="${lastdeployedversion}" arg2="${jexpGwtUi.jira.version}" />
+		 <then>
+			<property name="releaseinfo" value="The JavExpress Gwt UI (${jexpGwtUi.jira.version}) is updated."/>
+			<property name="partnerreleaseaction" value="Since this is a patch release please &lt;strong&gt;remove existing com.javexpress/jexp-gwt-ui folder from your .jstdDependency folder&lt;/strong&gt; and then resolve dependencies again."/>
+		 </then>
+		 <else>
+			<property name="releaseinfo" value="The new version (${jexpGwtUi.jira.version}) of JavExpress Gwt UI is available!"/>
+			<property name="partnerreleaseaction" value="Please resolve dependencies again."/>
+		 </else>
+		</if>		
+		<mail enableStartTLS="${MAILSTARTTLS}" ssl="${MAILSSL}" mailhost="${MAILHOST}" mailport="${MAILPORT}" user="${MAILUSER}" password="${MAILPASS}"
+					encoding="mime" messagemimetype="text/html"
+					tolist="${MAILTO}"
+					cclist="${MAILCC}"
+					subject="JavExpress / Gwt UI updated!" failonerror="false">
+			<from name="JavExpress Library" address="partner@javastud.io"/>
+			<message><![CDATA[<i>Dear Partner,</i><br/><br/>
+				${releaseinfo} ${partnerreleaseaction}<br/>
+				<br/>
+				Regards,<br/>
+				<strong>JavExpress Team</strong>
+			]]></message>			
+		</mail>
+		<if>
+			<equals arg1="${lastdeployedversion}" arg2="${jexpGwtUi.jira.version}" />
+				<then>
+			 	</then>
+		 	<else>
+				<propertyfile file="lastdeploy.properties">
+					<entry key="lastdeployedversion" value="${jexpGwtUi.jira.version}"/>
+				</propertyfile>
+			</else>
+		</if>
+	</target>
+
+</project>
