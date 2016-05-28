@@ -186,7 +186,7 @@ public class DateBox extends BaseWrappedInput<Date, InputElement> {
 	}
 
 	public void setReadOnly(boolean readOnly) {
-		getElement().setPropertyBoolean("readOnly", readOnly);
+		input.setPropertyBoolean("readOnly", readOnly);
 		String readOnlyStyle = "readonly";
 		if (readOnly) {
 			btDate.getStyle().setDisplay(Display.NONE);
