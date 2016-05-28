@@ -1,3 +1,4 @@
+
 package com.javexpress.gwt.library.ui.dialog;
 
 import com.google.gwt.core.client.Scheduler;
@@ -97,17 +98,17 @@ public class WindowView extends AbstractContainerFocusable implements IUIComposi
 			setStyleName("jexp-ui-window-nonmodal");
 		}
 
-		windowDiv = DOM.createDiv();
-		windowDiv.setClassName((modal ? "modal-dialog " : "") + "jexp-ui-window widget-box jexpShadow");
-		windowDiv.setTabIndex(-1);
-		windowDiv.setAttribute("role", "dialog");
-		windowDiv.setId(WidgetConst.WINDOWPREFIX + "_" + id);
-		windowDiv.setAttribute("zindex", String.valueOf(JsUtil.calcDialogZIndex()));
-		getElement().appendChild(windowDiv);
+		Element containerDiv = DOM.createDiv();
+		containerDiv.setClassName((modal ? "modal-dialog " : "") + "jexp-ui-window widget-box jexpShadow");
+		containerDiv.setTabIndex(-1);
+		containerDiv.setAttribute("role", "dialog");
+		containerDiv.setId(WidgetConst.WINDOWPREFIX + "_" + id);
+		containerDiv.setAttribute("zindex", String.valueOf(JsUtil.calcDialogZIndex()));
+		getElement().appendChild(containerDiv);
 
 		headerDiv = DOM.createDiv();
 		headerDiv.setClassName("widget-header");
-		windowDiv.appendChild(headerDiv);
+		containerDiv.appendChild(headerDiv);
 
 		Element body = DOM.createDiv();
 		body.setClassName("widget-body");
@@ -118,7 +119,9 @@ public class WindowView extends AbstractContainerFocusable implements IUIComposi
 		mainDiv = DOM.createDiv();
 		mainDiv.setClassName("widget-main container-fluid");
 		body.appendChild(mainDiv);
-		windowDiv.appendChild(body);
+		containerDiv.appendChild(body);
+		
+		windowDiv = modal?containerDiv:getElement();
 	}
 
 	public void setForm(IUIComposite form) {
@@ -308,7 +311,7 @@ public class WindowView extends AbstractContainerFocusable implements IUIComposi
 						windowDiv.getStyle().setLeft(0, Unit.PX);
 						windowDiv.getStyle().clearMarginLeft();
 					} else {
-						int pct = Integer.valueOf(left.replaceFirst("px", ""))*100/Window.getClientWidth();
+						int pct = (int) (Double.parseDouble(left.replaceFirst("px", ""))*100/Window.getClientWidth());
 						windowDiv.getStyle().setLeft(pct, Unit.PCT);
 						windowDiv.getStyle().clearMarginLeft();
 					}
