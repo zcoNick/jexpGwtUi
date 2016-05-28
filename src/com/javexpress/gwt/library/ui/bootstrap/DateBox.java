@@ -5,6 +5,7 @@ import java.util.Date;
 import com.google.gwt.core.client.JavaScriptObject;
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.dom.client.InputElement;
+import com.google.gwt.dom.client.Style.Display;
 import com.google.gwt.i18n.client.LocaleInfo;
 import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.ui.Widget;
@@ -35,8 +36,8 @@ public class DateBox extends BaseWrappedInput<Date, InputElement> {
 		return lclz;
 	}
 
-	private JsonMap	options;
-	private Element	btDate;
+	private JsonMap options;
+	private Element btDate;
 
 	public DateBox(final Widget parent, final String id) {
 		super(parent, WidgetConst.DATEBOX_PREFIX, id, "input-group jexpDateBox");
@@ -55,7 +56,7 @@ public class DateBox extends BaseWrappedInput<Date, InputElement> {
 	}
 
 	protected void createDefaultOptions() {
-		//https://bootstrap-datepicker.readthedocs.org/en/release/
+		// https://bootstrap-datepicker.readthedocs.org/en/release/
 		options = new JsonMap();
 		if (JsUtil.isRTL())
 			options.set("rtl", true);
@@ -129,7 +130,7 @@ public class DateBox extends BaseWrappedInput<Date, InputElement> {
 		fireValueChanged(JsUtil.asDate(old), JsUtil.asDate(getText()));
 	}
 
-	//https://github.com/RobinHerbots/jquery.inputmask/issues/648
+	// https://github.com/RobinHerbots/jquery.inputmask/issues/648
 	private native void destroyByJs(Element bt, Element input) /*-{
 		$wnd.$(".jexpHandCursor", bt).off();
 		$wnd.$(input).datepicker('destroy').off();
@@ -182,6 +183,18 @@ public class DateBox extends BaseWrappedInput<Date, InputElement> {
 	@Override
 	public void setText(String text) {
 		input.setValue(text);
+	}
+
+	public void setReadOnly(boolean readOnly) {
+		getElement().setPropertyBoolean("readOnly", readOnly);
+		String readOnlyStyle = "readonly";
+		if (readOnly) {
+			btDate.getStyle().setDisplay(Display.NONE);
+			addStyleDependentName(readOnlyStyle);
+		} else {
+			btDate.getStyle().setDisplay(Display.INLINE_BLOCK);
+			removeStyleDependentName(readOnlyStyle);
+		}
 	}
 
 }

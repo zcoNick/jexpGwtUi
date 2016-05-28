@@ -11,7 +11,7 @@ import com.javexpress.gwt.library.ui.js.JsUtil;
 
 public class NumericBox extends JexpValueBox<Long> {
 
-	private Integer	minValue, maxValue;
+	private Integer minValue, maxValue;
 
 	/** Designer compatible constructor */
 	public NumericBox(final Widget parent, final String id) {
@@ -23,11 +23,8 @@ public class NumericBox extends JexpValueBox<Long> {
 			@Override
 			public void onKeyDown(KeyDownEvent event) {
 				int kc = event.getNativeKeyCode();
-				boolean allowed = ((kc >= 48 && kc <= 57)
-						|| (kc >= 96 && kc <= 105)
-						|| kc == 8 || kc == 9
-						|| kc == 37 || kc == 39
-						|| kc == 13 || kc == 46);
+				boolean allowed = ((kc >= 48 && kc <= 57) || (kc >= 96 && kc <= 105) || kc == 8 || kc == 9 || kc == 37
+						|| kc == 39 || kc == 13 || kc == 46);
 				if (!allowed)
 					event.getNativeEvent().preventDefault();
 			}
@@ -124,6 +121,16 @@ public class NumericBox extends JexpValueBox<Long> {
 
 	public void setValueString(String value) {
 		setValue(Long.valueOf(value));
+	}
+
+	public void setReadOnly(boolean readOnly) {
+		getElement().setPropertyBoolean("readOnly", readOnly);
+		String readOnlyStyle = "readonly";
+		if (readOnly) {
+			addStyleDependentName(readOnlyStyle);
+		} else {
+			removeStyleDependentName(readOnlyStyle);
+		}
 	}
 
 }
