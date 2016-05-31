@@ -2,10 +2,10 @@
 <project name="jexpGwtUi" default="default" basedir="../jexpGwtUi" xmlns:jstddep="com.javastud.studio.dependency.ant">
 
 	<target name="jenkins">
-		<property name="JEXPLIB" value="/var/lib/jenkins/jstdlib"/>
-		<echo>Initializing JavaStudio tasks classpaths from ${JEXPLIB}</echo>
+		<property name="JSTDLIB" value="/var/lib/jenkins/jstdlib"/>
+		<echo>Initializing JavaStudio tasks classpaths from ${JSTDLIB}</echo>
 		<path id="tasks.classpath">
-	        <fileset dir="${JEXPLIB}">
+	        <fileset dir="${JSTDLIB}">
 	            <include name="**/*.jar"/>
 	        </fileset>
 	    </path>
@@ -52,7 +52,7 @@
 	<target name="build">
 		<taskdef resource="net/sf/antcontrib/antcontrib.properties">
 		  <classpath>
-		    <pathelement location="${basedir}/../jexpApplication/ant-contrib-1.0b3.jar"/>
+		    <pathelement location="${JSTDLIB}/ant-contrib-1.0b3.jar"/>
 		  </classpath>
 		</taskdef>
 
