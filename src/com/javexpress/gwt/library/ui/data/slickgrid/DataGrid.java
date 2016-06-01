@@ -482,13 +482,10 @@ public class DataGrid<T extends Serializable> extends BaseSlickGrid<ListColumn> 
 				grid.onViewportChanged.notify();
 		}
 		$wnd
-				.$("#" + elGridId)
-				.bind(
-						"linkclicked",
-						function(event, linkElement, row, cell, field,
-								columnKey, value) {
-							x.@com.javexpress.gwt.library.ui.data.slickgrid.DataGrid::fireLinkClicked(Lcom/google/gwt/core/client/JavaScriptObject;IILjava/lang/String;ILjava/lang/String;)(linkElement,row,cell,field,columnKey,value);
-						});
+				.$("#" + elGridId).bind("linkclicked",function(event, linkElement, row, cell, field,columnKey, value) {
+					var rowData = @com.javexpress.gwt.library.ui.data.slickgrid.DataGrid::resolveRowData(Lcom/google/gwt/core/client/JavaScriptObject;Lcom/google/gwt/core/client/JavaScriptObject;I)(dataView, data, row);
+					x.@com.javexpress.gwt.library.ui.data.slickgrid.DataGrid::fireLinkClicked(Lcom/google/gwt/core/client/JavaScriptObject;Lcom/google/gwt/core/client/JavaScriptObject;ILjava/lang/String;ILjava/lang/String;)(linkElement,rowData,cell,field,columnKey,value);
+				});
 		return grid;
 	}-*/;
 
@@ -883,13 +880,12 @@ public class DataGrid<T extends Serializable> extends BaseSlickGrid<ListColumn> 
 		}
 	}
 
-	private void fireLinkClicked(JavaScriptObject linkElement, int row, int cell, String field, int columnKey, String value) {
+	private void fireLinkClicked(JavaScriptObject linkElement, JavaScriptObject rowData, int cell, String field, int columnKey, String value) {
 		for (ListColumn ec : getColumns())
 			if (ec instanceof LinkColumn) {
 				LinkColumn elc = (LinkColumn) ec;
 				if (elc.getColumnKey() == columnKey) {
-					JavaScriptObject jso = getData().get(row);
-					elc.cellClicked(linkElement, value, jso != null ? new JsonMap(jso) : null);
+					elc.cellClicked(linkElement, value, rowData != null ? new JsonMap(rowData) : null);
 					break;
 				}
 			}
