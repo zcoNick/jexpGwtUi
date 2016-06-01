@@ -127,8 +127,7 @@ public class MenuButton extends ComplexPanel {
 		button.appendChild(iconSpan);
 		textSpan = DOM.createSpan();
 		textSpan.setClassName(textClass);
-		if (text != null)
-			textSpan.setInnerText(text + " ");
+		this.text = text;
 		button.appendChild(textSpan);
 		Element caret = DOM.createSpan();
 		caret.setClassName("caret");
@@ -137,6 +136,8 @@ public class MenuButton extends ComplexPanel {
 
 	@Override
 	protected void onLoad() {
+		if (text != null)
+			textSpan.setInnerText(text + " ");		
 		if (isDropUp())
 			getElement().addClassName("dropup jexpMenuButton");
 		else
