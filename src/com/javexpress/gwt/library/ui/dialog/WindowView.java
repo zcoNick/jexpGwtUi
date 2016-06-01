@@ -41,6 +41,7 @@ public class WindowView extends AbstractContainerFocusable implements IUIComposi
 	private boolean	showing;
 	private Element	helpSpan;
 	private Element	headerEl;
+	private Element widgetBody;
 
 	public boolean isDraggable() {
 		return draggable;
@@ -110,16 +111,16 @@ public class WindowView extends AbstractContainerFocusable implements IUIComposi
 		headerDiv.setClassName("widget-header");
 		containerDiv.appendChild(headerDiv);
 
-		Element body = DOM.createDiv();
-		body.setClassName("widget-body");
+		widgetBody = DOM.createDiv();
+		widgetBody.setClassName("widget-body");
 
-		body.getStyle().setOverflow(Overflow.AUTO);
-		body.getStyle().setProperty("maxHeight", "93vh");
+		widgetBody.getStyle().setOverflow(Overflow.AUTO);
+		widgetBody.getStyle().setProperty("maxHeight", Window.getClientHeight()+"px");
 
 		mainDiv = DOM.createDiv();
 		mainDiv.setClassName("widget-main container-fluid");
-		body.appendChild(mainDiv);
-		containerDiv.appendChild(body);
+		widgetBody.appendChild(mainDiv);
+		containerDiv.appendChild(widgetBody);
 		
 		windowDiv = modal?containerDiv:getElement();
 	}
@@ -202,7 +203,7 @@ public class WindowView extends AbstractContainerFocusable implements IUIComposi
 			width = String.valueOf(pct) + "%";
 			marginLeft = Math.ceil((100 - pct) / 2) + "%";
 		}
-		String zindex = windowDiv.getAttribute("zindex");
+		String zindex = windowDiv.getAttribute("oz");
 		windowDiv.setAttribute("style", "z-index:" + zindex + ";" + (width != null ? "width:" + width + ";" : "") + "left:" + marginLeft + ";min-width:100px;display:block");
 	}
 
@@ -372,6 +373,7 @@ public class WindowView extends AbstractContainerFocusable implements IUIComposi
 		mainDiv = null;
 		_destroyByJs(getElement(), ".ub_" + windowDiv.getId());
 		windowDiv = null;
+		widgetBody = null;
 		super.onUnload();
 	}
 
@@ -381,6 +383,8 @@ public class WindowView extends AbstractContainerFocusable implements IUIComposi
 
 	@Override
 	public void onResize() {
+		widgetBody.getStyle().setOverflow(Overflow.AUTO);
+		widgetBody.getStyle().setProperty("maxHeight", Window.getClientHeight()+"px");
 		updateWidth();
 		if (getWidget(0) instanceof RequiresResize)
 			((RequiresResize) getWidget(0)).onResize();
