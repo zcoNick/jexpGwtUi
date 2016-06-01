@@ -75,4 +75,16 @@ public class ButtonSet extends AbstractContainerFocusable {
 		super.onUnload();
 	}
 
+	public int getRightCount() {
+		return right.getChildCount();
+	}
+
+	public int getLeftCount() {
+		return left.getChildCount();
+	}
+
+	public int getCenterCount() {
+		return center.getChildCount();
+	}
+	
 }
