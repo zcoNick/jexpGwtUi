@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<JavaStudio-UIDesign disableCodeGeneration="true" extendable="true" packageName="com.javexpress.gwt.fw.ui.form" superDesignPath="com.javexpress.gwt.library.ui.bootstrap/Form.uit" field="true" name="this">
+<JavaStudio-UIDesign disableCodeGeneration="true" extendable="true" packageName="com.javexpress.gwt.library.ui.container.dashboard" componentName="DashboardWidget" field="true" name="this">
     <designerHints extra="onLoadedKeyValues" type="VIRTUALEVENT" value="loadedKeyValues"/>
     <designerHints extra="onStartLoadingKeys" type="VIRTUALEVENT" value="startLoadingKeys"/>
     <designerHints extra="onKeysCompleted" type="VIRTUALEVENT" value="keysCompleted"/>
@@ -39,8 +39,8 @@ import com.javexpress.gwt.library.ui.js.JsUtil;&#xD;
 &#xD;
 public class ${className} extends DashboardWidget {&#xD;
 &#xD;
-	public static final String	CODE	= ?;&#xD;
-	public static final String	LABEL	= $wt.getClientClass($module).nls.dbw?();&#xD;
+	public static final String	CODE	= &quot;#evaluate(${className})&quot;;&#xD;
+	public static final String	LABEL	= $wt.getClientClass($module).nls.dbw#evaluate(${className})();&#xD;
 &#xD;
 	public ${className}(Widget parent, final String id) throws Exception {&#xD;
 		super(parent, id);&#xD;
@@ -50,21 +50,9 @@ public class ${className} extends DashboardWidget {&#xD;
 	protected String getHeader() {&#xD;
 		return LABEL;&#xD;
 	}&#xD;
-&#xD;
-&#xD;
-	@Override&#xD;
-	protected void createWidget() {&#xD;
-		FlexTable table = new FlexTable();&#xD;
-		table.setWidth(&quot;100%&quot;);&#xD;
-		table.setWidget(0, 0, new Label(&quot;Ara :&quot;));&#xD;
-		table.getCellFormatter().getElement(0, 0).getStyle().setTextAlign(JsUtil.isLTR() ? TextAlign.RIGHT : TextAlign.LEFT);&#xD;
-		table.setWidget(0, 1, new AutoCompleteBox&lt;Long&gt;(this, &quot;fihrist&quot;, SistemService.AutoCompletes.fihristSec));&#xD;
-&#xD;
-		setWidget(table);&#xD;
-	}&#xD;
 	&#xD;
 }</macro>
-        <parameters variable="module" label="Client Module" type="Text" required="false"/>
+        <parameters variable="module" label="Client Module" type="Module" required="false"/>
         <templates name="Main Template">
             <macro>package ${packageName};&#xD;
 &#xD;
