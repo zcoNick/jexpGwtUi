@@ -1,4 +1,3 @@
-
 package com.javexpress.gwt.library.ui.dialog;
 
 import com.google.gwt.core.client.Scheduler;
@@ -42,6 +41,7 @@ public class WindowView extends AbstractContainerFocusable implements IUIComposi
 	private Element	helpSpan;
 	private Element	headerEl;
 	private Element widgetBody;
+	private int originalZIndex;
 
 	public boolean isDraggable() {
 		return draggable;
@@ -85,9 +85,6 @@ public class WindowView extends AbstractContainerFocusable implements IUIComposi
 
 	public WindowView(String id, boolean modal) {
 		super(DOM.createDiv());
-		int autoZIndex = JsUtil.calcDialogZIndex();
-		getElement().setAttribute("style", "display: block; padding-right: 1em; z-index:" + autoZIndex);
-		getElement().setAttribute("oz", String.valueOf(autoZIndex));
 		if (modal) {
 			setStyleName("jexp-ui-window-modal modal in");
 			Element backdrop = DOM.createDiv();
@@ -98,6 +95,8 @@ public class WindowView extends AbstractContainerFocusable implements IUIComposi
 		} else {
 			setStyleName("jexp-ui-window-nonmodal");
 		}
+		originalZIndex = JsUtil.calcDialogZIndex();
+		getElement().setAttribute("style", "display: block; padding-right: 1em; z-index:" + originalZIndex);
 
 		Element containerDiv = DOM.createDiv();
 		containerDiv.setClassName((modal ? "modal-dialog " : "") + "jexp-ui-window widget-box jexpShadow");
@@ -203,8 +202,7 @@ public class WindowView extends AbstractContainerFocusable implements IUIComposi
 			width = String.valueOf(pct) + "%";
 			marginLeft = Math.ceil((100 - pct) / 2) + "%";
 		}
-		String zindex = windowDiv.getAttribute("oz");
-		windowDiv.setAttribute("style", "z-index:" + zindex + ";" + (width != null ? "width:" + width + ";" : "") + "left:" + marginLeft + ";min-width:100px;display:block");
+		windowDiv.setAttribute("style", "z-index:" + originalZIndex + ";" + (width != null ? "width:" + width + ";" : "") + "left:" + marginLeft + ";min-width:100px;display:block");
 	}
 
 	private void fillHeader(ICssIcon icon, String header) {
@@ -255,7 +253,7 @@ public class WindowView extends AbstractContainerFocusable implements IUIComposi
 			RootPanel.get().add(this);
 		} else {
 			getElement().getStyle().setDisplay(Display.BLOCK);
-			selectActiveWindow(getElement());
+			selectActiveWindow(getElement(),originalZIndex);
 		}
 		IUIComposite form = (IUIComposite) getWidget(0);
 		setFocus(true);
@@ -330,17 +328,17 @@ public class WindowView extends AbstractContainerFocusable implements IUIComposi
 			bindOnClick(headerDiv, new Command() {
 				@Override
 				public void execute() {
-					selectActiveWindow(getElement());
+					selectActiveWindow(getElement(), originalZIndex);
 				}
 			});
 		}
 	}
 
-	protected native void selectActiveWindow(Element el) /*-{
+	protected native void selectActiveWindow(Element el,int zindex) /*-{
 		$wnd.$(".jexpActiveWindow").each(
 				function() {
 					var that = $wnd.$(this);
-					that.css("z-index", that.attr("oz")).removeClass(
+					that.css("z-index", zindex).removeClass(
 							"jexpActiveWindow");
 				});
 		$wnd.$(el).css("z-index", 9999).addClass("jexpActiveWindow");
@@ -406,7 +404,7 @@ public class WindowView extends AbstractContainerFocusable implements IUIComposi
 	}
 
 	public void setBaseZIndex(int zindex) {
-		getElement().setAttribute("oz", String.valueOf(zindex));
+		originalZIndex = zindex;
 	}
 
 }
