@@ -202,7 +202,9 @@ public class WindowView extends AbstractContainerFocusable implements IUIComposi
 			width = String.valueOf(pct) + "%";
 			marginLeft = Math.ceil((100 - pct) / 2) + "%";
 		}
-		windowDiv.setAttribute("style", "z-index:" + originalZIndex + ";" + (width != null ? "width:" + width + ";" : "") + "left:" + marginLeft + ";min-width:100px;display:block");
+		String newStyle = "z-index:" + originalZIndex + ";" + (width != null ? "width:" + width + ";" : "") + "left:" + marginLeft + ";min-width:100px;";
+		newStyle += "display:"+windowDiv.getStyle().getDisplay();
+		windowDiv.setAttribute("style", newStyle);
 	}
 
 	private void fillHeader(ICssIcon icon, String header) {
