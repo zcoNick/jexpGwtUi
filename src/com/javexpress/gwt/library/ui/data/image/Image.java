@@ -53,13 +53,15 @@ public class Image extends JexpSimplePanel {
 		if (fitToParent) {
 			setWidth("100%");
 			setHeight("100%");
-			if (!JsUtil.USE_BOOTSTRAP)
-				setStyleName("ui-widget ui-widget-content ui-corner-all");
 		}
+		if (!JsUtil.USE_BOOTSTRAP)
+			setStyleName("ui-widget ui-widget-content ui-corner-all");
+		else
+			setStyleName("profile-picture");
 		JsUtil.ensureId(parent, this, WidgetConst.IMAGE_PREFIX, id);
 		getElement().getStyle().setOverflow(Overflow.AUTO);
-		getElement().getStyle().setPadding(0, Unit.PX);
-		getElement().getStyle().setMargin(0, Unit.PX);
+		//getElement().getStyle().setPadding(0, Unit.PX);
+		//getElement().getStyle().setMargin(0, Unit.PX);
 	}
 
 	public void load(final ServiceDefTarget service, final Enum method, final Serializable key) {

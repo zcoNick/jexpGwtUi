@@ -372,6 +372,7 @@ public class JqGrid<T extends Serializable> extends JexpWidget implements IDataV
 		beforeRenderToolItems();
 		for (GridToolItem tool : tools)
 			renderToolItem(tool);
+		onResize();
 	}
 
 	protected void beforeRenderToolItems() {
@@ -577,9 +578,9 @@ public class JqGrid<T extends Serializable> extends JexpWidget implements IDataV
 				- (usingBootstrap ? 0 : 2)), true);
 		if (maxHeight == 0) {
 			var hdiv = Math.round($wnd.$("#" + elId + " .ui-jqgrid-hdiv")
-					.height()) + 1;//22+1
-			var pager = Math.round($wnd.$(pagerEl).height()) + 1;//25+1
-			widget.setGridHeight(Math.round(parent.height() - 1 - hdiv - pager
+					.height());//22+1
+			var pager = Math.round($wnd.$(pagerEl).height());//25+1
+			widget.setGridHeight(Math.round(parent.height() - hdiv - pager
 					- (hasFooterRow ? 22 : 0)));
 		}
 	}-*/;

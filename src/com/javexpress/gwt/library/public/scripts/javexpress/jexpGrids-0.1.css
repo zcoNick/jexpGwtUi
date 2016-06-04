@@ -101,11 +101,7 @@
 .jexpEditGrid .jexpEditGridEditorCell > .jexpEditGridAutoCompleteCell { border:none;padding:1px;width:98%;padding:1px;border:0;background-color:white;font-size: 0.9em; }
 .jexpEditGrid .slick-cell .editable { border:none;padding:0;margin:0;font-size:1em }
 .jexpEditGrid .slick-cell .editor-text{ border:none;width:100%;height:100%;padding:0;margin:0;font-size:1em }
-.jexpJqGrid {
-	border-top:1px solid #E1E1E1;
-	border-left:1px solid #E1E1E1;
-	border-bottom:1px solid #E1E1E1;
-}
+.jexpJqGrid { border:1px solid #E1E1E1;padding: 0; }
 .ui-jqgrid-sortable {
     font-size: inherit;
     padding-left: 2px;
@@ -176,3 +172,4 @@
 .totals-container .slick-header-columns { border-bottom: none;border-top: 1px solid silver; }
 .grid-canvas .slick-cell {padding-top:3px;}
 .slick-header-column.ui-state-default {line-height:1.5;}
+.slick-cell.editable { border:none }

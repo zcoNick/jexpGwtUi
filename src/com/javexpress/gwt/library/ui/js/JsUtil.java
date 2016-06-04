@@ -493,6 +493,8 @@ public class JsUtil {
 		switch (type) {
 			case Text:
 				w = new TextBox(parent, property + "_");
+				if (!JsUtil.isEmpty(controlData))
+					((TextBox)w).getElement().setAttribute("cd", controlData);
 				if (value != null)
 					((TextBox) w).setText(value);
 				break;

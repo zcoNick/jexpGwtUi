@@ -42,7 +42,6 @@ public abstract class BaseSlickGrid<CT extends Column> extends ContainerWithBar 
 		wb.addJavaScript("scripts/slickgrid/slick.rowselectionmodel.js");
 		//wb.addJavaScript("scripts/slickgrid/slick.rowmovemanager.js");
 		//wb.addJavaScript("scripts/slickgrid/slick.formatters.js");
-		wb.addJavaScript("scripts/slickgrid/slick.editors.js");
 		wb.addJavaScript("scripts/slickgrid/slick.grid.js");
 		wb.addJavaScript("scripts/slickgrid/jexp.dataview.js");
 		wb.addJavaScript("scripts/slickgrid/slick.columnpicker.js");

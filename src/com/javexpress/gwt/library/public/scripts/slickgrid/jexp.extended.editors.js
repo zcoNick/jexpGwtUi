@@ -317,8 +317,13 @@ function JexpSelectCellEditor(args) {
             var option_str = "";
             for( var i=0;i<opt_values.length;i++ ){
               var v = opt_values[i];
+              if (!v && !args.column.useEmpty)
+            	  continue;
               var l = opt_labels[i];
               var d = opt_datas[i];
+              if ( !defaultValue && v && args.column.selectFirst )
+            	  defaultValue = v;
+            	  
               if (!args.column.itemShowing||args.column.itemShowing.call(this, args.column, args.item, v, l, d))
             	  option_str += "<OPTION value='"+(v?v:"")+"' d='"+(d?d:"")+"'>"+l+"</OPTION>";
             }
@@ -326,6 +331,8 @@ function JexpSelectCellEditor(args) {
         $select = $("<SELECT class='jexpEditGridEditorCell' style='border:none'>"+ option_str +"</SELECT>");
         $select.appendTo(args.container);
         $select.focus();
+        if (args.column.selectFirst && defaultValue)
+            $select.val(defaultValue);
 		jexpDisableGridCellNavigation(args);
     };
 
