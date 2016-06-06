@@ -38,22 +38,19 @@ import com.javexpress.gwt.library.ui.data.IToolItemHandler;
 import com.javexpress.gwt.library.ui.data.LinkColumn;
 import com.javexpress.gwt.library.ui.data.ListColumn;
 import com.javexpress.gwt.library.ui.data.ListColumn.Formatter;
-import com.javexpress.gwt.library.ui.data.ListColumn.SummaryType;
+import com.javexpress.gwt.library.ui.data.jqgrid.ExpandColumn;
 import com.javexpress.gwt.library.ui.js.JsUtil;
 import com.javexpress.gwt.library.ui.js.JsonMap;
 import com.javexpress.gwt.library.ui.menu.JqPopupMenu;
 
-public class DataGrid<T extends Serializable> extends BaseSlickGrid<ListColumn> implements IDataViewer {
+public class TreeGrid<T extends Serializable> extends BaseSlickGrid<ListColumn> implements IDataViewer {
 
-	private boolean						autoLoad;
-	private int							maxHeight	= 0;
-	private boolean						dataPaging	= true;
-	private JavaScriptObject			loader;
-	private IGridListener				listener;
-	private Element						recInfo, loadingPanel;
-	private DataGridStyler				styler;
-	private JsArray<JavaScriptObject>	currentGroupDef;
-	private List<GroupingDefinition>	grouping	= null;
+	private boolean				autoLoad;
+	private int					maxHeight	= 0;
+	private JavaScriptObject	loader;
+	private IGridListener		listener;
+	private Element				recInfo, loadingPanel;
+	private DataGridStyler		styler;
 
 	private JavaScriptObject getLoader() {
 		return loader;
@@ -81,19 +78,19 @@ public class DataGrid<T extends Serializable> extends BaseSlickGrid<ListColumn> 
 		getOptions().set("multiSelect", multiSelect);
 	}
 
-	public DataGrid(Widget parent, String id, boolean fitToParent, String keyColumnName) {
+	public TreeGrid(Widget parent, String id, boolean fitToParent, String keyColumnName) {
 		this(parent, id, fitToParent, null, keyColumnName, true, null);
 	}
 
 	/** Designer compatible constructor */
-	public DataGrid(Widget parent, String id, boolean fitToParent, String keyColumnName, String header) {
+	public TreeGrid(Widget parent, String id, boolean fitToParent, String keyColumnName, String header) {
 		this(parent, id, fitToParent, null, keyColumnName, true, header);
 	}
 
-	public DataGrid(Widget parent, String id, boolean fitToParent, final IJsonServicePoint servicePoint, String keyColumnName, boolean autoLoad, String header) {
+	public TreeGrid(Widget parent, String id, boolean fitToParent, final IJsonServicePoint servicePoint, String keyColumnName, boolean autoLoad, String header) {
 		super(parent, WidgetConst.DATAGRID_PREFIX, id, fitToParent, keyColumnName, header);
 
-		getElement().addClassName("jexpDataGrid");
+		getElement().addClassName("jexpDataGrid jexpTreeGrid");
 		setHeight("100px");
 
 		recInfo = DOM.createDiv();
@@ -118,8 +115,6 @@ public class DataGrid<T extends Serializable> extends BaseSlickGrid<ListColumn> 
 		addToolItem(tiRefresh);
 
 		this.autoLoad = autoLoad;
-
-		getOptions().setInt("rowsPerPage", 50);
 		if (servicePoint != null)
 			setListing(servicePoint);
 	}
@@ -148,12 +143,6 @@ public class DataGrid<T extends Serializable> extends BaseSlickGrid<ListColumn> 
 		JsonMap model = super.createColumnModel(column, index);
 		if (model == null)
 			return null;
-
-		if (column.isGroupable())
-			model.set("jexpGroupable", true);
-
-		if (column.getSummaryType() != null)
-			model.set("jexpSummaryType", column.getSummaryType().toString());
 
 		if (column.isSortable()) {
 			model.set("sortable", true);
@@ -204,43 +193,26 @@ public class DataGrid<T extends Serializable> extends BaseSlickGrid<ListColumn> 
 				map.set(k, SafeHtmlUtils.htmlEscape(column.getMapValue(k).toString()));
 			model.set("map", map);
 		}
+		if (column instanceof ExpandColumn)
+			model.set("expander", true);
 		return model;
 	}
 
 	@Override
 	protected JavaScriptObject createJsObject(JSONArray colModel) {
-		if (currentGroupDef != null)
-			setPaging(false);
-		JavaScriptObject jso = createByJs(this, getContainer().getId(), getOptions().getJavaScriptObject(), colModel.getJavaScriptObject(), getKeyColumnName(), "jexpDataGridLoadingPanel jexpDataGridLoadingIndicator", getData(), autoLoad, JsUtil.calcDialogZIndex(), loadingPanel, recInfo, ClientContext.nlsCommon.kayitBulunamadi(), ClientContext.nlsCommon.grupla(), styler, dataPaging, maxHeight, currentGroupDef);
+		JavaScriptObject jso = createByJs(this, getContainer().getId(), getOptions().getJavaScriptObject(), colModel.getJavaScriptObject(), getKeyColumnName(), "jexpDataGridLoadingPanel jexpDataGridLoadingIndicator", getData(), autoLoad, JsUtil.calcDialogZIndex(), loadingPanel, recInfo, ClientContext.nlsCommon.kayitBulunamadi(), ClientContext.nlsCommon.grupla(), styler, maxHeight);
 		autoLoad = false;
 		return jso;
 	}
 
-	private native JavaScriptObject createByJs(DataGrid x, String elGridId, JavaScriptObject options, JavaScriptObject columns, String keyColumnName, String loadingCssClassName, JavaScriptObject data, boolean autoLoad, int zIndex, Element loadingPanel, Element recInfo, String noRecFoundMessage, String groupMessage, DataGridStyler styler, boolean dataPaging, int maxHeight, JsArray<JavaScriptObject> currentGroupDef) /*-{
+	private native JavaScriptObject createByJs(TreeGrid x, String elGridId, JavaScriptObject options, JavaScriptObject columns, String keyColumnName, String loadingCssClassName, JavaScriptObject data, boolean autoLoad, int zIndex, Element loadingPanel, Element recInfo, String noRecFoundMessage, String groupMessage, DataGridStyler styler, int maxHeight) /*-{
 		var sortModel = null;
 		var hasGroupable = false;
+		var expandCol = null;
 		for (var i = 0; i < columns.length; i++) {
 			var model = columns[i];
 			if (model.sortedAsc)
 				sortModel = model;
-			if (model.jexpGroupable) {
-				options.rowsPerPage = 0;
-				hasGroupable = true;
-				model.header = {
-					menu : {
-						items : [ {
-							iconCssClass : "jexpGroupIcon",
-							title : groupMessage,
-							command : "group"
-						} ]
-					}
-				};
-			}
-
-			if (model.jexpSummaryType == "sum")
-				model.groupTotalsFormatter = $wnd.JexpSumFormatter;
-			else if (model.jexpSummaryType == "avg")
-				model.groupTotalsFormatter = $wnd.JexpAvgFormatter;
 
 			if (model.formatter == "bool") {
 				model.formatter = $wnd.JexpBoolFormatter;
@@ -263,6 +235,10 @@ public class DataGrid<T extends Serializable> extends BaseSlickGrid<ListColumn> 
 			} else if (model.formatter == "percentbar") {
 				model.formatter = $wnd.JexpPercentCompleteBarFormatter;
 			}
+
+			if (model.expander && !expandCol) {
+				expandCol = model;
+			}
 		}
 		var checkboxSelector = null;
 		if (options.multiSelect) {
@@ -281,36 +257,44 @@ public class DataGrid<T extends Serializable> extends BaseSlickGrid<ListColumn> 
 
 		var dataView = null;
 		var groupItemMetadataProvider = null;
-		if (!dataPaging || hasGroupable) {
-			if (hasGroupable) {
-				groupItemMetadataProvider = new $wnd.Slick.Data.GroupItemMetadataProvider();
-				dataView = new $wnd.Slick.Data.DataView({
-					groupItemMetadataProvider : groupItemMetadataProvider
-				});
-			} else
-				dataView = new $wnd.Slick.Data.DataView();
-			x.@com.javexpress.gwt.library.ui.data.slickgrid.DataGrid::setDataView(Lcom/google/gwt/core/client/JavaScriptObject;)(dataView);
+		dataView = new $wnd.Slick.Data.DataView();
+		x.@com.javexpress.gwt.library.ui.data.slickgrid.DataGrid::setDataView(Lcom/google/gwt/core/client/JavaScriptObject;)(dataView);
+
+		//https://groups.google.com/forum/embed/#!topic/slickgrid/4ado2RxZsG8
+		if (expandCol) {
+			var originalFormatter = expandCol.formatter;
+			expandCol.formatter = function(row, cell, value, columnDef,
+					dataContext) {
+				value = value.replace(/&/g, "&amp;").replace(/</g, "&lt;")
+						.replace(/>/g, "&gt;");
+				var spacer = "<span style='display:inline-block;height:1px;width:"
+						+ (15 * dataContext["indent"]) + "px'></span>";
+				var idx = dataView.getIdxById(dataContext.id);
+				if (data[idx + 1] && data[idx + 1].indent > data[idx].indent) {
+					if (dataContext._collapsed) {
+						return spacer
+								+ " <span class='toggle expand'></span>&nbsp;"
+								+ value;
+					} else {
+						return spacer
+								+ " <span class='toggle collapse'></span>&nbsp;"
+								+ value;
+					}
+				} else {
+					return spacer + " <span class='toggle'></span>&nbsp;"
+							+ value;
+				}
+			}
 		}
 
-		var grid = new $wnd.Slick.Grid("#" + elGridId,
-				dataView != null ? dataView : loader.data, columns, options);
+		var grid = new $wnd.Slick.Grid("#" + elGridId, dataView, columns,
+				options);
 		grid.setSelectionModel(new $wnd.Slick.RowSelectionModel(
 				options.multiSelect ? {
 					selectActiveRow : true
 				} : {}));
-		if (groupItemMetadataProvider)
-			grid.registerPlugin(groupItemMetadataProvider);
 		if (checkboxSelector)
 			grid.registerPlugin(checkboxSelector);
-		if (hasGroupable) {
-			var headerMenuPlugin = new $wnd.Slick.Plugins.HeaderMenu({});
-			//headerMenuPlugin.onBeforeMenuShow.subscribe(function(e, args) {});
-			headerMenuPlugin.onCommand
-					.subscribe(function(e, args) {
-						x.@com.javexpress.gwt.library.ui.data.slickgrid.DataGrid::fireOnHeaderMenuItemClicked(Ljava/lang/String;Lcom/google/gwt/core/client/JavaScriptObject;)(args.command,args.column);
-					});
-			grid.registerPlugin(headerMenuPlugin);
-		}
 
 		var columnpicker = new $wnd.Slick.Controls.ColumnPicker(columns, grid,
 				options);
@@ -344,44 +328,27 @@ public class DataGrid<T extends Serializable> extends BaseSlickGrid<ListColumn> 
 
 					$wnd.$(loadingPanel).removeClass(loadingCssClassName);
 
-					if (dataView) {
-						dataView.beginUpdate();
-						dataView.setItems(loader.data, keyColumnName);
-						if (currentGroupDef) {
-							dataView
-									.setGrouping(currentGroupDef.length > 1 ? currentGroupDef
-											: currentGroupDef[0]);
-						}
-						x.@com.javexpress.gwt.library.ui.data.slickgrid.DataGrid::fireOnDataLoaded(IILcom/google/gwt/core/client/JavaScriptObject;)(args.from, args.to, data);
-						dataView.endUpdate();
-					} else {
-						if (loader.lastLength != data.length) {
-							grid.updateRowCount();
-							loader.lastLength = data.length;
-						}
-						x.@com.javexpress.gwt.library.ui.data.slickgrid.DataGrid::fireOnDataLoaded(IILcom/google/gwt/core/client/JavaScriptObject;)(args.from, args.to, data);
-						grid.render();
+					dataView.beginUpdate();
+					dataView.setItems(loader.data, keyColumnName);
+					if (currentGroupDef) {
+						dataView
+								.setGrouping(currentGroupDef.length > 1 ? currentGroupDef
+										: currentGroupDef[0]);
 					}
+					x.@com.javexpress.gwt.library.ui.data.slickgrid.DataGrid::fireOnDataLoaded(IILcom/google/gwt/core/client/JavaScriptObject;)(args.from, args.to, data);
+					dataView.endUpdate();
 				});
 
-		if (dataView) {
-			//paging kapalıysa yada grouping
-			dataView.onRowCountChanged
-					.subscribe(function(e, args) {
-						x.@com.javexpress.gwt.library.ui.data.slickgrid.DataGrid::fireUpdateParentSize(I)(args.current);
-						grid.updateRowCount();
-						grid.render();
-					});
-			dataView.onRowsChanged.subscribe(function(e, args) {
-				grid.invalidateRows(args.rows);
-				grid.render();
-			});
-		} else {
-			grid.onViewportChanged.subscribe(function(e, args) {
-				var vp = grid.getViewport();
-				loader.ensureData(vp.top, vp.bottom);
-			});
-		}
+		dataView.onRowCountChanged
+				.subscribe(function(e, args) {
+					x.@com.javexpress.gwt.library.ui.data.slickgrid.DataGrid::fireUpdateParentSize(I)(args.current);
+					grid.updateRowCount();
+					grid.render();
+				});
+		dataView.onRowsChanged.subscribe(function(e, args) {
+			grid.invalidateRows(args.rows);
+			grid.render();
+		});
 
 		grid.onSort.subscribe(function(e, args) {
 			loader.clear();
@@ -475,16 +442,17 @@ public class DataGrid<T extends Serializable> extends BaseSlickGrid<ListColumn> 
 
 		// load the first page
 		if (autoLoad) {
-			if (dataView) {
-				loader.ensureData(0, options.maxRowsToFetch);
-			} else
-				grid.onViewportChanged.notify();
+			loader.ensureData(0, options.maxRowsToFetch);
 		}
 		$wnd
-				.$("#" + elGridId).bind("linkclicked",function(event, linkElement, row, cell, field,columnKey, value) {
-					var rowData = @com.javexpress.gwt.library.ui.data.slickgrid.DataGrid::resolveRowData(Lcom/google/gwt/core/client/JavaScriptObject;Lcom/google/gwt/core/client/JavaScriptObject;I)(dataView, data, row);
-					x.@com.javexpress.gwt.library.ui.data.slickgrid.DataGrid::fireLinkClicked(Lcom/google/gwt/core/client/JavaScriptObject;Lcom/google/gwt/core/client/JavaScriptObject;ILjava/lang/String;ILjava/lang/String;)(linkElement,rowData,cell,field,columnKey,value);
-				});
+				.$("#" + elGridId)
+				.bind(
+						"linkclicked",
+						function(event, linkElement, row, cell, field,
+								columnKey, value) {
+							var rowData = @com.javexpress.gwt.library.ui.data.slickgrid.DataGrid::resolveRowData(Lcom/google/gwt/core/client/JavaScriptObject;Lcom/google/gwt/core/client/JavaScriptObject;I)(dataView, data, row);
+							x.@com.javexpress.gwt.library.ui.data.slickgrid.DataGrid::fireLinkClicked(Lcom/google/gwt/core/client/JavaScriptObject;Lcom/google/gwt/core/client/JavaScriptObject;ILjava/lang/String;ILjava/lang/String;)(linkElement,rowData,cell,field,columnKey,value);
+						});
 		return grid;
 	}-*/;
 
@@ -638,7 +606,7 @@ public class DataGrid<T extends Serializable> extends BaseSlickGrid<ListColumn> 
 		return obj == null || obj.length() == 0 ? null : new JsonMap(obj.get(0));
 	}
 
-	private native JsArray<JavaScriptObject> _getSelectedRowsData(DataGrid x, JavaScriptObject grid, JavaScriptObject dataView, JavaScriptObject data) /*-{
+	private native JsArray<JavaScriptObject> _getSelectedRowsData(TreeGrid x, JavaScriptObject grid, JavaScriptObject dataView, JavaScriptObject data) /*-{
 		var selectedIndexes = grid.getSelectedRows();
 		if (selectedIndexes && selectedIndexes.length > 0) {
 			var arr = [];
@@ -719,90 +687,9 @@ public class DataGrid<T extends Serializable> extends BaseSlickGrid<ListColumn> 
 		loader.disableSelectEventFire = false;
 	}-*/;
 
-	private native JavaScriptObject _createAggregator(String func, String field) /*-{
-		if (func == "sum")
-			return new $wnd.Slick.Data.Aggregators.Sum(field);
-		if (func == "avg")
-			return new $wnd.Slick.Data.Aggregators.Avg(field);
-		if (func == "min")
-			return new $wnd.Slick.Data.Aggregators.Min(field);
-		if (func == "max")
-			return new $wnd.Slick.Data.Aggregators.Max(field);
-	}-*/;
-
-	private native JavaScriptObject _createGroupDef(String field, String title, String template, JsArray<JavaScriptObject> aggregators, boolean collapsed, boolean aggregateCollapsed, boolean lazyTotalsCalculation) /*-{
-		var gd = {
-			getter : field,
-			formatter : function(g) {
-				var s = title + " : " + g.value
-						+ "	<span style='color:green'>(" + g.count
-						+ " öğe)</span>";
-				return s;
-			},
-			collapsed : collapsed,
-		};
-		if (aggregators && aggregators.length > 0) {
-			gd.aggregators = aggregators;
-			gd.aggregateCollapsed = aggregateCollapsed;
-			gd.lazyTotalsCalculation = lazyTotalsCalculation;
-		}
-		return gd;
-	}-*/;
-
-	@Override
-	public void addGrouping(GroupingDefinition groupingItem) {
-		if (grouping == null)
-			grouping = new ArrayList<GroupingDefinition>();
-		grouping.add(groupingItem);
-	}
-
-	@Override
-	public void applyGrouping() {
-		JsArray<JavaScriptObject> groupDef = JsArray.createArray().cast();
-		for (GroupingDefinition gi : grouping) {
-			for (ListColumn col : getColumns()) {
-				if (col.getField().equals(gi.getField())) {
-					JsArray<JavaScriptObject> aggregators = null;
-					if (gi.getAggregators() != null) {
-						aggregators = JsArray.createArray().cast();
-						for (String field : gi.getAggregators().keySet()) {
-							SummaryType colagg = gi.getAggregators().get(field);
-							if (colagg != null) {
-								aggregators.push(_createAggregator(colagg.toString(), field));
-								for (ListColumn col2 : getColumns())
-									if (col2.getField().equals(field)) {
-										col2.setSummaryType(colagg);
-										break;
-									}
-							}
-						}
-					}
-					groupDef.push(_createGroupDef(col.getField(), col.getTitle(), col.getSummaryTemplate(), aggregators, gi.isCollapsed(), gi.isAggregateCollapsed(), gi.isLazyCalculation()));
-					col.setGroupable(true);
-					break;
-				}
-			}
-		}
-		currentGroupDef = groupDef;
-		if (isAttached())
-			_setGrouping(getDataView(), currentGroupDef);
-	}
-
-	private native void _setGrouping(JavaScriptObject dataView, JavaScriptObject groupDef) /*-{
-		dataView.beginUpdate();
-		dataView.setGrouping(groupDef);
-		dataView.endUpdate();
-	}-*/;
-
 	@Override
 	public void setListing(IJsonServicePoint listingEnum) {
 		getOptions().set("dataURL", JsUtil.getServiceUrl(listingEnum));
-	}
-
-	@Override
-	public void setPaging(boolean dataPaging) {
-		this.dataPaging = dataPaging;
-		setRowsPerPage(dataPaging ? 50 : 0);
 	}
 
 	public int getRowsPerPage() {
@@ -857,23 +744,13 @@ public class DataGrid<T extends Serializable> extends BaseSlickGrid<ListColumn> 
 	}
 
 	private void fireOnHeaderMenuItemClicked(String command, JavaScriptObject colDefObj) {
-		String field = new JsonMap(colDefObj).getString("field");
-		if (command.equals("group")) {
-			if (grouping != null)
-				grouping.clear();
-			else
-				grouping = new ArrayList<GroupingDefinition>();
-			GroupingDefinition gi = new GroupingDefinition(field, false);
-			grouping.add(gi);
-			applyGrouping();
-		}
 	}
 
 	private void fireOnDataLoaded(int from, int to, JavaScriptObject data) throws Exception {
-		if (listener != null){
+		if (listener != null) {
 			try {
 				listener.onGridDataLoaded(data);
-			} catch (Exception e){
+			} catch (Exception e) {
 				JsUtil.handleError(this, e);
 			}
 		}
@@ -890,14 +767,7 @@ public class DataGrid<T extends Serializable> extends BaseSlickGrid<ListColumn> 
 			}
 	}
 
-	@Override
-	protected void onAttach() {
-		if (grouping != null && !grouping.isEmpty())
-			applyGrouping();
-		super.onAttach();
-	}
-
-	private int	lastCalculatedSize	= 0;
+	private int lastCalculatedSize = 0;
 
 	private void fireUpdateParentSize(int dataLength) {
 		int calculated = Math.min(maxHeight, Math.max(85, TOPPANEL_HEIGHT + ((dataLength + 2) * (getOptions().getInt("rowHeight", 24) + 2))));
@@ -916,12 +786,23 @@ public class DataGrid<T extends Serializable> extends BaseSlickGrid<ListColumn> 
 		loadingPanel = null;
 		loader = null;
 		styler = null;
-		grouping = null;
 		super.onUnload();
 	}
 
 	@Override
+	public void setPaging(boolean dataPaging) {
+	}
+
+	@Override
 	public void setDataExportOptions(boolean useForeignKeysAsVariable) {
+	}
+
+	@Override
+	public void addGrouping(GroupingDefinition groupingItem) {
+	}
+
+	@Override
+	public void applyGrouping() {
 	}
 
 }
