@@ -481,10 +481,14 @@ public class DataGrid<T extends Serializable> extends BaseSlickGrid<ListColumn> 
 				grid.onViewportChanged.notify();
 		}
 		$wnd
-				.$("#" + elGridId).bind("linkclicked",function(event, linkElement, row, cell, field,columnKey, value) {
-					var rowData = @com.javexpress.gwt.library.ui.data.slickgrid.DataGrid::resolveRowData(Lcom/google/gwt/core/client/JavaScriptObject;Lcom/google/gwt/core/client/JavaScriptObject;I)(dataView, data, row);
-					x.@com.javexpress.gwt.library.ui.data.slickgrid.DataGrid::fireLinkClicked(Lcom/google/gwt/core/client/JavaScriptObject;Lcom/google/gwt/core/client/JavaScriptObject;ILjava/lang/String;ILjava/lang/String;)(linkElement,rowData,cell,field,columnKey,value);
-				});
+				.$("#" + elGridId)
+				.bind(
+						"linkclicked",
+						function(event, linkElement, row, cell, field,
+								columnKey, value) {
+							var rowData = @com.javexpress.gwt.library.ui.data.slickgrid.DataGrid::resolveRowData(Lcom/google/gwt/core/client/JavaScriptObject;Lcom/google/gwt/core/client/JavaScriptObject;I)(dataView, data, row);
+							x.@com.javexpress.gwt.library.ui.data.slickgrid.DataGrid::fireLinkClicked(Lcom/google/gwt/core/client/JavaScriptObject;Lcom/google/gwt/core/client/JavaScriptObject;ILjava/lang/String;ILjava/lang/String;)(linkElement,rowData,cell,field,columnKey,value);
+						});
 		return grid;
 	}-*/;
 
@@ -870,10 +874,10 @@ public class DataGrid<T extends Serializable> extends BaseSlickGrid<ListColumn> 
 	}
 
 	private void fireOnDataLoaded(int from, int to, JavaScriptObject data) throws Exception {
-		if (listener != null){
+		if (listener != null) {
 			try {
 				listener.onGridDataLoaded(data);
-			} catch (Exception e){
+			} catch (Exception e) {
 				JsUtil.handleError(this, e);
 			}
 		}
@@ -897,7 +901,7 @@ public class DataGrid<T extends Serializable> extends BaseSlickGrid<ListColumn> 
 		super.onAttach();
 	}
 
-	private int	lastCalculatedSize	= 0;
+	private int lastCalculatedSize = 0;
 
 	private void fireUpdateParentSize(int dataLength) {
 		int calculated = Math.min(maxHeight, Math.max(85, TOPPANEL_HEIGHT + ((dataLength + 2) * (getOptions().getInt("rowHeight", 24) + 2))));
@@ -921,7 +925,7 @@ public class DataGrid<T extends Serializable> extends BaseSlickGrid<ListColumn> 
 	}
 
 	@Override
-	public void setDataExportOptions(boolean useForeignKeysAsVariable) {
+	public void setDataExportOptions(boolean useForeignKeysAsVariable, String quote, String sep, Integer readBlockSize) {
 	}
 
 }

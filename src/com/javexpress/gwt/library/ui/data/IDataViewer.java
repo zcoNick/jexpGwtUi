@@ -63,7 +63,7 @@ public interface IDataViewer extends IJexpWidget, ISizeAwareWidget, IDataChangeL
 
 	void performAutoSizeColumns();
 
-	void setDataExportOptions(boolean useForeignKeysAsVariable);
+	void setDataExportOptions(boolean useForeignKeysAsVariable, String quote, String sep, Integer readBlockSize);
 
 	void addGrouping(GroupingDefinition groupingItem);
 

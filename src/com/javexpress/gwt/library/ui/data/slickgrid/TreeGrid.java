@@ -794,7 +794,7 @@ public class TreeGrid<T extends Serializable> extends BaseSlickGrid<ListColumn> 
 	}
 
 	@Override
-	public void setDataExportOptions(boolean useForeignKeysAsVariable) {
+	public void setDataExportOptions(boolean useForeignKeysAsVariable, String quote, String sep, Integer readBlockSize) {
 	}
 
 	@Override

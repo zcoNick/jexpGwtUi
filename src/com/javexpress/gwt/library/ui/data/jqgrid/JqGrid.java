@@ -890,7 +890,7 @@ public class JqGrid<T extends Serializable> extends JexpWidget implements IDataV
 	}
 
 	@Override
-	public void setDataExportOptions(boolean useForeignKeysAsVariable) {
+	public void setDataExportOptions(boolean useForeignKeysAsVariable, String quote, String sep, Integer readBlockSize) {
 	}
 
 	@Override
