@@ -24,6 +24,7 @@
 	-ms-filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#33BEF5', endColorstr='#61B6FF');
 	background:linear-gradient(#33BEF5,#61B6FF);
 	color:#edf0fc;
+	border-bottom:none;
 }
 .jexp-ui-window > .widget-header > .widget-toolbar a { color:#e8e7fd;font-size:1.5em; } 
 .jexp-ui-window > .widget-header > .widget-toolbar a:hover { color:white; } 
