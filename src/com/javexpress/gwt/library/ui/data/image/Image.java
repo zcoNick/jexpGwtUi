@@ -5,7 +5,6 @@ import java.util.Date;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.dom.client.Style.Overflow;
-import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.dom.client.DoubleClickEvent;
@@ -57,7 +56,7 @@ public class Image extends JexpSimplePanel {
 		if (!JsUtil.USE_BOOTSTRAP)
 			setStyleName("ui-widget ui-widget-content ui-corner-all");
 		else
-			setStyleName("profile-picture");
+			setStyleName("jexpPictureBox");
 		JsUtil.ensureId(parent, this, WidgetConst.IMAGE_PREFIX, id);
 		getElement().getStyle().setOverflow(Overflow.AUTO);
 		//getElement().getStyle().setPadding(0, Unit.PX);
