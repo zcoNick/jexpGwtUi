@@ -44,6 +44,7 @@ public class AutoCompleteBox<V extends Serializable> extends BaseWrappedInput<St
 
 		input = DOM.createInputText().cast();
 		JsUtil.ensureSubId(getElement(), input, "inp");
+		input.addClassName("form-control");
 		getElement().appendChild(input);
 
 		indicator = DOM.createSpan();

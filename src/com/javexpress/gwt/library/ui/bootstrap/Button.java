@@ -46,8 +46,13 @@ public class Button extends ButtonBase implements ICallbackAware {
 	@Override
 	public void setText(String text) {
 		this.text = text;
-		if (isAttached())
+		if (isAttached()) {
 			textSpan.setInnerText(text);
+			if (JsUtil.isEmpty(text))
+				iconSpan.addClassName("icon-only");
+			else
+				iconSpan.removeClassName("icon-only");
+		}
 	}
 
 	public WPull getWpull() {
@@ -82,8 +87,13 @@ public class Button extends ButtonBase implements ICallbackAware {
 
 	public void setIcon(ICssIcon icon) {
 		this.iconClass = icon;
-		if (isAttached())
+		if (isAttached()) {
 			ClientContext.resourceInjector.applyIconStyles(iconSpan, icon);
+			if (JsUtil.isEmpty(text))
+				iconSpan.addClassName("icon-only");
+			else
+				iconSpan.removeClassName("icon-only");
+		}
 	}
 
 	public String getTextClass() {
@@ -113,6 +123,8 @@ public class Button extends ButtonBase implements ICallbackAware {
 		textSpan = DOM.createSpan();
 		textSpan.setClassName(textClass);
 		textSpan.setInnerText(text);
+		if (JsUtil.isEmpty(text))
+			iconSpan.addClassName("icon-only");
 		getElement().appendChild(textSpan);
 		super.onLoad();
 	}
@@ -234,8 +246,8 @@ public class Button extends ButtonBase implements ICallbackAware {
 	public Integer getTag() {
 		return tag;
 	}
-	
-	public void setInverted(boolean inverted){
+
+	public void setInverted(boolean inverted) {
 		if (inverted)
 			getElement().addClassName("btn-inverse");
 		else

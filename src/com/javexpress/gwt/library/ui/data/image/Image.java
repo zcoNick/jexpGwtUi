@@ -56,7 +56,7 @@ public class Image extends JexpSimplePanel {
 		if (!JsUtil.USE_BOOTSTRAP)
 			setStyleName("ui-widget ui-widget-content ui-corner-all");
 		else
-			setStyleName("jexpPictureBox");
+			setStyleName("profile-picture jexpPictureBox");
 		JsUtil.ensureId(parent, this, WidgetConst.IMAGE_PREFIX, id);
 		getElement().getStyle().setOverflow(Overflow.AUTO);
 		//getElement().getStyle().setPadding(0, Unit.PX);

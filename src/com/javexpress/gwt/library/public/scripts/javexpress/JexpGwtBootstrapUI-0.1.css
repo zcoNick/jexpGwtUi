@@ -12,20 +12,6 @@
 .gwt-CheckBox.jexpSmallGwtCheck > label { font-size:inherit; }
 .modal > .widget-box { margin-top: 20px; }
 .jexp-ui-window { font-size: 1em }
-.jexp-ui-window.widget-box { border: 4px solid #33BEF5;border-radius: 3px; }
-.jexp-ui-window > .widget-header { 
-	background-color:#61B6FF;
-	background:-webkit-gradient(linear,left top,left bottom,color-stop(0%,#33BEF5),color-stop(100%,#61B6FF));
-	background:-webkit-linear-gradient(#33BEF5,#61B6FF);
-	background:-moz-linear-gradient(#33BEF5,#61B6FF);
-	background:-ms-linear-gradient(#33BEF5,#61B6FF);
-	background:-o-linear-gradient(#33BEF5,#61B6FF);
-	filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#33BEF5', endColorstr='#61B6FF');
-	-ms-filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#33BEF5', endColorstr='#61B6FF');
-	background:linear-gradient(#33BEF5,#61B6FF);
-	color:#edf0fc;
-	border-bottom:none;
-}
 .jexp-ui-window > .widget-header > .widget-toolbar a { color:#e8e7fd;font-size:1.5em; } 
 .jexp-ui-window > .widget-header > .widget-toolbar a:hover { color:white; } 
 .jexp-ui-window > .widget-header > .widget-toolbar:before { border:none; } 
@@ -94,7 +80,7 @@
 .jexpTabSet.tabs-left > .nav-tabs { border-bottom:none; }
 .jexpTabSet.tabs-left > .nav-tabs > li { margin-bottom: 2px; }
 .jexpTabSet.tabs-left > .nav-tabs > li > a { padding: 5px 10px 2px 5px; }
-.jexpFormArea.form-horizontal .form-group { margin-left:0px;margin-right:0px; }
+.jexpFormArea.form-horizontal .form-group { margin-left:0px;margin-right:0px;font-size: 1em; }
 .jexpGroupBox.widget-box.transparent > .widget-header { min-height:22px;margin-bottom:2px; } 
 .jexpGroupBox.widget-box.transparent > .widget-header > .widget-title { line-height:22px; }
 .jexpCellView { margin:3px; }
