@@ -82,10 +82,10 @@ public class JsUtil {
 		void eventTriggered(Event event, String type, String args);
 	}
 
-	public static final BigDecimal	ZERO					= new BigDecimal(0);
-	public static boolean			isIE7					= false;
-	public static boolean			isIE8					= false;
-	public static boolean			isIE9					= false;
+	public static final BigDecimal	ZERO	= new BigDecimal(0);
+	public static boolean			isIE7	= false;
+	public static boolean			isIE8	= false;
+	public static boolean			isIE9	= false;
 
 	static {
 		if (Window.Navigator.getUserAgent().matches(".*MSIE 7.*"))
@@ -115,23 +115,23 @@ public class JsUtil {
 		String name = getUserAgent();
 		return name.indexOf("chrome") > -1 || name.indexOf("chromium") > -1 || name.indexOf("safari") > -1;
 	}
-	
-	public static Element createSubDiv(Element parent, String styles){
+
+	public static Element createSubDiv(Element parent, String styles) {
 		Element div = DOM.createDiv();
 		div.setClassName(styles);
 		parent.appendChild(div);
 		return div;
 	}
 
-	public static Element createSubAnchor(Element parent, String styles, String text){
+	public static Element createSubAnchor(Element parent, String styles, String text) {
 		Element anchor = DOM.createAnchor();
 		anchor.setClassName(styles);
 		parent.appendChild(anchor);
-		if (text!=null)
+		if (text != null)
 			anchor.setInnerText(text);
 		return anchor;
 	}
-	
+
 	public static native String getBrowserName()/*-{
 		return $wnd.navigator.appName.toLowerCase();
 	}-*/;
@@ -494,7 +494,7 @@ public class JsUtil {
 			case Text:
 				w = new TextBox(parent, property + "_");
 				if (!JsUtil.isEmpty(controlData))
-					((TextBox)w).getElement().setAttribute("cd", controlData);
+					((TextBox) w).getElement().setAttribute("cd", controlData);
 				if (value != null)
 					((TextBox) w).setText(value);
 				break;
@@ -773,7 +773,7 @@ public class JsUtil {
 		return full * (Integer.parseInt(percent.substring(0, percent.length() - 1))) / 100;
 	}
 
-	public static volatile int	lastDialogZIndex	= 3;
+	public static volatile int lastDialogZIndex = 3;
 
 	public static int calcDialogZIndex() {
 		lastDialogZIndex += 3;
@@ -1024,7 +1024,7 @@ public class JsUtil {
 	public static native void transfer(JavaScriptObject fromEl, JavaScriptObject toEl) /*-{
 		$wnd.$(fromEl).effect("transfer", {
 			to : toEl
-		}, 500);
+		}, 300);
 	}-*/;
 
 	public static native void showElement(Element element, JqEffect effect) /*-{
@@ -1080,7 +1080,7 @@ public class JsUtil {
 		return null;
 	}
 
-	public static boolean	USE_BOOTSTRAP	= false;
+	public static boolean USE_BOOTSTRAP = false;
 
 	public static Integer nvl(Integer val, int i) {
 		if (val == null)
@@ -1148,7 +1148,7 @@ public class JsUtil {
 						});
 	}-*/;
 
-	private static SuperDevModeIndicator	sdmIndicator	= GWT.create(SuperDevModeIndicator.class);
+	private static SuperDevModeIndicator sdmIndicator = GWT.create(SuperDevModeIndicator.class);
 
 	public static boolean isSuperDevMode() {
 		return sdmIndicator.isSuperDevMode();
@@ -1186,10 +1186,10 @@ public class JsUtil {
 	public static Element createSubElement(Element parent, String tag) {
 		return createSubElement(parent, tag, null);
 	}
-	
+
 	public static Element createSubElement(Element parent, String tag, String styles) {
 		Element child = DOM.createElement(tag);
-		if (styles!=null)
+		if (styles != null)
 			child.setClassName(styles);
 		parent.appendChild(child);
 		return child;

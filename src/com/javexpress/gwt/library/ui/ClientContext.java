@@ -2,6 +2,7 @@ package com.javexpress.gwt.library.ui;
 
 import com.google.gwt.core.client.EntryPoint;
 import com.google.gwt.core.client.GWT;
+import com.google.gwt.dom.client.Element;
 import com.google.gwt.event.shared.EventBus;
 import com.google.gwt.event.shared.SimpleEventBus;
 import com.javexpress.common.model.item.exception.AppException;
@@ -40,15 +41,27 @@ public abstract class ClientContext implements EntryPoint {
 		EVENT_BUS.fireEvent(new ExceptionThrownEvent(windowId, ae));
 	}
 
+	public void showInWindow(IUIComposite form, boolean modal, Element originator) {
+		showInWindow(form, modal, null, null, originator, null);
+	}
+
+	public void showInWindow(IUIComposite form, boolean modal, Element originator, JexpCallback<WindowView> callback) {
+		showInWindow(form, modal, null, null, originator, callback);
+	}
+
 	public void showInWindow(IUIComposite form, boolean modal, JexpCallback<WindowView> callback) {
-		showInWindow(form, modal, null, null, callback);
+		showInWindow(form, modal, null, null, null, callback);
 	}
 
 	public void showInWindow(IUIComposite form, boolean modal) {
-		showInWindow(form, modal, null, null, null);
+		showInWindow(form, modal, null, null, null, null);
 	}
 
 	public void showInWindow(IUIComposite form, boolean modal, Integer x, Integer y, JexpCallback<WindowView> callback) {
+		showInWindow(form, modal, x, y, null, callback);
+	}
+
+	public void showInWindow(IUIComposite form, boolean modal, Integer x, Integer y, Element originator, JexpCallback<WindowView> callback) {
 		EVENT_BUS.fireEvent(new FormShowInWindowRequest(form, modal, x, y, callback));
 	}
 
