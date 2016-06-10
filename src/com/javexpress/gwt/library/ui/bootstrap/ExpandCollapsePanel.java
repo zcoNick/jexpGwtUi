@@ -16,15 +16,15 @@ import com.javexpress.gwt.library.ui.js.JsUtil;
 
 public class ExpandCollapsePanel extends AbstractContainerFocusable implements ISizeAwareWidget {
 
-	protected Element			contentDiv;
-	protected Element			toolDiv;
-	private Element				iconSpan;
-	private Element				headerSpan;
-	protected Element			headerEl;
-	private Element				elCollapse;
-	private boolean				collapsed;
-	private Element				bodyDiv;
-	private IWidgetBoxListener	listener;
+	protected Element contentDiv;
+	protected Element toolDiv;
+	private Element iconSpan;
+	private Element headerSpan;
+	protected Element headerEl;
+	private Element elCollapse;
+	private boolean collapsed;
+	private Element bodyDiv;
+	private IWidgetBoxListener listener;
 
 	public IWidgetBoxListener getListener() {
 		return listener;
@@ -45,7 +45,8 @@ public class ExpandCollapsePanel extends AbstractContainerFocusable implements I
 	public ExpandCollapsePanel(Widget parent, final String id, boolean smallTitle, boolean transparentTitle) {
 		super(DOM.createDiv());
 		JsUtil.ensureId(parent, this, WidgetConst.EXPANDABLEPANEL_PREFIX, id);
-		getElement().setClassName("jexpGroupBox widget-box" + (transparentTitle ? " transparent" : "") + (smallTitle ? " smalltitle" : ""));
+		getElement().setClassName("jexpGroupBox widget-box" + (transparentTitle ? " transparent" : "")
+				+ (smallTitle ? " smalltitle" : ""));
 		if (!transparentTitle)
 			getElement().getStyle().setPadding(0, Unit.PX);
 		Element headerDiv = DOM.createDiv();
@@ -67,7 +68,7 @@ public class ExpandCollapsePanel extends AbstractContainerFocusable implements I
 		elCollapse = DOM.createAnchor();
 		elCollapse.setAttribute("data-toggle", "collapse");
 		elCollapse.setAttribute("data-target", "#" + contentDiv.getId());
-		//elCollapse.setAttribute("href", "#" + contentDiv.getId());
+		// elCollapse.setAttribute("href", "#" + contentDiv.getId());
 		elCollapse.setClassName("jexpHandCursor");
 		toolDiv.appendChild(elCollapse);
 		headerDiv.appendChild(toolDiv);
@@ -108,10 +109,16 @@ public class ExpandCollapsePanel extends AbstractContainerFocusable implements I
 	}
 
 	public void addToolItem(ICssIcon icon, String hint, Command command) {
+		addToolItem(icon, hint, command, null);
+	}
+
+	public void addToolItem(ICssIcon icon, String hint, Command command, String styles) {
 		Element a = DOM.createAnchor();
 		a.setTitle(hint);
 		a.addClassName("ub_" + getId());
-		a.setInnerHTML("<i class='jexpHandCursor ace-icon jexpWidgetToolItem " + icon.getCssClass() + "'></i>");
+		a.setInnerHTML(
+				"<i class='jexpHandCursor jexpWidgetToolItem " + ClientContext.resourceInjector.getFontIconPrefixClass()
+						+ " " + icon.getCssClass() + (JsUtil.isNotEmpty(styles) ? " " + styles : "") + "'></i>");
 		if (elCollapse != null)
 			toolDiv.insertBefore(a, elCollapse);
 		else
@@ -173,7 +180,7 @@ public class ExpandCollapsePanel extends AbstractContainerFocusable implements I
 		$wnd.$(root).empty().off();
 	}-*/;
 
-	//--EVENTS
+	// --EVENTS
 	private boolean fireOnShowing() {
 		if (listener != null)
 			return listener.onExpanding();

@@ -148,18 +148,20 @@
 .ui-jqgrid tr.ui-row-ltr td { border-right-color:#E1E1E1;border-bottom-color:#E1E1E1; }
 .ui-jqgrid .ui-jqgrid-btable { border-left:none; }
 .jexpPopFilterPanel { font-size:11px; }
-.jexpFilterPanel{}
+.jexpFilterPanel{ background-color:#F2F6F9; }
+.jexpFilterPanel.jexpGroupBox.widget-box.transparent > .widget-header { padding-left:0.5em;font-weight: 300;background-color: #ECF1F4; }
+.jexpFilterPanel.widget-box.transparent {border: 1px solid #d6e1ea;border-radius: 3px;}
 .jexpFilterPanel .widget-toolbar{ line-height: 24px;cursor:pointer; } 
-.jexpFilterPanel .widget-toolbar .jexpWidgetToolItem{ padding-right: 4px;color:#AAAAAA; } 
-.jexpFilterPanel .widget-toolbar .jexpWidgetToolItem:hover{ color:inherit; } 
+.jexpFilterPanel .widget-toolbar .jexpWidgetToolItem{ padding-right: 4px;opacity:0.4; } 
+.jexpFilterPanel .widget-toolbar .jexpWidgetToolItem:hover{ opacity:1; } 
 .jexpFilterPanel .widget-header{ min-height: 24px; } 
 .jexpFilterPanel .widget-header > .widget-title{ line-height: 24px; } 
 .jexpFilterPanelItem { margin-left: 0;margin-right: 0;padding: 0; }
 .jexpFilterPanelItem .jexpFilterLabel{
-    overflow: hidden;text-align: right;text-overflow: ellipsis;white-space: nowrap;font-size: 0.85em;padding-left: 0;padding-right: 1px;padding-top: 3px;
+    overflow: hidden;text-align: right;text-overflow: ellipsis;white-space: nowrap;font-size: 0.9em;padding-left: 0;padding-right: 1px;padding-top: 3px;color:#53748b;
 }
-.jexpFilterPanelItem .jexpTextBox,.jexpFilterPanelItem .jexpComboBox,.jexpFilterPanelItem .jexpNumericBox,.jexpFilterPanelItem .jexpDateBox,.jexpFilterPanelItem .jexpAutoComplete {
-	font-size:0.9em;height:22px;color:#000000;/*padding: 0 1px 1px;*/
+.jexpFilterPanelItem .jexpTextBox, .jexpFilterPanelItem .jexpComboBox, .jexpFilterPanelItem .jexpNumericBox, .jexpFilterPanelItem .jexpDateBox, .jexpFilterPanelItem .jexpAutoComplete, .jexpFilterPanelItem .jexpCheckComboBox {
+	font-size:0.9em;height:22px;color:#000000;color:#478FCA;font-weight:300;
 }
 .jexpFilterPanelItem .jexpControlContainer { padding: 0 1px 1px; }
 .jexpFilterPanelItem .jexpControlContainer .input-group.jexpDateBox { width:8em; }
