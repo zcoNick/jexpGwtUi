@@ -80,6 +80,7 @@
 .jexpTabSet.tabs-left > .nav-tabs { border-bottom:none; }
 .jexpTabSet.tabs-left > .nav-tabs > li { margin-bottom: 2px; }
 .jexpTabSet.tabs-left > .nav-tabs > li > a { padding: 5px 10px 2px 5px; }
+.jexpTabSet > .tab-content.hasBorders { border: 1px solid #C5D0DC;padding: 3px; }
 .jexpFormArea.form-horizontal .form-group { margin-left:0px;margin-right:0px;font-size: 1em; }
 .jexpGroupBox.widget-box.transparent > .widget-header { min-height:22px;margin-bottom:4px; } 
 .jexpGroupBox.widget-box.transparent > .widget-header > .widget-title { line-height:22px; }

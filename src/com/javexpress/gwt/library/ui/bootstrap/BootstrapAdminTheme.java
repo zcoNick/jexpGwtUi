@@ -5,6 +5,7 @@ import com.google.gwt.user.client.Command;
 import com.google.gwt.user.client.ui.RootPanel;
 import com.javexpress.common.model.item.FormDef;
 import com.javexpress.gwt.library.ui.ClientContext;
+import com.javexpress.gwt.library.ui.bootstrap.Bootstrap.WContext;
 import com.javexpress.gwt.library.ui.container.dashboard.ProvidesDashboardConfig;
 import com.javexpress.gwt.library.ui.event.ApplicationReadyEvent;
 import com.javexpress.gwt.library.ui.event.FormOpenRequest;
@@ -114,6 +115,37 @@ public abstract class BootstrapAdminTheme extends BootstrapTheme implements ISid
 		body.setStyleName(getSkinName());
 
 		JsUtil.setNumeralLibLanguage(LocaleInfo.getCurrentLocale().getLocaleName());
+	}
+
+	@Override
+	public String resolveWContext(WContext wcontext) {
+		if (wcontext == null)
+			return null;
+		switch (wcontext) {
+			case Primary:
+				return "primary";
+			case Success:
+				return "success";
+			case Purple:
+				return "purple";
+			case Pink:
+				return "pink";
+			case Info:
+				return "info";
+			case Grey:
+				return "grey";
+			case Warning:
+				return "warning";
+			case Light:
+				return "light";
+			case White:
+				return "white";
+			case Yellow:
+				return "yellow";
+			case Danger:
+				return "danger";
+		}
+		return null;
 	}
 
 }

@@ -29,6 +29,13 @@ public class Button extends ButtonBase implements ICallbackAware {
 	private Element		textSpan;
 	private boolean		disabled	= false;
 	private Integer		tag;
+	private WContext	iconwcontext;
+
+	public void setIconWcontext(WContext wcontext) {
+		this.iconwcontext = wcontext;
+		if (isAttached())
+			updateStyleContext();
+	}
 
 	public Integer getSize() {
 		return size;
@@ -146,46 +153,17 @@ public class Button extends ButtonBase implements ICallbackAware {
 					break;
 			}
 		}
-		if (wcontext != null) {
-			switch (wcontext) {
-				case Primary:
-					clazz += " btn-primary";
-					break;
-				case Success:
-					clazz += " btn-success";
-					break;
-				case Purple:
-					clazz += " btn-purple";
-					break;
-				case Pink:
-					clazz += " btn-pink";
-					break;
-				case Info:
-					clazz += " btn-info";
-					break;
-				case Grey:
-					clazz += " btn-grey";
-					break;
-				case Warning:
-					clazz += " btn-warning";
-					break;
-				case Light:
-					clazz += " btn-light";
-					break;
-				case Yellow:
-					clazz += " btn-yellow";
-					break;
-				case Danger:
-					clazz += " btn-danger";
-					break;
-				default:
-					if (highlight)
-						clazz += " btn-primary";
-					break;
-			}
-		} else if (highlight)
-			clazz += " btn-primary";
-		getElement().addClassName(clazz);
+		String c = ClientContext.resourceInjector.resolveWContext(wcontext);
+		if (c != null || highlight) {
+			if (highlight)
+				clazz += " btn-primary";
+			else
+				clazz += " btn-" + c;
+		}
+		addStyleName(clazz.trim());
+		c = ClientContext.resourceInjector.resolveWContext(iconwcontext);
+		if (c != null)
+			iconSpan.addClassName(c);
 	}
 
 	public void click() {
@@ -200,6 +178,7 @@ public class Button extends ButtonBase implements ICallbackAware {
 		textSpan.setInnerHTML("...");
 		disabled = true;
 		getElement().setAttribute("disabled", "true");
+		JsUtil.pulsate(getElement());
 	}
 
 	@Override
@@ -231,6 +210,7 @@ public class Button extends ButtonBase implements ICallbackAware {
 		wpull = null;
 		wsize = null;
 		wcontext = null;
+		iconwcontext = null;
 		iconClass = null;
 		textClass = null;
 		iconSpan = null;

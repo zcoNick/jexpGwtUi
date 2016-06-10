@@ -33,6 +33,7 @@ public class MenuButton extends ComplexPanel {
 	private boolean			dropUp		= false;
 	private Element			button;
 	private IMenuHandler	handler;
+	private WContext		iconwcontext;
 
 	public IMenuHandler getHandler() {
 		return handler;
@@ -94,6 +95,12 @@ public class MenuButton extends ComplexPanel {
 			updateStyleContext();
 	}
 
+	public void setIconWcontext(WContext wcontext) {
+		this.iconwcontext = wcontext;
+		if (isAttached())
+			updateStyleContext();
+	}
+
 	public ICssIcon getIcon() {
 		return iconClass;
 	}
@@ -137,7 +144,7 @@ public class MenuButton extends ComplexPanel {
 	@Override
 	protected void onLoad() {
 		if (text != null)
-			textSpan.setInnerText(text + " ");		
+			textSpan.setInnerText(text + " ");
 		if (isDropUp())
 			getElement().addClassName("dropup jexpMenuButton");
 		else
@@ -165,46 +172,17 @@ public class MenuButton extends ComplexPanel {
 					break;
 			}
 		}
-		if (wcontext != null) {
-			switch (wcontext) {
-				case Primary:
-					clazz += " btn-primary";
-					break;
-				case Success:
-					clazz += " btn-success";
-					break;
-				case Purple:
-					clazz += " btn-purple";
-					break;
-				case Pink:
-					clazz += " btn-pink";
-					break;
-				case Info:
-					clazz += " btn-info";
-					break;
-				case Grey:
-					clazz += " btn-grey";
-					break;
-				case Warning:
-					clazz += " btn-warning";
-					break;
-				case Light:
-					clazz += " btn-light";
-					break;
-				case Yellow:
-					clazz += " btn-yellow";
-					break;
-				case Danger:
-					clazz += " btn-danger";
-					break;
-				default:
-					if (highlight)
-						clazz += " btn-primary";
-					break;
-			}
-		} else if (highlight)
-			clazz += " btn-primary dropdown-toggle";
+		String c = ClientContext.resourceInjector.resolveWContext(wcontext);
+		if (c != null || highlight) {
+			if (highlight)
+				clazz += " btn-primary dropdown-toggle";
+			else
+				clazz += " btn-" + c;
+		}
 		button.setClassName(clazz.trim());
+		c = ClientContext.resourceInjector.resolveWContext(iconwcontext);
+		if (c != null)
+			iconSpan.addClassName(c);
 	}
 
 	public void click() {
@@ -225,6 +203,7 @@ public class MenuButton extends ComplexPanel {
 		wpull = null;
 		wsize = null;
 		wcontext = null;
+		iconwcontext = null;
 		iconClass = null;
 		textClass = null;
 		iconSpan = null;
@@ -253,8 +232,8 @@ public class MenuButton extends ComplexPanel {
 			}
 		});
 	}
-	
-	public void setInverted(boolean inverted){
+
+	public void setInverted(boolean inverted) {
 		if (inverted)
 			getElement().addClassName("btn-inverse");
 		else

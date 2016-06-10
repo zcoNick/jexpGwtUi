@@ -40,6 +40,15 @@ public class TabSet extends AbstractContainerFocusable implements ISizeAwareWidg
 	private String				activeWidgetId;
 	private TabsPosition		tabsPosition;
 	private boolean				useAnimation;
+	private boolean				contentBorders		= false;
+
+	public boolean isContentBorders() {
+		return contentBorders;
+	}
+
+	public void setContentBorders(boolean contentBorders) {
+		this.contentBorders = contentBorders;
+	}
 
 	public boolean isUseAnimation() {
 		return useAnimation;
@@ -119,13 +128,15 @@ public class TabSet extends AbstractContainerFocusable implements ISizeAwareWidg
 
 	@Override
 	protected void onLoad() {
-		super.onLoad();
+		if (contentBorders)
+			tabContents.addClassName("hasBorders");
 		if (tabsPosition == TabsPosition.left)
 			getElement().addClassName("tabs-left");
 		else if (tabsPosition == TabsPosition.bottom)
 			getElement().addClassName("tabs-below");
 		else if (tabsPosition == TabsPosition.right)
 			getElement().addClassName("tabs-right");
+		super.onLoad();
 		jsObject = createByJs(this, getElement());
 		if (widgets != null) {
 			activeWidgetId = null;

@@ -26,6 +26,8 @@ public interface IResourceInjector {
 
 	void applyCheckboxColorContext(InputElement check, WContext context);
 
+	String resolveWContext(WContext wcontext);
+
 	void injectScript(String string, Callback<Void, Exception> callback);
 
 	void injectLibrary(WidgetBundles wb, Command onload);

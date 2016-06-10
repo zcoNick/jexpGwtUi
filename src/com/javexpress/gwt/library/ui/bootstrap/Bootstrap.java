@@ -35,7 +35,7 @@ public class Bootstrap {
 		Important("important"), Green("green"), Success("success"), light_blue(
 				"light-blue"),
 		Info("info"), Danger("danger"), Warning(
-				"warning"), Light("light"), Yellow("yellow"), Pink("pink");
+				"warning"), Light("light"), Yellow("yellow"), Pink("pink"),White("white");
 		private String	value;
 
 		public String getValue() {
