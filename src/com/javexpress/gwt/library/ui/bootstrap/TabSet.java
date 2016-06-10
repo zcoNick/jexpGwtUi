@@ -41,6 +41,15 @@ public class TabSet extends AbstractContainerFocusable implements ISizeAwareWidg
 	private TabsPosition		tabsPosition;
 	private boolean				useAnimation;
 	private boolean				contentBorders		= false;
+	private boolean				inverseTabs			= false;
+
+	public boolean isInverseTabs() {
+		return inverseTabs;
+	}
+
+	public void setInverseTabs(boolean inverseTabs) {
+		this.inverseTabs = inverseTabs;
+	}
 
 	public boolean isContentBorders() {
 		return contentBorders;
@@ -128,8 +137,10 @@ public class TabSet extends AbstractContainerFocusable implements ISizeAwareWidg
 
 	@Override
 	protected void onLoad() {
-		if (contentBorders)
+		if (contentBorders || inverseTabs)
 			tabContents.addClassName("hasBorders");
+		if (inverseTabs)
+			navBar.addClassName("padding-2 tab-color-blue background-blue");
 		if (tabsPosition == TabsPosition.left)
 			getElement().addClassName("tabs-left");
 		else if (tabsPosition == TabsPosition.bottom)
