@@ -48,7 +48,7 @@ public abstract class BootstrapTheme extends BaseResourceInjector {
 		jq.addJavaScript("scripts/jquery/jquery-ui-1.11.4.min.js");
 
 		WidgetBundles wb = new WidgetBundles("Bootstrap 3.3.6", jq);
-		wb.addStyleSheet("fonts/fontawesome/font-awesome-4.5.0.min.css");
+		wb.addStyleSheet("fonts/fontawesome/font-awesome-4.6.3.min.css");
 
 		addBootstrapStyleSheet(wb);
 
