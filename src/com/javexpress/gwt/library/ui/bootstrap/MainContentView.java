@@ -55,6 +55,11 @@ public abstract class MainContentView extends AbstractContainer implements IUICo
 	}
 
 	@Override
+	public int getCurrentHeight() {
+		return getParent().getElement().getOffsetHeight();
+	}
+
+	@Override
 	public abstract void setHeader(ICssIcon icon, String title);
 
 	protected abstract void addToolItem(FaIcon icon, String title, boolean right, Command command);

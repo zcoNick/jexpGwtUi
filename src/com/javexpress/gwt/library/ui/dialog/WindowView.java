@@ -40,8 +40,8 @@ public class WindowView extends AbstractContainerFocusable implements IUIComposi
 	private boolean	showing;
 	private Element	helpSpan;
 	private Element	headerEl;
-	private Element widgetBody;
-	private int originalZIndex;
+	private Element	widgetBody;
+	private int		originalZIndex;
 
 	public boolean isDraggable() {
 		return draggable;
@@ -114,14 +114,14 @@ public class WindowView extends AbstractContainerFocusable implements IUIComposi
 		widgetBody.setClassName("widget-body");
 
 		widgetBody.getStyle().setOverflow(Overflow.AUTO);
-		widgetBody.getStyle().setProperty("maxHeight", Window.getClientHeight()+"px");
+		widgetBody.getStyle().setProperty("maxHeight", Window.getClientHeight() + "px");
 
 		mainDiv = DOM.createDiv();
 		mainDiv.setClassName("widget-main container-fluid");
 		widgetBody.appendChild(mainDiv);
 		containerDiv.appendChild(widgetBody);
-		
-		windowDiv = modal?containerDiv:getElement();
+
+		windowDiv = modal ? containerDiv : getElement();
 	}
 
 	public void setForm(IUIComposite form) {
@@ -203,7 +203,7 @@ public class WindowView extends AbstractContainerFocusable implements IUIComposi
 			marginLeft = Math.ceil((100 - pct) / 2) + "%";
 		}
 		String newStyle = "z-index:" + originalZIndex + ";" + (width != null ? "width:" + width + ";" : "") + "left:" + marginLeft + ";min-width:100px;";
-		newStyle += "display:"+windowDiv.getStyle().getDisplay();
+		newStyle += "display:" + windowDiv.getStyle().getDisplay();
 		windowDiv.setAttribute("style", newStyle);
 	}
 
@@ -255,7 +255,7 @@ public class WindowView extends AbstractContainerFocusable implements IUIComposi
 			RootPanel.get().add(this);
 		} else {
 			getElement().getStyle().setDisplay(Display.BLOCK);
-			selectActiveWindow(getElement(),originalZIndex);
+			selectActiveWindow(getElement(), originalZIndex);
 		}
 		IUIComposite form = (IUIComposite) getWidget(0);
 		setFocus(true);
@@ -308,11 +308,11 @@ public class WindowView extends AbstractContainerFocusable implements IUIComposi
 					if (top.startsWith("-"))
 						windowDiv.getStyle().setTop(0, Unit.PX);
 					String left = windowDiv.getStyle().getLeft();
-					if (left.startsWith("-")){
+					if (left.startsWith("-")) {
 						windowDiv.getStyle().setLeft(0, Unit.PX);
 						windowDiv.getStyle().clearMarginLeft();
 					} else {
-						int pct = (int) (Double.parseDouble(left.replaceFirst("px", ""))*100/Window.getClientWidth());
+						int pct = (int) (Double.parseDouble(left.replaceFirst("px", "")) * 100 / Window.getClientWidth());
 						windowDiv.getStyle().setLeft(pct, Unit.PCT);
 						windowDiv.getStyle().clearMarginLeft();
 					}
@@ -336,13 +336,11 @@ public class WindowView extends AbstractContainerFocusable implements IUIComposi
 		}
 	}
 
-	protected native void selectActiveWindow(Element el,int zindex) /*-{
-		$wnd.$(".jexpActiveWindow").each(
-				function() {
-					var that = $wnd.$(this);
-					that.css("z-index", zindex).removeClass(
-							"jexpActiveWindow");
-				});
+	protected native void selectActiveWindow(Element el, int zindex) /*-{
+		$wnd.$(".jexpActiveWindow").each(function() {
+			var that = $wnd.$(this);
+			that.css("z-index", zindex).removeClass("jexpActiveWindow");
+		});
 		$wnd.$(el).css("z-index", 9999).addClass("jexpActiveWindow");
 	}-*/;
 
@@ -384,7 +382,7 @@ public class WindowView extends AbstractContainerFocusable implements IUIComposi
 	@Override
 	public void onResize() {
 		widgetBody.getStyle().setOverflow(Overflow.AUTO);
-		widgetBody.getStyle().setProperty("maxHeight", Window.getClientHeight()+"px");
+		widgetBody.getStyle().setProperty("maxHeight", Window.getClientHeight() + "px");
 		updateWidth();
 		if (getWidget(0) instanceof RequiresResize)
 			((RequiresResize) getWidget(0)).onResize();
@@ -407,6 +405,11 @@ public class WindowView extends AbstractContainerFocusable implements IUIComposi
 
 	public void setBaseZIndex(int zindex) {
 		originalZIndex = zindex;
+	}
+
+	@Override
+	public int getCurrentHeight() {
+		return windowDiv.getOffsetHeight();
 	}
 
 }

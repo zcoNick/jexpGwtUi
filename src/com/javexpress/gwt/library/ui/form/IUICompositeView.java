@@ -7,4 +7,6 @@ public interface IUICompositeView extends RequiresResize {
 
 	void setHeader(ICssIcon icon, String header);
 
+	int getCurrentHeight();
+
 }

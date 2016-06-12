@@ -19,7 +19,7 @@ public class ListGroupItem extends AbstractContainer {
 	public ListGroupItem(Widget parent, String id) {
 		super(DOM.createAnchor());
 		JsUtil.ensureId(parent, getElement(), WidgetConst.LISTGROUPITEM_PREFIX, id);
-		addStyleName("list-group-item jexpLink");
+		addStyleName("list-group-item jexpLink jexpListGroupItem");
 		getElement().setAttribute("href", "#");
 		getElement().setAttribute("v", id);
 	}
@@ -60,8 +60,9 @@ public class ListGroupItem extends AbstractContainer {
 
 	@Override
 	protected void doAttachChildren() {
-		if (isActive())
+		if (isActive()) {
 			addStyleName("active");
+		}
 		if (title != null) {
 			Element h = Bootstrap.createHeading(titleSize != null ? titleSize : HeadingSize.h4);
 			h.setClassName("list-group-item-heading");
@@ -71,8 +72,14 @@ public class ListGroupItem extends AbstractContainer {
 			p.setClassName("list-group-item-text");
 			p.setInnerHTML(text);
 			getElement().appendChild(p);
-		} else
-			getElement().setInnerHTML(text);
+		} else {
+			Element ind = DOM.createElement("i");
+			ind.setClassName("fa fa-arrow-right jexp-indicator");
+			getElement().appendChild(ind);
+			Element span = DOM.createSpan();
+			span.setInnerHTML(text);
+			getElement().appendChild(span);
+		}
 		super.doAttachChildren();
 	}
 

@@ -24,6 +24,7 @@ import com.javexpress.gwt.library.ui.js.WidgetBundles;
 public class MultiSelectBox extends ListBoxBase {
 
 	public static WidgetBundles fillResources(WidgetBundles parent) {
+		// http://davidstutz.github.io/bootstrap-multiselect/
 		WidgetBundles jexp = new WidgetBundles("Bootstrap MultiSelect", parent);
 		jexp.addStyleSheet("scripts/multiselect/bootstrap-multiselect.min.css");
 		jexp.addJavaScript("scripts/multiselect/bootstrap-multiselect.min.js");

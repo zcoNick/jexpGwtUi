@@ -107,7 +107,7 @@ public class WidgetBox extends AbstractContainerFocusable implements ISizeAwareW
 	public void add(Widget widget, int index) {
 		add(widget, contentDiv);
 	}
-	
+
 	public void addToolItem(ICssIcon icon, String hint, Command command) {
 		Element a = DOM.createAnchor();
 		a.setTitle(hint);
@@ -224,6 +224,10 @@ public class WidgetBox extends AbstractContainerFocusable implements ISizeAwareW
 
 	public void setOverflow(Overflow value) {
 		bodyDiv.getStyle().setOverflow(value);
+	}
+
+	public void addContentStyle(String style) {
+		contentDiv.addClassName(style);
 	}
 
 }

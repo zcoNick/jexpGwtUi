@@ -7,6 +7,8 @@
 .jexpLabel.jexpNoContentBanner { color: #9F9F9F;font-size: 1.5em;font-style: italic;line-height: 2em; }
 .jexpCheckBox { font-size:12px; }
 .jexpCheckBox.form-control { background-color: transparent; }
+.jexpListGroupItem > i.jexp-indicator {display:none;}
+.jexpListGroupItem.active > i.jexp-indicator{margin-left:-14px;padding-right:3px;display:inline-block;}
 .jexpTree.form-control { height:inherit;padding:3px;font-size:1em; }
 .gwt-TreeItem { cursor: pointer;padding: 4px 3px; }
 .gwt-CheckBox.jexpSmallGwtCheck > label { font-size:inherit; }

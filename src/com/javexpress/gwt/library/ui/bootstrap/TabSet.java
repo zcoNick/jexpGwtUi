@@ -210,22 +210,22 @@ public class TabSet extends AbstractContainerFocusable implements ISizeAwareWidg
 	}
 
 	public void addTab(final String title, final Widget widget, final String id, boolean closable) throws Exception {
-		addTab(null, title, widget, id, closable);
+		addTab(null, title, widget, id, closable, null);
 	}
 
 	public void addTab(final ICssIcon icon, final String title, final Widget widget, final String id) throws Exception {
-		addTab(icon, title, widget, id, false);
+		addTab(icon, title, widget, id, false, null);
 	}
 
 	public void addTab(TabItem tabItem) throws Exception {
-		addTab(tabItem.getIcon(), tabItem.getTitle(), tabItem.getWidget(), tabItem.getId(), tabItem.isClosable());
+		addTab(tabItem.getIcon(), tabItem.getTitle(), tabItem.getWidget(), tabItem.getId(), tabItem.isClosable(), tabItem.getIconExtraClasses());
 	}
 
 	public void addTab(String title, String id, boolean closable) throws Exception {
-		addTab(null, title, null, id, closable);
+		addTab(null, title, null, id, closable, null);
 	}
 
-	public void addTab(final ICssIcon icon, final String title, final Widget widget, final String id, boolean closable) throws Exception {
+	public void addTab(final ICssIcon icon, final String title, final Widget widget, final String id, boolean closable, String iconStyles) throws Exception {
 		if (JsUtil.isEmpty(id))
 			throw new Exception("Id is required for tabItem");
 		if (widgets == null)
@@ -243,6 +243,8 @@ public class TabSet extends AbstractContainerFocusable implements ISizeAwareWidg
 		if (icon != null) {
 			Element span = DOM.createElement("i");
 			ClientContext.resourceInjector.applyIconStyles(span, icon);
+			if (iconStyles != null)
+				span.addClassName(iconStyles);
 			a.insertFirst(span);
 		}
 		Element li = DOM.createElement("li");
