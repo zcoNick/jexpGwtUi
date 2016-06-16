@@ -1,6 +1,6 @@
 package com.javexpress.gwt.library.ui.container.panel;
 
-import com.google.gwt.dom.client.Element;
+import com.google.gwt.user.client.DOM;
 import com.javexpress.gwt.library.ui.AbstractContainer;
 import com.javexpress.gwt.library.ui.bootstrap.IResponsiveCell;
 
@@ -11,8 +11,8 @@ public class SimplePanel extends AbstractContainer implements IResponsiveCell {
 	private Integer mdSize;
 	private Integer lgSize;
 
-	public SimplePanel(Element el) {
-		super(el);
+	public SimplePanel() {
+		super(DOM.createDiv());
 	}
 
 	@Override
