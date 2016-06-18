@@ -1,6 +1,7 @@
 package com.javexpress.gwt.library.ui.data.jqplot;
 
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -26,11 +27,11 @@ public abstract class BaseLabelValueChart extends JqPlotPanel {
 
 	public void setValue(List<? extends IPieChartItem<? extends Number>> result) {
 		HashMap<String, Number> map = null;
-		if (result!=null&&!result.isEmpty()){
-			map = new HashMap<String,Number>(result.size());
-			for (IPieChartItem<? extends Number> item:result){
+		if (result != null && !result.isEmpty()) {
+			map = new LinkedHashMap<String, Number>(result.size());
+			for (IPieChartItem<? extends Number> item : result) {
 				String label = null;
-				if (getLabelRenderer()!=null)
+				if (getLabelRenderer() != null)
 					label = getLabelRenderer().render(item.getL());
 				else
 					label = item.getL();
@@ -39,7 +40,7 @@ public abstract class BaseLabelValueChart extends JqPlotPanel {
 		}
 		setValueMap(map);
 	}
-	
+
 	@Override
 	protected void onLoad() {
 		super.onLoad();

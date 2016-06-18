@@ -734,7 +734,7 @@ public class DataGrid<T extends Serializable> extends BaseSlickGrid<ListColumn> 
 			return new $wnd.Slick.Data.Aggregators.Max(field);
 	}-*/;
 
-	private native JavaScriptObject _createGroupDef(String field, String title, String template, JsArray<JavaScriptObject> aggregators, boolean collapsed, boolean aggregateCollapsed, boolean lazyTotalsCalculation) /*-{
+	private native JavaScriptObject _createGroupDef(String field, String orderField, String title, String template, JsArray<JavaScriptObject> aggregators, boolean collapsed, boolean aggregateCollapsed, boolean lazyTotalsCalculation) /*-{
 		var gd = {
 			getter : field,
 			formatter : function(g) {
@@ -745,6 +745,12 @@ public class DataGrid<T extends Serializable> extends BaseSlickGrid<ListColumn> 
 			},
 			collapsed : collapsed,
 		};
+		if (orderField) {
+			//http://stackoverflow.com/questions/1069666/sorting-javascript-object-by-property-value
+			gd.comparer = function(a, b) {
+				return a[orderField] - b[orderField];
+			};
+		}
 		if (aggregators && aggregators.length > 0) {
 			gd.aggregators = aggregators;
 			gd.aggregateCollapsed = aggregateCollapsed;
@@ -781,7 +787,7 @@ public class DataGrid<T extends Serializable> extends BaseSlickGrid<ListColumn> 
 							}
 						}
 					}
-					groupDef.push(_createGroupDef(col.getField(), col.getTitle(), col.getSummaryTemplate(), aggregators, gi.isCollapsed(), gi.isAggregateCollapsed(), gi.isLazyCalculation()));
+					groupDef.push(_createGroupDef(col.getField(), gi.getOrderField(), col.getTitle(), col.getSummaryTemplate(), aggregators, gi.isCollapsed(), gi.isAggregateCollapsed(), gi.isLazyCalculation()));
 					col.setGroupable(true);
 					break;
 				}

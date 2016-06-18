@@ -26,6 +26,12 @@ public class BarChart extends BaseLabelValueChart {
 		var options = {
 			seriesDefaults : {
 				renderer : $wnd.$.jqplot.BarRenderer,
+				rendererOptions : {
+					varyBarColor : true
+				},
+				pointLabels : {
+					show : true
+				}
 			},
 			axes : {
 				xaxis : {
@@ -38,12 +44,13 @@ public class BarChart extends BaseLabelValueChart {
 		var el = $wnd.$.jqplot(id, [ data ], options);
 		return el;
 	}-*/;
-	
+
+	@Override
 	public void setValueMap(Map<String, Number> map) {
 		if (widget != null)
 			destroyByJs(widget);
 		widget = null;
-		if (map!=null)
+		if (map != null)
 			widget = createByJs(this, getElement().getId(), createDataArray(map), getTitle());
 	}
 

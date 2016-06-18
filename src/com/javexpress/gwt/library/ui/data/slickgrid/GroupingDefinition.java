@@ -8,10 +8,19 @@ import com.javexpress.gwt.library.ui.data.ListColumn.SummaryType;
 public class GroupingDefinition {
 
 	private String						field;
+	private String						orderField;
 	private boolean						collapsed;
 	private boolean						aggregateCollapsed;
 	private boolean						lazyCalculation;
 	private Map<String, SummaryType>	aggregators;
+
+	public String getOrderField() {
+		return orderField;
+	}
+
+	public void setOrderField(String orderField) {
+		this.orderField = orderField;
+	}
 
 	public String getField() {
 		return field;
