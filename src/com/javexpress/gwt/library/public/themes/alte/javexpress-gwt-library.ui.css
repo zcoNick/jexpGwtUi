@@ -5,7 +5,7 @@ body { font-family: Helvetica,Arial,sans-serif; font-size:13px; }
 .login-box { margin-top:7vh; }
 .login-box-body { 
 	margin: 0 auto;
-	background: none repeat scroll 0 0 rgba(251, 251, 251, 0.5);
+	background: none repeat scroll 0 0 rgba(251, 251, 251, 0.7);
 	filter: progid:DXImageTransform.Microsoft.gradient(startColorstr=#50FBFBFB, endColorstr=#50FBFBFB);
 	border: 1px solid #CCCCCC;
 	border-radius: 5px 5px 5px 5px;
