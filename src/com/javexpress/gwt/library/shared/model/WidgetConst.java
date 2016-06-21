@@ -36,6 +36,7 @@ public class WidgetConst {
 	public static final String	FILEUPLOAD_PREFIX			= "fu";
 	public static final String	FILTERPANEL_PREFIX			= "fp";
 	public static final String	FILTERPANELITEM_PREFIX		= "fpi";
+	public static final String	FLOT_PIE_PREFIX				= "flpc";
 	public static final String	GLASSPANEL_PREFIX			= "gp";
 	public static final String	GRITTER_PREFIX				= "gr";
 	public static final String	HEADING_PREFIX				= "hd";

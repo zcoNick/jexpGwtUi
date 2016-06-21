@@ -27,7 +27,9 @@ public class PieChart extends BaseLabelValueChart {
 			seriesDefaults : {
 				renderer : $wnd.$.jqplot.PieRenderer,
 				rendererOptions : {
-					showDataLabels : true
+					showDataLabels : true,
+					dataLabels : 'value',
+					dataLabelFormatString : '%.2f'
 				}
 			},
 			legend : {
@@ -38,20 +40,20 @@ public class PieChart extends BaseLabelValueChart {
 		if (title)
 			options.title = title;
 		var el = $wnd.$.jqplot(id, [ data ], options);
-		$wnd.$("#"+id).bind("jqplotDataClick", 
-            function (e, seriesIndex, pointIndex, data) {
-                //$('#info2c').html('series: '+seriesIndex+', point: '+pointIndex+', data: '+data+ ', pageX: '+e.pageX+', pageY: '+e.pageY);
-            }
-        );
+		$wnd.$("#" + id).bind("jqplotDataClick",
+				function(e, seriesIndex, pointIndex, data) {
+					//$('#info2c').html('series: '+seriesIndex+', point: '+pointIndex+', data: '+data+ ', pageX: '+e.pageX+', pageY: '+e.pageY);
+				});
 		return el;
 	}-*/;
-	
+
 	@Override
 	public void setValueMap(Map<String, Number> map) {
+		// plot1.replot();???
 		if (widget != null)
 			destroyByJs(widget);
 		widget = null;
-		if (map!=null)
+		if (map != null)
 			widget = createByJs(this, getElement().getId(), createDataArray(map), getTitle());
 	}
 

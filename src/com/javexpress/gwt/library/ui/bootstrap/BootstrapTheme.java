@@ -6,7 +6,7 @@ import com.javexpress.gwt.library.ui.BaseResourceInjector;
 import com.javexpress.gwt.library.ui.ClientContext;
 import com.javexpress.gwt.library.ui.container.dashboard.Dashboard;
 import com.javexpress.gwt.library.ui.data.jqgrid.JqGrid;
-import com.javexpress.gwt.library.ui.data.jqplot.JqPlotPanel;
+import com.javexpress.gwt.library.ui.data.jqplot.FlotPanel;
 import com.javexpress.gwt.library.ui.data.slickgrid.DataGrid;
 import com.javexpress.gwt.library.ui.event.ExceptionThrownEvent;
 import com.javexpress.gwt.library.ui.event.FormShowInWindowRequest;
@@ -91,7 +91,7 @@ public abstract class BootstrapTheme extends BaseResourceInjector {
 		jexp = JqGrid.fillResources(jexp);
 		jexp = DataGrid.fillResources(jexp);
 		jexp = DropZone.fillResources(jexp);
-		jexp = JqPlotPanel.fillResources(jexp, true, true);
+		jexp = FlotPanel.fillResources(jexp, true, true);
 		addStyleSheets(jexp, 1000);
 		addJavaScripts(jexp, 1000);
 		return jexp;
@@ -115,7 +115,8 @@ public abstract class BootstrapTheme extends BaseResourceInjector {
 			@Override
 			public void onFormShowInWindowRequested(FormShowInWindowRequest formShowInWindowRequest) {
 				IUIComposite form = formShowInWindowRequest.getForm();
-				com.javexpress.gwt.library.ui.dialog.WindowView w = new com.javexpress.gwt.library.ui.dialog.WindowView(form.getId(), formShowInWindowRequest.isModal());
+				com.javexpress.gwt.library.ui.dialog.WindowView w = new com.javexpress.gwt.library.ui.dialog.WindowView(
+						form.getId(), formShowInWindowRequest.isModal());
 				w.setForm(form);
 				w.setPosition(formShowInWindowRequest.getPosX(), formShowInWindowRequest.getPosY());
 				w.show();
@@ -126,7 +127,8 @@ public abstract class BootstrapTheme extends BaseResourceInjector {
 		ClientContext.EVENT_BUS.addHandler(ExceptionThrownEvent.TYPE, new ExceptionThrownEventHandler() {
 			@Override
 			public void onExceptionThrown(ExceptionThrownEvent exceptionThrownEvent) {
-				com.javexpress.gwt.library.ui.bootstrap.ErrorDialog.showError(exceptionThrownEvent.getWindowId(), exceptionThrownEvent.getAppException());
+				com.javexpress.gwt.library.ui.bootstrap.ErrorDialog.showError(exceptionThrownEvent.getWindowId(),
+						exceptionThrownEvent.getAppException());
 			}
 		});
 	}

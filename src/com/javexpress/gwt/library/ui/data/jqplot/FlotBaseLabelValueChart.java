@@ -1,15 +1,18 @@
 package com.javexpress.gwt.library.ui.data.jqplot;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
-import java.util.List;
 import java.util.Map;
 
 import com.google.gwt.core.client.JavaScriptObject;
 import com.google.gwt.core.client.JsArray;
+import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.javexpress.common.model.item.IPieChartItem;
+import com.javexpress.gwt.library.ui.js.JsUtil;
 
-public abstract class BaseLabelValueChart extends JqPlotPanel {
+public abstract class FlotBaseLabelValueChart extends FlotPanel
+		implements AsyncCallback<ArrayList<? extends IPieChartItem>> {
 
 	protected native void pushItemsAsArray(JavaScriptObject data, String k, double v) /*-{
 		var d = new Array();
@@ -25,7 +28,17 @@ public abstract class BaseLabelValueChart extends JqPlotPanel {
 		return data;
 	}
 
-	public void setValue(List<? extends IPieChartItem<? extends Number>> result) {
+	@Override
+	public void onFailure(Throwable caught) {
+		JsUtil.handleError(this, caught);
+	}
+
+	@Override
+	public void onSuccess(ArrayList<? extends IPieChartItem> result) {
+		setValue(result);
+	}
+
+	public void setValue(ArrayList<? extends IPieChartItem> result) {
 		HashMap<String, Number> map = null;
 		if (result != null && !result.isEmpty()) {
 			map = new LinkedHashMap<String, Number>(result.size());

@@ -47,6 +47,7 @@ public class BarChart extends BaseLabelValueChart {
 
 	@Override
 	public void setValueMap(Map<String, Number> map) {
+		// plot1.replot();???
 		if (widget != null)
 			destroyByJs(widget);
 		widget = null;
