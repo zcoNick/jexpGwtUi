@@ -90,6 +90,10 @@ public abstract class BootstrapAdminTheme extends BootstrapTheme implements ISid
 	protected void createAndRegisterDashboard() {
 		if (!(ClientContext.instance instanceof ProvidesDashboardConfig))
 			return;
+		createDashboardForm();
+	}
+
+	protected void createDashboardForm() {
 		ProvidesDashboardConfig pdc = (ProvidesDashboardConfig) ClientContext.instance;
 		dashForm = new DashboardForm("dashboard", pdc.getDashboardColumns()) {
 			@Override
