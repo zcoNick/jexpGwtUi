@@ -36,7 +36,7 @@ import com.javexpress.gwt.library.ui.js.JsUtil;&#xD;
 public class ${className} extends DashboardWidget {&#xD;
 &#xD;
 	public static final String	CODE	= &quot;#evaluate(${className})&quot;;&#xD;
-	public static final String	LABEL	= #evaluate($wt.getClientClass($module)).nls.dbw#evaluate(${className})();&#xD;
+	public static final String	LABEL	= #evaluate($wt.getClientClass($module)).nls.#evaluate(${className})();&#xD;
 &#xD;
 	public ${className}(Widget parent, final String id) throws Exception {&#xD;
 		super(parent, id);&#xD;

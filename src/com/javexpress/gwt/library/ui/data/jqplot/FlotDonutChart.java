@@ -15,6 +15,8 @@ public class FlotDonutChart extends FlotPieChart {
 
 	@Override
 	protected native JavaScriptObject createByJs(FlotPieChart x, String id, JavaScriptObject data, String title) /*-{
+		if (!data || data.length == 0)
+			return null;
 		var options = {
 			series : {
 				pie : {
@@ -47,8 +49,7 @@ public class FlotDonutChart extends FlotPieChart {
 		};
 		if (title)
 			options.title = title;
-		options.colors = [ '#3c8dbc', '#0073b7', '#00c0ef', 'aqua', 'blue',
-				'purple', 'orange', 'red' ];
+		options.colors = $wnd.JexpUI.Colorizer(data);
 		var el = $wnd.$.plot("#" + id, data, options);
 		$wnd.$("#" + id).bind("plotclick", function(event, pos, item) {
 			// axis coordinates for other axes, if present, are in pos.x2, pos.x3, ...

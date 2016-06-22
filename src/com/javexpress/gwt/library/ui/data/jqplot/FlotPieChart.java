@@ -1,6 +1,6 @@
 package com.javexpress.gwt.library.ui.data.jqplot;
 
-import java.util.Map;
+import java.util.ArrayList;
 
 import com.google.gwt.core.client.JavaScriptObject;
 import com.google.gwt.core.client.JsArray;
@@ -8,6 +8,7 @@ import com.google.gwt.json.client.JSONNumber;
 import com.google.gwt.json.client.JSONObject;
 import com.google.gwt.json.client.JSONString;
 import com.google.gwt.user.client.ui.Widget;
+import com.javexpress.common.model.item.ILabelValueSerieItem;
 import com.javexpress.gwt.library.shared.model.WidgetConst;
 import com.javexpress.gwt.library.ui.js.JsUtil;
 
@@ -27,18 +28,34 @@ public class FlotPieChart extends FlotBaseLabelValueChart {
 	}
 
 	@Override
-	protected JavaScriptObject createDataArray(final Map<String, Number> rd) {
+	protected JsArray createDataArray(final ArrayList<? extends ILabelValueSerieItem> result) {
 		JsArray data = JsArray.createArray().cast();
-		for (String k : rd.keySet()) {
-			JSONObject o = new JSONObject();
-			o.put("label", new JSONString(k));
-			o.put("data", new JSONNumber(rd.get(k).doubleValue()));
-			data.push(o.getJavaScriptObject());
+		if (result != null && !result.isEmpty()) {
+			for (ILabelValueSerieItem<? extends Number> item : result)
+				if (item.getV() != null && item.getL() != null) {
+					JSONObject o = new JSONObject();
+					o.put("data", new JSONNumber(item.getV().doubleValue()));
+					if (getLabelRenderer() != null)
+						o.put("label", new JSONString(getLabelRenderer().render(item.getL())));
+					else
+						o.put("label", new JSONString(item.getL()));
+					data.push(o.getJavaScriptObject());
+				}
 		}
 		return data;
 	}
 
+	@Override
+	public void setValue(ArrayList<? extends ILabelValueSerieItem> result) {
+		if (widget == null)
+			widget = createByJs(this, getElement().getId(), createDataArray(result), getTitle());
+		else
+			super.setValue(result);
+	}
+
 	protected native JavaScriptObject createByJs(FlotPieChart x, String id, JavaScriptObject data, String title) /*-{
+		if (!data || data.length == 0)
+			return null;
 		var options = {
 			series : {
 				pie : {
@@ -67,8 +84,7 @@ public class FlotPieChart extends FlotBaseLabelValueChart {
 		};
 		if (title)
 			options.title = title;
-		options.colors = [ '#3c8dbc', 'yellow', 'green', 'red', 'orange',
-				'green', 'blue', 'purple' ];
+		options.colors = $wnd.JexpUI.Colorizer(data);
 		var el = $wnd.$.plot("#" + id, data, options);
 		$wnd.$("#" + id).bind("plotclick", function(event, pos, item) {
 			// axis coordinates for other axes, if present, are in pos.x2, pos.x3, ...
@@ -79,14 +95,5 @@ public class FlotPieChart extends FlotBaseLabelValueChart {
 		});
 		return el;
 	}-*/;
-
-	@Override
-	public void setValueMap(Map<String, Number> map) {
-		if (widget != null)
-			destroyByJs(getElement(), widget);
-		widget = null;
-		if (map != null)
-			widget = createByJs(this, getElement().getId(), createDataArray(map), getTitle());
-	}
 
 }

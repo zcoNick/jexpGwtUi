@@ -1,9 +1,11 @@
 package com.javexpress.gwt.library.ui.data.jqplot;
 
-import java.util.Map;
+import java.util.ArrayList;
 
 import com.google.gwt.core.client.JavaScriptObject;
+import com.google.gwt.core.client.JsArray;
 import com.google.gwt.user.client.ui.Widget;
+import com.javexpress.common.model.item.ILabelValueSerieItem;
 import com.javexpress.gwt.library.shared.model.WidgetConst;
 import com.javexpress.gwt.library.ui.js.JsUtil;
 
@@ -23,6 +25,8 @@ public class FlotBarChart extends FlotBaseLabelValueChart {
 	}
 
 	private native JavaScriptObject createByJs(FlotBarChart x, String id, JavaScriptObject data, String title) /*-{
+		if (!data || data.length == 0)
+			return null;
 		var options = {
 			series : {
 				bars : {
@@ -54,24 +58,12 @@ public class FlotBarChart extends FlotBaseLabelValueChart {
 				clickable : true
 			}
 		};
-		if (true)
-			options.colors = [ '#3c8dbc', 'yellow', 'green', 'red', 'orange',
-					'green', 'blue', 'purple' ];
-		else
-			options.colors = $wnd.$.map(data, function(o, i) {
-				return $wnd.$.Color({
-					hue : (i * 360 / data.length),
-					saturation : 0.95,
-					lightness : 0.35,
-					alpha : 1
-				}).toHexString();
-			});
+		options.colors = $wnd.JexpUI.Colorizer;
 		if (title)
 			options.title = title;
 		var bar_data = {
 			data : data,
 		};
-		$wnd.console.debug(bar_data);
 		var el = $wnd.$.plot("#" + id, [ bar_data ], options);
 		$wnd.$("#" + id).bind("plotclick", function(event, pos, item) {
 			// axis coordinates for other axes, if present, are in pos.x2, pos.x3, ...
@@ -84,12 +76,31 @@ public class FlotBarChart extends FlotBaseLabelValueChart {
 	}-*/;
 
 	@Override
-	public void setValueMap(Map<String, Number> map) {
-		if (widget != null)
-			destroyByJs(getElement(), widget);
-		widget = null;
-		if (map != null)
-			widget = createByJs(this, getElement().getId(), createDataArray(map), getTitle());
+	public void setValue(ArrayList<? extends ILabelValueSerieItem> result) {
+		if (widget == null)
+			widget = createByJs(this, getElement().getId(), createDataArray(result), getTitle());
+		else
+			super.setValue(result);
+	}
+
+	protected native void pushItemsAsArray(JavaScriptObject data, String k, double v) /*-{
+		var d = new Array();
+		d.push(k);
+		d.push(v);
+		data.push(d);
+	}-*/;
+
+	@Override
+	protected JsArray createDataArray(ArrayList<? extends ILabelValueSerieItem> result) {
+		JsArray data = JsArray.createArray().cast();
+		if (result != null && !result.isEmpty()) {
+			for (ILabelValueSerieItem<? extends Number> item : result)
+				if (item.getV() != null && item.getL() != null) {
+					String label = getLabelRenderer() != null ? getLabelRenderer().render(item.getL()) : item.getL();
+					pushItemsAsArray(data, label, item.getV().doubleValue());
+				}
+		}
+		return data;
 	}
 
 }

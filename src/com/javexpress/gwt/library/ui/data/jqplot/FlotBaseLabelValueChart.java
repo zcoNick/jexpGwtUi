@@ -1,32 +1,15 @@
 package com.javexpress.gwt.library.ui.data.jqplot;
 
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.LinkedHashMap;
-import java.util.Map;
 
 import com.google.gwt.core.client.JavaScriptObject;
 import com.google.gwt.core.client.JsArray;
 import com.google.gwt.user.client.rpc.AsyncCallback;
-import com.javexpress.common.model.item.IPieChartItem;
+import com.javexpress.common.model.item.ILabelValueSerieItem;
 import com.javexpress.gwt.library.ui.js.JsUtil;
 
 public abstract class FlotBaseLabelValueChart extends FlotPanel
-		implements AsyncCallback<ArrayList<? extends IPieChartItem>> {
-
-	protected native void pushItemsAsArray(JavaScriptObject data, String k, double v) /*-{
-		var d = new Array();
-		d.push(k);
-		d.push(v);
-		data.push(d);
-	}-*/;
-
-	protected JavaScriptObject createDataArray(final Map<String, Number> rd) {
-		JavaScriptObject data = JsArray.createArray().cast();
-		for (String k : rd.keySet())
-			pushItemsAsArray(data, k, rd.get(k).doubleValue());
-		return data;
-	}
+		implements AsyncCallback<ArrayList<? extends ILabelValueSerieItem>> {
 
 	@Override
 	public void onFailure(Throwable caught) {
@@ -34,24 +17,8 @@ public abstract class FlotBaseLabelValueChart extends FlotPanel
 	}
 
 	@Override
-	public void onSuccess(ArrayList<? extends IPieChartItem> result) {
+	public void onSuccess(ArrayList<? extends ILabelValueSerieItem> result) {
 		setValue(result);
-	}
-
-	public void setValue(ArrayList<? extends IPieChartItem> result) {
-		HashMap<String, Number> map = null;
-		if (result != null && !result.isEmpty()) {
-			map = new LinkedHashMap<String, Number>(result.size());
-			for (IPieChartItem<? extends Number> item : result) {
-				String label = null;
-				if (getLabelRenderer() != null)
-					label = getLabelRenderer().render(item.getL());
-				else
-					label = item.getL();
-				map.put(label, item.getV());
-			}
-		}
-		setValueMap(map);
 	}
 
 	@Override
@@ -60,6 +27,25 @@ public abstract class FlotBaseLabelValueChart extends FlotPanel
 		refresh();
 	}
 
-	public abstract void setValueMap(Map<String, Number> map);
+	public void setValue(java.util.ArrayList<? extends com.javexpress.common.model.item.ILabelValueSerieItem> result) {
+		if (widget != null) {
+			JsArray data = createDataArray(result);
+			if (data == null || data.length() == 0) {
+				destroyByJs(getElement(), widget);
+				widget = null;
+			} else
+				_refresh(this, widget, data);
+		}
+	}
+
+	private native JavaScriptObject _refresh(FlotBaseLabelValueChart x, JavaScriptObject plot,
+			JavaScriptObject data) /*-{
+									plot.setData(data);
+									plot.setupGrid();
+									plot.draw();
+									return plot;
+									}-*/;
+
+	protected abstract JsArray createDataArray(final ArrayList<? extends ILabelValueSerieItem> result);
 
 }
