@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import com.google.gwt.core.client.JavaScriptObject;
 import com.google.gwt.core.client.JsArray;
+import com.google.gwt.dom.client.Element;
 import com.google.gwt.json.client.JSONNumber;
 import com.google.gwt.json.client.JSONObject;
 import com.google.gwt.json.client.JSONString;
@@ -48,12 +49,13 @@ public class FlotPieChart extends FlotBaseLabelValueChart {
 	@Override
 	public void setValue(ArrayList<? extends ILabelValueSerieItem> result) {
 		if (widget == null)
-			widget = createByJs(this, getElement().getId(), createDataArray(result), getTitle());
+			widget = createByJs(this, getElement(), getElement().getId(), createDataArray(result), getTitle());
 		else
 			super.setValue(result);
 	}
 
-	protected native JavaScriptObject createByJs(FlotPieChart x, String id, JavaScriptObject data, String title) /*-{
+	protected native JavaScriptObject createByJs(FlotPieChart x, Element el, String id, JavaScriptObject data,
+			String title) /*-{
 		if (!data || data.length == 0)
 			return null;
 		var options = {
@@ -86,13 +88,27 @@ public class FlotPieChart extends FlotBaseLabelValueChart {
 			options.title = title;
 		options.colors = $wnd.JexpUI.Colorizer(data);
 		var el = $wnd.$.plot("#" + id, data, options);
-		$wnd.$("#" + id).bind("plotclick", function(event, pos, item) {
-			// axis coordinates for other axes, if present, are in pos.x2, pos.x3, ...
-			// if you need global screen coordinates, they are pos.pageX, pos.pageY
-			if (item) {
-				$wnd.console.debug(item.series, item.datapoint);
-			}
-		});
+		$wnd.$(el).bind(
+				"plothover",
+				function(event, pos, item) {
+					if (item) {
+						$wnd.console.debug("pieitem hover: series="
+								+ (item.seriesIndex + 1) + ", x="
+								+ item.datapoint[0].toFixed(2) + ", y="
+								+ item.datapoint[1].toFixed(2), item);
+					}
+				});
+
+		$wnd.$(el).bind(
+				"plotclick",
+				function(event, pos, item) {
+					if (item) {
+						$wnd.console.debug("pieitem click: series="
+								+ (item.seriesIndex + 1) + ", x="
+								+ item.datapoint[0].toFixed(2) + ", y="
+								+ item.datapoint[1].toFixed(2), item);
+					}
+				});
 		return el;
 	}-*/;
 

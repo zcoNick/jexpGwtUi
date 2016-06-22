@@ -65,13 +65,27 @@ public class FlotBarChart extends FlotBaseLabelValueChart {
 			data : data,
 		};
 		var el = $wnd.$.plot("#" + id, [ bar_data ], options);
-		$wnd.$("#" + id).bind("plotclick", function(event, pos, item) {
-			// axis coordinates for other axes, if present, are in pos.x2, pos.x3, ...
-			// if you need global screen coordinates, they are pos.pageX, pos.pageY
-			if (item) {
-				$wnd.console.debug(item.series, item.datapoint);
-			}
-		});
+		$wnd.$(el).bind(
+				"plothover",
+				function(event, pos, item) {
+					if (item) {
+						$wnd.console.debug("baritem hover: series="
+								+ (item.seriesIndex + 1) + ", x="
+								+ item.datapoint[0].toFixed(2) + ", y="
+								+ item.datapoint[1].toFixed(2), item);
+					}
+				});
+
+		$wnd.$(el).bind(
+				"plotclick",
+				function(event, pos, item) {
+					if (item) {
+						$wnd.console.debug("baritem click: series="
+								+ (item.seriesIndex + 1) + ", x="
+								+ item.datapoint[0].toFixed(2) + ", y="
+								+ item.datapoint[1].toFixed(2), item);
+					}
+				});
 		return el;
 	}-*/;
 

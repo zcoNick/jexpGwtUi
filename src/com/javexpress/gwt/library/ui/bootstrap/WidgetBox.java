@@ -16,15 +16,16 @@ import com.javexpress.gwt.library.ui.js.JsUtil;
 
 public class WidgetBox extends AbstractContainerFocusable implements ISizeAwareWidget {
 
-	protected Element			contentDiv;
-	protected Element			toolDiv;
-	private Element				iconSpan;
-	private Element				headerSpan;
-	protected Element			headerEl;
-	private Element				elCollapse;
-	private boolean				collapsed;
-	private Element				bodyDiv;
-	private IWidgetBoxListener	listener;
+	protected Element contentDiv;
+	protected Element toolDiv;
+	private Element iconSpan;
+	private Element headerSpan;
+	protected Element headerEl;
+	private Element elCollapse;
+	private boolean collapsed;
+	private Element bodyDiv;
+	private IWidgetBoxListener listener;
+	private ICssIcon icon;
 
 	public IWidgetBoxListener getListener() {
 		return listener;
@@ -42,11 +43,17 @@ public class WidgetBox extends AbstractContainerFocusable implements ISizeAwareW
 		this.collapsed = collapsed;
 	}
 
-	public WidgetBox(Widget parent, final String id, boolean smallTitle, boolean transparentTitle, boolean collapsible) {
+	public void toogleIconStyle(String style) {
+		iconSpan.toggleClassName(style);
+	}
+
+	public WidgetBox(Widget parent, final String id, boolean smallTitle, boolean transparentTitle,
+			boolean collapsible) {
 		this(parent, DOM.createDiv(), id, smallTitle, transparentTitle, collapsible);
 	}
 
-	public WidgetBox(Widget parent, Element el, final String id, boolean smallTitle, boolean transparentTitle, boolean collapsible) {
+	public WidgetBox(Widget parent, Element el, final String id, boolean smallTitle, boolean transparentTitle,
+			boolean collapsible) {
 		super(el);
 		JsUtil.ensureId(parent, this, WidgetConst.DASHBOARDWIDGET_PREFIX, id);
 		getElement().setClassName("jexpGroupBox widget-box" + (transparentTitle ? " transparent" : ""));
@@ -72,7 +79,7 @@ public class WidgetBox extends AbstractContainerFocusable implements ISizeAwareW
 			elCollapse = DOM.createAnchor();
 			elCollapse.setAttribute("data-action", "collapse");
 			elCollapse.setAttribute("data-parent", "#" + getElement().getId());
-			//elCollapse.setAttribute("data-target", "#" + contentDiv.getId());
+			// elCollapse.setAttribute("data-target", "#" + contentDiv.getId());
 			elCollapse.setClassName("jexpHandCursor");
 			toolDiv.appendChild(elCollapse);
 		}
@@ -87,7 +94,12 @@ public class WidgetBox extends AbstractContainerFocusable implements ISizeAwareW
 	}
 
 	public void setIcon(ICssIcon icon) {
+		this.icon = icon;
 		ClientContext.resourceInjector.applyIconStyles(iconSpan, icon);
+	}
+
+	public ICssIcon getIcon() {
+		return icon;
 	}
 
 	public void setHeader(String header) {
@@ -178,7 +190,7 @@ public class WidgetBox extends AbstractContainerFocusable implements ISizeAwareW
 		$wnd.$(root).empty().off();
 	}-*/;
 
-	//--EVENTS
+	// --EVENTS
 	private boolean fireOnShowing() {
 		if (listener != null)
 			return listener.onExpanding();

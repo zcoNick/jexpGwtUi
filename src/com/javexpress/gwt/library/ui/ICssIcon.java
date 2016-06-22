@@ -4,4 +4,6 @@ public interface ICssIcon {
 
 	public String getCssClass();
 
+	public String getSpinStyle();
+
 }

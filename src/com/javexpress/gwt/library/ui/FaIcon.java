@@ -705,5 +705,10 @@ public enum FaIcon implements ICssIcon {
 	public String getCssClass() {
 		return "fa fa-" + icon;
 	}
+	
+	@Override
+	public String getSpinStyle() {
+		return "fa-spin";
+	}
 
 }

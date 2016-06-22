@@ -26,16 +26,16 @@ public class Dashboard extends AbstractContainer implements ISizeAwareWidget {
 		wb.addJavaScript("scripts/dashboard/jexpDashboard-0.1.js");
 	}
 
-	private static HashMap<String, DashboardRegistryEntry>	registry	= new HashMap<String, DashboardRegistryEntry>();
+	private static HashMap<String, DashboardRegistryEntry> registry = new HashMap<String, DashboardRegistryEntry>();
 
 	public static void clearRegistry() {
 		registry = null;
 	}
 
 	public static class DashboardRegistryEntry {
-		private String					code, label, catalog;
-		private boolean					used, added;
-		private IDashboardWidgetFactory	factory;
+		private String code, label, catalog;
+		private boolean used, added;
+		private IDashboardWidgetFactory factory;
 
 		public String getCode() {
 			return code;
@@ -85,7 +85,8 @@ public class Dashboard extends AbstractContainer implements ISizeAwareWidget {
 			this.used = used;
 		}
 
-		public DashboardRegistryEntry(final String code, final String label, final String catalog, final IDashboardWidgetFactory factory) {
+		public DashboardRegistryEntry(final String code, final String label, final String catalog,
+				final IDashboardWidgetFactory factory) {
 			super();
 			this.code = code;
 			this.label = label;
@@ -94,11 +95,11 @@ public class Dashboard extends AbstractContainer implements ISizeAwareWidget {
 		}
 	}
 
-	private JavaScriptObject				widget;
-	private List<Element>					columns	= new ArrayList<Element>();
-	private IDashboardItemReplaceListener	listener;
-	private Map<String, DashboardWidget>	currentWidgets;
-	private boolean							showing;
+	private JavaScriptObject widget;
+	private List<Element> columns = new ArrayList<Element>();
+	private IDashboardItemReplaceListener listener;
+	private Map<String, DashboardWidget> currentWidgets;
+	private boolean showing;
 
 	public IDashboardItemReplaceListener getListener() {
 		return listener;
@@ -133,13 +134,15 @@ public class Dashboard extends AbstractContainer implements ISizeAwareWidget {
 		}
 	}
 
-	public static void registerWidget(final String code, final String label, final String catalog, final IDashboardWidgetFactory dbwf) throws Exception {
+	public static void registerWidget(final String code, final String label, final String catalog,
+			final IDashboardWidgetFactory dbwf) throws Exception {
 		if (registry.containsKey(code))
 			throw new Exception("Dashboard widget (" + code + ") is already registered");
 		registry.put(code, new DashboardRegistryEntry(code, label, catalog, dbwf));
 	}
 
-	public void addWidget(Byte kolon, Byte order, final String code, long reference, HashMap<String, Serializable> parameters) throws Exception {
+	public void addWidget(Byte kolon, Byte order, final String code, long reference,
+			HashMap<String, Serializable> parameters) throws Exception {
 		if (kolon.intValue() >= columns.size()) {
 			kolon = (byte) (columns.size() - 1);
 			order = null;
@@ -226,25 +229,34 @@ public class Dashboard extends AbstractContainer implements ISizeAwareWidget {
 		for (Widget w : getChildren()) {
 			DashboardWidget dbw = (DashboardWidget) w;
 			options.set(dbw.getElement().getId(), dbw.getOptions());
-			//dbw.onShow();
+			// dbw.onShow();
 		}
 		if (JsUtil.isRTL())
 			options.set("direction", "rtl");
-		widget = createByJs(this, getElement().getId(), options.getJavaScriptObject());
+		if (widget == null)
+			widget = createByJs(this, getElement().getId(), options.getJavaScriptObject());
 		for (Widget w : getChildren()) {
 			final DashboardWidget dbw = (DashboardWidget) w;
 			if (dbw.getRefreshTimeInSeconds() > 0) {
-				Scheduler.get().scheduleFixedDelay(new RepeatingCommand() {
-					@Override
-					public boolean execute() {
-						return dbw.isAttached() && dbw.doRefresh(showing);
-					}
-				}, dbw.getRefreshTimeInSeconds() * 1000);
+				if (dbw.getRepeatingCommand() == null) {
+					dbw.setRepeatingCommand(new RepeatingCommand() {
+						@Override
+						public boolean execute() {
+							if (dbw.isAttached())
+								dbw.loadingStarted();
+							boolean goon = dbw.isAttached() && dbw.doRefresh(showing);
+							if (dbw.isAttached())
+								dbw.loadingFinished();
+							return goon;
+						}
+					});
+					Scheduler.get().scheduleFixedDelay(dbw.getRepeatingCommand(), dbw.getRefreshTimeInSeconds() * 1000);
+				}
 			}
 		}
 	}
 
-	//---EVENTS
+	// ---EVENTS
 	public void fireOnUpdate(final String code, String reference, final int column, final int order) {
 		if (listener != null) {
 			if (column > -1)
