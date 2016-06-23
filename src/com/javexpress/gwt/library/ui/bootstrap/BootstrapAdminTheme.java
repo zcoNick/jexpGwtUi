@@ -56,7 +56,7 @@ public abstract class BootstrapAdminTheme extends BootstrapTheme implements ISid
 							if (result == null)
 								return;
 							if (formOpenRequest.isPopup())
-								ClientContext.instance.showInWindow(formOpenRequest.getForm(), true);
+								ClientContext.instance.showInWindow(result, true);
 							else
 								showInView(path, result);
 						}
