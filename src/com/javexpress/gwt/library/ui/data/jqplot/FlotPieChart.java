@@ -48,10 +48,11 @@ public class FlotPieChart extends FlotBaseLabelValueChart {
 
 	@Override
 	public void setValue(ArrayList<? extends ILabelValueSerieItem> result) {
-		if (widget == null)
-			widget = createByJs(this, getElement(), getElement().getId(), createDataArray(result), getTitle());
-		else
-			super.setValue(result);
+		if (widget != null) {
+			destroyByJs(getElement(), widget);
+			widget = null;
+		}
+		widget = createByJs(this, getElement(), getElement().getId(), createDataArray(result), getTitle());
 	}
 
 	protected native JavaScriptObject createByJs(FlotPieChart x, Element el, String id, JavaScriptObject data,

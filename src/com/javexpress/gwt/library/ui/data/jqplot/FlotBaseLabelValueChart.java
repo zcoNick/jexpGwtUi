@@ -27,24 +27,23 @@ public abstract class FlotBaseLabelValueChart extends FlotPanel
 		refresh();
 	}
 
-	public void setValue(java.util.ArrayList<? extends com.javexpress.common.model.item.ILabelValueSerieItem> result) {
-		if (widget != null) {
-			JsArray data = createDataArray(result);
-			if (data == null || data.length() == 0) {
-				destroyByJs(getElement(), widget);
-				widget = null;
-			} else
-				_refresh(this, widget, data);
-		}
-	}
+	public abstract void setValue(java.util.ArrayList<? extends ILabelValueSerieItem> result);
+
+	/*
+	 * public void setValue(java.util.ArrayList<? extends
+	 * com.javexpress.common.model.item.ILabelValueSerieItem> result) { if
+	 * (widget != null) { JsArray data = createDataArray(result); if (data ==
+	 * null || data.length() == 0) { destroyByJs(getElement(), widget); widget =
+	 * null; } else _refresh(this, widget, data); } }
+	 */
 
 	private native JavaScriptObject _refresh(FlotBaseLabelValueChart x, JavaScriptObject plot,
 			JavaScriptObject data) /*-{
-									plot.setData(data);
-									plot.setupGrid();
-									plot.draw();
-									return plot;
-									}-*/;
+		plot.setData(data);
+		plot.setupGrid();
+		plot.draw();
+		return plot;
+	}-*/;
 
 	protected abstract JsArray createDataArray(final ArrayList<? extends ILabelValueSerieItem> result);
 

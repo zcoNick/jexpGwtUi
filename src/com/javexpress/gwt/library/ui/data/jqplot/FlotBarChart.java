@@ -58,7 +58,7 @@ public class FlotBarChart extends FlotBaseLabelValueChart {
 				clickable : true
 			}
 		};
-		options.colors = $wnd.JexpUI.Colorizer;
+		options.colors = $wnd.JexpUI.Colorizer(data);
 		if (title)
 			options.title = title;
 		var bar_data = {
@@ -91,10 +91,11 @@ public class FlotBarChart extends FlotBaseLabelValueChart {
 
 	@Override
 	public void setValue(ArrayList<? extends ILabelValueSerieItem> result) {
-		if (widget == null)
-			widget = createByJs(this, getElement().getId(), createDataArray(result), getTitle());
-		else
-			super.setValue(result);
+		if (widget != null) {
+			destroyByJs(getElement(), widget);
+			widget = null;
+		}
+		widget = createByJs(this, getElement().getId(), createDataArray(result), getTitle());
 	}
 
 	protected native void pushItemsAsArray(JavaScriptObject data, String k, double v) /*-{
