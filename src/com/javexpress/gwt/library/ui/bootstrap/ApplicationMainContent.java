@@ -11,12 +11,12 @@ import com.javexpress.gwt.library.ui.js.JsUtil;
 
 public abstract class ApplicationMainContent extends AbstractContainer {
 
-	protected static final int				VIEW_CACHE_SIZE	= 20;
+	protected static final int VIEW_CACHE_SIZE = 20;
 
-	private Map<String, MainContentView>	viewCache		= new LinkedHashMap<String, MainContentView>(VIEW_CACHE_SIZE);
-	private MainContentView					currentView		= null;
+	private Map<String, MainContentView> viewCache = new LinkedHashMap<String, MainContentView>(VIEW_CACHE_SIZE);
+	private MainContentView currentView = null;
 
-	protected Element						page;
+	protected Element page;
 
 	public ApplicationMainContent(Element el) {
 		super(el);
@@ -31,7 +31,7 @@ public abstract class ApplicationMainContent extends AbstractContainer {
 			currentView.onShow();
 			if (viewCache.size() > VIEW_CACHE_SIZE) {
 				Iterator<String> iter = viewCache.keySet().iterator();
-				iter.next();//Dashboard
+				iter.next();// Dashboard
 				String second = iter.next();
 				MainContentView cached = viewCache.get(second);
 				viewCache.remove(second);
@@ -56,6 +56,7 @@ public abstract class ApplicationMainContent extends AbstractContainer {
 
 	public void showView(MainContentView cached) {
 		hideCurrent();
+		// JsUtil.showElement(cached.getElement(), JqEffect.fade);
 		cached.getElement().getStyle().setDisplay(Display.BLOCK);
 		currentView = cached;
 		currentView.onShow();

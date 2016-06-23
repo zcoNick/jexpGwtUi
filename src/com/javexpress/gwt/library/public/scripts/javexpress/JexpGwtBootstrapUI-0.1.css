@@ -139,3 +139,17 @@
 .jexpPickList .jexpPickListOptions {padding-top:3px;padding-right:10px;font-size:1.2em;display:none;}
 .jexpPickList .selections .jexpPickListOptions {display:inline-block;opacity:0.3;}
 .jexpPickList .selections .jexpPickListOptions:hover {opacity:1;}
+.jexpFlotPieLabel {
+    border-radius: 4px;  
+    font-size: 0.9em;     
+    background-color: #333333;
+    text-align: center;
+    padding: 4px;
+    color: white;
+    opacity: 0.75;
+}
+.jexpFlotBarLabel {
+	text-align:center;
+	padding:2px;
+    font-size: 0.9em;     
+}

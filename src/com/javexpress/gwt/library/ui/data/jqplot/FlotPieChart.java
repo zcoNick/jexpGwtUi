@@ -64,15 +64,7 @@ public class FlotPieChart extends FlotBaseLabelValueChart {
 					show : true,
 					label : {
 						show : true,
-						formatter : function(label, series) {
-							var element = '<div style="font-size:9pt;text-align:center;padding:2px;color:'
-									+ 'black'//series.color
-									+ ';">'
-									+ label
-									+ '<br/>'
-									+ series.data[0][1] + '</div>';
-							return element;
-						}
+						formatter : $wnd.JexpUI.FlotPieLabelRenderer
 					}
 				}
 			},

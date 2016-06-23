@@ -23,20 +23,12 @@ public class FlotDonutChart extends FlotPieChart {
 			series : {
 				pie : {
 					show : true,
-					radius : 1,
+					radius : 0.9,
 					innerRadius : 0.5,
 					label : {
 						show : true,
-						radius : 0.8,
-						formatter : function(label, series) {
-							var element = '<div style="font-size:9pt;text-align:center;padding:2px;color:'
-									+ 'white'//series.color
-									+ ';">'
-									+ label
-									+ '<br/>'
-									+ series.data[0][1] + '</div>';
-							return element;
-						},
+						radius : 0.85,
+						formatter : $wnd.JexpUI.FlotPieLabelRenderer,
 						threshold : 0.1
 					}
 				}

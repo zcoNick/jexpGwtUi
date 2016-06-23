@@ -35,12 +35,12 @@ public class FlotBarChart extends FlotBaseLabelValueChart {
 					align : "center",
 					label : {
 						formatter : function(label, series) {
-							var element = '<div style="font-size:9pt;text-align:center;padding:2px;color:'
+							var element = '<div class="jexpFlotBarLabel" style="color:'
 									+ series.color
 									+ ';">'
 									+ label
-									+ '<br/>'
-									+ series.data[0][1] + '</div>';
+									+ '<br/><b>'
+									+ series.data[0][1] + '</b></div>';
 							return element;
 						}
 					}

@@ -28,20 +28,20 @@ import com.javexpress.gwt.library.ui.js.JsonMap;
 
 public class WindowView extends AbstractContainerFocusable implements IUICompositeView, RequiresResize, ProvidesResize {
 
-	private Element	windowDiv;
-	private Element	headerDiv;
-	private Element	mainDiv;
-	private Element	btClose;
-	private boolean	draggable;
-	private boolean	resizable;
-	private boolean	maximizable;
-	private boolean	helpVisible;
-	private boolean	hideOnClose	= false;
-	private boolean	showing;
-	private Element	helpSpan;
-	private Element	headerEl;
-	private Element	widgetBody;
-	private int		originalZIndex;
+	private Element windowDiv;
+	private Element headerDiv;
+	private Element mainDiv;
+	private Element btClose;
+	private boolean draggable;
+	private boolean resizable;
+	private boolean maximizable;
+	private boolean helpVisible;
+	private boolean hideOnClose = false;
+	private boolean showing;
+	private Element helpSpan;
+	private Element headerEl;
+	private Element widgetBody;
+	private int originalZIndex;
 
 	public boolean isDraggable() {
 		return draggable;
@@ -162,17 +162,14 @@ public class WindowView extends AbstractContainerFocusable implements IUIComposi
 				if (kdh != null)
 					kdh.onKeyDown(event);
 				/*
-				 * textboxlarda backspace yapınca history den onceki sayfaya gidiyordu onlemek için aşağıyı açınca textbox da silme yapmıyor
-				 * if (event.getNativeKeyCode() == KeyCodes.KEY_ESCAPE) {
-					event.preventDefault();
-					event.stopPropagation();
-					close();
-					return;
-				}
-				if (event.isLive()&&event.getNativeKeyCode() == KeyCodes.KEY_BACKSPACE) {
-					event.preventDefault();
-					event.stopPropagation();
-				}*/
+				 * textboxlarda backspace yapınca history den onceki sayfaya
+				 * gidiyordu onlemek için aşağıyı açınca textbox da silme
+				 * yapmıyor if (event.getNativeKeyCode() == KeyCodes.KEY_ESCAPE)
+				 * { event.preventDefault(); event.stopPropagation(); close();
+				 * return; } if (event.isLive()&&event.getNativeKeyCode() ==
+				 * KeyCodes.KEY_BACKSPACE) { event.preventDefault();
+				 * event.stopPropagation(); }
+				 */
 			}
 		});
 
@@ -202,7 +199,8 @@ public class WindowView extends AbstractContainerFocusable implements IUIComposi
 			width = String.valueOf(pct) + "%";
 			marginLeft = Math.ceil((100 - pct) / 2) + "%";
 		}
-		String newStyle = "z-index:" + originalZIndex + ";" + (width != null ? "width:" + width + ";" : "") + "left:" + marginLeft + ";min-width:100px;";
+		String newStyle = "z-index:" + originalZIndex + ";" + (width != null ? "width:" + width + ";" : "") + "left:"
+				+ marginLeft + ";min-width:100px;";
 		newStyle += "display:" + windowDiv.getStyle().getDisplay();
 		windowDiv.setAttribute("style", newStyle);
 	}
@@ -217,7 +215,8 @@ public class WindowView extends AbstractContainerFocusable implements IUIComposi
 			helpSpan = DOM.createAnchor();
 			helpSpan.setId(windowDiv.getId() + "_help");
 			helpSpan.addClassName("jexpWindowToolItem ub_" + windowDiv.getId());
-			helpSpan.setInnerHTML("<i class='" + ClientContext.resourceInjector.getFontIconPrefixClass() + " fa fa-question'></i>");
+			helpSpan.setInnerHTML(
+					"<i class='" + ClientContext.resourceInjector.getFontIconPrefixClass() + " fa fa-question'></i>");
 			helpSpan.setTitle(ClientContext.nlsCommon.yardim());
 			tools.appendChild(helpSpan);
 		}
@@ -225,7 +224,8 @@ public class WindowView extends AbstractContainerFocusable implements IUIComposi
 		btClose = DOM.createAnchor();
 		btClose.setId(windowDiv.getId() + "_close");
 		btClose.addClassName("ub_" + windowDiv.getId());
-		btClose.setInnerHTML("<i class='" + ClientContext.resourceInjector.getFontIconPrefixClass() + " fa fa-times'></i>");
+		btClose.setInnerHTML(
+				"<i class='" + ClientContext.resourceInjector.getFontIconPrefixClass() + " fa fa-times'></i>");
 		btClose.setTitle(ClientContext.nlsCommon.kapat());
 		tools.appendChild(btClose);
 
@@ -240,7 +240,8 @@ public class WindowView extends AbstractContainerFocusable implements IUIComposi
 			headerDiv.appendChild(headerEl);
 		}
 		if (icon != null)
-			header = "<i class='" + ClientContext.resourceInjector.getFontIconPrefixClass() + " " + icon.getCssClass() + "'></i>" + header;
+			header = "<i class='" + ClientContext.resourceInjector.getFontIconPrefixClass() + " " + icon.getCssClass()
+					+ "'></i>" + header;
 		headerEl.setInnerHTML(header);
 	}
 
@@ -312,14 +313,15 @@ public class WindowView extends AbstractContainerFocusable implements IUIComposi
 						windowDiv.getStyle().setLeft(0, Unit.PX);
 						windowDiv.getStyle().clearMarginLeft();
 					} else {
-						int pct = (int) (Double.parseDouble(left.replaceFirst("px", "")) * 100 / Window.getClientWidth());
+						int pct = (int) (Double.parseDouble(left.replaceFirst("px", "")) * 100
+								/ Window.getClientWidth());
 						windowDiv.getStyle().setLeft(pct, Unit.PCT);
 						windowDiv.getStyle().clearMarginLeft();
 					}
 				}
 			});
 		}
-		if (resizable) {//Çalışmıyor
+		if (resizable) {// Çalışmıyor
 			JsonMap opts = new JsonMap();
 			opts.setInt("minWidth", 75);
 			opts.setInt("minHeight", 50);
@@ -355,13 +357,14 @@ public class WindowView extends AbstractContainerFocusable implements IUIComposi
 		boolean cc = true;
 		if (getWidgetCount() > 0 && getWidget(0) instanceof IUIComposite)
 			cc = ((IUIComposite) getWidget(0)).canClose();
-		if (cc)
+		if (cc) {
 			Scheduler.get().scheduleDeferred(new ScheduledCommand() {
 				@Override
 				public void execute() {
 					removeFromParent();
 				}
 			});
+		}
 	}
 
 	@Override
@@ -388,7 +391,7 @@ public class WindowView extends AbstractContainerFocusable implements IUIComposi
 			((RequiresResize) getWidget(0)).onResize();
 	}
 
-	//--EVENTS
+	// --EVENTS
 	private void fireResized(int w, int h) {
 		windowDiv.getStyle().setWidth(w, Unit.PX);
 		windowDiv.getStyle().setHeight(h, Unit.PX);
