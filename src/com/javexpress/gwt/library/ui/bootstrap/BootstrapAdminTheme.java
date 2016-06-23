@@ -18,20 +18,20 @@ import com.javexpress.gwt.library.ui.js.JsUtil;
 
 public abstract class BootstrapAdminTheme extends BootstrapTheme implements ISideBarHandler, INavBarHandler {
 
-	protected DashboardForm				dashForm;
-	protected ApplicationMainContent	mainContent;
-	protected MainContentView			dashView;
-	protected ApplicationSideBar		sideBar;
-	protected ApplicationNavBar			navBar;
-	protected ApplicationFooter			footer;
-	protected ApplicationHeaderPanel	headerPanel;
+	protected DashboardForm dashForm;
+	protected ApplicationMainContent mainContent;
+	protected MainContentView dashView;
+	protected ApplicationSideBar sideBar;
+	protected ApplicationNavBar navBar;
+	protected ApplicationFooter footer;
+	protected ApplicationHeaderPanel headerPanel;
 
 	@Override
 	protected void prepareCommons(ClientContext clientContext) {
 		super.prepareCommons(clientContext);
 		ClientContext.EVENT_BUS.addHandler(FormOpenRequest.TYPE, new FormOpenRequestHandler() {
 			@Override
-			public void onFormOpenRequested(FormOpenRequest formOpenRequest) {
+			public void onFormOpenRequested(final FormOpenRequest formOpenRequest) {
 				final String path = formOpenRequest.getPath();
 				MainContentView cached = mainContent.findView(path);
 				if (cached != null) {
@@ -55,7 +55,10 @@ public abstract class BootstrapAdminTheme extends BootstrapTheme implements ISid
 						protected void onResult(IUIComposite result) {
 							if (result == null)
 								return;
-							showInView(path, result);
+							if (formOpenRequest.isPopup())
+								ClientContext.instance.showInWindow(formOpenRequest.getForm(), true);
+							else
+								showInView(path, result);
 						}
 					};
 					getNavHandler().handleNavigation(path, callBack);
@@ -126,28 +129,28 @@ public abstract class BootstrapAdminTheme extends BootstrapTheme implements ISid
 		if (wcontext == null)
 			return null;
 		switch (wcontext) {
-			case Primary:
-				return "primary";
-			case Success:
-				return "success";
-			case Purple:
-				return "purple";
-			case Pink:
-				return "pink";
-			case Info:
-				return "info";
-			case Grey:
-				return "grey";
-			case Warning:
-				return "warning";
-			case Light:
-				return "light";
-			case White:
-				return "white";
-			case Yellow:
-				return "yellow";
-			case Danger:
-				return "danger";
+		case Primary:
+			return "primary";
+		case Success:
+			return "success";
+		case Purple:
+			return "purple";
+		case Pink:
+			return "pink";
+		case Info:
+			return "info";
+		case Grey:
+			return "grey";
+		case Warning:
+			return "warning";
+		case Light:
+			return "light";
+		case White:
+			return "white";
+		case Yellow:
+			return "yellow";
+		case Danger:
+			return "danger";
 		}
 		return null;
 	}

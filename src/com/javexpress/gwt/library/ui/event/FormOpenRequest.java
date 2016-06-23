@@ -7,11 +7,12 @@ import com.javexpress.gwt.library.ui.form.IUIComposite;
 
 public class FormOpenRequest extends GwtEvent<FormOpenRequestHandler> {
 
-	public static Type<FormOpenRequestHandler>	TYPE	= new Type<FormOpenRequestHandler>();
-	private FormDef								formDef;
-	private String								path;
-	private IUIComposite						form;
-	private boolean								inWorkPane;
+	public static Type<FormOpenRequestHandler> TYPE = new Type<FormOpenRequestHandler>();
+	private FormDef formDef;
+	private String path;
+	private IUIComposite form;
+	private boolean inWorkPane;
+	private boolean popup;
 
 	public FormOpenRequest(FormDef formDef, String path, IUIComposite form) {
 		this.formDef = formDef;
@@ -27,6 +28,14 @@ public class FormOpenRequest extends GwtEvent<FormOpenRequestHandler> {
 
 	public void setInWorkPane(boolean inWorkPane) {
 		this.inWorkPane = inWorkPane;
+	}
+
+	public boolean isPopup() {
+		return popup;
+	}
+
+	public void setPopup(boolean popup) {
+		this.popup = popup;
 	}
 
 	public FormDef getFormDef() {
