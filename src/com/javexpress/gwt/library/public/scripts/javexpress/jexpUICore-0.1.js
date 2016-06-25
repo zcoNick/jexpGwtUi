@@ -323,7 +323,7 @@ $.widget( "custom.jexpautocomplete", $.ui.autocomplete, {
 });
 
 //FLOT
-var JexpUI_ColorArray = ["#05668D","#028090","#00A896","#02C39A","#F0F3BD",
+var JexpUI_ChartsColorArray = ["#05668D","#028090","#00A896","#02C39A","#F0F3BD",
                          "#FE938C","#E6B89C","#EAD2AC","#9CAFB7","#4281A4",
                          "#5BC0EB","#FDE74C","#9BC53D","#E55934","#FA7921",
                          "#ED6A5A","#F4F1BB","#9BC1BC","#5CA4A9","#E6EBE0",
@@ -331,7 +331,7 @@ var JexpUI_ColorArray = ["#05668D","#028090","#00A896","#02C39A","#F0F3BD",
                          "#50514F","#F25F5C","#FFE066","#247BA0","#70C1B3"];
 JexpUI.Colorizer=function(data){
 	return $.map(data, function(o, i) {
-		return i<JexpUI_ColorArray.length?JexpUI_ColorArray[i]:$.Color(JexpUI_ColorArray[i % JexpUI_ColorArray.length]).lightness(0.7 - i / (data.length * 1.2)).toHexString();
+		return i<JexpUI_ChartsColorArray.length?JexpUI_ChartsColorArray[i]:$.Color(JexpUI_ChartsColorArray[i % JexpUI_ChartsColorArray.length]).lightness(0.7 - i / (data.length * 1.2)).toHexString();
 	});	
 }
 JexpUI.FlotPieLabelRenderer=function(label, series) {

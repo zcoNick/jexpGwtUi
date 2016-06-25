@@ -58,11 +58,11 @@ public class FlotBarChart extends FlotBaseLabelValueChart {
 				clickable : true
 			}
 		};
-		options.colors = $wnd.JexpUI.Colorizer(data);
+		options.colors = $wnd.JexpUI_ChartsColorArray;
 		if (title)
 			options.title = title;
 		var bar_data = {
-			data : data,
+			data : data
 		};
 		var el = $wnd.$.plot("#" + id, [ bar_data ], options);
 		$wnd.$(el).bind(
