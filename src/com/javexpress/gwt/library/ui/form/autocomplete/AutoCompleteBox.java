@@ -53,6 +53,7 @@ public class AutoCompleteBox<V extends Serializable> extends BaseWrappedInput<St
 		getElement().appendChild(indicator);
 
 		options = new JsonMap();
+		setClearInvalid(true);
 		setMinLength(2);
 		if (servicePoint != null)
 			setListing(servicePoint);
@@ -79,6 +80,14 @@ public class AutoCompleteBox<V extends Serializable> extends BaseWrappedInput<St
 			}
 		}
 		throw new Exception("ControlData is not resolvable");
+	}
+
+	public void setClearInvalid(boolean value) {
+		options.set("clearInvalid", value);
+	}
+
+	public boolean isClearInvalid() {
+		return options.getBoolean("clearInvalid");
 	}
 
 	@Override
@@ -129,10 +138,13 @@ public class AutoCompleteBox<V extends Serializable> extends BaseWrappedInput<St
 						function() {
 							if (el.attr("v") == "''" || el.val().trim() == "") {
 								el.attr("v", "");
-								el.val(null);
-								el.effect("highlight");
 								$wnd.$.data(el, "acdata", null);
-								x.@com.javexpress.gwt.library.ui.form.autocomplete.AutoCompleteBox::fireOnSelect(Ljava/lang/String;Ljava/lang/String;Lcom/google/gwt/core/client/JavaScriptObject;Z)(null,null,null,false);
+								if (options.clearInvalid) {
+									el.val(null);
+									el.effect("highlight");
+									x.@com.javexpress.gwt.library.ui.form.autocomplete.AutoCompleteBox::fireOnSelect(Ljava/lang/String;Ljava/lang/String;Lcom/google/gwt/core/client/JavaScriptObject;Z)(null,null,null,false);
+								} else
+									x.@com.javexpress.gwt.library.ui.form.autocomplete.AutoCompleteBox::fireOnSelect(Ljava/lang/String;Ljava/lang/String;Lcom/google/gwt/core/client/JavaScriptObject;Z)(null,el.val(),null,false);
 							}
 						});
 		if (newItemTitle) {
