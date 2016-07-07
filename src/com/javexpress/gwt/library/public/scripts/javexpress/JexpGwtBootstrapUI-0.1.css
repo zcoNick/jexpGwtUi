@@ -37,7 +37,7 @@
 .jexpTextBox,.jexpComboBox,.jexpNumericBox,.jexpDateBox,.jexpDateBox input[type="text"],
 .form-group select,.form-group textarea,.form-group input[type="text"], .form-group input[type="password"], .form-group input[type="datetime"], .form-group input[type="datetime-local"], .form-group input[type="date"], .form-group input[type="month"], .form-group input[type="time"], .form-group input[type="week"], .form-group input[type="number"], .form-group input[type="email"], .form-group input[type="url"], .form-group input[type="search"], .form-group input[type="tel"], .form-group input[type="color"]{
 	font-size:1em;
-	padding:1px;	
+	padding: 1px 2px 0;	
 	height:22px;
 	color:#000000;
 }
