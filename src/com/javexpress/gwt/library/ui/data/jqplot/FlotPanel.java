@@ -86,7 +86,8 @@ public abstract class FlotPanel extends SimplePanel implements ISizeAwareWidget 
 
 	protected native void destroyByJs(Element el, JavaScriptObject widget) /*-{
 		$wnd.$(el).off();
-		widget.destroy();
+		if (widget)
+			widget.destroy();
 	}-*/;
 
 	public void refresh() {
