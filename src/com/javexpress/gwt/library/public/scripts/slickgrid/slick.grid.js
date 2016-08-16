@@ -3606,7 +3606,8 @@ if (typeof Slick === "undefined") {
       "setCellCssStyles": setCellCssStyles,
       "removeCellCssStyles": removeCellCssStyles,
       "getCellCssStyles": getCellCssStyles,
-
+      
+      "getFormatter": getFormatter,
       "init": finishInitialization,
       "destroy": destroy,
 
