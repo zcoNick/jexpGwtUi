@@ -39,7 +39,7 @@
 				<path refid="tasks.classpath" />
 			</classpath>
 		</taskdef>
-		<property file="${basedir}/../jexpApplication/jenkins.build.params"/>
+		<property file="${basedir}/../../platform-build.params"/>
 		<jstddep:retrieve dependencies="${basedir}/${ant.project.name}.dep" configuration="compile,runtime" createXml="true" overwriteXml="true" workspaceSearchPath="${basedir}/.." timeout="${dependency.timeout}"/>
 		<antcall target="build"/>
 	</target>
