@@ -4,9 +4,6 @@ import com.google.gwt.i18n.client.ConstantsWithLookup;
 
 public interface CommonResources extends ConstantsWithLookup {
 
-	/** Uyruk */
-	String uyruk();
-
 	/** Adet */
 	String adet();
 
@@ -654,6 +651,9 @@ public interface CommonResources extends ConstantsWithLookup {
 	/** Şifre */
 	String password();
 
+	/** Şifre Tekrarı Uyuşmuyor */
+	String password_repeat_incorrect();
+
 	/** Yazdır */
 	String print();
 
@@ -674,6 +674,9 @@ public interface CommonResources extends ConstantsWithLookup {
 
 	/** Beni hatırla */
 	String rememberMe();
+
+	/** Şifre Tekrarla */
+	String repeat_password();
 
 	/** Resim silinecektir. Emin misiniz? */
 	String resimSilmeOnay();
@@ -791,6 +794,9 @@ public interface CommonResources extends ConstantsWithLookup {
 
 	/** Uyruğu */
 	String uyrugu();
+
+	/** Uyruk */
+	String uyruk();
 
 	/** Vazgeç */
 	String vazgec();
