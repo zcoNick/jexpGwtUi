@@ -154,9 +154,11 @@ public class CheckGroupBox extends FlexTable implements IUserInputWidget<String>
 	@Override
 	public void setKeyValueDataItems(JSONObject itm) {
 		clear();
-		for (String lb : itm.keySet()) {
-			JSONArray arr = itm.get(lb).isArray();//0-Value,1-Data,2-Path
-			addItem(lb, JsUtil.asString(arr.get(0)), JsUtil.asString(arr.get(1)));
+		if (itm != null) {
+			for (String lb : itm.keySet()) {
+				JSONArray arr = itm.get(lb).isArray();//0-Value,1-Data,2-Path
+				addItem(lb, JsUtil.asString(arr.get(0)), JsUtil.asString(arr.get(1)));
+			}
 		}
 		if (lazyValue != null)
 			setValue(lazyValue);

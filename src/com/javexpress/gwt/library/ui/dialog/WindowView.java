@@ -28,20 +28,20 @@ import com.javexpress.gwt.library.ui.js.JsonMap;
 
 public class WindowView extends AbstractContainerFocusable implements IUICompositeView, RequiresResize, ProvidesResize {
 
-	private Element windowDiv;
-	private Element headerDiv;
-	private Element mainDiv;
-	private Element btClose;
-	private boolean draggable;
-	private boolean resizable;
-	private boolean maximizable;
-	private boolean helpVisible;
-	private boolean hideOnClose = false;
-	private boolean showing;
-	private Element helpSpan;
-	private Element headerEl;
-	private Element widgetBody;
-	private int originalZIndex;
+	private Element	windowDiv;
+	private Element	headerDiv;
+	private Element	mainDiv;
+	private Element	btClose;
+	private boolean	draggable;
+	private boolean	resizable;
+	private boolean	maximizable;
+	private boolean	helpVisible;
+	private boolean	hideOnClose	= false;
+	private boolean	showing;
+	private Element	helpSpan;
+	private Element	headerEl;
+	private Element	widgetBody;
+	private int		originalZIndex;
 
 	public boolean isDraggable() {
 		return draggable;
@@ -114,7 +114,7 @@ public class WindowView extends AbstractContainerFocusable implements IUIComposi
 		widgetBody.setClassName("widget-body");
 
 		widgetBody.getStyle().setOverflow(Overflow.AUTO);
-		widgetBody.getStyle().setProperty("maxHeight", Window.getClientHeight() + "px");
+		widgetBody.getStyle().setProperty("maxHeight", (Window.getClientHeight() - 60) + "px");
 
 		mainDiv = DOM.createDiv();
 		mainDiv.setClassName("widget-main container-fluid");
@@ -281,6 +281,7 @@ public class WindowView extends AbstractContainerFocusable implements IUIComposi
 	@Override
 	protected void onLoad() {
 		super.onLoad();
+
 		bindOnClick(btClose, new Command() {
 			@Override
 			public void execute() {
@@ -321,10 +322,12 @@ public class WindowView extends AbstractContainerFocusable implements IUIComposi
 				}
 			});
 		}
+
 		if (resizable) {// Çalışmıyor
 			JsonMap opts = new JsonMap();
 			opts.setInt("minWidth", 75);
 			opts.setInt("minHeight", 50);
+			opts.set("handles", "all");
 			JsUtil.resizable(windowDiv, opts.getJavaScriptObject());
 		}
 		if (getElement().hasClassName("jexp-ui-window-nonmodal")) {
