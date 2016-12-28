@@ -636,6 +636,9 @@ public interface CommonResources extends ConstantsWithLookup {
 	/** Oturum Kilitli */
 	String oturumZamaniAsilmis();
 
+	/** Özel Kod */
+	String ozelKod();
+
 	/** Özel Kod 1 */
 	String ozelKod1();
 
