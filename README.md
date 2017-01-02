@@ -1,6 +1,8 @@
 # JavExpress GWT UI
 
-JavExpress GWT UI is a User Interface library allows yo you to build modern HTML5 and CSS3 applications using most popular technologies such as jQuery, Bootstrap and modern themes. By using GWT architecture you build your applications in an Event & Component driven Test-Automation (Selenium) friendly environment. It is built by [JavaStud.io](http://www.javastud.io) and used in big projects like 2000 concurrent users. Please visit [JavExpress.com](http://www.javexpress.com/jexpgwtui.html) for more information.
+JavExpress GWT UI is a User Interface library allows you to build modern HTML5 and CSS3 applications using most popular technologies such as jQuery, Bootstrap and modern themes. By using GWT architecture you build your applications in an Event & Component driven Test-Automation (Selenium) friendly environment only using Java. 
+
+It is built by [JavaStud.io](http://www.javastud.io) and used in big projects like 2000 concurrent users. Please visit [JavExpress.com](http://www.javexpress.com/jexpgwtui.html) for more information.
 
 
 ### Getting Started
